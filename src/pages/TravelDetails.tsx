@@ -1,29 +1,33 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { createDay, getTravelById } from "../service/api"
+import { getDayById, getTravelById, getTravelExpenseById } from "../service/api"
+import TravelExpensesList from "../components/TravelExpensesList";
 
 interface DailyExpense {
+    id: string | undefined,
     name: string,
     expenseShared: boolean,
     countryCurrency: string,
-    value: number,
-    day: 1
+    value: number
 }
 
 interface Day {
+    id: string | undefined,
     number: number,
-    dailyExpense: DailyExpense[]
+    dailyExpense: DailyExpense[];
 }
 
 interface TravelExpense {
+    id: string | undefined,
     name: string,
     type: string,
     date: string,
-    countryCurrency: string[],
-    value: number[]
+    countryCurrency: string,
+    value: number
 }
 
 interface Travel {
+    id: string | undefined,
     name: string,
     days: number,
     dayId: string[],
@@ -34,23 +38,15 @@ function TravelDetails(){
 
     const { id } = useParams<{id: string}>();
     const [ travel, setTravel ] = useState<Travel>(
-        { name: "", days: 0 ,dayId: [], travelExpenseId: [] }
+        { id: undefined, name: "", days: 0 ,dayId: [], travelExpenseId: [] }
     );
     const [ day, setDay ] = useState<Day[]>([]);
-    const [ dailyExpense, setDailyExpense ] = useState<DailyExpense[]>([]);
-    const [ TravelExpenseForm, setTravelExpense ] = useState<TravelExpense[]>([]);
+    const [ travelExpense, setTravelExpense ] = useState<TravelExpense[]>([]);
 
     async function loadTravelExpense(){
         try{
-            const test = 0 + 1
-        }catch(error){
-            console.error("Error loading travel expense ", error)
-        }
-    }
-
-    async function loadDailyExpense(){
-        try{
-            const response = await Promise.all(travel.dayId.map((id: string) => {}))
+            const response = await Promise.all(travel.travelExpenseId.map(idTravelExpense => getTravelExpenseById(idTravelExpense as string)));
+            setTravelExpense(response.map(item => item.data))
         }catch(error){
             console.error("Error loading travel expense ", error)
         }
@@ -58,7 +54,8 @@ function TravelDetails(){
 
     async function loadDay(){
         try{
-            const response = await Promise.all(travel.dayId )
+            const response = await Promise.all(travel.dayId.map((idDay: string) => getDayById(idDay as string)));
+            setDay(response.map(item => item.data));
         }catch(error){
             console.error("Error loading travel ", error)
         }
@@ -76,13 +73,16 @@ function TravelDetails(){
 
     useEffect(() => {
         loadTravel();
-        loadDailyExpense();
-        loadTravelExpense();
         loadDay();
+        loadTravelExpense();
     },[])
 
     return (
         <div>
+            <h1>{travel.name}</h1>
+            <p>Let's planning your travel</p>
+            <h3>Your Expenses Preview</h3>
+            <TravelExpensesList travelExpenseValue={travelExpense}/>
         </div>
     )
 }

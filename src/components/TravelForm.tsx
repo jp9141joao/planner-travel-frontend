@@ -2,20 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { createDay, createTravel, getTravelById, updateTravel } from "../service/api";
 
-interface DailyExpense {
-    name: string,
-    expenseShared: boolean,
-    countryCurrency: string,
-    value: number,
-    day: 1
-}
-
-interface Day {
-    number: number,
-    dailyExpense: DailyExpense[]
-}
-
 interface Travel {
+    id: string | undefined,
     name: string,
     days: number,
     dayId: string[],
@@ -26,28 +14,15 @@ function TravelForm(){
 
     const { id } = useParams<{id: string}>();
     const [ travel, setTravel ] = useState<Travel>(
-        { name: "", days: 0, dayId: [], travelExpenseId: []}
+        { id: undefined, name: "", days: 0, dayId: [], travelExpenseId: []}
     );
-    const [ day, setDay ] = useState<Day>(
-        { number: 0, dailyExpense: [] }
-    )
+    const [ day, setDay ] = useState<string[]>([]);
     const navigate = useNavigate();
 
     async function loadTravel(){
         try{
-            for(let i: number = 0; i <= travel.days; i++){
-                const dayAux: Day =  { number: i+1, dailyExpense: []}
-                try{
-                    await createDay(dayAux);
-                    
-                }catch(error){
-                    console.error("Error create day ", error)
-                }
-            }
-
-            const response1 = await getTravelById(id as string);
-            const response2 = {...response1, dayId}
-            setTravel(response2.data);
+            const response = await getTravelById(id as string);
+            setTravel(response.data);
         }catch(error){
             console.error("Error loading travel", error);
         }
@@ -59,6 +34,14 @@ function TravelForm(){
             if(id){
                 await updateTravel(travel as Travel, id as string);
             }else{
+                for(let i: number = 0; i <= travel.days; i++){
+                    const dayAux =  { id: undefined, number: i+1, dailyExpense: []}
+                    const responseDay = await createDay(dayAux);
+                    setDay([...day, responseDay.data.id])
+                }
+                const responseTravel = await getTravelById(id as string);
+                const travelValue = {...responseTravel.data, dayId: day}
+                setTravel(travelValue);
                 await createTravel(travel as Travel);
             }
             navigate('/home')

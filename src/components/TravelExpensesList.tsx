@@ -1,48 +1,51 @@
 import { useEffect, useState } from "react"
-import { deleteTravelExpenses, getTravelExpenses } from "../service/api";
+import { deleteTravelExpense, getTravelExpense } from "../service/api";
 import { Link } from "react-router-dom";
 
-interface travelExpenses {
-    id: number,
-    name: string, 
+interface TravelExpense {
+    id: string | undefined,
+    name: string,
     type: string,
-    date: string, 
+    date: string,
     countryCurrency: string,
     value: number
 }
 
-function TravelExpensesList(){
+function TravelExpensesList( {travelExpenseValue} : {travelExpenseValue : TravelExpense[]} ){
 
-    const [travelExpenses, setTravelExpenses] = useState<travelExpenses[]>([]);
-
-    async function loadTravelExpenses(){
-        const response = await getTravelExpenses();
-        setTravelExpenses(response.data);
+    const [travelExpense, setTravelExpense] = useState<TravelExpense[]>([]);
+    const CurrencySymbols: Record<string, string> = {
+        "American Dollar": "$",
+        "Brazilian Real": "R$",
+        "Mexican Peso": "MEX$",
+        "Pound Sterling": "£",
+        "Euro": "€",
+        "Canadian Dollar": "C$",
     }
 
-    async function handleDelete(id: number){
-        const response = await deleteTravelExpenses(id as number);
-        setTravelExpenses(response.data);
+    async function handleDelete(id: string){
+        const response = await deleteTravelExpense(id as string);
+        setTravelExpense(response.data);
     }
 
     useEffect(() => {
-        loadTravelExpenses();
+        setTravelExpense(travelExpenseValue);
     },[])
 
     return (
         <div>
             <h3>Travel Expenses</h3>
             {
-                travelExpenses.map(item => (
+                travelExpense.map((item: TravelExpense) => (
                     <p key={item.id}>
                         Name: {item.name} -
                         Expense Type: {item.name} -
                         Date: {item.date} -                    
                         Country Currency: {item.countryCurrency} - 
-                        Value: {item.countryCurrency == "American Dollar" ? '$' : (item.countryCurrency == "Brazilian Real" ? 'R$' : (item.countryCurrency == "Mexican Peso" ? 'MEX$' : (item.countryCurrency == "Pound Sterling" ? '£' : (item.countryCurrency == "Euro" ? '€' : 'C$'))))}{item.value} -
-                        <Link to={`/travelExpenses/edit/${item.id}`}>Edit data</Link>
+                        Value: {CurrencySymbols[item.countryCurrency]}{item.value} -
+                        <Link to={`/travelExpense/edit/${item.id}`}><button>Edit data</button></Link>
                         <div>
-                            <button onClick={() => handleDelete(item.id)}>Delete</button>
+                            <button onClick={() => handleDelete(String(item.id))}>Delete</button>
                         </div>
                     </p>
                 ))

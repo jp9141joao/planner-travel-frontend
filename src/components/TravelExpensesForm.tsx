@@ -1,47 +1,34 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createTravelExpenses, getTravelExpensesById, updateTravelExpenses } from "../service/api";
+import { createTravelExpense, getTravelExpenseById, updateTravel, updateTravelExpense } from "../service/api";
 
-interface travelExpense {
-    name: string, 
-    type: string, 
+interface TravelExpense {
+    id: string | undefined,
+    name: string,
+    type: string,
     date: string,
-    countryCurrency: string,
+    countryCurrency: string
     value: number
 }
 
-function TravelExpenseForm(){
+interface Travel {
+    id: string | undefined,
+    name: string,
+    days: number,
+    dayId: string[],
+    travelExpenseId: string[]
+}
+
+function TravelExpenseForm( {travelValue, travelExpenseValue}: {travelValue: Travel, travelExpenseValue: TravelExpense}){
 
     const { id } = useParams<{id: string}>();
-    const [idValue, setIdValue] = useState<number>();
-    const [travelExpense, setTravelExpense] = useState<travelExpense>(
-        { name: '', type: '', date: '', countryCurrency: '', value: 0}
+    const [travelExpense, setTravelExpense] = useState<TravelExpense>(
+        { id: undefined, name: '', type: '', date: '', countryCurrency: '', value: 0}
+    );
+    const [travel, setTravel] = useState<Travel>(
+        { id: undefined, name: "", days: 0 ,dayId: [], travelExpenseId: [] }
     );
     const navigate = useNavigate();
-
-    async function loadTravelExpense(){
-        try{
-            setIdValue(Number(id))
-            const response = await getTravelExpensesById(idValue as number);
-            setTravelExpense(response.data);
-        }catch(error){
-            console.error("Error loading travel expense!", error);
-        }
-    }
-
-    async function handleSubmit(e: React.FormEvent){
-        e.preventDefault();
-        try{
-            if(id){
-                await updateTravelExpenses(travelExpense as travelExpense, idValue as number);
-            }else{
-                await createTravelExpenses(travelExpense as travelExpense);
-            }
-            navigate('/')
-        }catch(error){
-            console.error("Error loading travel expense!", error);
-        }
-    }
 
     /*
     function dateConversor(value: string): string {
@@ -61,13 +48,31 @@ function TravelExpenseForm(){
     }
     */
 
+    async function handleSubmit(e: React.FormEvent){
+        e.preventDefault();
+        try{
+            if(id){
+                await updateTravelExpense(travelExpense as TravelExpense, id as string);
+            }else{
+                const responseTravelExpense = await createTravelExpense(travelExpense as TravelExpense);
+                const travelAux = {...travel, travelExpenseId: [...travel.travelExpenseId, responseTravelExpense.data.id]};
+                setTravel(travelAux);
+                await updateTravel(travel as Travel, travelValue.id as string);
+            }
+            navigate('/')
+        }catch(error){
+            console.error("Error loading travel expense!", error);
+        }
+    }
+
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>){
         setTravelExpense({...travelExpense, [e.target.id] : e.target.value})
     }
     
     useEffect(() => {
         if(id){
-            loadTravelExpense();
+            setTravel(travel);
+            setTravelExpense(travelExpense);
         }
     },[id])
     

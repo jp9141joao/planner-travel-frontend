@@ -15,28 +15,25 @@
       "id": "a136",
       "name": "Test 4",
       "days": "1",
-      "dayTravelId": ["1"],
+      "dayId": ["1"],
       "travelExpenseId": ["1c10"]
     }
   ],
 
-  "dayTravel": [
+  "day": [
     {
       "id": "1",
-      "countryCurrency": ["American Dollar"],
-      "value": [0],
-      "dailyExpenseId": ["5446"]
-    }
-  ],
-
-  "dailyExpense": [
-    {
-      "id": "5446",
-      "name": "Food",
-      "expenseShared": true,
-      "countryCurrency": "American Dollar",
-      "value": 92,
-      "day": 1
+      "number": 1,
+      "dailyExpenseId": [
+        {
+          "id": "5446",
+          "name": "Food",
+          "expenseShared": true,
+          "countryCurrency": "American Dollar",
+          "value": 92,
+          "day": 1
+        }
+      ]
     }
   ],
 

@@ -2,42 +2,17 @@ import { useEffect, useState } from "react"
 import { deleteTravel, getTravel } from "../service/api";
 import { Link } from "react-router-dom";
 
-interface dailyExpense {
+interface Travel {
     id: string,
     name: string,
-    expenseShared: boolean,
-    countryCurrency: string,
-    value: number
-}
-
-interface dayTravel{
-    id: string,
-    countryCurrency: string[],
-    value: number[],
-    dailyExpense: dailyExpense[]
-}
-
-interface travelExpense{
-    id: string,
-    name: string,
-    type: string,
-    date: string,
-    countryCurrency: string,
-    value: number
-}
-
-
-interface travel {
-    id: string,
-    name: string, 
     days: number,
-    dayTravel: dayTravel[],
-    travelExpense: travelExpense[]
+    dayId: string[],
+    travelExpenseId: string[]
 }
 
 function TravelList(){
 
-    const [travel, setTravel] = useState<travel[]>([]);
+    const [travel, setTravel] = useState<Travel[]>([]);
 
     async function loadTravel(){
         const response = await getTravel();

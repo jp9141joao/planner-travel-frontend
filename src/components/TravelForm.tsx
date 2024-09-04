@@ -1,48 +1,53 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createTravel, getTravelById, updateTravel } from "../service/api";
+import { createDay, createTravel, getTravelById, updateTravel } from "../service/api";
 
-interface dailyExpense {
+interface DailyExpense {
     name: string,
     expenseShared: boolean,
     countryCurrency: string,
-    value: number
+    value: number,
+    day: 1
 }
 
-interface dayTravel{
-    countryCurrency: string[],
-    value: number[],
-    dailyExpense: dailyExpense[]
+interface Day {
+    number: number,
+    dailyExpense: DailyExpense[]
 }
 
-interface travelExpense{
+interface Travel {
     name: string,
-    type: string,
-    date: string,
-    countryCurrency: string,
-    value: number
-}
-
-
-interface travel {
-    name: string, 
     days: number,
-    dayTravel: dayTravel[],
-    travelExpense: travelExpense[]
+    dayId: string[],
+    travelExpenseId: string[]
 }
 
 function TravelForm(){
 
     const { id } = useParams<{id: string}>();
-    const [travel, setTravel] = useState<travel>(
-        { name: '', days: 0, dayTravel: [], travelExpense: []}
+    const [ travel, setTravel ] = useState<Travel>(
+        { name: "", days: 0, dayId: [], travelExpenseId: []}
     );
+    const [ day, setDay ] = useState<Day>(
+        { number: 0, dailyExpense: [] }
+    )
     const navigate = useNavigate();
 
     async function loadTravel(){
         try{
-            const response = await getTravelById(id as string);
-            setTravel(response.data)
+            for(let i: number = 0; i <= travel.days; i++){
+                const dayAux: Day =  { number: i+1, dailyExpense: []}
+                try{
+                    await createDay(dayAux);
+                    
+                }catch(error){
+                    console.error("Error create day ", error)
+                }
+            }
+
+            const response1 = await getTravelById(id as string);
+            const response2 = {...response1, dayId}
+            setTravel(response2.data);
         }catch(error){
             console.error("Error loading travel", error);
         }
@@ -52,9 +57,9 @@ function TravelForm(){
         e.preventDefault();
         try{
             if(id){
-                await updateTravel(travel as travel, id as string);
+                await updateTravel(travel as Travel, id as string);
             }else{
-                await createTravel(travel as travel);
+                await createTravel(travel as Travel);
             }
             navigate('/home')
         }catch(error){

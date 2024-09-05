@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createDailyExpense, getDailyExpenseById, getDayById, updateDailyExpense, updateDay } from "../service/api";
+import { createDailyExpense, updateDailyExpense, updateDay } from "../service/api";
 
 interface DailyExpense {
     id: string | undefined,
@@ -16,7 +16,7 @@ interface Day {
     dailyExpense: DailyExpense[];
 }
 
-function DailyExpenseForm( {dayValue, dailyExpenseValue}: {dayValue: Day, dailyExpenseValue: DailyExpense} ){
+function DailyExpenseForm( {dayValue, dailyExpenseValue, idTravelValue}: {dayValue: Day, dailyExpenseValue: DailyExpense, idTravelValue: number} ){
 
     const { id } = useParams<{id: string}>();
     const [dailyExpense, setDailyExpense] = useState<DailyExpense>(
@@ -34,11 +34,11 @@ function DailyExpenseForm( {dayValue, dailyExpenseValue}: {dayValue: Day, dailyE
                 await updateDailyExpense(dailyExpense as DailyExpense, id as string);
             }else{
                 const responseDailyTravel = await createDailyExpense(dailyExpense as DailyExpense);
-                const dayAux = {...day, dailyExpense: [...day.dailyExpense, responseDailyTravel]}
-                setDay(dayAux);''
+                const dayAux = {...day, dailyExpense: [...day.dailyExpense, responseDailyTravel.data]}
+                setDay(dayAux);
                 await updateDay(day as Day, id as string);
             }
-            navigate('/')
+            navigate(`/travel/acess/${idTravelValue}`)
         }catch(error){
             console.error("Error loading your daily expense!", error)
         }

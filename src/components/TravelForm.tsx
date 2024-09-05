@@ -37,16 +37,15 @@ function TravelForm(){
                 for(let i: number = 0; i <= travel.days; i++){
                     const dayAux =  { id: undefined, number: i+1, dailyExpense: []}
                     const responseDay = await createDay(dayAux);
-                    setDay([...day, responseDay.data.id])
+                    setDay([...day, responseDay.data.id]);
                 }
-                const responseTravel = await getTravelById(id as string);
-                const travelValue = {...responseTravel.data, dayId: day}
+                const travelValue = {...travel, dayId: day};
+                alert('test')
                 setTravel(travelValue);
                 await createTravel(travel as Travel);
             }
             navigate('/home')
         }catch(error){
-            alert("errado")
             console.log("Error loading travel!", error)
         }
     }

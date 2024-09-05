@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { deleteTravelExpense, getTravelExpense } from "../service/api";
+import { deleteTravelExpense } from "../service/api";
 import { Link } from "react-router-dom";
 
 interface TravelExpense {
@@ -11,9 +11,20 @@ interface TravelExpense {
     value: number
 }
 
-function TravelExpensesList( {travelExpenseValue} : {travelExpenseValue : TravelExpense[]} ){
+interface Travel {
+    id: string | undefined,
+    name: string,
+    days: number,
+    dayId: string[],
+    travelExpenseId: string[]
+}
+
+function TravelExpensesList( {travelValue ,travelExpenseValue} : {travelValue: Travel, travelExpenseValue : TravelExpense[]} ){
 
     const [travelExpense, setTravelExpense] = useState<TravelExpense[]>([]);
+    const [travel, setTravel] = useState<Travel>(
+        { id: undefined, name: "", days: 0 ,dayId: [], travelExpenseId: [] }
+    );
     const CurrencySymbols: Record<string, string> = {
         "American Dollar": "$",
         "Brazilian Real": "R$",
@@ -24,12 +35,20 @@ function TravelExpensesList( {travelExpenseValue} : {travelExpenseValue : Travel
     }
 
     async function handleDelete(id: string){
-        const response = await deleteTravelExpense(id as string);
-        setTravelExpense(response.data);
+        try{
+            const responseTravelExpense = await deleteTravelExpense(id as string);
+            const auxId = responseTravelExpense.data.filter((item: TravelExpense) => item != responseTravelExpense.data.id);
+            setTravelExpense(responseTravelExpense.data);
+            setTravel({...travel, travelExpenseId: auxId})
+        }catch(error){ 
+            console.error("Error delete travel expense ", error)
+        }
+        
     }
 
     useEffect(() => {
         setTravelExpense(travelExpenseValue);
+        setTravel(travelValue);
     },[])
 
     return (

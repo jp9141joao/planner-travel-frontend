@@ -13,15 +13,28 @@ interface Travel {
 function TravelList(){
 
     const [travel, setTravel] = useState<Travel[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
 
     async function loadTravel(){
-        const response = await getTravel();
-        setTravel(response.data);
+        try{
+            const response = await getTravel();
+            setTravel(response.data);
+        }catch(error){
+            console.error("Error loading travel ", error)
+        }finally{
+            setLoading(false);
+        }
+        
     }
 
     async function handleDelete(id: string){
-        await deleteTravel(id as string);
-        loadTravel();
+        try{
+            await deleteTravel(id as string);
+            loadTravel();
+        }catch(error){
+            console.error("Error delete travel ", error)
+        }
+        
     } 
 
     useEffect(() => {
@@ -34,8 +47,11 @@ function TravelList(){
                 <h3>Your travels</h3>
             </div>
             <div>
-                <ul>
-                    {
+                {
+                    loading ? 
+                    <p>Carregando...</p> :
+                    <ul>
+                    {   travel.length > 0 ?
                         travel.map(item => (
                             <div key={item.id}>
                                 <div>
@@ -45,14 +61,15 @@ function TravelList(){
                                     <p>Days: {item.days}</p>
                                 </div>
                                 <div>
-                                    <button><Link to={`/travel/acess/${item.id}`}>Acess trip</Link></button>
+                                    <button><Link to={`/travel/details/${item.id}`}>Acess trip</Link></button>
                                     <button><Link to={`/travel/edit/${item.id}`}>Edit trip</Link></button>
                                     <button onClick={() => handleDelete(item.id)}>Delete trip</button>
                                 </div>
                             </div>
-                        ))
+                        )) : <p>You don't have chores yet</p>
                     }
-                </ul>
+                    </ul>
+                }
             </div>
         </div>
     )

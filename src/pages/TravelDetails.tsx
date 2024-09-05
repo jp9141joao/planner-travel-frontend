@@ -82,7 +82,7 @@ function TravelDetails(){
             <h1>{travel.name}</h1>
             <p>Let's planning your travel</p>
             <h3>Your Expenses Preview</h3>
-            <TravelExpensesList travelExpenseValue={travelExpense}/>
+            <TravelExpensesList travelValue={travel} travelExpenseValue={travelExpense}/>
         </div>
     )
 }

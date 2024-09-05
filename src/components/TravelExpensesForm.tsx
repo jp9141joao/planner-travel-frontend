@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createTravelExpense, getTravelExpenseById, updateTravel, updateTravelExpense } from "../service/api";
+import { createTravelExpense, updateTravel, updateTravelExpense } from "../service/api";
 
 interface TravelExpense {
     id: string | undefined,
@@ -55,24 +55,24 @@ function TravelExpenseForm( {travelValue, travelExpenseValue}: {travelValue: Tra
                 await updateTravelExpense(travelExpense as TravelExpense, id as string);
             }else{
                 const responseTravelExpense = await createTravelExpense(travelExpense as TravelExpense);
-                const travelAux = {...travel, travelExpenseId: [...travel.travelExpenseId, responseTravelExpense.data.id]};
+                const travelAux: Travel = {...travel, travelExpenseId: [...travel.travelExpenseId, responseTravelExpense.data.id]};
                 setTravel(travelAux);
                 await updateTravel(travel as Travel, travelValue.id as string);
             }
-            navigate('/')
+            navigate(`/travel/acess/${travel.id}`)
         }catch(error){
             console.error("Error loading travel expense!", error);
         }
     }
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>){
-        setTravelExpense({...travelExpense, [e.target.id] : e.target.value})
+        setTravelExpense({...travelExpense, [e.target.name] : e.target.value})
     }
     
     useEffect(() => {
         if(id){
-            setTravel(travel);
-            setTravelExpense(travelExpense);
+            setTravel(travelValue);
+            setTravelExpense(travelExpenseValue);
         }
     },[id])
     

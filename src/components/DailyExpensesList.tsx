@@ -1,29 +1,35 @@
 import { useEffect, useState } from "react"
-import { deleteDailyExpenses, getDailyExpenses } from "../service/api"
+import { deleteDailyExpense, getDailyExpense } from "../service/api"
 import { Link } from "react-router-dom";
 
-interface dailyExpenses {
-    id: number,
+interface DailyExpense {
+    id: string | undefined,
     name: string,
     expenseShared: boolean,
     countryCurrency: string,
-    value: number,
-    day: number
+    value: number
 }
 
 function DailyExpensesList(){
 
-    const [dailyExpenses,setDailyExpenses] = useState<dailyExpenses[]>([])
+    const [dailyExpenses,setDailyExpenses] = useState<DailyExpense[]>([]);
+    const CurrencySymbols: Record<string, string> = {
+        "American Dollar": "$",
+        "Brazilian Real": "R$",
+        "Mexican Peso": "MEX$",
+        "Pound Sterling": "£",
+        "Euro": "€",
+        "Canadian Dollar": "C$",
+    }
 
     async function loadDailyExpenses(){
-        
-        const response = await getDailyExpenses();
+        const response = await getDailyExpense();
         setDailyExpenses(response.data);
     }
 
-    async function handleDelete(id: number){
+    async function handleDelete(id: string){
 
-        const response = await deleteDailyExpenses(id);
+        const response = await deleteDailyExpense(id as string);
         setDailyExpenses(response.data);
     }
 
@@ -41,13 +47,12 @@ function DailyExpensesList(){
                             Name: {item.name} - 
                             Expense is Shared: {item.expenseShared ? 'Yes' : 'No'} - 
                             Country Currency: {item.countryCurrency} - 
-                            Value: {item.countryCurrency == "American Dollar" ? '$' : (item.countryCurrency == "Brazilian Real" ? 'R$' : (item.countryCurrency == "Mexican Peso" ? 'MEX$' : (item.countryCurrency == "Pound Sterling" ? '£' : (item.countryCurrency == "Euro" ? '€' : 'C$'))))}{item.value} -
-                            Day: {item.day}
+                            Value: {CurrencySymbols[item.countryCurrency]}{item.value} -
                             <div>
                                 <Link to={`/dailyExpenses/edit/${item.id}`}>Edit data</Link>
                             </div>
                             <div>
-                                <button onClick={() => handleDelete(item.id)}>Delete</button>
+                                <button onClick={() => handleDelete(String(item.id))}>Delete</button>
                             </div>
                         </p>
                     ))

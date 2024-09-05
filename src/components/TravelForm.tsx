@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createDay, createTravel, getTravelById, updateTravel } from "../service/api";
+import { createDay, createTravel, deleteDay, getTravelById, updateDay, updateTravel } from "../service/api";
 
 interface Travel {
     id: string | undefined,
@@ -32,16 +32,27 @@ function TravelForm(){
         e.preventDefault();
         try{
             if(id){
+                const dayIdAux: string[] =  travel.dayId;
+                const lengthId: number = travel.dayId.length
+                for(let i: number = 0; i <= Math.abs(lengthId - travel.days) ; i++){
+                    if(travel.dayId.length > travel.days){
+                        const dayAux =  { id: undefined, number: (lengthId + i + 1), dailyExpense: []}
+                        const response = await createDay(dayAux);
+                        setDay([...day, response.data]);
+                    }else{
+                        const value: string = dayIdAux[travel.dayId.length - 1];
+                        await deleteDay(value as string);
+                        setDay(day.filter(item => item != value));
+                    }
+                }
+                setTravel({...travel, dayId: day})
                 await updateTravel(travel as Travel, id as string);
             }else{
                 for(let i: number = 0; i <= travel.days; i++){
                     const dayAux =  { id: undefined, number: i+1, dailyExpense: []}
-                    const responseDay = await createDay(dayAux);
-                    setDay([...day, responseDay.data.id]);
+                    await createDay(dayAux);
                 }
-                const travelValue = {...travel, dayId: day};
-                alert('test')
-                setTravel(travelValue);
+                setTravel({...travel, dayId: day});
                 await createTravel(travel as Travel);
             }
             navigate('/home')

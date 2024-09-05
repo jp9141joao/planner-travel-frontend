@@ -42,6 +42,7 @@ function DailyExpensesList(){
             <h3>Daily Expenses</h3>
             <div>
                 {
+                    dailyExpenses.length > 0 ?
                     dailyExpenses.map((item) => (
                         <p key={item.id}>
                             Name: {item.name} - 
@@ -55,7 +56,7 @@ function DailyExpensesList(){
                                 <button onClick={() => handleDelete(String(item.id))}>Delete</button>
                             </div>
                         </p>
-                    ))
+                    )) : <p> You don't have daily expenses yet!</p>
                 }
             </div>
         </div>

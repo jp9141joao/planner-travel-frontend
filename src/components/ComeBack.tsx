@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 
-function ComeBack(){
+function ComeBack({ url }: {url: string}){
 
     const navigate = useNavigate();
     
     return (
         <div>
-            <p onClick={() => navigate('/home')} style={{cursor: 'pointer'}}>Come Back</p>
+            <p onClick={() => navigate(url)} style={{cursor: 'pointer'}}>Come Back</p>
         </div>
     )
 }

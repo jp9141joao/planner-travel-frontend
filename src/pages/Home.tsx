@@ -6,6 +6,9 @@ function Home(){
     return (
         <div>
             <h1>Planner Travel</h1>
+            <div>
+                <h3>Your travels</h3>
+            </div>
             <TravelList/>
             <Link to={'/travel/add'}>
                 <button>Create a new travel</button>

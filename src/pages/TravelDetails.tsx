@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { getDayById, getTravelById, getTravelExpenseById } from "../service/api"
-import TravelExpensesList from "../components/TravelExpensesList";
+import TravelExpensesList from "../components/TravelExpenseList";
+import DaysTravelPrint from "../components/DaysTravelPrint";
 
 interface DailyExpense {
     id: string | undefined,
@@ -40,26 +41,6 @@ function TravelDetails(){
     const [ travel, setTravel ] = useState<Travel>(
         { id: undefined, name: "", days: 0 ,dayId: [], travelExpenseId: [] }
     );
-    const [ day, setDay ] = useState<Day[]>([]);
-    const [ travelExpense, setTravelExpense ] = useState<TravelExpense[]>([]);
-
-    async function loadTravelExpense(){
-        try{
-            const response = await Promise.all(travel.travelExpenseId.map(idTravelExpense => getTravelExpenseById(idTravelExpense as string)));
-            setTravelExpense(response.map(item => item.data))
-        }catch(error){
-            console.error("Error loading travel expense ", error)
-        }
-    }
-
-    async function loadDay(){
-        try{
-            const response = await Promise.all(travel.dayId.map((idDay: string) => getDayById(idDay as string)));
-            setDay(response.map(item => item.data));
-        }catch(error){
-            console.error("Error loading travel ", error)
-        }
-    }
 
     async function loadTravel(){
         try{
@@ -70,11 +51,8 @@ function TravelDetails(){
         }
     }
 
-
     useEffect(() => {
         loadTravel();
-        loadDay();
-        loadTravelExpense();
     },[])
 
     return (
@@ -82,7 +60,13 @@ function TravelDetails(){
             <h1>{travel.name}</h1>
             <p>Let's planning your travel</p>
             <h3>Your Expenses Preview</h3>
-            <TravelExpensesList travelValue={travel} travelExpenseValue={travelExpense}/>
+            <TravelExpensesList/>
+            <Link to={`/travel/${id}/travelExpense/add`}>
+                <button>Add travel expense</button>
+            </Link>
+            <h3>Days Travel</h3>
+            <p>This travel has: {travel.days} {travel.days > 1 ? "days" : "day"}</p>
+            <DaysTravelPrint/>
         </div>
     )
 }

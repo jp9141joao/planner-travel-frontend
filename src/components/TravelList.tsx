@@ -43,34 +43,29 @@ function TravelList(){
 
     return (
         <div>
-            <div>
-                <h3>Your travels</h3>
-            </div>
-            <div>
-                {
-                    loading ? 
-                    <p>Carregando...</p> :
-                    <ul>
-                    {   travel.length > 0 ?
-                        travel.map(item => (
-                            <div key={item.id}>
-                                <div>
-                                    <p>Travel's name: {item.name}</p>
-                                </div>
-                                <div>
-                                    <p>Days: {item.days}</p>
-                                </div>
-                                <div>
-                                    <button><Link to={`/travel/details/${item.id}`}>Acess trip</Link></button>
-                                    <button><Link to={`/travel/edit/${item.id}`}>Edit trip</Link></button>
-                                    <button onClick={() => handleDelete(item.id)}>Delete trip</button>
-                                </div>
+            {
+                loading ? 
+                <p>Carregando...</p> :
+                <ul>
+                {   travel.length > 0 ?
+                    travel.map(item => (
+                        <div key={item.id}>
+                            <div>
+                                <p>Travel's name: {item.name}</p>
                             </div>
-                        )) : <p>You don't have chores yet</p>
-                    }
-                    </ul>
+                            <div>
+                                <p>Days: {item.days}</p>
+                            </div>
+                            <div>
+                                <button><Link to={`/travel/details/${item.id}`}>Acess trip</Link></button>
+                                <button><Link to={`/travel/edit/${item.id}`}>Edit trip</Link></button>
+                                <button onClick={() => handleDelete(item.id)}>Delete trip</button>
+                            </div>
+                        </div>
+                    )) : <p>You don't have chores yet</p>
                 }
-            </div>
+                </ul>
+            }
         </div>
     )
 }

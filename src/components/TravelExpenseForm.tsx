@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createTravelExpense, updateTravel, updateTravelExpense } from "../service/api";
+import { createTravelExpense, getTravelById, getTravelExpenseById, updateTravel, updateTravelExpense } from "../service/api";
 
 interface TravelExpense {
     id: string | undefined,
@@ -19,9 +19,9 @@ interface Travel {
     travelExpenseId: string[]
 }
 
-function TravelExpenseForm( {travelValue, travelExpenseValue}: {travelValue: Travel, travelExpenseValue: TravelExpense}){
+function TravelExpenseForm(){
 
-    const { id } = useParams<{id: string}>();
+    const { idTravel, idTravelExpense } = useParams<{idTravel: string, idTravelExpense: string}>();
     const [travelExpense, setTravelExpense] = useState<TravelExpense>(
         { id: undefined, name: '', type: '', date: '', countryCurrency: '', value: 0}
     );
@@ -48,18 +48,36 @@ function TravelExpenseForm( {travelValue, travelExpenseValue}: {travelValue: Tra
     }
     */
 
+    async function loadTravel(){
+        try{
+            const response = await getTravelById(idTravel as string);
+            setTravel(response.data)
+        }catch(error){
+            console.log("Error loading travel ", error)
+        }
+    }
+
+    async function loadTravelExpense(){
+        try{
+            const response = await getTravelExpenseById(idTravelExpense as string);
+            setTravelExpense(response.data)
+        }catch(error){
+            console.log("Error loading travel ", error)
+        }
+    }
+
     async function handleSubmit(e: React.FormEvent){
         e.preventDefault();
         try{
-            if(id){
-                await updateTravelExpense(travelExpense as TravelExpense, id as string);
+            if(idTravelExpense){
+                await updateTravelExpense(travelExpense as TravelExpense, idTravelExpense as string);
             }else{
                 const responseTravelExpense = await createTravelExpense(travelExpense as TravelExpense);
                 const travelAux: Travel = {...travel, travelExpenseId: [...travel.travelExpenseId, responseTravelExpense.data.id]};
                 setTravel(travelAux);
-                await updateTravel(travel as Travel, travelValue.id as string);
+                await updateTravel(travel as Travel, idTravel as string);
             }
-            navigate(`/travel/acess/${travel.id}`)
+            navigate(`/travel/details/${travel.id}`)
         }catch(error){
             console.error("Error loading travel expense!", error);
         }
@@ -70,15 +88,15 @@ function TravelExpenseForm( {travelValue, travelExpenseValue}: {travelValue: Tra
     }
     
     useEffect(() => {
-        if(id){
-            setTravel(travelValue);
-            setTravelExpense(travelExpenseValue);
+        if(idTravelExpense){
+            loadTravel();
+            loadTravelExpense();
         }
-    },[id])
+    },[idTravelExpense])
     
     return (
         <div>
-            <h3>{id ? "Edit travel expense" : "Create travel expense"}</h3>
+            <h3>{idTravelExpense ? "Edit travel expense" : "Create travel expense"}</h3>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="InputName">What is the expense's name: </label>
@@ -112,7 +130,7 @@ function TravelExpenseForm( {travelValue, travelExpenseValue}: {travelValue: Tra
                     <input id="InputValue" type="number" value={travelExpense.value != 0 ? travelExpense.value : undefined} onChange={handleChange}/>
                 </div>
                 <div>
-                    <button type="submit">{id ? "Edit travel expense" : "Create travel expense"}</button>
+                    <button type="submit">{idTravelExpense ? "Edit travel expense" : "Create travel expense"}</button>
                 </div>
             </form>
         </div>

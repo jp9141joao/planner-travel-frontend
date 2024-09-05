@@ -1,31 +1,59 @@
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { getDayById, getTravelById } from "../service/api";
 
-function DaysTravelPrint({ id, day } : { id : string | undefined, day: number}){
+interface DailyExpense {
+    id: string | undefined,
+    name: string,
+    expenseShared: boolean,
+    countryCurrency: string,
+    value: number
+}
 
-    /*const { idTravel } = useParams<{idTravel: string}>();
-    const { idDaysTravel } = useParams<{idDaysTravel: string}>();
-    const [idTravelValue, setIdTravelValue] = useState<number>(0);
-    const [idDaysTravelValue, setIdDaysTravelValue] = useState<number>(0);
-    const [daysValue, setDaysValue] = useState<daysTravel[]>([])
+interface Day {
+    id: string | undefined,
+    number: number,
+    dailyExpense: DailyExpense[];
+}
+
+
+function DaysTravelPrint(){
+
+    const { idTravel } = useParams<{idTravel: string}>();
+    const [day, setDay] = useState<Day[]>([
+        { id: undefined, number: 0, dailyExpense: [] }
+    ]);
+    const[loading, setLoading] = useState<boolean>(true);
 
     async function loadDay(){
         try{
-            const response = await getDaysTravel();
-            setDaysValue(response.data);
-            setIdTravelValue(Number(idTravel))
-            setIdDaysTravelValue(Number(idDaysTravel));
+            const responseTravel = await getTravelById(idTravel as string);
+            const responseDay = await Promise.all(responseTravel.data.dayId.map((id: string) => { 
+                getDayById(id);
+            }))
+            setDay(responseDay.map(item => item.data));
         }catch(error){
             console.error("Error loading day", error)
+        }finally{
+            setLoading(false);
         }
     }
 
     useEffect(() => {
         loadDay();
-    },[])*/
+    },[])
 
     return (
         <div>
             {
-                
+                loading ? 
+                <p>Loading the days...</p> :
+                day.map((item) => (
+                    <div>
+                        <h3>{item.number}° Day</h3>
+                        <Link to={`/travel/${idTravel}/day/details/${item.id}`}><button>Acess day</button></Link>
+                    </div>
+                ))
             }
         </div>
     )

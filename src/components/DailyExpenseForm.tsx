@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createDailyExpense, updateDailyExpense, updateDay } from "../service/api";
+import { createDailyExpense, getDailyExpenseById, getDayById, updateDailyExpense, updateDay } from "../service/api";
 
 interface DailyExpense {
     id: string | undefined,
@@ -16,9 +16,9 @@ interface Day {
     dailyExpense: DailyExpense[];
 }
 
-function DailyExpenseForm( {dayValue, dailyExpenseValue, idTravelValue}: {dayValue: Day, dailyExpenseValue: DailyExpense, idTravelValue: number} ){
+function DailyExpenseForm(){
 
-    const { id } = useParams<{id: string}>();
+    const { idTravel, idDay, idDailyExpense } = useParams<{ idTravel: string, idDay: string, idDailyExpense: string}>();
     const [dailyExpense, setDailyExpense] = useState<DailyExpense>(
         { id: undefined, name: "", expenseShared: false, countryCurrency: "", value: 0 }
     )
@@ -26,19 +26,37 @@ function DailyExpenseForm( {dayValue, dailyExpenseValue, idTravelValue}: {dayVal
         { id: undefined, number: 0, dailyExpense: []}
     );
     const navigate = useNavigate();
+
+    async function loadDay(){
+        try{
+            const response = await getDayById(idDay as string);
+            setDay(response.data)
+        }catch(error){
+            console.error("Error loading travel ", error)
+        }
+    }
+
+    async function loadDailyExpense(){
+        try{
+            const response = await getDailyExpenseById(idDailyExpense as string);
+            setDailyExpense(response.data);
+        }catch(error){
+            console.error("Error loading daily expense ", error);
+        }
+    }
  
     async function hadleSubimit(e: React.FormEvent){
         e.preventDefault()
         try{
-            if(id){
-                await updateDailyExpense(dailyExpense as DailyExpense, id as string);
+            if(idDay){
+                await updateDailyExpense(dailyExpense as DailyExpense, idDailyExpense as string);
             }else{
                 const responseDailyTravel = await createDailyExpense(dailyExpense as DailyExpense);
                 const dayAux = {...day, dailyExpense: [...day.dailyExpense, responseDailyTravel.data]}
                 setDay(dayAux);
-                await updateDay(day as Day, id as string);
+                await updateDay(day as Day, idDay as string);
             }
-            navigate(`/travel/acess/${idTravelValue}`)
+            navigate(`/travel/details/${idTravel}/day/${idDay}`)
         }catch(error){
             console.error("Error loading your daily expense!", error)
         }
@@ -50,16 +68,16 @@ function DailyExpenseForm( {dayValue, dailyExpenseValue, idTravelValue}: {dayVal
     }
 
     useEffect(() => {
-        if(id){
-            setDay(dayValue);
-            setDailyExpense(dailyExpenseValue);
+        if(idDailyExpense){
+            loadDay();
+            loadDailyExpense();
         }
-    },[id])
+    },[idDailyExpense])
 
     return (
         <div>
             <div> 
-                <h3>{id ? "Edit daily exepense" : "Create a daily expense"}</h3>
+                <h3>{idDailyExpense ? "Edit daily exepense" : "Create a daily expense"}</h3>
             </div>
             <form onSubmit={hadleSubimit}>
                 <div>
@@ -89,7 +107,7 @@ function DailyExpenseForm( {dayValue, dailyExpenseValue, idTravelValue}: {dayVal
                     <input id="InputValue" type="number" value={dailyExpense.value ? dailyExpense.value : undefined} onChange={handleChange}/>
                 </div>
                 <div>
-                    <button type="submit">{id ? "Edit daily expense" : "Create daily expense"}</button>
+                    <button type="submit">{idDailyExpense ? "Edit daily expense" : "Create daily expense"}</button>
                 </div>
             </form>
         </div>

@@ -1,46 +1,6 @@
 {
   "profile": [],
-  "travel": [
-    {
-      "id": "5bd2",
-      "name": "Europe Travel",
-      "days": "5",
-      "dayId": [
-        "5ac1",
-        "da9d",
-        "58bb",
-        "ebb3",
-        "ec14"
-      ],
-      "travelExpenseId": []
-    }
-  ],
-  "day": [
-    {
-      "id": "5ac1",
-      "number": 1,
-      "dailyExpense": []
-    },
-    {
-      "id": "da9d",
-      "number": 2,
-      "dailyExpense": []
-    },
-    {
-      "id": "58bb",
-      "number": 3,
-      "dailyExpense": []
-    },
-    {
-      "id": "ebb3",
-      "number": 4,
-      "dailyExpense": []
-    },
-    {
-      "id": "ec14",
-      "number": 5,
-      "dailyExpense": []
-    }
-  ],
+  "travel": [],
+  "day": [],
   "travelExpense": []
 }

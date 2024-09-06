@@ -19,7 +19,7 @@ interface Day {
 
 function DaysTravelPrint(){
 
-    const { idTravel } = useParams<{idTravel: string}>();
+    const { id } = useParams<{id: string}>();
     const [day, setDay] = useState<Day[]>([
         { id: undefined, number: 0, dailyExpense: [] }
     ]);
@@ -27,11 +27,9 @@ function DaysTravelPrint(){
 
     async function loadDay(){
         try{
-            const responseTravel = await getTravelById(idTravel as string);
-            const responseDay = await Promise.all(responseTravel.data.dayId.map((id: string) => { 
-                getDayById(id);
-            }))
-            setDay(responseDay.map(item => item.data));
+            const responseTravel = await getTravelById(id as string);
+            const responseDay = await Promise.all(responseTravel.data.dayId.map((dayIdValue: string) => getDayById(dayIdValue)))
+            setDay(responseDay.map((item) => (item.data)));
         }catch(error){
             console.error("Error loading day", error)
         }finally{
@@ -44,14 +42,14 @@ function DaysTravelPrint(){
     },[])
 
     return (
-        <div>
+        <div style={{display: 'flex'}}>
             {
                 loading ? 
                 <p>Loading the days...</p> :
                 day.map((item) => (
-                    <div>
+                    <div key={item.id}>
                         <h3>{item.number}° Day</h3>
-                        <Link to={`/travel/${idTravel}/day/details/${item.id}`}><button>Acess day</button></Link>
+                        <Link to={`/travel/${id}/day/details/${item.id}`}><button>Acess day</button></Link>
                     </div>
                 ))
             }

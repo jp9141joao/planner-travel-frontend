@@ -79,7 +79,7 @@ function TravelList(){
                                 <button onClick={() => handleDelete(item.id)}>Delete trip</button>
                             </div>
                         </div>
-                    )) : <p>You don't have chores yet</p>
+                    )) : <p>You don't have travels yet</p>
                 }
                 </ul>
             }

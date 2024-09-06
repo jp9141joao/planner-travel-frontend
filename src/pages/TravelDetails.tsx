@@ -1,31 +1,9 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
-import { getDayById, getTravelById, getTravelExpenseById } from "../service/api"
+import { getTravelById } from "../service/api"
 import TravelExpensesList from "../components/TravelExpenseList";
 import DaysTravelPrint from "../components/DaysTravelPrint";
-
-interface DailyExpense {
-    id: string | undefined,
-    name: string,
-    expenseShared: boolean,
-    countryCurrency: string,
-    value: number
-}
-
-interface Day {
-    id: string | undefined,
-    number: number,
-    dailyExpense: DailyExpense[];
-}
-
-interface TravelExpense {
-    id: string | undefined,
-    name: string,
-    type: string,
-    date: string,
-    countryCurrency: string,
-    value: number
-}
+import ComeBack from "../components/ComeBack";
 
 interface Travel {
     id: string | undefined,
@@ -67,6 +45,7 @@ function TravelDetails(){
             <h3>Days Travel</h3>
             <p>This travel has: {travel.days} {travel.days > 1 ? "days" : "day"}</p>
             <DaysTravelPrint/>
+            <ComeBack url="/home"/>
         </div>
     )
 }

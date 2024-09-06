@@ -1,283 +1,46 @@
 {
-  "profile": [
-    {
-      "name": "Joao",
-      "lastName": "Oliveira",
-      "email": "john@gmail.com",
-      "password": "1234",
-      "travel": [
-        1
-      ],
-      "id": "bf55"
-    }
-  ],
+  "profile": [],
   "travel": [
     {
-      "id": "ba2e",
-      "name": "Europe Travel",
-      "days": "3",
-      "dayId": [],
+      "id": "8589",
+      "name": "João Pedro Rosa",
+      "days": "5",
+      "dayId": [
+        "808f",
+        "af93",
+        "da6a",
+        "4daa",
+        "c5ab"
+      ],
       "travelExpenseId": []
     }
   ],
   "day": [
     {
-      "id": "1",
-      "number": 1,
-      "dailyExpense": [
-        {
-          "id": "5446",
-          "name": "Food",
-          "expenseShared": true,
-          "countryCurrency": "American Dollar",
-          "value": 92
-        }
-      ]
-    },
-    {
-      "id": "ae33",
+      "id": "808f",
       "number": 1,
       "dailyExpense": []
     },
     {
-      "id": "620a",
+      "id": "af93",
       "number": 2,
       "dailyExpense": []
     },
     {
-      "id": "af8f",
+      "id": "da6a",
       "number": 3,
       "dailyExpense": []
     },
     {
-      "id": "ec1e",
+      "id": "4daa",
       "number": 4,
       "dailyExpense": []
     },
     {
-      "id": "665a",
+      "id": "c5ab",
       "number": 5,
-      "dailyExpense": []
-    },
-    {
-      "id": "ff6e",
-      "number": 1,
-      "dailyExpense": []
-    },
-    {
-      "id": "568d",
-      "number": 2,
-      "dailyExpense": []
-    },
-    {
-      "id": "47ed",
-      "number": 3,
-      "dailyExpense": []
-    },
-    {
-      "id": "2e21",
-      "number": 4,
-      "dailyExpense": []
-    },
-    {
-      "id": "b2c1",
-      "number": 5,
-      "dailyExpense": []
-    },
-    {
-      "id": "65f3",
-      "number": 1,
-      "dailyExpense": []
-    },
-    {
-      "id": "e734",
-      "number": 2,
-      "dailyExpense": []
-    },
-    {
-      "id": "86ca",
-      "number": 3,
-      "dailyExpense": []
-    },
-    {
-      "id": "acf2",
-      "number": 4,
-      "dailyExpense": []
-    },
-    {
-      "id": "8420",
-      "number": 1,
-      "dailyExpense": []
-    },
-    {
-      "id": "20a9",
-      "number": 2,
-      "dailyExpense": []
-    },
-    {
-      "id": "d821",
-      "number": 3,
-      "dailyExpense": []
-    },
-    {
-      "id": "d4b6",
-      "number": 1,
-      "dailyExpense": []
-    },
-    {
-      "id": "ecca",
-      "number": 2,
-      "dailyExpense": []
-    },
-    {
-      "id": "31c2",
-      "number": 3,
-      "dailyExpense": []
-    },
-    {
-      "id": "bcff",
-      "number": 1,
-      "dailyExpense": []
-    },
-    {
-      "id": "4ddc",
-      "number": 2,
-      "dailyExpense": []
-    },
-    {
-      "id": "53da",
-      "number": 3,
-      "dailyExpense": []
-    },
-    {
-      "id": "cc21",
-      "number": 4,
-      "dailyExpense": []
-    },
-    {
-      "id": "5474",
-      "number": 1,
-      "dailyExpense": []
-    },
-    {
-      "id": "ac9b",
-      "number": 2,
-      "dailyExpense": []
-    },
-    {
-      "id": "78c8",
-      "number": 3,
-      "dailyExpense": []
-    },
-    {
-      "id": "3f52",
-      "number": 4,
-      "dailyExpense": []
-    },
-    {
-      "id": "b328",
-      "number": 1,
-      "dailyExpense": []
-    },
-    {
-      "id": "538d",
-      "number": 2,
-      "dailyExpense": []
-    },
-    {
-      "id": "c16e",
-      "number": 3,
-      "dailyExpense": []
-    },
-    {
-      "id": "c7ef",
-      "number": 4,
-      "dailyExpense": []
-    },
-    {
-      "id": "8cc3",
-      "number": 1,
-      "dailyExpense": []
-    },
-    {
-      "id": "0304",
-      "number": 2,
-      "dailyExpense": []
-    },
-    {
-      "id": "a9b4",
-      "number": 3,
-      "dailyExpense": []
-    },
-    {
-      "id": "1592",
-      "number": 1,
-      "dailyExpense": []
-    },
-    {
-      "id": "b953",
-      "number": 2,
-      "dailyExpense": []
-    },
-    {
-      "id": "6792",
-      "number": 3,
-      "dailyExpense": []
-    },
-    {
-      "id": "d27d",
-      "number": 1,
-      "dailyExpense": []
-    },
-    {
-      "id": "05e0",
-      "number": 2,
-      "dailyExpense": []
-    },
-    {
-      "id": "4286",
-      "number": 3,
-      "dailyExpense": []
-    },
-    {
-      "id": "4f01",
-      "number": 4,
-      "dailyExpense": []
-    },
-    {
-      "id": "aef3",
-      "number": 5,
-      "dailyExpense": []
-    },
-    {
-      "id": "2a22",
-      "number": 1,
-      "dailyExpense": []
-    },
-    {
-      "id": "7a67",
-      "number": 2,
-      "dailyExpense": []
-    },
-    {
-      "id": "191c",
-      "number": 3,
-      "dailyExpense": []
-    },
-    {
-      "id": "3e0c",
-      "number": 4,
       "dailyExpense": []
     }
   ],
-  "travelExpense": [
-    {
-      "id": "1c10",
-      "name": "Transport Airport",
-      "type": "Essential",
-      "date": "12/09/2025",
-      "countryCurrency": "American Dollar",
-      "value": 43
-    }
-  ]
+  "travelExpense": []
 }

@@ -8,7 +8,7 @@ function AddTravel(){
             <div>
                 <h3>Create a new travel</h3>        
                 <TravelForm/>
-                <ComeBack/>
+                <ComeBack url="/home"/>
             </div>
         </div>
     )

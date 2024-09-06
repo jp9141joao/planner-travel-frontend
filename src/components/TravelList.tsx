@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { deleteDailyExpense, deleteDay, deleteTravel, getDayById, getTravel, getTravelById } from "../service/api";
+import { deleteDailyExpense, deleteDay, deleteTravel, deleteTravelExpense, getDayById, getTravel, getTravelById } from "../service/api";
 import { Link } from "react-router-dom";
 
 interface Travel {
@@ -31,14 +31,22 @@ function TravelList(){
         setLoading(true);
         try{
             await Promise.all((await getTravelById(idTravel)).data.dayId.map( async (idDay: string) => {
-                await Promise.all(((await getDayById(idDay)).data.dailyExpense.id.map((idDailyExpense: string) => 
-                    deleteDailyExpense(idDailyExpense)
-                )))
-                deleteDay(idTravel as string);
+                const response = await getDayById(idDay);
+                if(response.data.dailyExpense.length > 0){
+                    await Promise.all((response.data.dailyExpense.id.map((idDailyExpense: string) => {
+                        deleteDailyExpense(idDailyExpense);
+                    })))
+                }
+                deleteDay(idDay as string);
             }));
-            await Promise.all((await getTravelById(idTravel)).data.travelExpenseId.map((id: string) => deleteTravel(id as string)));
+            
+            if((await getTravelById(idTravel)).data.travelExpenseId.length > 0){
+                await Promise.all((await getTravelById(idTravel)).data.travelExpenseId.map((id: string) => deleteTravelExpense(id as string)));
+            }
+            
             await deleteTravel(idTravel as string);
             loadTravel();
+            
         }catch(error){
             console.error("Error delete travel ", error)
         }finally{

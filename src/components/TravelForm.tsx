@@ -1,20 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createDay, createTravel, deleteDay, getDayById, getTravelById, updateTravel } from "../service/api";
-
-interface DailyExpense {
-    id: string | undefined,
-    name: string,
-    expenseShared: boolean,
-    countryCurrency: string,
-    value: number
-}
-
-interface Day {
-    id: string | undefined,
-    number: number,
-    dailyExpense: DailyExpense[]
-}
+import { createDay, createTravel, deleteDay, getTravelById, updateTravel } from "../service/api";
 
 interface Travel {
     id: string | undefined,
@@ -30,7 +16,6 @@ function TravelForm(){
     const [ travel, setTravel ] = useState<Travel>(
         { id: undefined, name: "", days: 0, dayId: [], travelExpenseId: []}
     );
-    const [ day, setDay ] = useState<Day[]>([]);
     const navigate = useNavigate();
 
     async function loadTravel(){
@@ -42,65 +27,48 @@ function TravelForm(){
         }
     }
 
-    async function loadDay(){
-        try{
-            const response = await Promise.all(travel.dayId.map((id: string) => getDayById(id as string)));
-            setDay(response.map(item => item.data));
-        }catch(error){
-            console.error("Error loading day ", error);
-        }
-    }
-
     async function handleSubmit(e: React.FormEvent){
         e.preventDefault();
         try{
             if(id){
-                const dayIdAux: string[] =  travel.dayId;
-                const lengthId: number = travel.dayId.length
+                let idAux: string[] =  travel.dayId;
+                const lengthId: number = travel.dayId.length;
                 for(let i: number = 1; i <= Math.abs(lengthId - travel.days) ; i++){
                     if(travel.dayId.length > travel.days){
                         const dayAux =  { id: undefined, number: (lengthId + i), dailyExpense: []}
-                        await createDay(dayAux);
+                        const response = await createDay(dayAux);
+                        idAux = [...idAux, response.data.id];
                     }else{
-                        const value: string = dayIdAux[travel.dayId.length - 1];
-                        await deleteDay(value as string);
+                        const value: string = idAux[travel.dayId.length - 1];
+                        const respose = await deleteDay(value as string);
+                        idAux = idAux.filter(item => item != respose.data.id);
                     }
                 }
-                const test = day.map(item => String(item.id));
-                setTravel({...travel, dayId: dayId});
-                await updateTravel({...travel, dayId: test} as Travel, id as string);
+                await updateTravel({...travel, dayId: idAux} as Travel, id as string);
             }else{
-                let test: string[] = []
+                let idAux: string[] = [];
                 for(let i: number = 1; i <= travel.days; i++){
-                    const dayAux =  { id: undefined, number: i, dailyExpense: []}
+                    const dayAux =  { id: undefined, number: i, dailyExpense: []};
                     const response = await createDay(dayAux);
-                    test = [...test, response.data.id]
+                    idAux = [...idAux, response.data.id];
                 }
-                
-                const dayId = day.map(item => String(item.id))
-                alert(test.length)
-                await createTravel({...travel, dayId: test} as Travel);
+                await createTravel({...travel, dayId: idAux} as Travel);
             }
-            navigate('/home')
+            navigate('/home');
         }catch(error){
-            console.log("Error loading travel!", error)
+            console.log("Error loading travel ", error);
         }
     }
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>){
-        setTravel({...travel, [e.target.name] : e.target.value})
+        setTravel({...travel, [e.target.name] : e.target.value});
     }
 
     useEffect(() => {
         if(id){
             loadTravel();
-            loadDay();
         }
     },[id])
-
-    useEffect(() => {
-        
-    },[travel, day])
 
     return(
         <div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { deleteTravel, getTravel } from "../service/api";
+import { deleteDailyExpense, deleteDay, deleteTravel, getDayById, getTravel, getTravelById } from "../service/api";
 import { Link } from "react-router-dom";
 
 interface Travel {
@@ -27,14 +27,23 @@ function TravelList(){
         
     }
 
-    async function handleDelete(id: string){
+    async function handleDelete(idTravel: string){
+        setLoading(true);
         try{
-            await deleteTravel(id as string);
+            await Promise.all((await getTravelById(idTravel)).data.dayId.map( async (idDay: string) => {
+                await Promise.all(((await getDayById(idDay)).data.dailyExpense.id.map((idDailyExpense: string) => 
+                    deleteDailyExpense(idDailyExpense)
+                )))
+                deleteDay(idTravel as string);
+            }));
+            await Promise.all((await getTravelById(idTravel)).data.travelExpenseId.map((id: string) => deleteTravel(id as string)));
+            await deleteTravel(idTravel as string);
             loadTravel();
         }catch(error){
             console.error("Error delete travel ", error)
+        }finally{
+            setLoading(false);
         }
-        
     } 
 
     useEffect(() => {
@@ -45,7 +54,7 @@ function TravelList(){
         <div>
             {
                 loading ? 
-                <p>Carregando...</p> :
+                <p>Loading...</p> :
                 <ul>
                 {   travel.length > 0 ?
                     travel.map(item => (

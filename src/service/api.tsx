@@ -26,6 +26,7 @@ interface TravelExpense {
 
 interface Travel {
     name: string,
+    days: number,
     dayId: string[],
     travelExpenseId: string[]
 }

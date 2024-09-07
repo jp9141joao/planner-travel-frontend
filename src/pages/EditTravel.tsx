@@ -11,7 +11,7 @@ function EditTravel(){
             <div>
                 <h3>Edit your travel</h3>        
                 <TravelForm/>
-                <ComeBack url={`/travel/details/${id}`}/>
+                <ComeBack url={`/home`}/>
             </div>
         </div>
     )

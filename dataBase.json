@@ -1,6 +1,22 @@
 {
   "profile": [],
-  "travel": [],
-  "day": [],
+  "travel": [
+    {
+      "id": "7871",
+      "name": "Europe Travel",
+      "days": "1",
+      "dayId": [
+        "5c3a"
+      ],
+      "travelExpenseId": []
+    }
+  ],
+  "day": [
+    {
+      "id": "5c3a",
+      "number": 1,
+      "dailyExpense": []
+    }
+  ],
   "travelExpense": []
 }

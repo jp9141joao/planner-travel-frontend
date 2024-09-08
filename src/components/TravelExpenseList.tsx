@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react"
-import { deleteTravelExpense, getTravelById, getTravelExpenseById } from "../service/api";
+import { deleteTravelExpense, getTravelById, getTravelExpenseById, updateTravel } from "../service/api";
 import { Link, useParams } from "react-router-dom";
 
 interface TravelExpense {
     id: string | undefined,
     name: string,
     type: string,
-    date: string,
     countryCurrency: string,
     value: number
 }
@@ -26,6 +25,7 @@ function TravelExpensesList(){
     const [travel, setTravel] = useState<Travel>(
         { id: undefined, name: "", days: 0 ,dayId: [], travelExpenseId: [] }
     );
+    const [loading, setLoading] = useState<boolean>(true);
     const CurrencySymbols: Record<string, string> = {
         "American Dollar": "$",
         "Brazilian Real": "R$",
@@ -35,27 +35,22 @@ function TravelExpensesList(){
         "Canadian Dollar": "C$",
     }
 
-    function dateConversor(value: string): string {
-        const year = `${value[0]}${value[1]}${value[2]}${value[3]}`
-        const month = `${value[5]}${value[6]}`
-        const day = `${value[8]}${value[9]}`
-        
-        return `${day}/${month}/${year}`
-    }
-
     async function loadTravelExpense(){
         try{
-            const response = await Promise.all(travel.travelExpenseId.map((id: string) => 
-                getTravelExpenseById(id as string)
+            const response = await Promise.all(( await getTravelById(id as string)).data.travelExpenseId.map((idValue: string) => 
+                getTravelExpenseById(idValue as string)
             ))
             setTravelExpense(response.map(item => item.data))
         }catch(error){
             console.error("Error loading travel expense ", error);
+        }finally{
+            setLoading(false);
         }
     }
 
     async function loadTravel(){
         try{
+            setLoading(true);
             const response = await getTravelById(id as string);
             setTravel(response.data);
         }catch(error){
@@ -63,14 +58,21 @@ function TravelExpensesList(){
         }
     }
 
-    async function handleDelete(id: string){
+    async function handleDelete(idTravelExpense: string){
         try{
-            const responseTravelExpense = await deleteTravelExpense(id as string);
-            const auxId = responseTravelExpense.data.filter((item: TravelExpense) => item != responseTravelExpense.data.id);
-            setTravelExpense(responseTravelExpense.data);
-            setTravel({...travel, travelExpenseId: auxId})
+            setLoading(true);
+            const responseTravelExpense = await deleteTravelExpense(idTravelExpense as string);
+            setTravelExpense(responseTravelExpense.data)
+            const travelExpenseAux = travelExpense.filter((item: TravelExpense) => item.id != responseTravelExpense.data.id);
+            const idTravelExpenseAux = travelExpenseAux.map(item => String(item.id))
+            await updateTravel({...travel, travelExpenseId: idTravelExpenseAux} as Travel, id as string)
+            setTravel({...travel, travelExpenseId: idTravelExpenseAux})
+            loadTravel();
+            loadTravelExpense();
         }catch(error){ 
             console.error("Error delete travel expense ", error)
+        }finally{
+            setLoading(false)
         }
     }
 
@@ -82,22 +84,29 @@ function TravelExpensesList(){
     return (
         <div>
             <h3>Travel Expenses</h3>
-            {
-                travelExpense.length > 0 ?
-                travelExpense.map((item: TravelExpense) => (
-                    <p key={item.id}>
-                        Name: {item.name} -
-                        Expense Type: {item.name} -
-                        Date: {dateConversor(item.date)} -                    
-                        Country Currency: {item.countryCurrency} - 
-                        Value: {CurrencySymbols[item.countryCurrency]}{item.value} -
-                        <Link to={`/travel/${id}/travelExpense/edit/${item.id}`}><button>Edit data</button></Link>
-                        <div>
-                            <button onClick={() => handleDelete(String(item.id))}>Delete</button>
+            {  
+                loading ?
+                <p>Loading yours travels expenses</p> :
+                <div>
+                {   
+                    travelExpense.length > 0 ?
+                    travelExpense.map((item: TravelExpense) => (
+                        <div key={item.id} style={{display: 'flex'}}>
+                            Name: {item.name} -
+                            Expense Type: {item.name} -
+                            Country Currency: {item.countryCurrency} - 
+                            Value: {CurrencySymbols[item.countryCurrency]}{item.value}
+                            <div>
+                                <Link to={`/travel/${id}/travelExpense/edit/${item.id}`}><button>Edit data</button></Link>
+                            </div>
+                            <div>
+                                <button onClick={() => handleDelete(String(item.id))}>Delete</button>
+                            </div>
                         </div>
-                    </p>
-                )) : <p>You don't have travel expenses yet!</p>
-            }
+                    )) : <p>You don't have travel expenses yet</p>
+                }
+                </div>
+            } 
         </div>
     )
 }

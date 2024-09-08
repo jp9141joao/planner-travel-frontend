@@ -1,10 +1,8 @@
-import { useParams } from "react-router-dom";
+//import { useParams } from "react-router-dom";
 import ComeBack from "../components/ComeBack";
 import TravelForm from "../components/TravelForm"
 
 function EditTravel(){
-
-    const { id } = useParams<{id: string}>();
 
     return (
         <div>

@@ -13,13 +13,12 @@ interface DailyExpense {
 
 interface Day {
     number: number,
-    dailyExpense: DailyExpense[]
+    dailyExpenseId: string[]
 }
 
 interface TravelExpense {
     name: string,
     type: string,
-    date: string,
     countryCurrency: string,
     value: number
 }

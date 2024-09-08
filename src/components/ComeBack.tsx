@@ -5,7 +5,7 @@ function ComeBack({ url }: {url: string}){
     const navigate = useNavigate();
     
     return (
-        <div>
+        <div >
             <p onClick={() => navigate(url)} style={{cursor: 'pointer'}}>Come Back</p>
         </div>
     )

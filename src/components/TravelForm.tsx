@@ -34,26 +34,22 @@ function TravelForm(){
                 let idAux: string[] =  travel.dayId;
                 const lenDayValue = (await getTravelById(id)).data.days;
                 const lenDayAux = travel.days;
-                //alert(`travel.dayId.length: ${travel.dayId.length} | travel.days: ${travel.days} | lengthId: ${lengthId} | Math.abs(lengthId - travel.days): ${Math.abs(lengthId - travel.days)}`)
                 for(let i: number = 1; i <= Math.abs(lenDayValue - lenDayAux) ; i++){
                     if(lenDayValue < travel.days){
-                        const dayAux =  { id: undefined, number: Number(lenDayValue) + Number(i), dailyExpense: []}
+                        const dayAux =  { id: undefined, number: Number(lenDayValue) + Number(i), dailyExpenseId: []}
                         const response = await createDay(dayAux);
                         idAux = [...idAux, response.data.id];
                     }else if(lenDayValue > lenDayAux){
                         const value: string = idAux[(await getTravelById(id)).data.dayId.length - i];
-                        alert(value)
                         const respose = await deleteDay(value as string);
                         idAux = idAux.filter(item => item != respose.data.id);
                     }
                 }
-                alert(10)
                 await updateTravel({...travel, dayId: idAux} as Travel, id as string);
-                alert(20)
             }else{
                 let idAux: string[] = [];
                 for(let i: number = 1; i <= travel.days; i++){
-                    const dayAux =  { id: undefined, number: i, dailyExpense: []};
+                    const dayAux =  { id: undefined, number: i, dailyExpenseId: []};
                     const response = await createDay(dayAux);
                     idAux = [...idAux, response.data.id];
                 }
@@ -66,7 +62,8 @@ function TravelForm(){
     }
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>){
-        setTravel({...travel, [e.target.name] : e.target.value});
+        const value = e.target.type === "number" ? parseFloat(e.target.value) : e.target.value; 
+        setTravel({...travel, [e.target.name] : value});
     }
 
     useEffect(() => {

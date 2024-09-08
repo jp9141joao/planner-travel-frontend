@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { deleteDailyExpense, getDailyExpense } from "../service/api"
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 interface DailyExpense {
     id: string | undefined,

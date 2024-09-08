@@ -2,21 +2,87 @@
   "profile": [],
   "travel": [
     {
-      "id": "7871",
+      "id": "d09c",
       "name": "Europe Travel",
-      "days": "1",
+      "days": 10,
       "dayId": [
-        "5c3a"
+        "5b72",
+        "5703",
+        "0713",
+        "0376",
+        "855b",
+        "01c8",
+        "eaa7",
+        "6ea3",
+        "1d2b",
+        "1be7"
       ],
       "travelExpenseId": []
     }
   ],
   "day": [
     {
-      "id": "5c3a",
+      "id": "5b72",
       "number": 1,
-      "dailyExpense": []
+      "dailyExpenseId": []
+    },
+    {
+      "id": "5703",
+      "number": 2,
+      "dailyExpenseId": []
+    },
+    {
+      "id": "0713",
+      "number": 3,
+      "dailyExpenseId": []
+    },
+    {
+      "id": "0376",
+      "number": 4,
+      "dailyExpenseId": []
+    },
+    {
+      "id": "855b",
+      "number": 5,
+      "dailyExpenseId": []
+    },
+    {
+      "id": "01c8",
+      "number": 6,
+      "dailyExpenseId": []
+    },
+    {
+      "id": "eaa7",
+      "number": 7,
+      "dailyExpenseId": []
+    },
+    {
+      "id": "6ea3",
+      "number": 8,
+      "dailyExpenseId": []
+    },
+    {
+      "id": "1d2b",
+      "number": 9,
+      "dailyExpenseId": []
+    },
+    {
+      "id": "1be7",
+      "number": 10,
+      "dailyExpenseId": []
     }
   ],
-  "travelExpense": []
+  "travelExpense": [
+    {
+      "id": "3d1b",
+      "name": "Food",
+      "type": "",
+      "date": "",
+      "countryCurrency": "",
+      "value": "23",
+      "": "c"
+    }
+  ],
+  "dailyExpense": [],
+  "cronograma": []
 }

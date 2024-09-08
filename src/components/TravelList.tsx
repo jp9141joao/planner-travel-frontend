@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { deleteDailyExpense, deleteDay, deleteTravel, deleteTravelExpense, getDayById, getTravel, getTravelById } from "../service/api";
 import { Link } from "react-router-dom";
+import TotalExpenseValue from "./TotalExpenseValue";
 
 interface Travel {
     id: string,
@@ -32,8 +33,8 @@ function TravelList(){
         try{
             await Promise.all((await getTravelById(idTravel)).data.dayId.map( async (idDay: string) => {
                 const response = await getDayById(idDay);
-                if(response.data.dailyExpense.length > 0){
-                    await Promise.all((response.data.dailyExpense.id.map((idDailyExpense: string) => {
+                if(response.data.dailyExpenseId.length > 0){
+                    await Promise.all((response.data.dailyExpenseId.id.map((idDailyExpense: string) => {
                         deleteDailyExpense(idDailyExpense);
                     })))
                 }
@@ -60,13 +61,14 @@ function TravelList(){
 
     return (
         <div>
+            
             {
                 loading ? 
                 <p>Loading...</p> :
-                <ul>
+                <div>
                 {   travel.length > 0 ?
                     travel.map(item => (
-                        <div key={item.id}>
+                        <div key={item.id} style={{border: '3px solid black', borderRadius: '9px'}}>
                             <div>
                                 <p>Travel's name: {item.name}</p>
                             </div>
@@ -81,7 +83,7 @@ function TravelList(){
                         </div>
                     )) : <p>You don't have travels yet</p>
                 }
-                </ul>
+                </div>
             }
         </div>
     )

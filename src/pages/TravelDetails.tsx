@@ -4,6 +4,7 @@ import { getTravelById } from "../service/api"
 import TravelExpensesList from "../components/TravelExpenseList";
 import DaysTravelPrint from "../components/DaysTravelPrint";
 import ComeBack from "../components/ComeBack";
+import TotalExpenseValue from "../components/TotalExpenseValue";
 
 interface Travel {
     id: string | undefined,
@@ -15,10 +16,11 @@ interface Travel {
 
 function TravelDetails(){
 
-    const { id } = useParams<{id: string}>();
+    const { id } = useParams<{ id: string}>();
     const [ travel, setTravel ] = useState<Travel>(
         { id: undefined, name: "", days: 0 ,dayId: [], travelExpenseId: [] }
     );
+    const [showTravelExpense, setShowTravelExpense] = useState<boolean>(false);
 
     async function loadTravel(){
         try{
@@ -35,17 +37,35 @@ function TravelDetails(){
 
     return (
         <div>
-            <h1>{travel.name}</h1>
-            <p>Let's planning your travel</p>
-            <h3>Your Expenses Preview</h3>
-            <TravelExpensesList/>
-            <Link to={`/travel/${id}/travelExpense/add`}>
-                <button>Add travel expense</button>
-            </Link>
-            <h3>Days Travel</h3>
-            <p>This travel has: {travel.days} {travel.days > 1 ? "days" : "day"}</p>
-            <DaysTravelPrint/>
-            <ComeBack url="/home"/>
+            <div>
+                <h1>{travel.name}</h1>
+                <p>Let's planning your travel</p>
+            </div>
+            <div>
+                <h3>Your Expenses Preview</h3>
+                {
+                    showTravelExpense ?
+                    <div>
+                        <TotalExpenseValue/>
+                        <TravelExpensesList/>
+                        <Link to={`/travel/${id}/travelExpense/add`}>
+                            <button>Add travel expense</button>
+                        </Link>
+                    </div>
+                    : null
+                }
+                <div>
+                    <button onClick={() => setShowTravelExpense(!showTravelExpense)}>{ showTravelExpense ? "Hide expenses" : "Show expenses"}</button>
+                </div>
+            </div>
+            <div>
+                <h3>Days Travel</h3>
+                <p>This travel has: {travel.days} {travel.days > 1 ? "days" : "day"}</p>
+                <DaysTravelPrint/>
+            </div>
+            <div>
+                <ComeBack url="/home"/>
+            </div>
         </div>
     )
 }

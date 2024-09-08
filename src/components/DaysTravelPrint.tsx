@@ -2,18 +2,10 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getDayById, getTravelById } from "../service/api";
 
-interface DailyExpense {
-    id: string | undefined,
-    name: string,
-    expenseShared: boolean,
-    countryCurrency: string,
-    value: number
-}
-
 interface Day {
     id: string | undefined,
     number: number,
-    dailyExpense: DailyExpense[];
+    dailyExpenseId: string[];
 }
 
 
@@ -21,7 +13,7 @@ function DaysTravelPrint(){
 
     const { id } = useParams<{id: string}>();
     const [day, setDay] = useState<Day[]>([
-        { id: undefined, number: 0, dailyExpense: [] }
+        { id: undefined, number: 0, dailyExpenseId: [] }
     ]);
     const[loading, setLoading] = useState<boolean>(true);
 

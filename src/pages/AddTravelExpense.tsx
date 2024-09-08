@@ -2,17 +2,18 @@ import { useParams } from "react-router-dom";
 import ComeBack from "../components/ComeBack";
 import TravelExpenseForm from "../components/TravelExpenseForm";
 
-function TravelExpense(){
+function AddTravelExpense(){
 
-    const { id } = useParams<{id: string}>();
+    const { idTravel } = useParams<{idTravel: string, idTravelExpense: string}>();
 
     return (
         <div>
             <div>Add your travel expense</div>
             <TravelExpenseForm/>
-            <ComeBack url={`/travel/details/${id}`}/>
+            <ComeBack url={`/travel/details/${idTravel}`}/>
+
         </div>
     )
 }
 
-export default TravelExpense;
+export default AddTravelExpense;

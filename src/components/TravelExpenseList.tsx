@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { deleteTravelExpense, getTravelById, getTravelExpenseById, updateTravel } from "../service/api";
 import { Link, useParams } from "react-router-dom";
+import TotalExpenseValue from './TotalExpenseValue';
 
 interface TravelExpense {
     id: string | undefined,
@@ -88,12 +89,13 @@ function TravelExpensesList(){
                 loading ?
                 <p>Loading yours travels expenses</p> :
                 <div>
+                <TotalExpenseValue />
                 {   
                     travelExpense.length > 0 ?
                     travelExpense.map((item: TravelExpense) => (
                         <div key={item.id} style={{display: 'flex'}}>
                             Name: {item.name} -
-                            Expense Type: {item.name} -
+                            Expense Type: {item.type} -
                             Country Currency: {item.countryCurrency} - 
                             Value: {CurrencySymbols[item.countryCurrency]}{item.value}
                             <div>

@@ -36,7 +36,10 @@ function TotalExpenseValue(){
             euro: 0, 
             canadianDollar: 0 
         }
-        if(expense.countryCurrency.length == 0) return
+        console.log(expense.countryCurrency.length)
+        if(expense.countryCurrency.length == 0){
+            setTotalExpense(total);
+        }
         expense.countryCurrency.map((item: string, index: number) => {        
             if (item === "American Dollar") {
                 total = {...total, americanDollar: total.americanDollar += Number(expense.value[index])}
@@ -57,7 +60,7 @@ function TotalExpenseValue(){
     }
 
     async function loadExpense(){
-        setLoading(false)
+        setLoading(true)
         const responseTravel = await getTravelById(id as string);
         let value: ExpenseValue = { countryCurrency: [], value: [] }
         if(id && !idDay){

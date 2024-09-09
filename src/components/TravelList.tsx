@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { deleteDailyExpense, deleteDay, deleteTravel, deleteTravelExpense, getDayById, getTravel, getTravelById } from "../service/api";
 import { Link } from "react-router-dom";
-import TotalExpenseValue from "./TotalExpenseValue";
 
 interface Travel {
     id: string,
@@ -53,8 +52,7 @@ function TravelList(){
         }finally{
             setLoading(false);
         }
-    } 
-
+    }
     useEffect(() => {
         loadTravel()
     },[])   

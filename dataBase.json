@@ -2,73 +2,43 @@
   "profile": [],
   "travel": [
     {
-      "id": "d09c",
-      "name": "Europe Travel",
-      "days": 10,
+      "id": "eb35",
+      "name": "Europe Trip",
+      "days": 5,
       "dayId": [
-        "5b72",
-        "5703",
-        "0713",
-        "0376",
-        "855b",
-        "01c8",
-        "eaa7",
-        "6ea3",
-        "1d2b",
-        "1be7"
+        "d148",
+        "18be",
+        "24bf",
+        "45b9",
+        "bd91"
       ],
       "travelExpenseId": []
     }
   ],
   "day": [
     {
-      "id": "5b72",
+      "id": "d148",
       "number": 1,
       "dailyExpenseId": []
     },
     {
-      "id": "5703",
+      "id": "18be",
       "number": 2,
       "dailyExpenseId": []
     },
     {
-      "id": "0713",
+      "id": "24bf",
       "number": 3,
       "dailyExpenseId": []
     },
     {
-      "id": "0376",
+      "id": "45b9",
       "number": 4,
       "dailyExpenseId": []
     },
     {
-      "id": "855b",
+      "id": "bd91",
       "number": 5,
-      "dailyExpenseId": []
-    },
-    {
-      "id": "01c8",
-      "number": 6,
-      "dailyExpenseId": []
-    },
-    {
-      "id": "eaa7",
-      "number": 7,
-      "dailyExpenseId": []
-    },
-    {
-      "id": "6ea3",
-      "number": 8,
-      "dailyExpenseId": []
-    },
-    {
-      "id": "1d2b",
-      "number": 9,
-      "dailyExpenseId": []
-    },
-    {
-      "id": "1be7",
-      "number": 10,
       "dailyExpenseId": []
     }
   ],

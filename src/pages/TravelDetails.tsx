@@ -4,7 +4,6 @@ import { getTravelById } from "../service/api"
 import TravelExpensesList from "../components/TravelExpenseList";
 import DaysTravelPrint from "../components/DaysTravelPrint";
 import ComeBack from "../components/ComeBack";
-import TotalExpenseValue from "../components/TotalExpenseValue";
 
 interface Travel {
     id: string | undefined,
@@ -46,7 +45,6 @@ function TravelDetails(){
                 {
                     showTravelExpense ?
                     <div>
-                        <TotalExpenseValue/>
                         <TravelExpensesList/>
                         <Link to={`/travel/${id}/travelExpense/add`}>
                             <button>Add travel expense</button>

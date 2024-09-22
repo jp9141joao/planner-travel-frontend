@@ -15,7 +15,7 @@ interface Travel {
 
 function TravelDetails(){
 
-    const { id } = useParams<{ id: string}>();
+    const { idTravel } = useParams<{ idTravel: string }>();
     const [ travel, setTravel ] = useState<Travel>(
         { id: undefined, name: "", days: 0 ,dayId: [], travelExpenseId: [] }
     );
@@ -23,7 +23,7 @@ function TravelDetails(){
 
     async function loadTravel(){
         try{
-            const response = await getTravelById(id as string);
+            const response = await getTravelById(idTravel as string);
             setTravel(response.data);
         }catch(error){
             console.error("Error loading travel ", error)
@@ -46,11 +46,10 @@ function TravelDetails(){
                     showTravelExpense ?
                     <div>
                         <TravelExpensesList/>
-                        <Link to={`/travel/${id}/travelExpense/add`}>
+                        <Link to={`/travel/${idTravel}/travelExpense/add`}>
                             <button>Add travel expense</button>
                         </Link>
-                    </div>
-                    : null
+                    </div> : null
                 }
                 <div>
                     <button onClick={() => setShowTravelExpense(!showTravelExpense)}>{ showTravelExpense ? "Hide expenses" : "Show expenses"}</button>

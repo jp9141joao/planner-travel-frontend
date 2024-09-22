@@ -1,14 +1,11 @@
 // npx json-server --watch db.json --port 3001
-
-
-import axios from "axios";
-const api = axios.create({ baseURL: 'http://localhost:3001' })
-
 interface DailyExpense {
     name: string,
+    category: string,
     expenseShared: boolean,
     countryCurrency: string,
-    value: number
+    value: number,
+    paymentMethod: string
 }
 
 interface Day {
@@ -29,12 +26,14 @@ interface Travel {
     dayId: string[],
     travelExpenseId: string[]
 }
- 
+
+import axios from "axios";
+const api = axios.create({ baseURL: 'http://localhost:3001' })
+
 export const getTravel = () => api.get(`/travel`);
 export const getDay = () => api.get('/day');
 export const getDailyExpense = () => api.get('/dailyExpense');
 export const getTravelExpense = () => api.get('/travelExpense');
-
 
 export const getTravelById = (id: string) => api.get(`/travel/${id}`);
 export const getDayById = (id: string) => api.get(`/day/${id}`);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getDayById, getTravelById, getTravelExpenseById } from "../service/api";
+import { getDailyExpenseById, getDayById, getTravelById, getTravelExpenseById } from "../service/api";
 import { useParams } from "react-router-dom";
 
 interface ExpenseValue {
@@ -18,7 +18,7 @@ interface TotalExpense {
 
 function TotalExpenseValue(){
 
-    const { id, idDay } = useParams<{id: string, idDay: string}>();
+    const { idTravel, idDay } = useParams<{idTravel: string, idDay: string}>();
     const [expense, setExpense] = useState<ExpenseValue>(
         { countryCurrency: [], value: [] }
     );
@@ -36,7 +36,6 @@ function TotalExpenseValue(){
             euro: 0, 
             canadianDollar: 0 
         }
-        console.log(expense.countryCurrency.length)
         if(expense.countryCurrency.length == 0){
             setTotalExpense(total);
         }
@@ -60,10 +59,10 @@ function TotalExpenseValue(){
     }
 
     async function loadExpense(){
-        setLoading(true)
-        const responseTravel = await getTravelById(id as string);
+        setLoading(true);
         let value: ExpenseValue = { countryCurrency: [], value: [] }
-        if(id && !idDay){
+        if(idTravel && !idDay){
+            const responseTravel = await getTravelById(idTravel as string);
             if(responseTravel.data.travelExpenseId.length == 0){
                 setTotalExpense( { 
                     americanDollar: 0, 
@@ -73,15 +72,14 @@ function TotalExpenseValue(){
                     euro: 0, 
                     canadianDollar: 0 
                 })
-                return
+                return;
             }
             const responseTravelExpense = await Promise.all(responseTravel.data.travelExpenseId.map((id: string) => getTravelExpenseById(id as string)));
             value = { countryCurrency: responseTravelExpense.map(item => item.data.countryCurrency ), value: responseTravelExpense.map(item => item.data.value) };
         }else{
-            const responseDay = await Promise.all(responseTravel.data.dayId.map((id: string) => getDayById(id as string)));
-            const dayAux = responseDay.map(item => item.data.dailyExpenseId);
-            if(dayAux.length == 0){
-                setTotalExpense( { 
+            const responseDay = await getDayById(idDay as string);
+            if(responseDay.data.dailyExpenseId.length == 0){
+                setTotalExpense({ 
                     americanDollar: 0, 
                     brazilianReal: 0,
                     mexicanPeso: 0, 
@@ -89,11 +87,10 @@ function TotalExpenseValue(){
                     euro: 0, 
                     canadianDollar: 0 
                 })
-                return
-            };
-            const responseDailyExpense = await Promise.all(dayAux.map((id: string) => getTravelExpenseById(id as string)));
+                return;
+            }
+            const responseDailyExpense = await Promise.all(responseDay.data.dailyExpenseId.map((id: string) => getDailyExpenseById(id as string)));
             value = { countryCurrency: responseDailyExpense.map(item => item.data.countryCurrency ), value: responseDailyExpense.map(item => item.data.value) };
-            responseDailyExpense.map(item => item.data );
         }
         setExpense(value);
     }
@@ -111,7 +108,6 @@ function TotalExpenseValue(){
     },[])
 
     return(
-
         <div style={{display: "flex"}}>
             <div style={{border: "3px solid black", borderRadius: "9px", width: "14rem"}}>
                 <h3>American Dollar</h3>

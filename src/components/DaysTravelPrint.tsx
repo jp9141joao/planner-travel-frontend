@@ -11,7 +11,7 @@ interface Day {
 
 function DaysTravelPrint(){
 
-    const { id } = useParams<{id: string}>();
+    const { idTravel } = useParams<{idTravel: string}>();
     const [day, setDay] = useState<Day[]>([
         { id: undefined, number: 0, dailyExpenseId: [] }
     ]);
@@ -19,7 +19,7 @@ function DaysTravelPrint(){
 
     async function loadDay(){
         try{
-            const responseTravel = await getTravelById(id as string);
+            const responseTravel = await getTravelById(idTravel as string);
             const responseDay = await Promise.all(responseTravel.data.dayId.map((dayIdValue: string) => getDayById(dayIdValue)))
             setDay(responseDay.map((item) => (item.data)));
         }catch(error){
@@ -41,7 +41,7 @@ function DaysTravelPrint(){
                 day.map((item) => (
                     <div key={item.id}>
                         <h3>{item.number}° Day</h3>
-                        <Link to={`/travel/${id}/day/details/${item.id}`}><button>Acess day</button></Link>
+                        <Link to={`/travel/${idTravel}/day/details/${item.id}`}><button>Acess day</button></Link>
                     </div>
                 ))
             }

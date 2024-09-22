@@ -7,6 +7,7 @@ import AddTravel from "./pages/AddTravel";
 import AddTravelExpense from "./pages/AddTravelExpense";
 import EditTravelExpense from "./pages/EditTravelExpense";
 import DayDetails from "./pages/DayDetails";
+import AddDailyExpense from "./pages/AddDailyExpense";
 
 function App() {
 
@@ -16,11 +17,13 @@ function App() {
           <Route path="/" element={<Navigate to={'/home'}/>}/>
           <Route path="/home" element={<Home/>}/>
           <Route path="/travel/add" element={<AddTravel/>}/>
-          <Route path="/travel/details/:id" element={<TravelDetails/>}/>
-          <Route path="/travel/edit/:id" element={<EditTravel/>}/>
-          <Route path="/travel/:idTravel/travelExpense/:idExpense" element={<AddTravelExpense/>}/>
+          <Route path="/travel/details/:idTravel" element={<TravelDetails/>}/>
+          <Route path="/travel/edit/:idTravel" element={<EditTravel/>}/>
+          <Route path="/travel/:idTravel/travelExpense/add" element={<AddTravelExpense/>}/>
           <Route path="/travel/:idTravel/travelExpense/edit/:idTravelExpense" element={<EditTravelExpense/>}/>
           <Route path="/travel/:idTravel/day/details/:idDay" element={<DayDetails/>}/>
+          <Route path="/travel/:idTravel/day/:idDay/dailyExpense/add" element={<AddDailyExpense/>}/>
+          <Route path="/travel/:idTravel/day/:idDay/dailyExpense/edit/:idDailyExpense" element={''}/>
         </Routes>
       </Router>
   )

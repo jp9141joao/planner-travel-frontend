@@ -21,7 +21,7 @@ interface Travel {
 
 function TravelExpensesList(){
 
-    const { id } = useParams<{id: string}>();
+    const { idTravel } = useParams<{idTravel: string}>();
     const [travelExpense, setTravelExpense] = useState<TravelExpense[]>([]);
     const [travel, setTravel] = useState<Travel>(
         { id: undefined, name: "", days: 0 ,dayId: [], travelExpenseId: [] }
@@ -38,7 +38,7 @@ function TravelExpensesList(){
 
     async function loadTravelExpense(){
         try{
-            const response = await Promise.all(( await getTravelById(id as string)).data.travelExpenseId.map((idValue: string) => 
+            const response = await Promise.all(( await getTravelById(idTravel as string)).data.travelExpenseId.map((idValue: string) => 
                 getTravelExpenseById(idValue as string)
             ))
             setTravelExpense(response.map(item => item.data))
@@ -52,7 +52,7 @@ function TravelExpensesList(){
     async function loadTravel(){
         try{
             setLoading(true);
-            const response = await getTravelById(id as string);
+            const response = await getTravelById(idTravel as string);
             setTravel(response.data);
         }catch(error){
             console.error("Error loading travel ", error)
@@ -66,7 +66,7 @@ function TravelExpensesList(){
             setTravelExpense(responseTravelExpense.data)
             const travelExpenseAux = travelExpense.filter((item: TravelExpense) => item.id != responseTravelExpense.data.id);
             const idTravelExpenseAux = travelExpenseAux.map(item => String(item.id))
-            await updateTravel({...travel, travelExpenseId: idTravelExpenseAux} as Travel, id as string)
+            await updateTravel({...travel, travelExpenseId: idTravelExpenseAux} as Travel, idTravel as string)
             setTravel({...travel, travelExpenseId: idTravelExpenseAux})
             loadTravel();
             loadTravelExpense();
@@ -99,7 +99,7 @@ function TravelExpensesList(){
                             Country Currency: {item.countryCurrency} - 
                             Value: {CurrencySymbols[item.countryCurrency]}{item.value}
                             <div>
-                                <Link to={`/travel/${id}/travelExpense/edit/${item.id}`}><button>Edit data</button></Link>
+                                <Link to={`/travel/${idTravel}/travelExpense/edit/${item.id}`}><button>Edit data</button></Link>
                             </div>
                             <div>
                                 <button onClick={() => handleDelete(String(item.id))}>Delete</button>

@@ -12,7 +12,7 @@ interface Travel {
 
 function TravelForm(){
 
-    const { id } = useParams<{id: string}>();
+    const { idTravel } = useParams<{idTravel: string}>();
     const [ travel, setTravel ] = useState<Travel>(
         { id: undefined, name: "", days: 0, dayId: [], travelExpenseId: []}
     );
@@ -20,7 +20,7 @@ function TravelForm(){
 
     async function loadTravel(){
         try{
-            const response = await getTravelById(id as string);
+            const response = await getTravelById(idTravel as string);
             setTravel(response.data);
         }catch(error){
             console.error("Error loading travel", error);
@@ -30,9 +30,9 @@ function TravelForm(){
     async function handleSubmit(e: React.FormEvent){
         e.preventDefault();
         try{
-            if(id){
+            if(idTravel){
                 let idAux: string[] =  travel.dayId;
-                const lenDayValue = (await getTravelById(id)).data.days;
+                const lenDayValue = (await getTravelById(idTravel)).data.days;
                 const lenDayAux = travel.days;
                 for(let i: number = 1; i <= Math.abs(lenDayValue - lenDayAux) ; i++){
                     if(lenDayValue < travel.days){
@@ -40,12 +40,12 @@ function TravelForm(){
                         const response = await createDay(dayAux);
                         idAux = [...idAux, response.data.id];
                     }else if(lenDayValue > lenDayAux){
-                        const value: string = idAux[(await getTravelById(id)).data.dayId.length - i];
+                        const value: string = idAux[(await getTravelById(idTravel)).data.dayId.length - i];
                         const respose = await deleteDay(value as string);
                         idAux = idAux.filter(item => item != respose.data.id);
                     }
                 }
-                await updateTravel({...travel, dayId: idAux} as Travel, id as string);
+                await updateTravel({...travel, dayId: idAux} as Travel, idTravel as string);
             }else{
                 let idAux: string[] = [];
                 for(let i: number = 1; i <= travel.days; i++){
@@ -67,10 +67,10 @@ function TravelForm(){
     }
 
     useEffect(() => {
-        if(id){
+        if(idTravel){
             loadTravel();
         }
-    },[id])
+    },[idTravel])
 
     return(
         <div>
@@ -84,7 +84,7 @@ function TravelForm(){
                     <input id="InputDay" name="days" type="number" value={travel.days} onChange={handleChange}/>
                 </div>
                 <div>
-                    <button type="submit">{id ? "Save" : "Create"}</button>
+                    <button type="submit">{idTravel ? "Save" : "Create"}</button>
                 </div>
             </form>
         </div>

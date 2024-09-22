@@ -2,57 +2,47 @@
   "profile": [],
   "travel": [
     {
-      "id": "eb35",
-      "name": "Europe Trip",
+      "id": "2402",
+      "name": "Chile Travel",
       "days": 5,
       "dayId": [
-        "d148",
-        "18be",
-        "24bf",
-        "45b9",
-        "bd91"
+        "356e",
+        "0c40",
+        "f949",
+        "15ca",
+        "56ba"
       ],
       "travelExpenseId": []
     }
   ],
   "day": [
     {
-      "id": "d148",
+      "id": "356e",
       "number": 1,
       "dailyExpenseId": []
     },
     {
-      "id": "18be",
+      "id": "0c40",
       "number": 2,
       "dailyExpenseId": []
     },
     {
-      "id": "24bf",
+      "id": "f949",
       "number": 3,
       "dailyExpenseId": []
     },
     {
-      "id": "45b9",
+      "id": "15ca",
       "number": 4,
       "dailyExpenseId": []
     },
     {
-      "id": "bd91",
+      "id": "56ba",
       "number": 5,
       "dailyExpenseId": []
     }
   ],
-  "travelExpense": [
-    {
-      "id": "3d1b",
-      "name": "Food",
-      "type": "",
-      "date": "",
-      "countryCurrency": "",
-      "value": "23",
-      "": "c"
-    }
-  ],
+  "travelExpense": [],
   "dailyExpense": [],
-  "cronograma": []
+  "itineraryTravel": []
 }

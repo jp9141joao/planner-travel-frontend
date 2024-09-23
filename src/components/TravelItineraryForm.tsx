@@ -98,7 +98,7 @@ function TravelItinerary(){
                 </div>
             <div>
                 <label htmlFor="InputDetails">Type some notes about the activitie</label>
-                <textarea id="InputDetails" name="details" rows={3} cols={26} onChange={handleChange} placeholder="Type here..."/>
+                <textarea id="InputDetails" name="details" rows={3} cols={26} maxLength={84} onChange={handleChange} placeholder="Type here..."/>
             </div>
             <div>
                 <button>{idActivitie ? "Create activitie" :  "Save activitie changes"}</button>

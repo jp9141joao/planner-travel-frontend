@@ -12,7 +12,8 @@
         "15ca",
         "56ba"
       ],
-      "travelExpenseId": []
+      "travelExpenseId": [],
+      "activitieId": []
     }
   ],
   "day": [
@@ -44,5 +45,5 @@
   ],
   "travelExpense": [],
   "dailyExpense": [],
-  "itineraryTravel": []
+  "activitie": []
 }

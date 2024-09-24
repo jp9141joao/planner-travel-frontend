@@ -4,6 +4,7 @@ import { getTravelById } from "../service/api"
 import TravelExpensesList from "../components/TravelExpenseList";
 import DaysTravelPrint from "../components/DaysTravelPrint";
 import ComeBack from "../components/ComeBack";
+import TravelItineraryList from "../components/TravelItineraryList";
 
 interface Travel {
     id: string | undefined,
@@ -20,6 +21,8 @@ function TravelDetails(){
         { id: undefined, name: "", days: 0 ,dayId: [], travelExpenseId: [] }
     );
     const [showTravelExpense, setShowTravelExpense] = useState<boolean>(false);
+    const [showDay, setShowDay] = useState<boolean>(false);
+    const [showItinerary, setShowItinerary] = useState<boolean>(false);
 
     async function loadTravel(){
         try{
@@ -58,7 +61,26 @@ function TravelDetails(){
             <div>
                 <h3>Days Travel</h3>
                 <p>This travel has: {travel.days} {travel.days > 1 ? "days" : "day"}</p>
-                <DaysTravelPrint/>
+                {
+                    showDay ?
+                    <DaysTravelPrint/> :
+                    null
+                }
+                <button onClick={() => setShowDay(!showDay)}>{showDay ? "Hide days" : "Show days"}</button>
+            </div>
+            <div>
+                <h3>Itinerary</h3>
+                {
+                    showItinerary ?
+                    <div>
+                        <TravelItineraryList/>
+                        <Link to={`/travel/${idTravel}/activitie/add`}>
+                            <button>Add activitie to Itinerary</button>
+                        </Link>
+                    </div> :
+                    null
+                }
+                <button onClick={() => setShowItinerary(!showItinerary)}>{showItinerary ? "Hide Itinerary" : "Show Itinerary"}</button>
             </div>
             <div>
                 <ComeBack url="/home"/>

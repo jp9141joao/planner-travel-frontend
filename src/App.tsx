@@ -8,7 +8,7 @@ import AddTravelExpense from "./pages/AddTravelExpense";
 import EditTravelExpense from "./pages/EditTravelExpense";
 import DayDetails from "./pages/DayDetails";
 import AddDailyExpense from "./pages/AddDailyExpense";
-import TravelItinerary from "./components/travelItineraryForm";
+import TravelItineraryForm from "./components/TravelItineraryForm";
 
 function App() {
 
@@ -25,7 +25,8 @@ function App() {
           <Route path="/travel/:idTravel/day/details/:idDay" element={<DayDetails/>}/>
           <Route path="/travel/:idTravel/day/:idDay/dailyExpense/add" element={<AddDailyExpense/>}/>
           <Route path="/travel/:idTravel/day/:idDay/dailyExpense/edit/:idDailyExpense" element={''}/>
-          <Route path="/test" element={<TravelItinerary/>}/>
+          <Route path="/travel/:idTravel/activitie/add" element={<TravelItineraryForm/>}/>
+          <Route path="/travel/:idTravel/activitie/edit/:idActivitie" element={<TravelItineraryForm/>}/>
         </Routes>
       </Router>
   )

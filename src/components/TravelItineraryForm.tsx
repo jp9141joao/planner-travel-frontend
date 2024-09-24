@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import ComeBack from './ComeBack';
+import { createActivitie, getActivitieById, getTravelById, updateActivitie, updateTravel } from "../service/api";
 
 interface Travel {
     id: string | undefined,
@@ -8,7 +9,7 @@ interface Travel {
     days: number,
     dayId: string[],
     travelExpenseId: string[],
-    
+    activitieId: string[]
 }
 
 interface Activitie {
@@ -17,29 +18,71 @@ interface Activitie {
     day: number,
     startTime: string,
     endTime: string,
-    place: string,
-    details: string 
+    note: string 
 }
 
-function TravelItinerary(){
+function TravelItineraryForm(){
 
     const { idTravel, idActivitie } = useParams<{ idTravel: string, idActivitie: string }>();
-    const [ activitie, setActivitie ] = useState<Activitie>(
-        { id: undefined, name: "", day: 1, startTime: "00:00 AM", endTime: "00:00 PM", place: "", details: "" }
+    const [ travel, setTravel ] = useState<Travel>(
+        { id: undefined, name: "", days: 0, dayId: [], travelExpenseId: [],  activitieId: [] }
     );
+    const [ activitie, setActivitie ] = useState<Activitie>(
+        { id: undefined, name: "", day: 1, startTime: "00:00 AM", endTime: "00:00 PM", note: "" }
+    );
+    const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         setActivitie({...activitie, [e.target.name]: e.target.value});
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            if (idActivitie) {
+                await updateActivitie(activitie as Activitie, idActivitie as string);
+            } else {
+                const activitieValue = await createActivitie(activitie as Activitie);
+                await updateTravel({...travel, activitieId: [...travel.activitieId, activitieValue.data.id]} as Travel, idTravel as string);
+            }
+            navigate(`/travel/details/${idTravel}`)
+        } catch (error) {
+            console.error("Error submit on travel itinerary form", error)
+        }
+    };
+
+    const loadActivitie = async () => {
+        try {
+            const activitieValue = await getActivitieById(idActivitie as string);
+            setActivitie(activitieValue.data);
+        } catch (error) {
+            console.error("Error loading activitie on travel itinerary form ", error)
+        }
     }
 
-    const handleSubmit = () => {
-
+    const loadTravel = async () => {
+        try {
+            const travelValue = await getTravelById(idTravel as string);
+            setTravel(travelValue.data);
+        } catch (error) {
+            console.error("Error loading travel on travel itinerary form ", error)
+        }
     }
+    
+    useEffect(() => {
+        if(idActivitie){
+            loadActivitie();
+        }
+    }, [idActivitie])
+
+    useEffect(() => {
+        loadTravel();
+    }, [])
 
     return (
         <form onSubmit={handleSubmit}>
             <div>
-                <h3>{idActivitie ? "Add" : "Edit"} Activitie</h3>
+                <h3>{idActivitie ? "Edit" : "Create"} Activitie</h3>
             </div>
             <div>
                 <label htmlFor="name">Put the activitie's name</label>
@@ -49,7 +92,7 @@ function TravelItinerary(){
                 <label htmlFor="InputDay">Pick the activitie's day</label>
                 <select id="InputDay" name="day" onChange={handleChange}>
                     {
-                        Array.from({ length: activitie.day }, (item, i) => {
+                        Array.from({ length: travel.days }, (item, i) => {
                             const numberDay = i + 1;
                             return (
                                 <option key={numberDay} value={`${numberDay}º Day`}>{numberDay}º Day</option>
@@ -67,7 +110,7 @@ function TravelItinerary(){
                             const ampm = hour > 12 ? "PM" : "AM";
                             const displayHour = hour > 12 ? hour - 12 : hour;
                             return(
-                                <option key={i} value={hour}>
+                                <option key={i} value={`${displayHour}:00 ${ampm}`}>
                                     {displayHour}:00 {ampm}
                                 </option>
                             )
@@ -93,15 +136,11 @@ function TravelItinerary(){
                 </select>
             </div>
             <div>
-                <label htmlFor="InputPlace">Where is this activitie will happen</label>
-                <input id="InputPlace" name="place" type="text" value={activitie.place} onChange={handleChange} />
-                </div>
-            <div>
-                <label htmlFor="InputDetails">Type some notes about the activitie</label>
-                <textarea id="InputDetails" name="details" rows={3} cols={26} maxLength={84} onChange={handleChange} placeholder="Type here..."/>
+                <label htmlFor="InputNote">Type some notes about the activitie</label>
+                <textarea id="InputNote" name="note" style={{ resize: 'none', width: '300px', height: '30px' }} rows={3} cols={26} maxLength={80} placeholder="Type here..." onChange={handleChange} value={activitie.note}/>
             </div>
             <div>
-                <button>{idActivitie ? "Create activitie" :  "Save activitie changes"}</button>
+                <button>{idActivitie ? "Save activitie changes" :  "Create activitie"}</button>
             </div>
             <div>
                 <ComeBack url={`/travel/details/${idTravel}`}/>
@@ -109,4 +148,4 @@ function TravelItinerary(){
         </form>
     )
 }
-export default TravelItinerary;
+export default TravelItineraryForm;

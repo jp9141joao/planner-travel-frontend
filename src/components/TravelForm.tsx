@@ -48,14 +48,13 @@ function TravelForm(){
                         const response = await createDay(dayAux);
                         idAux = [...idAux, response.data.id];
                     }else if(lenDayValue > lenDayAux){
-                        const dayAux = await getTravelById(idTravel)
-                        const valueDay: string = idAux[dayAux.data.dayId.length - i];
+                        const valueDay: string = idAux[(await getTravelById(idTravel)).data.dayId.length - i];
                         const responseDay = await deleteDay(valueDay as string);
-                        await Promise.all(dayAux.data.airplaneExpenseId.map((idAirplaneExpense: string) => deleteAirplaneExpense(idAirplaneExpense as string)))
-                        await Promise.all(dayAux.data.transportationExpenseId.map((idTransportationExpense: string) => deleteTransportationExpense(idTransportationExpense as string)))
-                        await Promise.all(dayAux.data.foodExpenseId.map((idFoodExpense: string) => deleteFoodExpense(idFoodExpense as string)))
-                        await Promise.all(dayAux.data.attractionExpenseId.map((idAttractionExpense: string) => deleteAttractionExpense(idAttractionExpense as string)))
-                        await Promise.all(dayAux.data.accomodationExpenseId.map((idAccomodationExpense: string) => deleteAccomodationExpense(idAccomodationExpense as string)))
+                        await Promise.all(responseDay.data.airplaneExpenseId.map((idAirplaneExpense: string) => deleteAirplaneExpense(idAirplaneExpense as string)))
+                        await Promise.all(responseDay.data.transportationExpenseId.map((idTransportationExpense: string) => deleteTransportationExpense(idTransportationExpense as string)))
+                        await Promise.all(responseDay.data.foodExpenseId.map((idFoodExpense: string) => deleteFoodExpense(idFoodExpense as string)))
+                        await Promise.all(responseDay.data.attractionExpenseId.map((idAttractionExpense: string) => deleteAttractionExpense(idAttractionExpense as string)))
+                        await Promise.all(responseDay.data.accomodationExpenseId.map((idAccomodationExpense: string) => deleteAccomodationExpense(idAccomodationExpense as string)))
                         idAux = idAux.filter(item => item != responseDay.data.id);
                     }
                 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createDay, createTravel, deleteDay, getTravelById, updateTravel } from "../service/api";
+import { createDay, createTravel, deleteAccomodationExpense, deleteAirplaneExpense, deleteAttractionExpense, deleteDay, deleteFoodExpense, deleteTransportationExpense, getTravelById, updateTravel } from "../service/api";
 
 interface Travel {
     id: string | undefined,
@@ -48,9 +48,15 @@ function TravelForm(){
                         const response = await createDay(dayAux);
                         idAux = [...idAux, response.data.id];
                     }else if(lenDayValue > lenDayAux){
-                        const value: string = idAux[(await getTravelById(idTravel)).data.dayId.length - i];
-                        const respose = await deleteDay(value as string);
-                        idAux = idAux.filter(item => item != respose.data.id);
+                        const dayAux = await getTravelById(idTravel)
+                        const valueDay: string = idAux[dayAux.data.dayId.length - i];
+                        const responseDay = await deleteDay(valueDay as string);
+                        await Promise.all(dayAux.data.airplaneExpenseId.map((idAirplaneExpense: string) => deleteAirplaneExpense(idAirplaneExpense as string)))
+                        await Promise.all(dayAux.data.transportationExpenseId.map((idTransportationExpense: string) => deleteTransportationExpense(idTransportationExpense as string)))
+                        await Promise.all(dayAux.data.foodExpenseId.map((idFoodExpense: string) => deleteFoodExpense(idFoodExpense as string)))
+                        await Promise.all(dayAux.data.attractionExpenseId.map((idAttractionExpense: string) => deleteAttractionExpense(idAttractionExpense as string)))
+                        await Promise.all(dayAux.data.accomodationExpenseId.map((idAccomodationExpense: string) => deleteAccomodationExpense(idAccomodationExpense as string)))
+                        idAux = idAux.filter(item => item != responseDay.data.id);
                     }
                 }
                 await updateTravel({...travel, dayId: idAux} as Travel, idTravel as string);

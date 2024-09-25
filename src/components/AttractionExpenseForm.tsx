@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createAirplaneExpense, getAirplaneExpenseById, getDayById, updateAttractionExpense, updateDay } from "../service/api";
+import { createAttractionExpense, getAttractionExpenseById, getDayById, updateAttractionExpense, updateDay } from "../service/api";
 
 interface Day {
     id: string | undefined,
@@ -21,7 +21,7 @@ interface AttractionExpense {
     countryCurrency: string
 }
 
-function AirplaneExpenseForm(){
+function AttractionExpenseForm(){
     const { idTravel, idDay, idAttractionExpense } = useParams<{ 
         idTravel: string, 
         idDay: string, 
@@ -38,7 +38,7 @@ function AirplaneExpenseForm(){
         accomodationExpenseId: [] 
     });
 
-    const [ airplaneExpense, setAirplaneExpense ] = useState<AttractionExpense>({ 
+    const [ attractionExpense, setAttractionExpense ] = useState<AttractionExpense>({ 
         id: undefined, 
         name: "",
         type: "",
@@ -53,30 +53,30 @@ function AirplaneExpenseForm(){
         e.preventDefault();
         try {
             if (idAttractionExpense) {
-                await updateAttractionExpense(airplaneExpense as AttractionExpense, idAttractionExpense as string);
+                await updateAttractionExpense(attractionExpense as AttractionExpense, idAttractionExpense as string);
             } else {
-                const airplaneExpenseValue = await createAirplaneExpense(airplaneExpense as AirplaneExpense);
-                await updateDay({...day, airplaneExpenseId: [...day.airplaneExpenseId, airplaneExpenseValue.data.id]} as Day, idDay as string)
+                const attractionExpenseValue = await createAttractionExpense(attractionExpense as AttractionExpense);
+                await updateDay({...day, attractionExpenseId: [...day.attractionExpenseId, attractionExpenseValue.data.id]} as Day, idDay as string)
             }
             navigate(`/travel/${idTravel}/day/details/${idDay}`);
         } catch (error) {
-            console.error("Error submiting airplane expense on airplane expense form ", error)
+            console.error("Error submiting attraction expense on attraction expense form ", error)
         }
     };
 
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        setAirplaneExpense(
-            {...airplaneExpense, [e.target.name]: e.target.value}
+        setAttractionExpense(
+            {...attractionExpense, [e.target.name]: e.target.value}
         )
     };
 
-    const loadAirplaneExpense = async () => {
+    const loadAttractionExpense = async () => {
         try {
-            setAirplaneExpense(
-                ((await getAirplaneExpenseById(idAirplaneExpense as string))).data
+            setAttractionExpense(
+                ((await getAttractionExpenseById(idAttractionExpense as string))).data
             );
         } catch (error) {
-            console.error("Error loading airplane expense on airplace expense form ", error)
+            console.error("Error loading attraction expense on attraction expense form ", error)
         }
     };
 
@@ -86,15 +86,15 @@ function AirplaneExpenseForm(){
                 (await getDayById(idDay as string)).data
             );
         } catch (error) {
-            console.error("Error loading day on airplane expense form ", error);
+            console.error("Error loading day on attraction expense form ", error);
         }
     };
 
     useEffect(() => {
-        if (idAirplaneExpense) {
-            loadAirplaneExpense();
+        if (idAttractionExpense) {
+            loadAttractionExpense();
         }
-    }, [idAirplaneExpense])
+    }, [idAttractionExpense])
 
     useEffect(() => {
         loadDay();
@@ -103,54 +103,61 @@ function AirplaneExpenseForm(){
     return (
         <div>
             <div>
-                <h3>{idAirplaneExpense ? "Edit" : "Create"} Airplane Expense</h3>
+                <h3>{idAttractionExpense ? "Edit" : "Create"} attraction Expense</h3>
+                
             </div>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="InputAirline">
-                        Whatn is the airlinet: 
+                    <label htmlFor="InputName">
+                        What is the attraction name: 
                     </label>
                     <input 
-                        id="InputAirline" 
-                        name="airline" 
+                        id="InputName" 
+                        name="name" 
                         type="text" 
-                        value={airplaneExpense.airline}
+                        value={attractionExpense.name}
                         onChange={handleChange} 
                     />
                 </div>
                 <div>
-                    <label htmlFor="InputOrigin">
-                        Where is the flight origin:
+                    <label htmlFor="InputType">
+                        Select the attraction type: 
                     </label>
-                    <input 
-                        id="InputOrigin" 
-                        name="origin" 
-                        type="text" 
-                        value={airplaneExpense.origin} 
-                        onChange={handleChange} 
-                    />
+                    <select id="InputType" name="type" value={attractionExpense.type} onChange={handleChange}>
+                        <option value="Museum">Museum</option>
+                        <option value="Park">Park</option>
+                        <option value="Event">Event</option>
+                        <option value="Theater">Theater</option>
+                        <option value="Zoo">Zoo</option>
+                        <option value="Aquarium">Aquarium</option>
+                        <option value="Restaurant">Restaurant</option>
+                        <option value="Nature Place">Nature Reserve</option>
+                        <option value="Historical Place">Historical Site</option>
+                        <option value="Religious Place">Religious Site</option>
+                        <option value="Others">Others</option>
+                    </select>
                 </div>
                 <div>
-                    <label htmlFor="InputDestination">
-                        Where is the flight destination:
+                    <label htmlFor="InputDuration">
+                        What is the duration:
                     </label>
                     <input 
-                        id="InputDestination" 
-                        name="destination" 
-                        type="text" 
-                        value={airplaneExpense.destination} 
+                        id="InputDuration" 
+                        name="duration" 
+                        type="number" 
+                        value={attractionExpense.duration == 0 ? "" : attractionExpense.duration} 
                         onChange={handleChange} 
                     />
                 </div>
                 <div>
                     <label htmlFor="InputPrice">
-                        What is the flight price:
+                        What is the price:
                     </label>
                     <input 
                         id="InputPrice" 
                         name="price" 
                         type="number" 
-                        value={airplaneExpense.price == 0 ? "" : airplaneExpense.price} 
+                        value={attractionExpense.price == 0 ? "" : attractionExpense.price} 
                         onChange={handleChange} 
                     />
                 </div>
@@ -158,7 +165,7 @@ function AirplaneExpenseForm(){
                     <label htmlFor="InputCountryCurrency">
                         Select the country currency: 
                     </label>
-                    <select id="InptuCountryCurrency"  name="countryCurrency"  value={airplaneExpense.countryCurrency} onChange={handleChange}>
+                    <select id="InptuCountryCurrency"  name="countryCurrency"  value={attractionExpense.countryCurrency} onChange={handleChange}>
                         <option value="American Dollar">
                             American Dollar
                         </option>
@@ -180,11 +187,11 @@ function AirplaneExpenseForm(){
                     </select>
                 </div>
                 <div>
-                    <button type="submit">{idAirplaneExpense ? "Edit Expense" : "Create Expense"}</button>
+                    <button type="submit">{idAttractionExpense ? "Edit Expense" : "Create Expense"}</button>
                 </div>
             </form>            
         </div>
     )
 }
 
-export default AirplaneExpenseForm;
+export default AttractionExpenseForm;

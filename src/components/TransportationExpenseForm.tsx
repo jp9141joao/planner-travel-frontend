@@ -130,7 +130,7 @@ function TransportationExpenseForm(){
                 </div>
                 <div>
                     <label htmlFor="InputOrigin">
-                        Where is the flight origin:
+                        Where is the origin:
                     </label>
                     <input 
                         id="InputOrigin" 
@@ -142,7 +142,7 @@ function TransportationExpenseForm(){
                 </div>
                 <div>
                     <label htmlFor="InputDestination">
-                        Where is the flight destination:
+                        Where is the destination:
                     </label>
                     <input 
                         id="InputDestination" 
@@ -154,7 +154,7 @@ function TransportationExpenseForm(){
                 </div>
                 <div>
                     <label htmlFor="InputPrice">
-                        What is the flight price:
+                        What is the price:
                     </label>
                     <input 
                         id="InputPrice" 

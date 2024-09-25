@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { deleteAirplaneExpense, getAirplaneExpenseById, getDayById, updateDay } from "../service/api";
+import { deleteAccomodationExpense, deleteAirplaneExpense, getAccomodationExpenseById, getAirplaneExpenseById, getDayById, updateDay } from "../service/api";
 
 interface Day {
     id: string | undefined,
@@ -12,16 +12,16 @@ interface Day {
     accomodationExpenseId: string[]
 }
 
-interface AirplaneExpense {
+interface AccomodationExpense {
     id: string | undefined,
-    airline: string,
-    origin: string,
-    destination: string,
+    name: string,
+    time: number,
+    type: string,
     price: number,
     countryCurrency: string
 }
 
-function AirplaneExpenseList(){
+function AccomodationExpenseList(){
     
     const { idTravel, idDay } = useParams<{
         idTravel: string,
@@ -38,29 +38,29 @@ function AirplaneExpenseList(){
         accomodationExpenseId: [] 
     });
     
-    const [ airplaneExpense, setAirplaneExpense ] = useState<AirplaneExpense[]>(
+    const [ accomodationExpense, setAccomodationExpense ] = useState<AccomodationExpense[]>(
         []
     );
 
-    const handleDelete = async (idAirplaneExpense: string) => {
+    const handleDelete = async (idAccomodationExpense: string) => {
         try {
-            await deleteAirplaneExpense(idAirplaneExpense as string);
-            await updateDay({...day, airplaneExpenseId: day.airplaneExpenseId.filter(item => item != idAirplaneExpense)} as Day, idDay as string);
+            await deleteAccomodationExpense(idAccomodationExpense as string);
+            await updateDay({...day, accomodationExpenseId: day.accomodationExpenseId.filter(item => item != idAccomodationExpense)} as Day, idDay as string);
         } catch (error) {
-            console.error("Error deleting airplane expense on airplane expense list ", error);
+            console.error("Error deleting accomodation expense on accomodation expense list ", error);
         }
     }
 
-    const loadAirplaneExpense = async () => {
+    const loadAccomodationExpense = async () => {
         try {
-            const airplaneExpenseValue = await Promise.all(
-                day.airplaneExpenseId.map((id: string) => getAirplaneExpenseById(id as string))
+            const accomodationExpenseValue = await Promise.all(
+                day.accomodationExpenseId.map((id: string) => getAccomodationExpenseById(id as string))
             );
-            setAirplaneExpense(
-                airplaneExpenseValue.map(item => item.data)
+            setAccomodationExpense(
+                accomodationExpenseValue.map(item => item.data)
             );
         } catch (error) {
-            console.error("Error loading airplane expense on airplane expense list ", error)
+            console.error("Error loading accomodation expense on accomodation expense list ", error)
         }
     };
 
@@ -70,12 +70,12 @@ function AirplaneExpenseList(){
                 (await getDayById(idDay as string)).data
             );
         } catch (error) {
-            console.error("Error loading day on airplane expense list ", error)
+            console.error("Error loading day on accomodation expense list ", error)
         }
     }
 
     useEffect(() => {
-        loadAirplaneExpense();
+        loadAccomodationExpense();
     }, [day])
 
     useEffect(() => {
@@ -85,25 +85,25 @@ function AirplaneExpenseList(){
     return (
         <div>
             {
-                airplaneExpense.length > 0 ?
-                airplaneExpense.map(item => (
+                accomodationExpense.length > 0 ?
+                accomodationExpense.map(item => (
                     <p key={item.id}>
-                        Airline: {item.airline} | 
-                        Origin: {item.origin} |
-                        Destination: {item.destination} |
+                        Name: {item.name} | 
+                        Time: {item.time} days |
+                        Type: {item.type} |
                         Price: {item.price} |
                         Country Currency: {item.countryCurrency}
-                        <Link to={`/travel/${idTravel}/day/${idDay}/airplaneExpense/edit/${item.id}`}>
+                        <Link to={`/travel/${idTravel}/day/${idDay}/accomodationExpense/edit/${item.id}`}>
                             <button>Edit</button>
                         </Link>
                         <button onClick={() => handleDelete(String(item.id))}>
                             Delete
                         </button>
                     </p>
-                )) : <p>You don't have airplane expenses yet!</p>
+                )) : <p>You don't have accomodation expenses yet!</p>
             }
         </div>
     )
 }
 
-export default AirplaneExpenseList;
+export default AccomodationExpenseList;

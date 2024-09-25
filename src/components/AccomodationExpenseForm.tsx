@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createFoodExpense, getDayById, getFoodExpenseById, updateDay, updateFoodExpense } from "../service/api";
+import { createAccomodationExpense, getAccomodationExpenseById, getDayById, updateAccomodationExpense, updateDay } from "../service/api";
 
 interface Day {
     id: string | undefined,
@@ -12,20 +12,20 @@ interface Day {
     accomodationExpenseId: string[]
 }
 
-interface FoodExpense {
+interface AccomodationExpense {
     id: string | undefined,
     name: string,
+    time: number,
     type: string,
-    place: string,
     price: number,
     countryCurrency: string
 }
 
-function FoodExpenseForm(){
-    const { idTravel, idDay, idFoodExpense } = useParams<{ 
+function AccomodationExpenseForm(){
+    const { idTravel, idDay, idAccomodationExpense } = useParams<{ 
         idTravel: string, 
         idDay: string, 
-        idFoodExpense: string 
+        idAccomodationExpense: string 
     }>();
 
     const [ day, setDay ] = useState<Day>({ 
@@ -38,11 +38,11 @@ function FoodExpenseForm(){
         accomodationExpenseId: [] 
     });
 
-    const [ foodExpense, setFoodExpense ] = useState<FoodExpense>({ 
+    const [ accomodationExpense, setAccomodationExpense ] = useState<AccomodationExpense>({ 
         id: undefined, 
-        name: "",
+        name: "", 
+        time: 0, 
         type: "",
-        place: "",
         price: 0, 
         countryCurrency: ""
     });
@@ -52,31 +52,31 @@ function FoodExpenseForm(){
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            if (idFoodExpense) {
-                await updateFoodExpense(foodExpense as FoodExpense, idFoodExpense as string);
+            if (idAccomodationExpense) {
+                await updateAccomodationExpense(accomodationExpense as AccomodationExpense, idAccomodationExpense as string);
             } else {
-                const FoodExpenseValue = await createFoodExpense(foodExpense as FoodExpense);
-                await updateDay({...day, FoodExpenseId: [...day.foodExpenseId, FoodExpenseValue.data.id]} as Day, idDay as string)
+                const accomodationExpenseValue = await createAccomodationExpense(accomodationExpense as AccomodationExpense);
+                await updateDay({...day, AccomodationExpenseId: [...day.accomodationExpenseId, accomodationExpenseValue.data.id]} as Day, idDay as string)
             }
             navigate(`/travel/${idTravel}/day/details/${idDay}`);
         } catch (error) {
-            console.error("Error submiting food expense on food expense form ", error)
+            console.error("Error submiting accomodation expense on accomodation expense form ", error)
         }
     };
 
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        setFoodExpense(
-            {...foodExpense, [e.target.name]: e.target.value}
+        setAccomodationExpense(
+            {...accomodationExpense, [e.target.name]: e.target.value}
         )
     };
 
-    const loadFoodExpense = async () => {
+    const loadAccomodationExpense = async () => {
         try {
-            setFoodExpense(
-                ((await getFoodExpenseById(idFoodExpense as string))).data
+            setAccomodationExpense(
+                ((await getAccomodationExpenseById(idAccomodationExpense as string))).data
             );
         } catch (error) {
-            console.error("Error loading food expense on food expense form ", error)
+            console.error("Error loading accomodation expense on accomodation expense form ", error)
         }
     };
 
@@ -86,15 +86,15 @@ function FoodExpenseForm(){
                 (await getDayById(idDay as string)).data
             );
         } catch (error) {
-            console.error("Error loading day on food expense form ", error);
+            console.error("Error loading day on accomodation expense form ", error);
         }
     };
 
     useEffect(() => {
-        if (idFoodExpense) {
-            loadFoodExpense();
+        if (idAccomodationExpense) {
+            loadAccomodationExpense();
         }
-    }, [idFoodExpense])
+    }, [idAccomodationExpense])
 
     useEffect(() => {
         loadDay();
@@ -103,64 +103,64 @@ function FoodExpenseForm(){
     return (
         <div>
             <div>
-                <h3>{idFoodExpense ? "Edit" : "Create"} Food Expense</h3>
+                <h3>{idAccomodationExpense ? "Edit" : "Create"} accomodation Expense</h3>
             </div>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="InputName">
-                        What is the food name: 
+                        What is the accomodation name: 
                     </label>
                     <input 
                         id="InputName" 
                         name="name" 
                         type="text" 
-                        value={foodExpense.name}
+                        value={accomodationExpense.name}
+                        onChange={handleChange} 
+                    />
+                </div>
+                <div>
+                    <label htmlFor="InputTime">
+                        How long will you stay there: 
+                    </label>
+                    <input 
+                        id="InputTime" 
+                        name="time" 
+                        type="text" 
+                        value={accomodationExpense.time}
                         onChange={handleChange} 
                     />
                 </div>
                 <div>
                     <label htmlFor="InputType">
-                        Select the food type: 
+                        Select the accomodation type: 
                     </label>
-                    <select id="InptuType"  name="type"  value={foodExpense.type} onChange={handleChange}>
-                        <option value="Breakfast">
-                            Breakfast
+                    <select id="InputuType"  name="type"  value={accomodationExpense.type} onChange={handleChange}>
+                        <option value="Hotel">
+                            Hotel
                         </option>
-                        <option value="Lunch">
-                            Lunch
+                        <option value="Hostel">
+                            Hostel
                         </option>
-                        <option value="Dinner">
-                            Dinner
+                        <option value="Airbnb">
+                            Airbnb
                         </option>
-                        <option value="Brunch">
-                            Brunch
+                        <option value="Guesthouse">
+                            Guesthouse
                         </option>
-                        <option value="Snack">
-                            Snack
+                        <option value="Other">
+                            Other
                         </option>
                     </select>
                 </div>
                 <div>
-                    <label htmlFor="InputPlace">
-                        Where is the food place:
-                    </label>
-                    <input 
-                        id="InputPlace" 
-                        name="place" 
-                        type="text" 
-                        value={foodExpense.place} 
-                        onChange={handleChange} 
-                    />
-                </div>
-                <div>
                     <label htmlFor="InputPrice">
-                        What is the food price:
+                        What is the accomodation price:
                     </label>
                     <input 
                         id="InputPrice" 
-                        name="price" 
+                        name="price"
                         type="number" 
-                        value={foodExpense.price == 0 ? "" : foodExpense.price} 
+                        value={accomodationExpense.price == 0 ? "" : accomodationExpense.price} 
                         onChange={handleChange} 
                     />
                 </div>
@@ -168,7 +168,7 @@ function FoodExpenseForm(){
                     <label htmlFor="InputCountryCurrency">
                         Select the country currency: 
                     </label>
-                    <select id="InptuCountryCurrency"  name="countryCurrency"  value={foodExpense.countryCurrency} onChange={handleChange}>
+                    <select id="InptuCountryCurrency"  name="countryCurrency"  value={accomodationExpense.countryCurrency} onChange={handleChange}>
                         <option value="American Dollar">
                             American Dollar
                         </option>
@@ -190,11 +190,11 @@ function FoodExpenseForm(){
                     </select>
                 </div>
                 <div>
-                    <button type="submit">{idFoodExpense ? "Edit Expense" : "Create Expense"}</button>
+                    <button type="submit">{idAccomodationExpense ? "Edit Expense" : "Create Expense"}</button>
                 </div>
             </form>            
         </div>
     )
 }
 
-export default FoodExpenseForm;
+export default AccomodationExpenseForm;

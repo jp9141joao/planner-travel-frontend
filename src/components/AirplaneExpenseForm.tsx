@@ -108,7 +108,7 @@ function AirplaneExpenseForm(){
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="InputAirline">
-                        Whatn is the airlinet: 
+                        What is the airline: 
                     </label>
                     <input 
                         id="InputAirline" 

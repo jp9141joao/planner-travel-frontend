@@ -56,8 +56,7 @@ interface AttractionExpense {
 interface AccomodationExpense {
     id: string | undefined,
     name: string,
-    dateCheckIn: number,
-    dateCheckOut: number,
+    time: number,
     type: string,
     price: number,
     countryCurrency: string

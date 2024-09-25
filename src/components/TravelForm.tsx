@@ -7,14 +7,14 @@ interface Travel {
     name: string,
     days: number,
     dayId: string[],
-    travelExpenseId: string[]
+    activitieId: string[]
 }
 
 function TravelForm(){
 
     const { idTravel } = useParams<{idTravel: string}>();
     const [ travel, setTravel ] = useState<Travel>(
-        { id: undefined, name: "", days: 0, dayId: [], travelExpenseId: []}
+        { id: undefined, name: "", days: 0, dayId: [], activitieId: []}
     );
     const navigate = useNavigate();
 
@@ -36,7 +36,15 @@ function TravelForm(){
                 const lenDayAux = travel.days;
                 for(let i: number = 1; i <= Math.abs(lenDayValue - lenDayAux) ; i++){
                     if(lenDayValue < travel.days){
-                        const dayAux =  { id: undefined, number: Number(lenDayValue) + Number(i), dailyExpenseId: []}
+                        const dayAux =  { 
+                            id: undefined, 
+                            number: Number(lenDayValue) + Number(i), 
+                            airplaneExpenseId: [],
+                            transportationExpenseId: [],
+                            foodExpenseId: [],
+                            attractionExpenseId: [],
+                            accomodationExpenseId: []
+                        }
                         const response = await createDay(dayAux);
                         idAux = [...idAux, response.data.id];
                     }else if(lenDayValue > lenDayAux){
@@ -49,7 +57,15 @@ function TravelForm(){
             }else{
                 let idAux: string[] = [];
                 for(let i: number = 1; i <= travel.days; i++){
-                    const dayAux =  { id: undefined, number: i, dailyExpenseId: []};
+                    const dayAux =  { 
+                        id: undefined, 
+                        number: i, 
+                        airplaneExpenseId: [],
+                        transportationExpenseId: [],
+                        foodExpenseId: [],
+                        attractionExpenseId: [],
+                        accomodationExpenseId: []
+                    }
                     const response = await createDay(dayAux);
                     idAux = [...idAux, response.data.id];
                 }

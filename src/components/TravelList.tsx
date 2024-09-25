@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
-import { deleteDailyExpense, deleteDay, deleteTravel, deleteTravelExpense, getDayById, getTravel, getTravelById } from "../service/api";
+import { deleteAccomodationExpense, deleteActivitie, deleteAirplaneExpense, deleteAttractionExpense, deleteDay, deleteFoodExpense, deleteTransportationExpense, deleteTravel, getDayById, getTravel, getTravelById } from "../service/api";
 import { Link } from "react-router-dom";
 
 interface Travel {
-    id: string,
+    id: string | undefined,
     name: string,
     days: number,
     dayId: string[],
-    travelExpenseId: string[]
+    activitieId: string[]
 }
 
 function TravelList(){
@@ -32,16 +32,36 @@ function TravelList(){
         try{
             await Promise.all((await getTravelById(idTravel)).data.dayId.map( async (idDay: string) => {
                 const response = await getDayById(idDay);
-                if(response.data.dailyExpenseId.length > 0){
-                    await Promise.all((response.data.dailyExpenseId.id.map((idDailyExpense: string) => {
-                        deleteDailyExpense(idDailyExpense);
+                if(response.data.airplaneExpenseId.length > 0){
+                    await Promise.all((response.data.airplaneExpenseId.id.map((idAirplaneExpense: string) => {
+                        deleteAirplaneExpense(idAirplaneExpense as string);
+                    })));
+                }
+                if(response.data.transportationExpenseId.length > 0){
+                    await Promise.all((response.data.transportationExpenseId.id.map((idTransportationExpense: string) => {
+                        deleteTransportationExpense(idTransportationExpense as string);
+                    })));
+                }
+                if(response.data.foodExpenseId.length > 0){
+                    await Promise.all((response.data.foodExpenseId.id.map((idFoodExpense: string) => {
+                        deleteFoodExpense(idFoodExpense as string);
+                    })));
+                }
+                if(response.data.attractionExpenseId.length > 0){
+                    await Promise.all((response.data.attractionExpenseId.id.map((idAttractionExpense: string) => {
+                        deleteAttractionExpense(idAttractionExpense as string);
+                    })))
+                }
+                if(response.data.accomodationExpenseId.length > 0){
+                    await Promise.all((response.data.accomodationExpenseId.id.map((idAccomodationExpense: string) => {
+                        deleteAccomodationExpense(idAccomodationExpense as string);
                     })))
                 }
                 deleteDay(idDay as string);
             }));
             
             if((await getTravelById(idTravel)).data.travelExpenseId.length > 0){
-                await Promise.all((await getTravelById(idTravel)).data.travelExpenseId.map((id: string) => deleteTravelExpense(id as string)));
+                await Promise.all((await getTravelById(idTravel)).data.activitieId.map((idActivitie: string) => deleteActivitie(idActivitie as string)));
             }
             
             await deleteTravel(idTravel as string);
@@ -76,7 +96,7 @@ function TravelList(){
                             <div>
                                 <button><Link to={`/travel/details/${item.id}`}>Acess trip</Link></button>
                                 <button><Link to={`/travel/edit/${item.id}`}>Edit trip</Link></button>
-                                <button onClick={() => handleDelete(item.id)}>Delete trip</button>
+                                <button onClick={() => handleDelete(String(item.id))}>Delete trip</button>
                             </div>
                         </div>
                     )) : <p>You don't have travels yet</p>

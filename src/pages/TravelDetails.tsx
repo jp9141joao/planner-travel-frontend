@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { getTravelById } from "../service/api"
-import TravelExpensesList from "../components/TravelExpenseList";
 import DaysTravelPrint from "../components/DaysTravelPrint";
 import ComeBack from "../components/ComeBack";
 import TravelItineraryList from "../components/TravelItineraryList";
@@ -11,16 +10,15 @@ interface Travel {
     name: string,
     days: number,
     dayId: string[],
-    travelExpenseId: string[]
+    activitieId: string[]
 }
 
 function TravelDetails(){
 
     const { idTravel } = useParams<{ idTravel: string }>();
     const [ travel, setTravel ] = useState<Travel>(
-        { id: undefined, name: "", days: 0 ,dayId: [], travelExpenseId: [] }
+        { id: undefined, name: "", days: 0 ,dayId: [], activitieId: [] }
     );
-    const [showTravelExpense, setShowTravelExpense] = useState<boolean>(false);
     const [showDay, setShowDay] = useState<boolean>(false);
     const [showItinerary, setShowItinerary] = useState<boolean>(false);
 
@@ -42,21 +40,6 @@ function TravelDetails(){
             <div>
                 <h1>{travel.name}</h1>
                 <p>Let's planning your travel</p>
-            </div>
-            <div>
-                <h3>Your Expenses Preview</h3>
-                {
-                    showTravelExpense ?
-                    <div>
-                        <TravelExpensesList/>
-                        <Link to={`/travel/${idTravel}/travelExpense/add`}>
-                            <button>Add travel expense</button>
-                        </Link>
-                    </div> : null
-                }
-                <div>
-                    <button onClick={() => setShowTravelExpense(!showTravelExpense)}>{ showTravelExpense ? "Hide expenses" : "Show expenses"}</button>
-                </div>
             </div>
             <div>
                 <h3>Days Travel</h3>

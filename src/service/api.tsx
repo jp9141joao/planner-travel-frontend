@@ -48,6 +48,7 @@ interface AttractionExpense {
     id: string | undefined,
     name: string,
     type: string,
+    duration: number,
     price: number,
     countryCurrency: string
 }

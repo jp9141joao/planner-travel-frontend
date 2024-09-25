@@ -60,7 +60,7 @@ function FoodExpenseForm(){
             }
             navigate(`/travel/${idTravel}/day/details/${idDay}`);
         } catch (error) {
-            console.error("Error submiting Food expense on Food expense form ", error)
+            console.error("Error submiting food expense on food expense form ", error)
         }
     };
 
@@ -86,7 +86,7 @@ function FoodExpenseForm(){
                 (await getDayById(idDay as string)).data
             );
         } catch (error) {
-            console.error("Error loading day on airplane expense form ", error);
+            console.error("Error loading day on food expense form ", error);
         }
     };
 
@@ -103,7 +103,7 @@ function FoodExpenseForm(){
     return (
         <div>
             <div>
-                <h3>{idFoodExpense ? "Edit Expense" : "Create Expense"} Food Expense</h3>
+                <h3>{idFoodExpense ? "Edit" : "Create"} Food Expense</h3>
             </div>
             <form onSubmit={handleSubmit}>
                 <div>

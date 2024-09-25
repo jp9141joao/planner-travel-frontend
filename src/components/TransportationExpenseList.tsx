@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { deleteTransportationExpense, getAirplaneExpense, getAirplaneExpenseById, getDay, getDayById, getTransportationExpenseById, updateAirplaneExpense, updateDay } from "../service/api";
+import { deleteTransportationExpense, getDayById, getTransportationExpenseById, updateDay } from "../service/api";
 
 interface Day {
     id: string | undefined,
@@ -70,7 +70,7 @@ function TransportationExpenseList(){
                 (await getDayById(idDay as string)).data
             );
         } catch (error) {
-            console.error("Error loading day on airplane expense list ", error)
+            console.error("Error loading day on transportation expense list ", error)
         }
     }
 

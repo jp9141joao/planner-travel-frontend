@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createAirplaneExpense, createTransportationExpense, getAirplaneExpenseById, getDayById, getTransportationExpenseById, updateAirplaneExpense, updateDay, updateTransportationExpense } from "../service/api";
+import { createTransportationExpense, getDayById, getTransportationExpenseById, updateDay, updateTransportationExpense } from "../service/api";
 
 interface Day {
     id: string | undefined,
@@ -70,7 +70,7 @@ function TransportationExpenseForm(){
         )
     };
 
-    const loadAirplaneExpense = async () => {
+    const loadTransportationExpense = async () => {
         try {
             setTransportationExpense(
                 ((await getTransportationExpenseById(idTransportationExpense as string))).data
@@ -86,13 +86,13 @@ function TransportationExpenseForm(){
                 (await getDayById(idDay as string)).data
             );
         } catch (error) {
-            console.error("Error loading day on airplane expense form ", error);
+            console.error("Error loading day on transportation expense form ", error);
         }
     };
 
     useEffect(() => {
         if (idTransportationExpense) {
-            loadAirplaneExpense();
+            loadTransportationExpense();
         }
     }, [idTransportationExpense])
 
@@ -103,14 +103,14 @@ function TransportationExpenseForm(){
     return (
         <div>
             <div>
-                <h3>{idTransportationExpense ? "Edit Expense" : "Create Expense"} transportation Expense</h3>
+                <h3>{idTransportationExpense ? "Edit" : "Create"} transportation Expense</h3>
             </div>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="InputTransportation">
+                    <label htmlFor="InputType">
                         Select the transportation type: 
                     </label>
-                    <select id="InptuTransportation"  name="transportation"  value={transportationExpense.type} onChange={handleChange}>
+                    <select id="InptuType"  name="type"  value={transportationExpense.type} onChange={handleChange}>
                         <option value="Taxi">
                             Taxi
                         </option>

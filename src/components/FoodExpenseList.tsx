@@ -70,7 +70,7 @@ function FoodExpenseList(){
                 (await getDayById(idDay as string)).data
             );
         } catch (error) {
-            console.error("Error loading day on airplane expense list ", error)
+            console.error("Error loading day on food expense list ", error)
         }
     }
 

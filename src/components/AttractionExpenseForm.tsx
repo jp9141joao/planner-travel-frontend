@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createAirplaneExpense, getAirplaneExpenseById, getDayById, updateAirplaneExpense, updateDay } from "../service/api";
+import { createAirplaneExpense, getAirplaneExpenseById, getDayById, updateAttractionExpense, updateDay } from "../service/api";
 
 interface Day {
     id: string | undefined,
@@ -12,20 +12,20 @@ interface Day {
     accomodationExpenseId: string[]
 }
 
-interface AirplaneExpense {
+interface AttractionExpense {
     id: string | undefined,
-    airline: string,
-    origin: string,
-    destination: string,
+    name: string,
+    type: string,
+    duration: number,
     price: number,
     countryCurrency: string
 }
 
 function AirplaneExpenseForm(){
-    const { idTravel, idDay, idAirplaneExpense } = useParams<{ 
+    const { idTravel, idDay, idAttractionExpense } = useParams<{ 
         idTravel: string, 
         idDay: string, 
-        idAirplaneExpense: string 
+        idAttractionExpense: string 
     }>();
 
     const [ day, setDay ] = useState<Day>({ 
@@ -38,12 +38,12 @@ function AirplaneExpenseForm(){
         accomodationExpenseId: [] 
     });
 
-    const [ airplaneExpense, setAirplaneExpense ] = useState<AirplaneExpense>({ 
+    const [ airplaneExpense, setAirplaneExpense ] = useState<AttractionExpense>({ 
         id: undefined, 
-        airline: "", 
-        origin: "", 
-        destination: "", 
-        price: 0, 
+        name: "",
+        type: "",
+        duration: 0,
+        price: 0,
         countryCurrency: ""
     });
 
@@ -52,8 +52,8 @@ function AirplaneExpenseForm(){
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            if (idAirplaneExpense) {
-                await updateAirplaneExpense(airplaneExpense as AirplaneExpense, idAirplaneExpense as string);
+            if (idAttractionExpense) {
+                await updateAttractionExpense(airplaneExpense as AttractionExpense, idAttractionExpense as string);
             } else {
                 const airplaneExpenseValue = await createAirplaneExpense(airplaneExpense as AirplaneExpense);
                 await updateDay({...day, airplaneExpenseId: [...day.airplaneExpenseId, airplaneExpenseValue.data.id]} as Day, idDay as string)
@@ -148,7 +148,7 @@ function AirplaneExpenseForm(){
                     </label>
                     <input 
                         id="InputPrice" 
-                        name="price"
+                        name="price" 
                         type="number" 
                         value={airplaneExpense.price == 0 ? "" : airplaneExpense.price} 
                         onChange={handleChange} 

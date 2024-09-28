@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { deleteAirplaneExpense, deleteAttractionExpense, getAirplaneExpenseById, getAttractionExpenseById, getDayById, updateDay } from "../service/api";
+import { deleteAttractionExpense, getAttractionExpenseById, getDayById, updateDay } from "../service/api";
 
 interface Day {
     id: string | undefined,

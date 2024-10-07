@@ -14,7 +14,7 @@ export default function HomePage(){
                     <span className="block">Let's planning</span>
                     <span className="block">your travel</span>
                   </h1>
-                  <div className="flex mt-6 gap-3">
+                  <div className="flex gap-3">
                     <Button>Place suggestions</Button>
                     <Button variant={"outline"}>I know where to go</Button>
                   </div>

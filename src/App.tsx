@@ -15,7 +15,7 @@ function App() {
   return (
       <Router>
         <Routes>
-          <Route path="/" element={<Navigate to={'/homePtrr5thrthage'}/>}/>
+          <Route path="/" element={<Navigate to={'/homePage'}/>}/>
           <Route path="/homePage" element={<HomePage/>}/>
           <Route path="/travel/add" element={<AddTravel/>}/>
           <Route path="/travel/details/:idTravel" element={<TravelDetails/>}/>

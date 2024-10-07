@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Dialog } from '@headlessui/react';
+import { Button } from "@/components/ui/button";
 
 const navigation = [
     { name: 'Home', href: '/home' },
@@ -17,7 +18,7 @@ export default function NavBar() {
         <header className="absolute inset-x-0 top-0 z-50">
             <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
                 <div className="flex lg:flex-1">
-                    <Link to="/" className="-m-1 p-1">
+                    <Link to="/" className="-m-2.5 p-2.5">
                         <h1 className="text-sm font-semibold leading-6 text-gray-900 lg:text-md xl:text-lg" >
                             Easy Trip
                         </h1>
@@ -77,14 +78,7 @@ export default function NavBar() {
                                     </Link>
                                 ))}
                             </div>
-                            <div className="py-6">
-                                <Link
-                                    to="#"
-                                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                                >
-                                    Log in
-                                </Link>
-                            </div>
+                            
                         </div>
                     </div>
                 </Dialog.Panel>

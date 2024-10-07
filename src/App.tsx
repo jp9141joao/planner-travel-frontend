@@ -1,5 +1,4 @@
 import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Home from "./pages/Home";
 import TravelDetails from "./pages/TravelDetails";
 import EditTravel from "./pages/EditTravel";
 import AddTravel from "./pages/AddTravel";
@@ -9,14 +8,15 @@ import DayDetails from "./pages/DayDetails";
 //import AddDailyExpense from "./pages/AddDailyExpense";
 import TravelItineraryForm from "./components/TravelItineraryForm";
 import SignIn from "./components/login/signin/page";
+import HomePage from "./pages/Home/HomePage";
 
 function App() {
 
   return (
       <Router>
         <Routes>
-          <Route path="/" element={<Navigate to={'/home'}/>}/>
-          <Route path="/home" element={<SignIn/>}/>
+          <Route path="/" element={<Navigate to={'/homePtrr5thrthage'}/>}/>
+          <Route path="/homePage" element={<HomePage/>}/>
           <Route path="/travel/add" element={<AddTravel/>}/>
           <Route path="/travel/details/:idTravel" element={<TravelDetails/>}/>
           <Route path="/travel/edit/:idTravel" element={<EditTravel/>}/>

@@ -53,8 +53,8 @@ export default {
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
   			},
-			'color-purple': '#6c64fb',
-			'hover-color-purple': '#7a70f0'
+			'color-blue': '#00B0FF',
+			'hover-color-blue': '#33C3FF'
   		}
   	}
   },

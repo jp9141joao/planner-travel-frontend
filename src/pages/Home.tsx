@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import TravelList from "../components/TravelList";
 
-function Home(){
+function HomeX(){
     
     return (
         <div>
@@ -17,4 +17,4 @@ function Home(){
     )
 }
 
-export default Home;
+export default HomeX;

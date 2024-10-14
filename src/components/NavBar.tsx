@@ -1,8 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
+import { MoveRight } from 'lucide-react';
+import { AlignJustify } from 'lucide-react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Dialog } from '@headlessui/react';
 import { Button } from "@/components/ui/button";
+import { Item } from "@radix-ui/react-menubar";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 
 const navigation = [
     { name: 'Home', href: '/home' },
@@ -12,10 +16,93 @@ const navigation = [
 ];
 
 export default function NavBar() {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const { 
+        idProfile, 
+        idTravel, 
+        idExpense, 
+        idItinerary, 
+        idToDoList 
+    } = useParams<{
+        idProfile: string, 
+        idTravel: string, 
+        idExpense: string, 
+        idItinerary: string, 
+        idToDoList: string
+    }>()
+
+    
 
     return (
-        <header className="absolute inset-x-0 top-0 z-50">
+        <header className="top-0 font-semibold">
+            <nav className="flex items-center justify-between mt-3 mx-5">
+                <div className="flex">
+                    <Link to={"/home"}>
+                        <h1 className="text-sm lg:text-lg xl:text-xl">
+                            Easy Trip
+                        </h1>
+                    </Link>
+                </div>
+                <div className="hidden md:flex gap-14">
+                    {
+                        navigation.map((Item) => (
+                            <Link key={Item.name} to={Item.href}>
+                                <h1 className="text-sm lg:text-lg xl:text-xl hover:translate-y-1 transition-all">
+                                    {Item.name}
+                                </h1>
+                            </Link>
+                        ))
+                    }
+                </div>
+                <div className="hidden md:flex">
+                    <Link to={"/login"}>
+                        <h1 className="flex text-sm lg:text-lg xl:text-xl gap-2">
+                            Login
+                            <MoveRight className="lg:mt-1"/>
+                        </h1>
+                    </Link>
+                </div>
+                <div className="flex md:hidden">
+                <Sheet>
+                    <SheetTrigger>
+                        <AlignJustify/>
+                    </SheetTrigger>
+                    <SheetContent>
+                        <SheetHeader>
+                        <SheetTitle>Easy Trip</SheetTitle>
+                        <SheetDescription>
+                            <div>
+                            {
+                                navigation.map((Item) => (
+                                    <Link key={Item.name} to={Item.href}>
+                                        <h1 className="text-sm lg:text-lg xl:text-xl hover:translate-x-1 transition-all mt-3">
+                                            {Item.name}
+                                        </h1>
+                                    </Link>
+                                ))
+                            }
+                            </div>
+                            <div>
+                            <Link to={"/login"}>
+                                <h1 className="flex text-sm lg:text-lg xl:text-xl gap-2 mt-6">
+                                    <strong>Login</strong>
+                                    <MoveRight className="lg:mt-1"/>
+                                </h1>
+                            </Link>
+                            </div>
+                        </SheetDescription>
+                        </SheetHeader>
+                    </SheetContent>
+                </Sheet>
+
+                </div>
+            </nav>
+        </header>
+    
+    );
+}
+
+{/*
+    <header className="absolute inset-x-0 top-0 z-50">
             <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
                 <div className="flex lg:flex-1">
                     <Link to="/" className="-m-2.5 p-2.5">
@@ -83,6 +170,5 @@ export default function NavBar() {
                     </div>
                 </Dialog.Panel>
             </Dialog>
-        </header>
-    );
-}
+        </header>    
+    */}

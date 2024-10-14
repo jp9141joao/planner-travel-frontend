@@ -55,7 +55,8 @@ export default {
   			},
 			'color-body-gray': '#f3f4f6',
 			'color-orange': '#FF7F50',
-			'hover-color-orange': '#FF9F73'
+			'hover-color-orange': '#FF9F73',
+			'hover-move': 'mt-10'
   		}
   	}
   },

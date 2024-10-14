@@ -6,7 +6,9 @@ export default function HomePage(){
     return (
       <>
           <NavBar />
-          <div className="relative isolate mt-20 justify-center px-6 pt-14 lg:px-8">
+          {
+            /*
+            <div className="relative isolate mt-20 justify-center px-6 pt-14 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2">
               <div className="flex flex-col justify-center items-start">
                 <div className="ml-48">
@@ -25,6 +27,8 @@ export default function HomePage(){
               </div>
             </div>
           </div>
+            */
+          }
       </>
     )
 }

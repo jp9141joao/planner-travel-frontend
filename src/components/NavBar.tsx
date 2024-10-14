@@ -35,7 +35,7 @@ export default function NavBar() {
     return (
         <header className="top-0 font-semibold">
             <nav className="flex items-center justify-between mt-3 mx-5">
-                <div className="flex">
+                <div className="flex justify-start">
                     <Link to={"/home"}>
                         <h1 className="text-sm lg:text-lg xl:text-xl">
                             Easy Trip
@@ -55,45 +55,42 @@ export default function NavBar() {
                 </div>
                 <div className="hidden md:flex">
                     <Link to={"/login"}>
-                        <h1 className="flex text-sm lg:text-lg xl:text-xl gap-2">
+                        <h1 className="flex text-sm lg:text-lg xl:text-xl gap-2 hover:translate-x-1 transition-all">
                             Login
                             <MoveRight className="lg:mt-1"/>
                         </h1>
                     </Link>
                 </div>
                 <div className="flex md:hidden">
-                <Sheet>
-                    <SheetTrigger>
-                        <AlignJustify/>
-                    </SheetTrigger>
-                    <SheetContent>
-                        <SheetHeader>
-                        <SheetTitle>Easy Trip</SheetTitle>
-                        <SheetDescription>
-                            <div>
-                            {
-                                navigation.map((Item) => (
-                                    <Link key={Item.name} to={Item.href}>
-                                        <h1 className="text-sm lg:text-lg xl:text-xl hover:translate-x-1 transition-all mt-3">
-                                            {Item.name}
+                    <Sheet>
+                        <SheetTrigger>
+                            <AlignJustify/>
+                        </SheetTrigger>
+                        <SheetContent>
+                            <SheetHeader>
+                            <SheetTitle>Easy Trip</SheetTitle>
+                            <SheetDescription className="flex text-left text-lg">
+                                <div>
+                                    {
+                                        navigation.map((Item) => (
+                                            <Link key={Item.name} to={Item.href}>
+                                                <h1 className="hover:translate-x-2 transition-all mt-3">
+                                                    {Item.name}
+                                                </h1>
+                                            </Link>
+                                        ))
+                                    }
+                                    <Link to={"/login"}>
+                                        <h1 className="flex gap-2 mt-6 hover:translate-x-2 transition-all">
+                                            <strong>Login</strong>
+                                            <MoveRight className="mt-1"/>
                                         </h1>
                                     </Link>
-                                ))
-                            }
-                            </div>
-                            <div>
-                            <Link to={"/login"}>
-                                <h1 className="flex text-sm lg:text-lg xl:text-xl gap-2 mt-6">
-                                    <strong>Login</strong>
-                                    <MoveRight className="lg:mt-1"/>
-                                </h1>
-                            </Link>
-                            </div>
-                        </SheetDescription>
-                        </SheetHeader>
-                    </SheetContent>
-                </Sheet>
-
+                                </div>
+                            </SheetDescription>
+                            </SheetHeader>
+                        </SheetContent>
+                    </Sheet>
                 </div>
             </nav>
         </header>

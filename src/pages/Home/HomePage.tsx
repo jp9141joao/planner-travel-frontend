@@ -12,7 +12,7 @@ export default function HomePage(){
         </div>
         <div className="grid place-items-center h-screen">
           <div className="grid grid-cols-1 2xl:grid-cols-2 2xl:mx-16">
-            <div className='grid place-items-center 2xl:mb-28 xl:my-20 lg:my-'>
+            <div className='grid place-items-center 2xl:mb-28 xl:my-20'>
               <div className='text-center 2xl:text-start'>
                 <div>
                   <h1 className="flex 2xl:block text-gray-900 tracking-tight 2xl:text-8xl xl:text-7xl lg:text-6xl">

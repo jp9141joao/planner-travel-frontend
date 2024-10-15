@@ -13,6 +13,7 @@ const navigation = [
     { name: 'Expenses', href: '/expenses' },
     { name: 'Itinerary', href: '/itinerary' },
     { name: 'To do list', href: '/toDoList' },
+    { name: 'My piggy bank', href: '/myPiggyBank' }
 ];
 
 export default function NavBar() {
@@ -37,31 +38,31 @@ export default function NavBar() {
             <nav className="flex items-center justify-between mt-3 mx-5">
                 <div className="flex justify-start">
                     <Link to={"/home"}>
-                        <h1 className="text-sm lg:text-lg xl:text-xl">
+                        <h1 className="text-md lg:text-lg xl:text-xl">
                             Easy Trip
                         </h1>
                     </Link>
                 </div>
-                <div className="hidden md:flex gap-14">
+                <div className="hidden 2xl:flex xl:gap-14 lg:gap-12 md:gap-6">
                     {
                         navigation.map((Item) => (
                             <Link key={Item.name} to={Item.href}>
-                                <h1 className="text-sm lg:text-lg xl:text-xl hover:translate-y-1 transition-all">
+                                <h1 className="text-md xl:text-xl hover:translate-y-1 transition-all">
                                     {Item.name}
                                 </h1>
                             </Link>
                         ))
                     }
                 </div>
-                <div className="hidden md:flex">
+                <div className="hidden 2xl:flex">
                     <Link to={"/login"}>
-                        <h1 className="flex text-sm lg:text-lg xl:text-xl gap-2 hover:translate-x-1 transition-all">
+                        <h1 className="flex text-md xl:text-xl gap-2 hover:translate-x-1 transition-all">
                             Login
                             <MoveRight className="lg:mt-1"/>
                         </h1>
                     </Link>
                 </div>
-                <div className="flex md:hidden">
+                <div className="flex 2xl:hidden">
                     <Sheet>
                         <SheetTrigger>
                             <AlignJustify/>

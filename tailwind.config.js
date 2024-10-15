@@ -53,10 +53,10 @@ export default {
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
   			},
-			'color-body-gray': '#f3f4f6',
+			'color-body-gray': '#f7f8fa',
 			'color-orange': '#FF7F50',
 			'hover-color-orange': '#FF9F73',
-			'hover-move': 'mt-10'
+			'hover-color-gray': '#e5e5e5'
   		}
   	}
   },

@@ -1,11 +1,7 @@
-import { useState } from "react";
-import { Link, Outlet, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { MoveRight } from 'lucide-react';
 import { AlignJustify } from 'lucide-react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Dialog } from '@headlessui/react';
-import { Button } from "@/components/ui/button";
-import { Item } from "@radix-ui/react-menubar";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 
 const navigation = [
@@ -18,20 +14,46 @@ const navigation = [
 
 export default function NavBar() {
     const { 
-        idProfile, 
         idTravel, 
         idExpense, 
         idItinerary, 
-        idToDoList 
+        idToDoList,
+        idMyPiggyBank
     } = useParams<{
         idProfile: string, 
         idTravel: string, 
         idExpense: string, 
         idItinerary: string, 
-        idToDoList: string
+        idToDoList: string,
+        idMyPiggyBank: string
     }>()
 
-    
+    const [active, setActive] = useState<number>(0);
+
+    function isActive(name: string){
+        /*name == navigation[navigation.findIndex(item => item.name = name)].name && */
+        if (active == navigation.findIndex(item => item.name = name)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    useEffect(() => {
+        if (idExpense != undefined) {
+            setActive(0);
+        } else if (idItinerary != undefined) {
+            setActive(1);
+        } else if (idToDoList != undefined) {
+            setActive(2);
+        } else if (idMyPiggyBank != undefined) {
+            setActive(3);
+        } else if (idTravel != undefined) {
+            setActive(4);
+        } else {
+            setActive(5);                     
+        }
+    },[idTravel, idExpense, idItinerary, idToDoList, idMyPiggyBank])
 
     return (
         <header className="top-0 font-semibold">
@@ -45,10 +67,10 @@ export default function NavBar() {
                 </div>
                 <div className="hidden 2xl:flex xl:gap-14 lg:gap-12 md:gap-6">
                     {
-                        navigation.map((Item) => (
-                            <Link key={Item.name} to={Item.href}>
-                                <h1 className="text-md xl:text-xl hover:translate-y-1 transition-all">
-                                    {Item.name}
+                        navigation.map((item) => (
+                            <Link key={item.name} to={item.href}>
+                                <h1 className={`text-md xl:text-xl hover:translate-y-1 transition-all ${isActive(item.name) ? 'underline' : ''}`}>
+                                    {item.name}
                                 </h1>
                             </Link>
                         ))
@@ -73,10 +95,10 @@ export default function NavBar() {
                             <SheetDescription className="flex text-left text-lg">
                                 <div>
                                     {
-                                        navigation.map((Item) => (
-                                            <Link key={Item.name} to={Item.href}>
-                                                <h1 className="hover:translate-x-2 transition-all mt-3">
-                                                    {Item.name}
+                                        navigation.map((item) => (
+                                            <Link key={item.name} to={item.href}>
+                                                <h1 className={`hover:-translate-y-1 transition-all mt-3 ${isActive(item.name) ? 'underline' : ''}`}>
+                                                    {item.name}
                                                 </h1>
                                             </Link>
                                         ))

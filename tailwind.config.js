@@ -7,10 +7,24 @@ export default {
   ],
   theme: {
   	extend: {
+		screens: {
+			'xs': '450px',
+			'xxs': '430px',
+			'xxs2': '410px',
+			'xxs3': '390px',
+			'xxs4': '370px',
+			'xxs5': '350px',
+			'xxs6': '330px',
+			'xxs7': '310px',
+			'xxs8': '290px',
+			'xxs9': '270px',
+			'xxs10': '250px',
+			'xxs11': '230px'
+		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
+  			sm: 'calc(var(--radius) - 4px)',
   		},
   		colors: {
   			background: 'hsl(var(--background))',

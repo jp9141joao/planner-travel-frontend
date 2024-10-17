@@ -8,20 +8,21 @@ import DayDetails from "./pages/DayDetails";
 //import AddDailyExpense from "./pages/AddDailyExpense";
 import TravelItineraryForm from "./components/TravelItineraryForm";
 import SignIn from "./components/login/signin/page";
-import HomePage from "./pages/Home/HomePage";
+import Home from "./pages/Home"
 
 function App() {
 
   return (
       <Router>
         <Routes>
-          <Route path="/" element={<Navigate to={'/homePage'}/>}/>
-          <Route path="/homePage" element={<HomePage/>}/>
+          <Route path="/" element={<Navigate to={'/home'}/>}/>
+          <Route path="/home" element={<Home/>}/>
           <Route path="/travel/add" element={<AddTravel/>}/>
           <Route path="/travel/details/:idTravel" element={<TravelDetails/>}/>
           <Route path="/travel/edit/:idTravel" element={<EditTravel/>}/>
           <Route path="/travel/:idTravel/day/details/:idDay" element={<DayDetails/>}/>
           {/*
+          <Route path="*" element={<PageNotFound />} />
           <Route path="/travel/:idTravel/travelExpense/add" element={<AddTravelExpense/>}/>
           <Route path="/travel/:idTravel/travelExpense/edit/:idTravelExpense" element={<EditTravelExpense/>}/>
           <Route path="/travel/:idTravel/day/:idDay/dailyExpense/add" element={<AddDailyExpense/>}/>

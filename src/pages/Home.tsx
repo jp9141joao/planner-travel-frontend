@@ -3,7 +3,7 @@ import Image from "@/assets/undraw_outdoor_adventure_re_j3b7.svg"
 import { Button } from "@/components/ui/button";
 import Credits from '@/components/Credits';
 
-export default function HomePage(){
+export default function Home(){
     return (
       <>
         <div className="flex flex-col min-h-screen">
@@ -31,10 +31,10 @@ export default function HomePage(){
                     </p>
                   </div>
                   <div className="grid xxs11:gap-y-2 xxs9:gap-y-3 xxs7:gap-y-4 xs:flex xxs11:mt-3 xs:mt-1 sm:mt-2 2xl:mt-4 gap-5 sm:justify-center 2xl:justify-start">
-                    <Button size={"auto"}>
+                    <Button size={"auto"} className="hover:-translate-y-1 transition-all">
                       Place suggestions
                     </Button>
-                    <Button size={"auto"} variant={"outline"}>
+                    <Button size={"auto"} className="hover:-translate-y-1 transition-all" variant={"outline"}>
                       I know where to go
                     </Button>
                   </div>

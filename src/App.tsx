@@ -7,7 +7,7 @@ import AddTravel from "./pages/AddTravel";
 import DayDetails from "./pages/DayDetails";
 //import AddDailyExpense from "./pages/AddDailyExpense";
 import TravelItineraryForm from "./components/TravelItineraryForm";
-import SignIn from "./components/login/signin/page";
+import SignIn from "./components/login/SignIn";
 import Login from "./pages/Login";
 import Home from "./pages/Home"
 

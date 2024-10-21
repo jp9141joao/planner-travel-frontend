@@ -1,18 +1,27 @@
 import NavBar from "@/components/NavBar"
 import Credits from '@/components/Credits';
-import SignIn from "@/components/login/signin/page";
+import SignIn from "@/components/login/SignIn";
+import { Link } from "react-router-dom";
+import { MoveLeft } from "lucide-react";
+import SignUp from "@/components/login/SignUp";
 
 export default function Login(){
 
     return (
         <>
-            <div className="hidden">
-                <NavBar/>
+            <div className="top-0 font-semibold mt-3 mb-20 ml-5" style={{display: 'inline-flex'}}>
+                <Link to={"/home"}>
+                    <h1 className="inline-flex items-center gap-2 text-lg hover:-translate-x-1 transition-all">
+                        <MoveLeft className="mt-0.5" />
+                        Go back
+                    </h1>
+                </Link>
             </div>
             <div className="flex-grow">
-                <SignIn/>
+                {/*<SignIn/>*/}
+                <SignUp/>
             </div>
-            <div className="hidden">
+            <div className="grid place-items-center">
                 <Credits/>
             </div>
         </>

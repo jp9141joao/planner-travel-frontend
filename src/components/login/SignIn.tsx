@@ -1,18 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
-import LogoGoogle from "@/assets/icons8-google-48.png"
-import Logo from '@/assets/icons8-google-48.png';
-import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { TabsTrigger } from "@radix-ui/react-tabs";
-import { MoveLeft } from 'lucide-react';
 import Image from '@/assets/undraw_air_support_re_nybl.svg';
 import { CircleHelp } from 'lucide-react';
-import Credits from "@/components/Credits";
 
 
 export default function SignIn () {
@@ -40,7 +33,7 @@ export default function SignIn () {
                             </p>
                         </div>
                     </div>
-                    <div className="mx-36">
+                    <div className="mx-24">
                         <div className="mt-1 grid w-full items-center gap-1.5">
                             <Label htmlFor="email">Email</Label>
                             <Input type="email" id="email" placeholder="name@example.com" />

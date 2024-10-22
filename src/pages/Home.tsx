@@ -26,7 +26,7 @@ export default function Home(){
                     </h1>
                   </div>
                   <div className='xxs11:w-[200px] xxs10:w-[220px] xxs9:w-[240px] xxs8:w-[250px] xxs7:w-[270px] xxs6:w-[280px] xxs5:w-[290px] xxs4:w-[300px] xxs3:w-[310px] xxs2:w-[320px] xxs:w-[330px] xs:w-full xxs:flex xxs:justify-center xxs10:mt-2 xxs8:mt-4 xxs5:mt-5 xs:mt-1 sm:mt-3 2xl:mt-6 2xl:justify-start'>
-                    <p className='xxs11:text-sm xxs6:text-sm xxs3:text-md xxs2:text-base xxs:text-lg xs:text-[12px] leading-tight text-gray-900 tracking-tight 2xl:text-xl xl:text-lg md:text-md sm:text-sm'>
+                    <p className='xxs11:text-sm xxs6:text-sm xxs3:text-[18px] xxs2:text-base xxs:text-lg xs:text-[12px] leading-tight text-gray-900 tracking-tight 2xl:text-xl xl:text-lg md:text-[18px] sm:text-sm'>
                       <span className='block'>Explore, organize, and embark on a unique adventure with ease. </span>             
                     </p>
                   </div>

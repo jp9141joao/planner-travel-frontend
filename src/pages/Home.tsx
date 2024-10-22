@@ -41,7 +41,7 @@ export default function Home(){
                 </div>
               </div>
 
-              <div>
+              <div className="2xl:pt-24">
                 <img 
                   src={Image} 
                   className="w-full h-auto" 

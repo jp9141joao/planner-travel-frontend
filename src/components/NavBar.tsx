@@ -61,31 +61,31 @@ export default function NavBar() {
             <nav className="flex items-center justify-between mt-3 mx-5">
                 <div className="flex justify-start">
                     <Link to={"/home"}>
-                        <h1 className="text-lg xl:text-xl">
+                        <h1 className="md:text-base lg:text-lg xl:text-xl">
                             Easy Trip
                         </h1>
                     </Link>
                 </div>
-                <div className="hidden 2xl:flex xl:gap-14 lg:gap-12 md:gap-6">
+                <div className="hidden md:flex xl:gap-14 lg:gap-12 md:gap-6">
                     {
                         navigation.map((item) => (
                             <Link key={item.name} to={item.href}>
-                                <h1 className={`text-lg xl:text-xl hover:translate-y-1 transition-all ${isActive(item.name) ? 'underline' : ''}`}>
+                                <h1 className={`md:text-base lg:text-lg xl:text-xl hover:translate-y-1 transition-all ${isActive(item.name) ? 'underline' : ''}`}>
                                     {item.name}
                                 </h1>
                             </Link>
                         ))
                     }
                 </div>
-                <div className="hidden 2xl:flex">
+                <div className="hidden md:flex">
                     <Link to={"/login"}>
-                        <h1 className="flex text-lg xl:text-xl gap-2 hover:translate-x-1 transition-all">
+                        <h1 className="flex md:text-base lg:text-lg xl:text-xl gap-2 hover:translate-x-1 transition-all">
                             Login
-                            <MoveRight className="lg:mt-1"/>
+                            <MoveRight className="md:mt-0.5 lg:mt-1"/>
                         </h1>
                     </Link>
                 </div>
-                <div className="flex 2xl:hidden">
+                <div className="flex md:hidden">
                     <Sheet>
                         <SheetTrigger>
                             <AlignJustify/>

@@ -1,4 +1,4 @@
-import Image from "@/assets/undraw_departing_re_mlq3.svg"
+import Image from "@/assets/undraw_maker_launch_re_rq81.svg"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { Button } from "../ui/button"
@@ -7,24 +7,23 @@ import { DatePicker } from "../ui/date-picker"
 export default function SignIn(){
 
     return (
-        <div className="grid grid-cols-2 place-items-center -mt-20 mb-[190px] mx-20">
-            <div className="grid place-items-center mt-40 ml-36">
-                <div className="grid text-center leading-tight gap-y-0">
-                    <p className="text-center text-2xl">Join the</p>
-                    <h1 className="text-center text-8xl -mt-4">Easy Trip!</h1>
-                    <p className="text-center text-8xl" style={{ fontFamily: '"Shadows Into Light", cursive', fontWeight: 400, fontStyle: 'normal' }}>Family</p>
+        <div className="grid grid-cols-1 place-items-center">
+            <div className="grid place-items-center xl:-mt-10 xl:mb-36">
+                <div className="grid text-center leading-tight xl:mb-3">
+                    <p className="text-center text-2xl">
+                        Join the  family of
+                    </p>
+                    <h1 className="text-center text-8xl xl:-mt-4 xl:mb-4">
+                        Easy Trip!
+                    </h1>
+                    <p className="text-center text-2xl">
+                        Sign up and explore Easy Trip!
+                    </p>
                 </div>
-                <div className="mx-24 mt-4">
+                <div className="">
                     <div className="grid gap-y-3">
                         <div className="flex gap-2">
-                            <div className="grid w-full items-center">
-                                <Label htmlFor="name">Name</Label>
-                                <Input type="text" id="name" placeholder="Your name" />
-                            </div>
-                            <div className="grid w-full items-center">
-                                <Label htmlFor="lastName">Last Name</Label>
-                                <Input type="text" id="lastName" placeholder="Your last name" />
-                            </div>
+                            
                         </div>
                         <div className="flex gap-2">
                             <div className="grid w-full items-center">
@@ -32,8 +31,8 @@ export default function SignIn(){
                                 <DatePicker/>
                             </div>
                             <div className="grid w-full items-center">
-                                <Label htmlFor="name">Cellphone</Label>
-                                <Input type="text" id="name" placeholder="Your cellphone number" />
+                                <Label htmlFor="phone">Phone</Label>
+                                <Input type="text" id="phone" placeholder="Your Phone number" />
                             </div>
                         </div>
                         <div className="grid w-full items-center">
@@ -50,7 +49,7 @@ export default function SignIn(){
                 </div>
                 </div>
             </div>    
-            <div className="pt-16">
+            <div className="mb-14">
                 <img
                     src={Image}
                     className="w-full h-auto"

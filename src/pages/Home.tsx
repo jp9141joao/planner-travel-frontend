@@ -53,7 +53,7 @@ export default function Home() {
         {/*
         grid place-items-center xxs11:mt-64 xxs10:mt-60 xxs9:mt-56 xxs8:mt-52 xxs7:mt-48 xxs6:mt-[140px] xxs5:mt-36 xxs4:mt-[124px] xxs3:mt-24 xxs2:mt-32 xxs:mt-28 w-full 2xl:mt-40
         */}
-        <div className="mt-auto">
+        <div className="mt-auto 2xl:mt-40">
           <div className="text-center relative bottom-0 w-full">
             <Credits />
           </div>

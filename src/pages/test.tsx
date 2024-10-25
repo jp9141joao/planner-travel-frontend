@@ -10,8 +10,8 @@ export default function Test(){
 
     return (
         <>
-            <div className="top-0 font-semibold mt-3 mb-20 ml-5" style={{display: 'inline-flex'}}>
-                <Link to={'/home'}>
+            <div className="top-0 left-0 fixed font-semibold ml-5 mt-3 z-50">
+                <Link to="/home">
                     <h1 className="inline-flex items-center gap-2 text-lg hover:-translate-x-1 transition-all">
                         <MoveLeft className="mt-0.5" />
                         Go back
@@ -20,9 +20,9 @@ export default function Test(){
             </div>
             <div className="flex-grow">
                 {/*<SignUp/><SignIn/>*/}
-                <SignIn/>
+                <SignUp/>
             </div>
-            <div className="grid place-items-center">
+            <div className="text-center relative bottom-0 w-full ">
                 <Credits/>
             </div>
         </>

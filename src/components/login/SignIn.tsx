@@ -28,7 +28,6 @@ export default function SignIn () {
                                 <span className="hidden xs:block">&nbsp;</span>
                                 <span className="block">Trip!</span>
                             </h1>
-                            
                         </div>
                         <div className="grid place-items-center text-center 2xl:mt-4 xxs:mt-4 xs:mt-1 md:mt-2">
                             <p className="xxs:w-[320px] xxs11:text-sm xxs6:text-sm xxs3:text-md xxs2:text-base xxs:text-3xl xs:text-[18px] md:text-xl xl:text-2xl 2xl:text-3xl">

@@ -10,7 +10,7 @@ import { CircleHelp } from "lucide-react"
 export default function SignIn(){
 
     return (
-        <div className="grid grid-cols-1 place-items-center">
+        <div className="grid grid-cols-1 place-items-center transi">
             <div className="grid place-items-center xl:mb-36 2xl:mt-[16vh] 2xl:mb-[10vh]">
                 <div className="grid text-center leading-tight xl:mb-3">
                     <p className="text-center text-2xl">
@@ -57,7 +57,7 @@ export default function SignIn(){
                     </div>
                     <div className="flex justify-center gap-2">
                         <p>Have a account? </p>
-                        <Link to={""}>
+                        <Link to={"/login"}>
                             <a className="underline">Sign in!</a>
                         </Link>
                     </div>

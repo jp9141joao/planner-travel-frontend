@@ -8,9 +8,9 @@ import DayDetails from "./pages/DayDetails";
 //import AddDailyExpense from "./pages/AddDailyExpense";
 import TravelItineraryForm from "./components/TravelItineraryForm";
 import SignIn from "./components/login/SignIn";
-import Login from "./pages/Login";
 import Home from "./pages/Home"
 import Test from "./pages/test";
+import SignUp from "./components/login/SignUp";
 
 function App() {
 
@@ -19,7 +19,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to={'/home'}/>}/>
           <Route path="/home" element={<Home/>}/>
-          <Route path="/login" element={<Login/>}/>
+          <Route path="/signUp" element={<SignUp/>}/>
+          <Route path="/signIn" element={<SignIn/>}/>
           <Route path="/test" element={<Test/>}/>
           <Route path="/travel/add" element={<AddTravel/>}/>
           <Route path="/travel/details/:idTravel" element={<TravelDetails/>}/>

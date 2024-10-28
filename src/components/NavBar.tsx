@@ -78,7 +78,7 @@ export default function NavBar() {
                     }
                 </div>
                 <div className="hidden md:flex">
-                    <Link to={"/login"}>
+                    <Link to={"/signIn"}>
                         <h1 className="flex md:text-base lg:text-lg xl:text-xl gap-2 hover:translate-x-1 transition-all">
                             Login
                             <MoveRight className="md:mt-0.5 lg:mt-1"/>
@@ -104,7 +104,7 @@ export default function NavBar() {
                                             </Link>
                                         ))
                                     }
-                                    <Link to={"/login"}>
+                                    <Link to={"/signIn"}>
                                         <h1 className="flex gap-2 mt-6 hover:translate-x-2 transition-all">
                                             <strong>Login</strong>
                                             <MoveRight className="mt-1"/>

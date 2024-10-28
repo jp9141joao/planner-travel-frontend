@@ -6,14 +6,14 @@ import Credits from '@/components/Credits';
 export default function Home() {
   return (
     <>
-      <div className="flex flex-col min-h-screen">
+      <div className="">
         <div>
           <NavBar />
         </div>
 
-        <div className="grid place-items-center">
-          <div className="grid grid-cols-1">
-            <div className='grid place-items-center xxs11:my-16 xs:my-[8vw] xl:my-[9vw] 2xl:my-[13vw]'>
+        <div className="flex min-h-screen flex-col">
+          <div className="grid grid-cols-1 flex-grow">
+            <div className='grid place-items-center xxs11:my-[9vh] xs:my-[12vh] xl:my-[9vw] 2xl:my-[13vw]'>
               <div className='text-center'>
                 <div>
                   <h1 className="flex xxs11:text-[26px] xxs10:text-[28px] xxs9:text-3xl xxs8:text-[32px] xxs7:text-4xl xxs6:text-[40px] xxs5:text-[44px] xxs4:text-5xl xxs3:text-[52px] xxs2:text-[56px] xxs:text-[60px] xs:text-4xl text-gray-900 tracking-tight 2xl:text-8xl 3xl:text-9xl xl:text-7xl md:text-6xl sm:text-5xl grid leading-tight xs:flex xxs11:justify-center">
@@ -41,7 +41,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="w-full h-[60vw]">
+            <div className="w-full h-[60vw] ">
               <img 
                 src={Image} 
                 className="w-full h-full" 
@@ -50,10 +50,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        {/*
-        grid place-items-center xxs11:mt-64 xxs10:mt-60 xxs9:mt-56 xxs8:mt-52 xxs7:mt-48 xxs6:mt-[140px] xxs5:mt-36 xxs4:mt-[124px] xxs3:mt-24 xxs2:mt-32 xxs:mt-28 w-full 2xl:mt-40
-        */}
-        <div className="mt-auto 2xl:mt-40">
+        <div className="my-auto 2xl:mt-40">
           <div className="text-center relative bottom-0 w-full">
             <Credits />
           </div>

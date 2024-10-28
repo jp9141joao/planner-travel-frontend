@@ -23,10 +23,10 @@ export default function SignIn () {
 
             <div className="flex min-h-screen flex-col">
                 <div className="grid grid-cols-1 flex-grow">
-                    <div className="w-full xxs11:h-auto">
+                    <div className="w-full mt-[5vh]">
                         <img 
                             src={Image} 
-                            className="w-full h-auto ml-[5vw]"  
+                            className="w-full h-auto xl:px-[20vw] px-0 ml-[5vw]"  
                             style={{ objectFit: "contain" }} 
                         />
                     </div>
@@ -42,15 +42,13 @@ export default function SignIn () {
                                 Let's sign in to your account.
                             </p>
                         </div>
-                    </div>
-                    <div className="w-full flex justify-center mt-8">
-                        <div className="w-full max-w-2xl px-4 sm:px-8">
-                            <div className="grid gap-y-4">
-                                <div className="grid items-center gap-1.5 w-full">
+                        <div className="grid place-items-center">
+                        <div className="grid gap-y-4 xxs11:w-[200px] xxs10:w-[220px] xxs9:w-[240px] xxs8:w-[250px] xxs7:w-[270px] xxs6:w-[280px] xxs5:w-[290px] xxs4:w-[300px] xxs3:w-[310px] xxs2:w-[320px] xxs:w-[350px] xs:w-[270px] sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[450px] 2xl:w-[500px]">
+                                <div className="grid gap-1.5 w-full ">
                                     <Label htmlFor="email">Email</Label>
                                     <Input type="email" id="email" placeholder="name@example.com" />
                                 </div>
-                                <div className="grid items-center gap-1.5 w-full">
+                                <div className="grid gap-1.5 w-full">
                                     <div className="flex gap-1">
                                         <Label htmlFor="password">Password</Label>
                                         <CircleHelp className="w-[15px] h-auto"/>
@@ -61,7 +59,7 @@ export default function SignIn () {
                                     <Checkbox id="remember-me"/>
                                     <Label htmlFor="remember-me">Remember for 30 days</Label>
                                 </div>
-                                <div className="mt-2 grid items-center gap-1.5 w-full">
+                                <div className="mt-2 grid gap-1.5 w-full">
                                     <Button type="submit">Sign in</Button>
                                 </div>
                                 <div className="flex justify-center gap-2">

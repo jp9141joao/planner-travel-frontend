@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
-import Image from '@/assets/undraw_air_support_re_nybl.svg';
+import Image from '@/assets/undraw_floating_re_xtcj.svg';
 import Image2 from "@/assets/undraw_outdoor_adventure_re_j3b7.svg"
 import { CircleHelp } from 'lucide-react';
 import { ArrowUpDown } from 'lucide-react';
@@ -18,31 +18,31 @@ export default function SignIn () {
 
     return (
         <>
-            <div className="flex min-h-screen flex-col">
+            <div className="">
                 <div>
                     <GoBack />
                 </div>
 
                 <div className="flex min-h-screen flex-col">
                     <div className="grid grid-cols-1 flex-grow">
-                        <div className="grid place-items-center">
+                        <div className="w-full h-[60vw] ">
                             <img 
                                 src={Image} 
-                                className="w-full h-full xs:px-[10vh] md:px-[20vh] xl:px-[30vh]" 
+                                className="w-full h-full" 
                                 style={{ objectFit: "contain" }} 
                             />
                         </div>
 
-                        <div className="grid place-items-center gap-y-2 text-start lg:my-[9vh] xl:my-[8vh] 2xl:my-[7vw]">
-                            <div className="grid place-items-center">
-                                <div className="grid place-items-center text-center leading-tight gap-y-0 text-gray-900 tracking-tight">
+                        <div className="grid place-items-center gap-y-2 text-start xxs:mb-[8vh] xs:-mt-[40vh] mb- sm:my-[12vh] md:my-[14vh] lg:my-[13vh] xl:my-[10vh] 2xl:my-[7vw]">
+                            <div className="text-center">
+                                <div className="text-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                                     <p className="xxs11:text-sm xxs6:text-sm xxs3:text-md xxs2:text-xl xxs2:text-2xl xs:text-[18px] sm:text-lg md:text-xl xl:text-2xl 2xl:text-3xl">Welcome to</p>
                                     <h1 className="3xl:underline xxs11:grid text-center xs:flex xs:justify-center xxs11:text-[26px] xxs10:text-[28px] xxs9:text-3xl xxs8:text-[32px] xxs7:text-4xl xxs6:text-8xl xs:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl xxs2:-mt-3 xx2:-mt-4 xs:-mt-2 lg:-mt-3 2xl:-mt-4">
                                         <span className="block">Easy</span>
                                         <span className="hidden xs:block">&nbsp;</span>
                                         <span className="block">Trip!</span>
                                     </h1>
-                                    <p className="text-center xxs3:w-[170px] xxs2:w-[220px] xxs:w-[260px] 2xl:w-auto xxs11:text-sm xxs6:text-2xl xs:text-[18px] md:text-xl xl:text-2xl 2xl:text-3xl 2xl:mt-4 xxs6:mt-4 xs:mt-1 md:mt-2">
+                                    <p className="text-center xxs3:w-[170px] xxs2:w-[220px] xxs:w-[260px] xs:w-full 2xl:w-auto xxs11:text-sm xxs6:text-2xl xs:text-[18px] md:text-xl xl:text-2xl 2xl:text-3xl 2xl:mt-4 xxs6:mt-4 xs:mt-1 md:mt-2">
                                         Let's sign in to your account.
                                     </p>
                                 </div>

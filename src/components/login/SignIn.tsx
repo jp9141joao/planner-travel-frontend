@@ -30,8 +30,9 @@ export default function SignIn () {
                             style={{ objectFit: "contain" }} 
                         />
                     </div>
-                    <div className="grid place-items-center gap-y-2 text-start  xxs2:mt-[8vh] xxs:mt-[8vh] sm:mt-24 lg:mt-28 xl:mt-40 2xl:mt-[12vw]">
-                        <div className="grid place-items-center text-center leading-tight gap-y-0 text-gray-900 tracking-tight">
+        
+                    <div className="flex flex-col flex-grow">
+                        <div className="grid grid-cols-1 place-items-center text-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                             <p className="xxs11:text-sm xxs6:text-sm xxs3:text-md xxs2:text-xl xxs2:text-2xl xs:text-[18px] sm:text-lg md:text-xl xl:text-2xl 2xl:text-3xl">Welcome to</p>
                             <h1 className="xxs11:grid text-center xs:flex xs:justify-center xxs11:text-[26px] xxs10:text-[28px] xxs9:text-3xl xxs8:text-[32px] xxs7:text-4xl xxs6:text-8xl xs:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl xxs2:-mt-3 xx2:-mt-4 xs:-mt-2 lg:-mt-3 2xl:-mt-4">
                                 <span className="block">Easy</span>
@@ -39,7 +40,7 @@ export default function SignIn () {
                                 <span className="block">Trip!</span>
                             </h1>
                             <p className="text-center xxs3:w-[170px] xxs2:w-[220px] xxs:w-[260px] 2xl:w-auto xxs11:text-sm xxs6:text-2xl xs:text-[18px] md:text-xl xl:text-2xl 2xl:text-3xl 2xl:mt-4 xxs6:mt-4 xs:mt-1 md:mt-2">
-                                Let's sign in to your account.
+                                Let's sign in to your ahytyhtccount.
                             </p>
                         </div>
                         <div className="grid place-items-center">
@@ -74,7 +75,7 @@ export default function SignIn () {
                 </div>
             </div>
 
-            <div className="my-auto 2xl:mt-40">
+            <div className="flex flex-grow flex-col">
                 <div className="text-center relative bottom-0 w-full">
                     <Credits />
                 </div>`

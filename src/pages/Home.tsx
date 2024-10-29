@@ -50,11 +50,10 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="my-auto 2xl:mt-40">
-          <div className="text-center relative bottom-0 w-full">
-            <Credits />
-          </div>
-        </div>
+      </div>
+
+      <div className="w-full text-center flex-shrink-0"> 
+        <Credits />
       </div>
     </>
   )

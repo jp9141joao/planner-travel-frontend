@@ -64,10 +64,7 @@ export default function SignIn () {
                                             <Input type="email" id="email" placeholder="name@example.com" />
                                         </div>
                                         <div className="grid gap-1.5 w-full">
-                                            <div className="flex gap-1">
-                                                <Label htmlFor="password">Password</Label>
-                                                <CircleHelp className="w-[15px] h-auto"/>
-                                            </div>
+                                            <Label htmlFor="password">Password</Label>
                                             <Input type="password" id="password" placeholder="Abc123" />
                                         </div>
                                         <div className="flex items-center gap-1.5 w-full">

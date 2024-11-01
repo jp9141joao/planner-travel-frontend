@@ -88,10 +88,14 @@ export default function SignIn () {
                                             />
                                         </div>
                                         <div className="flex items-center gap-1.5 w-full">
-                                            <Checkbox id="remember-me"/>
-                                            <Label htmlFor="remember-me">
-                                                Remember for 30 days
-                                            </Label>
+                                            <p>
+                                                Forgot your password?
+                                            </p>
+                                            <Link to={"/resetPassword"}>
+                                                <strong>
+                                                    Click here.
+                                                </strong>
+                                            </Link>
                                         </div>
                                         <div className="mt-2 grid gap-1.5 w-full">
                                             <Button type="submit">
@@ -102,7 +106,7 @@ export default function SignIn () {
                                             <p>
                                                 Don't have an account?
                                             </p>
-                                            <Link to={"/test"} className="underline">
+                                            <Link to={"/signUp"} className="underline">
                                                 Sign up!
                                             </Link>
                                         </div>

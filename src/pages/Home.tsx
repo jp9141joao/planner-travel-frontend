@@ -54,7 +54,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="w-full text-center flex-shrink-0"> 
+      <div className="w-full text-center flex-shrink-0 2xl:mt-14"> 
         <Credits />
       </div>
     </>

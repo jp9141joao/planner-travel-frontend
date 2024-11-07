@@ -2,12 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
 import Image from '@/assets/undraw_floating_re_xtcj.svg';
-import Image2 from "@/assets/undraw_outdoor_adventure_re_j3b7.svg"
-import { CircleHelp } from 'lucide-react';
-import { ArrowUpDown } from 'lucide-react';
 import { GoBack } from "../GoBack";
 import Credits from "../Credits";
 import { useEffect, useState } from "react";

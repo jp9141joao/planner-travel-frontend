@@ -16,7 +16,7 @@ export default function SignIn(){
 
             <div className="flex min-h-screen flex-col">
                 <div className="grid grid-cols-1 flex-grow">
-                    <div className="grid place-items-center my-10">
+                    <div className="grid place-items-center xxs11:my-[5vh] xs:my-[12vh] xl:my-[9vw] 2xl:my-[9vw]">
                         <div className="grid text-center leading-tight">
                             <p className="xxs11:text-base xxs6:text-lg xxs4:text-xl xxs2:text-2xl xs:text-[18px] sm:text-lg md:text-xl xl:text-2xl 2xl:text-3xl">
                                 Join the  family of
@@ -32,11 +32,11 @@ export default function SignIn(){
                                     Trip!
                                 </span>
                             </h1>
-                            <p className="text-center xxs11:w-[150px] xxs8:w-[155px] xxs6:w-[160px] xxs4:w-[165px] xxs2:w-[220px] xxs:w-[260px] xs:w-full 2xl:w-auto xxs11:text-base xxs6:text-lg xxs4:text-xl xxs2:text-2xl xs:text-[18px] md:text-xl xl:text-2xl 2xl:text-3xl 2xl:mt-5 xxs11:mt-3 xxs4:mt-4 xs:mt-1 md:mt-2">
+                            <p className="text-center xxs11:w-[150px] xxs8:w-[155px] xxs6:w-[160px] xxs4:w-[185px] xxs2:w-[230px] xxs:w-[250px] xs:w-full 2xl:w-auto xxs11:text-base xxs6:text-lg xxs4:text-xl xxs2:text-2xl xs:text-[18px] md:text-xl xl:text-2xl 2xl:text-3xl 2xl:mt-5 xxs11:mt-3 xxs4:mt-4 xs:mt-1 md:mt-2">
                                 Sign up and explore the world.
                             </p>
                         </div>
-                        <div className="xxs11:mt-3 xs:mt-2 md:mt-3 xl:mt-6">
+                        <div className="xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6">
                             <div className="grid gap-y-4 xxs11:w-[200px] xxs10:w-[220px] xxs9:w-[240px] xxs8:w-[250px] xxs7:w-[270px] xxs6:w-[280px] xxs5:w-[290px] xxs4:w-[300px] xxs3:w-[310px] xxs2:w-[320px] xxs:w-[350px] xs:w-[270px] sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[450px] 2xl:w-[500px]">
                                 <div className="grid gap-1.5 w-full ">
                                     <Label htmlFor="fullName">
@@ -84,17 +84,17 @@ export default function SignIn(){
                             </div>
                         </div>
                     </div>    
-                    <div className="grid-place-items-center  2xl:my-20">
-                            <img 
-                                src={Image} 
-                                className="w-full  h-full xs:px-[3vw] lg:px-[20vw]" 
-                                style={{ objectFit: "contain" }} 
-                            />
-                    </div>       
+                    <div className="w-full h-[60vw]">
+                        <img 
+                            src={Image} 
+                            className="w-full h-full" 
+                            style={{ objectFit: "contain" }} 
+                        />
+                    </div>
                 </div>
             </div>
 
-            <div className="w-full text-center flex-shrink-0">
+            <div className="w-full text-center flex-shrink-0 mt-auto mt-[6vw]"> 
                 <Credits />
             </div>
         </>

@@ -40,9 +40,9 @@ export default function SignIn () {
                             />
                         </div>
 
-                        <div className="grid place-items-center m-0 2xl:pb-0 gap-y-2 text-start xxs8:my-4 xxs6:my-8 xxs2:my-14 xs:my-11 sm:mt-10 sm:pb-28 md:pb-32 md:mt-14 lg:my-28 lg:mb-0 xl:mt-56 xl:mb-20 2xl:my-28">
+                        <div className="grid place-items-center m-0 2xl:pb-0 gap-y-2 text-start xxs8:my-4 xxs6:my-[60px] xxs2:my-14 xs:my-11 sm:mt-10 sm:pb-28 md:pb-32 md:mt-14 lg:my-28 lg:mb-0 xl:mt-56 xl:mb-20 2xl:my-28">
                             <div className="">
-                                <div className="text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
+                                <div className="text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight pt-2">
                                     <p className="xxs11:text-base xxs6:text-lg xxs4:text-xl xxs2:text-2xl xs:text-[18px] sm:text-lg md:text-xl xl:text-2xl 2xl:text-3xl">
                                         Welcome to
                                     </p>

@@ -16,9 +16,9 @@ export default function SignIn(){
                 <GoBack />
             </div>
 
-            <div className="flex min-h-screen flex-col pt-[79px]">
+            <div className="flex min-h-screen flex-col">
                 <div className="grid place-items-center grid-cols-1 flex-grow">
-                    <div className="place-items-center xxs11:mb-10 2xl:mb-20"> {/* xxs11:my-[5vh] xs:my-[12vh] xl:my-[9vw] 2xl:mt-7 2xl: */}
+                    <div className="place-items-center xxs11:mb-10 "> {/* xxs11:my-[5vh] xs:my-[12vh] xl:my-[9vw] 2xl:mt-7 2xl: */}
                         <div className="grid place-items-center text-center leading-tight">
                             <p className="xxs11:text-base xxs6:text-lg xxs4:text-xl xxs2:text-2xl xs:text-[18px] sm:text-lg md:text-xl xl:text-2xl 2xl:text-3xl">
                                 Join the  family of
@@ -85,30 +85,11 @@ export default function SignIn(){
                                 </div>
                             </div>
                         </div>
-                    </div>  
-                </div>
-            </div>
-            <div className="flex min-h-screen flex-col">
-                <div className="grid place-items-center grid-cols-1 flex-grow">
-                    <div className="grid place-items-center w-full xxs11:px-4">
-                            <img 
-                                src={Image} 
-                                className="w-full h-auto 2xl:px-[500px]" 
-                                style={{ objectFit: "contain" }} 
-                            />
-                    </div>
-                    
-                </div>
-                <div className="grid place-items-center">
-                    <div className="absolute mb-28">
-                        <ArrowUp />
-                        <Mouse />
                     </div>
                 </div>
-            </div>
-            
-            <div className="w-full text-center flex-shrink-0 mt-auto 2xl:mt-12"> 
-                <Credits />
+                <div className="w-full text-center"> 
+                    <Credits />
+                </div>
             </div>
         </>
     )

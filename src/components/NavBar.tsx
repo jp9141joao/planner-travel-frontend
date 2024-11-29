@@ -57,7 +57,7 @@ export default function NavBar() {
     },[idTravel, idExpense, idItinerary, idToDoList, idMyPiggyBank])
 
     return (
-        <header className="fixed top-0 font-semibold">
+        <header className="top-0 font-semibold">
             <nav className="flex items-center justify-between mt-3 mx-5">
                 <div className="flex justify-start">
                     <Link to={"/home"}>

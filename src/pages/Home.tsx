@@ -44,10 +44,10 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="w-full h-[60vw] ">
+            <div className="w-full">
               <img 
                 src={Image} 
-                className="w-full h-full" 
+                className="w-full h-auto px-[40vw]" 
                 style={{ objectFit: "contain" }} 
               />
             </div>

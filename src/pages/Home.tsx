@@ -7,11 +7,12 @@ export default function Home() {
   return (
     <>
       <div className="">
-        <div>
-          <NavBar />
-        </div>
+        
 
         <div className="flex min-h-screen flex-col">
+          <div>
+          <NavBar />
+        </div>
           <div className="grid grid-cols-1 flex-grow">
             <div className='grid place-items-center xxs11:my-[9vh] xs:my-[12vh] xl:my-[9vw] 2xl:my-[9vw]'> {/*2xl:my-[13vw]*/}
               <div className='text-center'>

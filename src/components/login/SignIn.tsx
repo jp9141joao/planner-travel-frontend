@@ -25,7 +25,7 @@ export default function SignIn () {
 
     return (
         <>
-            <div className="w-full">
+            <div className="w-full bg-[#FF7F50] ">
                 <GoBack />
             </div>
 

@@ -57,8 +57,8 @@ export default function NavBar() {
     },[idTravel, idExpense, idItinerary, idToDoList, idMyPiggyBank])
 
     return (
-        <header className="top-0 font-semibold">
-            <nav className="flex items-center justify-between mt-3 mx-5">
+        <header className="fixed top-0 font-semibold w-full bg-[#FF7F50] border-b-2 rounded-md shadow-lg">
+            <nav className="flex items-center justify-between my-3 mx-5 text-white">
                 <div className="flex justify-start">
                     <Link to={"/home"}>
                         <h1 className="md:text-base lg:text-lg xl:text-xl">
@@ -92,7 +92,9 @@ export default function NavBar() {
                         </SheetTrigger>
                         <SheetContent>
                             <SheetHeader>
-                            <SheetTitle className="text-xl">Easy Trip</SheetTitle>
+                            <SheetTitle className="text-xl">
+                                Easy Trip
+                            </SheetTitle>
                             <SheetDescription className="flex text-left text-xl">
                                 <div>
                                     {

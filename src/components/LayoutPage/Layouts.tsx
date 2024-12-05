@@ -12,7 +12,7 @@ export const BodyPage = ({ children }: { children: React.ReactNode }) => {
 
 export const TopPage = ({ children }: { children: React.ReactNode }) => {
     return (
-        <header className="">
+        <header className="fixed">
             {
                 children
             }

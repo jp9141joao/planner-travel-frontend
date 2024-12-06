@@ -1,8 +1,6 @@
-import './styles.css'
-
 export const BodyPage = ({ children }: { children: React.ReactNode }) => {
     return (
-        <div className="flex min-h-screen flex-col backgroundPage">
+        <div className="flex min-h-screen flex-col">
             {
                 children
             }
@@ -23,10 +21,10 @@ export const TopPage = ({ children }: { children: React.ReactNode }) => {
 export const MiddlePage = ({ children }: { children: React.ReactNode }) => {
     return (
         <div className="grid grid-cols-1 flex-grow">
-            <div className='grid place-items-center'>
+            <div className='grid grid-cols-1 xs:grid-cols-2 place-items-center xxs4:py-7 xxs3:py-20 sm:py-0 xs:mx-20'>
                 {
                     children
-                }  
+                } 
             </div>
         </div>
     )

@@ -2,6 +2,7 @@ import NavBar from "@/components/NavBar";
 import { Button } from "@/components/ui/button";
 import Credits from '@/components/Credits';
 import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts";
+import Image from '../assets/undraw_travelers_re_y25a (2).svg';
 
 export default function Home() {
   return (
@@ -10,9 +11,9 @@ export default function Home() {
             <NavBar/>
         </TopPage>
         <MiddlePage>
-            <div className='text-center'>
+            <div className='text-center sm:text-start pt-10 xs:place-items-start'>
                 <div>
-                    <h1 className="flex xxs11:text-[26px] xxs10:text-[28px] xxs9:text-3xl xxs8:text-[32px] xxs7:text-4xl xxs6:text-[40px] xxs5:text-[44px] xxs4:text-5xl xxs3:text-[52px] xxs2:text-[56px] xxs:text-[60px] xs:text-4xl text-gray-900 tracking-tight 2xl:text-8xl 3xl:text-9xl xl:text-7xl md:text-6xl sm:text-5xl grid leading-tight xs:flex xxs11:justify-center">
+                    <h1 className="grid sm:block xxs11:text-[26px] xxs10:text-[28px] xxs9:text-3xl xxs8:text-[32px] xxs7:text-4xl xxs6:text-[40px] xxs5:text-[44px] xxs4:text-5xl xxs3:text-[52px] xxs2:text-[56px] xxs:text-[60px] xs:text-4xl text-gray-900 tracking-tight 2xl:text-8xl 3xl:text-9xl xl:text-7xl md:text-6xl sm:text-5xl leading-tight xxs11:justify-center">
                         <span className="block">
                             Let's planning&nbsp;
                         </span>
@@ -29,15 +30,20 @@ export default function Home() {
                     </p>
                 </div>
                 <div className="grid xxs11:gap-y-2 xxs9:gap-y-3 xxs7:gap-y-4 xs:flex xxs11:mt-3 xs:mt-1 sm:mt-2 2xl:mt-4 gap-5 sm:justify-center">
-                    <Button size={"auto"} className="hover:-translate-y-1 transition-all">
-                    Place suggestions
+                    <Button size={"auto"}>
+                      Place suggestions
                     </Button>
-                    <Button size={"auto"} className="hover:-translate-y-1 transition-all" variant={"outline"}>
-                    I know where to go
+                    <Button size={"auto"} variant={"outline"}>
+                      I know where to go
                     </Button>
                 </div>
             </div>
-            
+            <div>
+              <img
+                src={Image}
+                className="xxs:pt-24 xxs4:px-4 px-12 xxs3:px-10"
+              />
+            </div>
         </MiddlePage>
         <BottomPage>
             <Credits/>

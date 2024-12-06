@@ -20,8 +20,8 @@ export const TopPage = ({ children }: { children: React.ReactNode }) => {
 
 export const MiddlePage = ({ children }: { children: React.ReactNode }) => {
     return (
-        <div className="grid grid-cols-1 flex-grow">
-            <div className='grid grid-cols-1 xs:grid-cols-2 place-items-center xxs4:py-7 xxs3:py-20 sm:py-0 xs:mx-20'>
+        <div className="grid flex-grow">
+            <div className='grid md:grid-cols-2 place-items-center xxs4:py-7 xxs3:py-20 sm:py-18 md:ml-10 lg:mx-8 xl:mx-20'  style={{border: '1px solid red'}}>
                 {
                     children
                 } 

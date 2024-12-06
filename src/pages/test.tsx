@@ -14,7 +14,7 @@ export default function SignIn () {
                 <GoBack/>
             </TopPage>
             <MiddlePage>
-                <div className="place-items-center ">{/* xxs8:my-4 xxs6:my-[60px] xxs2:my-14 xs:my-11 sm:mt-10 sm:pb-28 md:pb-32 md:mt-14 lg:my-28 lg:mb-0 xl:mt-56 xl:mb-20 2xl:my-28 */}
+                <div className="place-items-center" >{/* xxs8:my-4 xxs6:my-[60px] xxs2:my-14 xs:my-11 sm:mt-10 sm:pb-28 md:pb-32 md:mt-14 lg:my-28 lg:mb-0 xl:mt-56 xl:mb-20 2xl:my-28 */}
                     <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                         <p className="xxs11:text-base xxs6:text-lg xxs4:text-xl xxs2:text-2xl xs:text-[18px] sm:text-lg md:text-xl xl:text-2xl 2xl:text-3xl">
                             Welcome to
@@ -34,7 +34,7 @@ export default function SignIn () {
                             Let's sign in to your account.
                         </p>
                     </div>
-                    <div className="xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6">
+                    <div className="xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6" >
                         <div className="grid gap-y-4 xxs11:w-[200px] xxs10:w-[220px] xxs9:w-[240px] xxs8:w-[250px] xxs7:w-[270px] xxs6:w-[280px] xxs5:w-[290px] xxs4:w-[300px] xxs3:w-[310px] xxs2:w-[320px] xxs:w-[350px] xs:w-[270px] sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[450px] 2xl:w-[500px]">
                             <div className="grid gap-1.5 w-full ">
                                 <Label htmlFor="email">

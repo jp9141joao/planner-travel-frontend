@@ -21,7 +21,7 @@ export const TopPage = ({ children }: { children: React.ReactNode }) => {
 export const MiddlePage = ({ children }: { children: React.ReactNode }) => {
     return (
         <div className="grid flex-grow">
-            <div className='grid md:grid-cols-2 place-items-center xxs4:py-7 xxs3:py-20 sm:py-18 md:ml-10 lg:mx-8 xl:mx-20'  style={{border: '1px solid red'}}>
+            <div className='grid md:grid-cols-2 place-items-center xxs4:py-7 xxs3:py-20 sm:py-18 md:py-0 md:ml-10 lg:mx-8 xl:mx-20'>
                 {
                     children
                 } 
@@ -32,7 +32,7 @@ export const MiddlePage = ({ children }: { children: React.ReactNode }) => {
 
 export const BottomPage = ({ children }: { children: React.ReactNode }) => {
     return (
-        <div className="grid place-items-center">
+        <div className="" style={{border: '1px solid red'}}>
             {
                 children
             }

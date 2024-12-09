@@ -29,8 +29,9 @@ const buttonVariants = cva(
         xl1: "h-[56px] rounded-md px-[40px]",
         xl2: "h-[64px] rounded-md px-[48px]",
         xl3: "h-[72px] rounded-md px-[56px]",
-        auto: "h-11 rounded-md w-full xxs:w-auto xxs:px-8",
+        auto: "h-11 rounded-md w-full md:w-auto md:h-9 md:px-3 xl:h-11 xl:px-8",
         icon: "h-10 w-10",
+        responsive: "",
       },
     },
     defaultVariants: {

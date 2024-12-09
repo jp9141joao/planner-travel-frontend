@@ -19,7 +19,8 @@ export default {
 			'xxs8': '290px',
 			'xxs9': '270px',
 			'xxs10': '250px',
-			'xxs11': '230px'
+			'xxs11': '230px',
+			'lg': '1025px'
 		},
   		borderRadius: {
   			lg: 'var(--radius)',

@@ -11,9 +11,9 @@ export default function Home() {
             <NavBar/>
         </TopPage>
         <MiddlePage>
-            <div className='text-center md:text-start pt-10 md:place-items-start'>
+            <div className='text-center lg:text-start pt-10 lg:place-items-start'>
                 <div>
-                    <h1 className="grid sm:block xxs11:text-[26px] xxs10:text-[28px] xxs9:text-3xl xxs8:text-[32px] xxs7:text-4xl xxs6:text-[40px] xxs5:text-[44px] xxs4:text-5xl xxs3:text-[52px] xxs2:text-[56px] xxs:text-[60px] xs:text-4xl text-gray-900 tracking-tight 2xl:text-8xl 3xl:text-9xl xl:text-7xl md:text-6xl sm:text-7xl xs:text-6xl leading-tight xxs11:justify-center">
+                    <h1 className="grid sm:block xxs11:text-[26px] xxs10:text-[28px] xxs9:text-3xl xxs8:text-[32px] xxs7:text-4xl xxs6:text-[40px] xxs5:text-[44px] xxs4:text-5xl xxs3:text-[52px] xxs2:text-[56px] xxs:text-[60px] xs:text-4xl text-gray-900 tracking-tight 2xl:text-8xl 3xl:text-9xl lg:text-7xl md:text-8xl sm:text-7xl xs:text-6xl leading-tight xxs11:justify-center">
                         <span className="block">
                             Let's planning&nbsp;
                         </span>
@@ -22,14 +22,14 @@ export default function Home() {
                         </span>
                     </h1>
                 </div>
-                <div className='xxs11:w-[200px] xxs10:w-[220px] xxs9:w-[240px] xxs8:w-[250px] xxs7:w-[270px] xxs6:w-[280px] xxs5:w-[290px] xxs4:w-[300px] xxs3:w-[310px] xxs2:w-[320px] xxs:w-[330px] xs:w-auto xxs:flex xxs:justify-center xxs10:mt-2 xxs8:mt-4 xxs5:mt-5 xs:mt-1 sm:mt-5 xs:mt-4 2xl:mt-6'>
-                    <p className='xxs11:text-sm xxs6:text-sm xxs3:text-md xxs2:text-base xxs:text-lg xs:text-[12px] leading-tight text-gray-900 tracking-tight 3xl:text-3xl 2xl:text-2xl xl:text-lg md:text-md sm:text-lg xs:text-base'>
+                <div className='xxs11:w-[200px] xxs10:w-[220px] xxs9:w-[240px] xxs8:w-[250px] xxs7:w-[270px] xxs6:w-[280px] xxs5:w-[290px] xxs4:w-[300px] xxs3:w-[310px] xxs2:w-[320px] xxs:w-[330px] xs:w-auto xxs:flex xxs:justify-center xxs10:mt-2 xxs8:mt-4 xxs5:mt-5 xs:mt-1 md:mt-6 sm:mt-5 xs:mt-4 2xl:mt-6'>
+                    <p className='xxs11:text-sm xxs6:text-sm xxs3:text-md xxs2:text-base xxs:text-lg xs:text-[12px] leading-tight text-gray-900 tracking-tight 3xl:text-3xl 2xl:text-2xl lg:text-lg md:text-2xl sm:text-lg xs:text-base'>
                         <span className='block'>
                             Explore, organize, and embark on a unique adventure with ease.
                         </span>             
                     </p>
                 </div>
-                <div className="grid xxs11:gap-y-2 xxs9:gap-y-3 xxs7:gap-y-4 xs:flex xxs11:mt-3 xs:mt-2 2xl:mt-4 gap-5 sm:justify-center">
+                <div className="grid xxs11:gap-y-2 xxs9:gap-y-3 xxs7:gap-y-4 xs:flex xxs11:mt-3 md:mt-4 xs:mt-2 2xl:mt-4 gap-5 sm:justify-center">
                     <Button size={"auto"}>
                       Place suggestions
                     </Button>
@@ -38,14 +38,16 @@ export default function Home() {
                     </Button>
                 </div>
             </div>
-            <div style={{border: '1px solid red'}} className="grid items-ceter">
+            <div className="">
               <img
                 src={Image}
-                className=" xxs4:px-10 px-20 xxs3:px-20 xs:px-20 sm:px-40 md:px-6"
+                className="xxs4:px-10 px-20 xxs3:px-20 xs:px-36 xs:py-10 sm:px-40 sm:py-12 lg:px-8"
               />
             </div>
         </MiddlePage>
-        <Credits/>
+        <BottomPage>
+          <Credits/>
+        </BottomPage>
     </BodyPage>
   )
 }

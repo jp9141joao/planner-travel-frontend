@@ -23,20 +23,20 @@ export default function SignIn () {
                 <GoBack/>
             </TopPage>
             <MiddlePage>
-            <div className="">
+                <div className="">
                     <img
                         src={Image}
-                        className="py-4 xs:py-10 sm:py-12 pb-8 px-8 sm:pb-auto sm:px-48 md:px-40 lg:py-0 lg:px-14"
+                        className="xxs:px-10 sm:px-20 lg:px-0"
                     />
                 </div>
-                <div className='text-center lg:text-start pb-10 lg:pb-0'>
+                <div className='text-center lg:text-start pb-7 pt-3 xs:pb-10 xs:pt-4 sm:pb-22 sm:pt-10  md:pb-32 md:pt-8 lg:pb-0 lg:pt-12'>
                     <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                             <div>
-                                <p className="xxs11:text-base xxs6:text-lg xxs4:text-xl xxs2:text-2xl xs:text-[18px] sm:text-lg md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl">
+                                <p className="xxs11:text-base xxs6:text-lg xxs4:text-xl xxs2:text-2xl xs:text-xl sm:text-lg md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl">
                                     Welcome to
                                 </p>
                             </div>
-                            <h1 className="xxs11:grid sm:flex gap-3.5 text-center xs:flex xs:justify-center xxs11:text-6xl xxs6:text-7xl xxs2:text-8xl  xs:text-5xl md:text-8xl lg:text-6xl xl:text-7xl 2xl:text-8xl xxs11:-mt-2 xxs8:-mt-2 xxs6:-mt-3 xx2:-mt-4 xs:-mt-2 sm:-mt-3">
+                            <h1 className="xxs11:grid sm:flex gap-3.5 text-center xs:flex xs:justify-center xxs11:text-6xl xxs6:text-7xl xxs2:text-8xl  xs:text-7xl md:text-8xl lg:text-6xl xl:text-7xl 2xl:text-8xl xxs11:-mt-2 xxs8:-mt-2 xxs6:-mt-3 xx2:-mt-4 xs:-mt-2 sm:-mt-3">
                                 <span className="block">
                                     Easy
                                 </span>
@@ -44,7 +44,7 @@ export default function SignIn () {
                                     Trip!
                                 </span>
                             </h1>
-                            <p className="text-center xxs11:w-[150px] xxs8:w-[155px] xxs6:w-[160px] xxs4:w-[165px] xxs2:w-[220px] xxs:w-[260px] xs:w-full 2xl:w-auto xxs11:text-base xxs6:text-lg xxs4:text-xl xxs2:text-2xl xs:text-[18px] md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl 2xl:mt-4 xxs11:mt-3 xxs4:mt-4 xs:mt-1 md:mt-3">
+                            <p className="text-center xxs11:w-[150px] xxs8:w-[155px] xxs6:w-[160px] xxs4:w-[165px] xxs2:w-[220px] xxs:w-[260px] xs:w-full 2xl:w-auto xxs11:text-base xxs6:text-lg xxs4:text-xl xxs2:text-2xl xs:text-xl md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl 2xl:mt-4 xxs11:mt-3 xxs4:mt-4 xs:mt-3">
                                 Let's sign in to your account.
                             </p>
                     </div>

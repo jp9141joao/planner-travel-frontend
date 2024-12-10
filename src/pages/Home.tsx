@@ -39,7 +39,7 @@ export default function Home() {
             <div className="">
               <img
                 src={Image}
-                className="py-5 px-14 xs:py-7 sm:py-16 sm:px-20 md:py-20 md:px-24 lg:px-14 lg:py-0"
+                className="py-5 px-14 xs:py-7 sm:py-16 sm:px-20 md:py-20 md:px-24 lg:px-14 lg:py-0 lg:pt-12"
               />
             </div>
         </MiddlePage>

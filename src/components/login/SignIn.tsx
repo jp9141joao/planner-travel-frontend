@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
-import Image from '@/assets/undraw_traveling_yhxq.svg';
+import Image from '@/assets/undraw_aircraft_re_m05i.svg';
 import { GoBack } from "../GoBack";
 import Credits from "../Credits";
 import { useEffect, useState } from "react";
@@ -23,7 +23,13 @@ export default function SignIn () {
                 <GoBack/>
             </TopPage>
             <MiddlePage>
-                <div className='text-center lg:text-start pt-10 lg:pt-0'>
+            <div className="">
+                    <img
+                        src={Image}
+                        className="py-4 xs:py-10 sm:py-12 pb-8 px-8 sm:pb-auto sm:px-48 md:px-40 lg:py-0 lg:px-14"
+                    />
+                </div>
+                <div className='text-center lg:text-start pb-10 lg:pb-0'>
                     <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                             <div>
                                 <p className="xxs11:text-base xxs6:text-lg xxs4:text-xl xxs2:text-2xl xs:text-[18px] sm:text-lg md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl">
@@ -88,12 +94,7 @@ export default function SignIn () {
                             </div>
                         </div>
                 </div>
-                <div className="">
-                    <img
-                        src={Image}
-                        className="py-4 xs:py-10 sm:py-12 pt-8 px-8 sm:pt-auto sm:px-48 lg:px-14"
-                        />
-                </div>
+                
             </MiddlePage>
             <BottomPage>
                 <Credits/>

@@ -11,7 +11,7 @@ export default function Home() {
             <NavBar/>
         </TopPage>
         <MiddlePage>
-            <div className='text-center lg:text-start pt-10 lg:pt-0 lg:place-items-start'>
+            <div className='text-center lg:text-start lg:place-items-start'>
                 <div>
                     <h1 className="grid sm:block xxs11:text-4xl xxs6:text-[40px] xxs5:text-[44px] xxs4:text-5xl xxs3:text-[52px] xxs2:text-[56px] xxs:text-[60px] xs:text-4xl text-gray-900 tracking-tight 2xl:text-8xl xl:text-7xl lg:text-6xl md:text-8xl sm:text-7xl xs:text-6xl leading-tight xxs11:justify-center">
                         <span className="block">
@@ -39,7 +39,7 @@ export default function Home() {
             <div className="">
               <img
                 src={Image}
-                className="py-4 xs:py-10 sm:py-12 pt-8 px-8 sm:pt-auto xs:px-20 sm:px-28 md:px- lg:px-14"
+                className="py-5 px-14 xs:py-7 sm:py-16 sm:px-20 md:py-20 md:px-24 lg:px-14 lg:py-0"
               />
             </div>
         </MiddlePage>

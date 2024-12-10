@@ -23,23 +23,24 @@ export default function SignIn () {
                 <GoBack/>
             </TopPage>
             <MiddlePage>
-                <div className='text-center lg:text-start pt-10 lg:place-items-start'>
-                    <div className="items-center text-center">
-                        <h1 className="grid items-center place-items-center  text-center sm:block xxs11:text-[26px] xxs10:text-[28px] xxs9:text-3xl xxs8:text-[32px] xxs7:text-4xl xxs6:text-[40px] xxs5:text-[44px] xxs4:text-5xl xxs3:text-[52px] xxs2:text-[56px] xxs:text-[60px] xs:text-4xl text-gray-900 tracking-tight 2xl:text-8xl 3xl:text-9xl lg:text-7xl md:text-8xl sm:text-7xl xs:text-6xl leading-tight xxs11:justify-center">
-                            <span className="block border-4">
-                                Welcome&nbsp;
-                            </span>
-                            <span className="block border-4">
-                                to Easy Trip!
-                            </span>
-                        </h1>
-                    </div>
-                    <div className='xxs11:w-[200px] xxs10:w-[220px] xxs9:w-[240px] xxs8:w-[250px] xxs7:w-[270px] xxs6:w-[280px] xxs5:w-[290px] xxs4:w-[300px] xxs3:w-[310px] xxs2:w-[320px] xxs:w-[330px] xs:w-auto xxs:flex xxs:justify-center xxs10:mt-2 xxs8:mt-4 xxs5:mt-5 xs:mt-1 md:mt-6 sm:mt-5 xs:mt-4 2xl:mt-6'>
-                        <p className='xxs11:text-sm xxs6:text-sm xxs3:text-md xxs2:text-base xxs:text-lg xs:text-[12px] leading-tight text-gray-900 tracking-tight 3xl:text-3xl 2xl:text-2xl lg:text-lg md:text-2xl sm:text-lg xs:text-base'>
-                            <span className='block'>
-                                Sign up and make every trip extraordinary.
-                            </span>             
-                        </p>
+                <div className='text-center lg:text-start pt-10 lg:pt-0'>
+                    <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
+                            <div>
+                                <p className="xxs11:text-base xxs6:text-lg xxs4:text-xl xxs2:text-2xl xs:text-[18px] sm:text-lg md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl">
+                                    Welcome to
+                                </p>
+                            </div>
+                            <h1 className="xxs11:grid sm:flex gap-3.5 text-center xs:flex xs:justify-center xxs11:text-6xl xxs6:text-7xl xxs2:text-8xl  xs:text-5xl md:text-8xl lg:text-6xl xl:text-7xl 2xl:text-8xl xxs11:-mt-2 xxs8:-mt-2 xxs6:-mt-3 xx2:-mt-4 xs:-mt-2 sm:-mt-3">
+                                <span className="block">
+                                    Easy
+                                </span>
+                                <span className="block">
+                                    Trip!
+                                </span>
+                            </h1>
+                            <p className="text-center xxs11:w-[150px] xxs8:w-[155px] xxs6:w-[160px] xxs4:w-[165px] xxs2:w-[220px] xxs:w-[260px] xs:w-full 2xl:w-auto xxs11:text-base xxs6:text-lg xxs4:text-xl xxs2:text-2xl xs:text-[18px] md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl 2xl:mt-4 xxs11:mt-3 xxs4:mt-4 xs:mt-1 md:mt-3">
+                                Let's sign in to your account.
+                            </p>
                     </div>
                     <div className="grid place-items-center gap-y-4 xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
                             <div className="grid gap-1.5 w-full place-items-start">
@@ -88,41 +89,10 @@ export default function SignIn () {
                         </div>
                 </div>
                 <div className="">
-                <img
-                    src={Image}
-                    className="py-4 xs:py-10 sm:py-12 px-[4vh]"
-                />
-                </div>
-                <div className="grid place-items-center">
-                    <div className="place-items-center text-start xxs11:mb-10" >
-                        <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
-                            
-                            <p className="xxs11:text-sm xxs6:text-sm xxs3:text-md xxs2:text-base xxs:text-lg xs:text-[12px] leading-tight text-gray-900 tracking-tight 3xl:text-3xl 2xl:text-2xl lg:text-lg md:text-3xl sm:text-lg xs:text-base">
-                                Welcome to
-                            </p>
-                            <h1 className="xxs11:grid text-center xs:flex xs:justify-center xxs11:text-[26px] xxs10:text-[28px] xxs9:text-3xl xxs8:text-[32px] xxs7:text-4xl xxs6:text-[40px] xxs5:text-[44px] xxs4:text-5xl xxs3:text-[52px] xxs2:text-[56px] xxs:text-[60px] xs:text-4xl text-gray-900 tracking-tight 2xl:text-8xl lg:text-7xl md:text-9xl sm:text-7xl xs:text-6xl leading-tight xxs11:-mt-2 xxs8:-mt-2 xxs6:-mt-3 xx2:-mt-4 xs:-mt-3  lg:-mt-3 2xl:-mt-3">
-                                <span className="block">
-                                    Easy
-                                </span>
-                                <span className="hidden xs:block">
-                                    &nbsp;
-                                </span>
-                                <span className="block">
-                                    Trip!
-                                </span>
-                            </h1>
-                            <p className="text-center xxs11:text-sm xxs6:text-sm xxs3:text-md xxs2:text-base xxs:text-lg xs:text-[12px] leading-tight text-gray-900 tracking-tight 3xl:text-3xl 2xl:text-2xl lg:text-lg md:text-3xl sm:text-lg xs:text-base 2xl:mt-4 xxs11:mt-3 xxs4:mt-4 xs:mt-1 md:mt-6">
-                                Let's sign in to your account.
-                            </p>
-                        </div>
-                        
-                        </div>
-                    </div>
-                <div className="">
                     <img
                         src={Image}
-                        className="py-4 xs:py-10 sm:py-12 px-[4vh]" 
-                    />
+                        className="py-4 xs:py-10 sm:py-12 pt-8 px-8 sm:pt-auto sm:px-48 lg:px-14"
+                        />
                 </div>
             </MiddlePage>
             <BottomPage>

@@ -11,23 +11,18 @@ export default function Home() {
             <NavBar/>
         </TopPage>
         <MiddlePage>
-            <div className='text-center lg:text-start lg:place-items-startm mx-[8.8vw]' >
+            <div className='text-center lg:text-start lg:place-items-startm mx-[8.8vw]'  style={{border: '1px solid red'}}>
                 <div>
-                    <h1 className="grid text-[14vw] xxs5:text-[13.8vw] text-gray-900 tracking-tight leading-tight"  >
-                        <span className="block">
-                            Let's planning
-                        </span>
-                        <span className="block">
-                            your trip!
-                        </span>
+                    <h1 className="grid text-[14vw] xxs5:text-[13.7vw] xs:text-[14.1vw] text-gray-900 tracking-tight leading-[1]"  >
+                        Let's planning your trip!
                     </h1>
                 </div>
-                <div   className=' xs:w-auto items-center flex justify-center mt-[4.5vw] xxs5:mt-[4.2vw] xs:mt-1 md:mt-6 sm:mt-5 xs:mt-4 2xl:mt-6'>
-                    <p className='text-[5.2vw] xxs8:text-[4.4vw] xs:text-[12px] leading-tight text-gray-900 tracking-tight 3xl:text-3xl 2xl:text-2xl xl:text-xl lg:text-lg md:text-2xl sm:text-lg xs:text-base'>
+                <div    className=' xs:w-auto items-center flex justify-center mt-[4.5vw] xxs5:mt-[4.2vw] md:mt-6 sm:mt-5 xs:mt-4 2xl:mt-6'>
+                    <p className='text-[5.2vw] xxs8:text-[4.4vw]  leading-tight text-gray-900 tracking-tight 3xl:text-3xl 2xl:text-2xl xl:text-xl lg:text-lg md:text-2xl '>
                       Explore, organize, and embark on a unique adventure with ease.
                     </p>
                 </div>
-                <div className="grid xxs11:gap-y-2 xxs9:gap-y-3 xxs7:gap-y-4 xs:flex mt-[4.5vw] xxs5:mt-[4.2vw]-3 md:mt-4 xs:mt-2 2xl:mt-4 gap-5 sm:justify-center">
+                <div   className="grid xs:flex xxs11:gap-y-2 xxs9:gap-y-3 mt-[3vw] xs:mt-[2.2vw] md:mt-4  2xl:mt-4 gap-5 sm:justify-center">
                     <Button size={"auto"}>
                       Place suggestions
                     </Button>
@@ -36,10 +31,10 @@ export default function Home() {
                     </Button>
                 </div>
             </div>
-            <div className="mx-[8.8vw]">
+            <div className="mx-[8.8vw]" style={{border: '1px solid red'}}>
               <img
                 src={Image}
-                className="w-full h-auto pt-[3vw]"
+                className="w-full h-auto"
               />
             </div>
         </MiddlePage>

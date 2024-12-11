@@ -36,7 +36,7 @@ export default function SignIn () {
                                     Welcome to
                                 </p>
                             </div>
-                            <h1 className="xxs11:grid sm:flex gap-3.5 text-center xs:flex xs:justify-center xxs11:text-6xl xxs6:text-7xl xxs2:text-8xl  xs:text-7xl md:text-8xl lg:text-6xl xl:text-7xl 2xl:text-8xl xxs11:-mt-2 xxs8:-mt-2 xxs6:-mt-3 xx2:-mt-4 xs:-mt-2 sm:-mt-3">
+                            <h1 className="flex gap-2 xs:gap-3.5 text-[20vw]">
                                 <span className="block">
                                     Easy
                                 </span>

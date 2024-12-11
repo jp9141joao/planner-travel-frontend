@@ -8,6 +8,7 @@ export default {
   theme: {
   	extend: {
 		screens: {
+			'lg': '1025px',
 			'xs': '450px',
 			'xxs': '430px',
 			'xxs2': '410px',
@@ -19,8 +20,7 @@ export default {
 			'xxs8': '290px',
 			'xxs9': '270px',
 			'xxs10': '250px',
-			'xxs11': '230px',
-			'lg': '1025px'
+			'xxs11': '230px'
 		},
   		borderRadius: {
   			lg: 'var(--radius)',

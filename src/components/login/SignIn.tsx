@@ -5,17 +5,10 @@ import { Link } from "react-router-dom";
 import Image from '@/assets/undraw_aircraft_re_m05i.svg';
 import { GoBack } from "../GoBack";
 import Credits from "../Credits";
-import { useEffect, useState } from "react";
 import { BodyPage, BottomPage, MiddlePage, TopPage } from "../LayoutPage/Layouts";
 
 
 export default function SignIn () {
-
-    const [w, setW ] = useState<number>(window.innerWidth);
-
-    useEffect(() => {
-        setW(window.innerWidth)
-    }, [window.innerWidth]);
 
     return (
         <BodyPage>
@@ -23,28 +16,23 @@ export default function SignIn () {
                 <GoBack/>
             </TopPage>
             <MiddlePage>
-                <div className="">
+                <div className="mx-[8.8vw] xs:mx-[15.5vw] lg:mx-[2vw]">
                     <img
                         src={Image}
-                        className="xxs:px-10 sm:px-20 lg:px-0"
+                        className="w-full h-auto"
                     />
                 </div>
-                <div className='text-center lg:text-start pb-7 pt-3 xs:pb-10 xs:pt-4 sm:pb-22 sm:pt-10  md:pb-32 md:pt-8 lg:pb-0 lg:pt-12'>
+                <div className='text-center lg:text-start mt-[6vw] xs:my-[7vw] lg:mt-0 lg:my-0 lg:pt-0'>
                     <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                             <div>
-                                <p className="xxs11:text-base xxs6:text-lg xxs4:text-xl xxs2:text-2xl xs:text-xl sm:text-lg md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl">
+                                <p className="xs:text-start text-[5.2vw] xxs8:text-[4.4vw] xs:text-[3.0vw] lg:text-[1.8vw] mt-[4.5vw] xxs5:mt-[4.2vw] xs:mt-[2.8vw] lg:mt-[1.9vw] leading-tight text-gray-900 tracking-tight">
                                     Welcome to
                                 </p>
                             </div>
-                            <h1 className="flex gap-2 xs:gap-3.5 text-[20vw]">
-                                <span className="block">
-                                    Easy
-                                </span>
-                                <span className="block">
-                                    Trip!
-                                </span>
+                            <h1 className="grid text-[14vw] xxs5:text-[13.7vw] xs:text-[10.5vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[1] xs:leading-[0.7]">
+                                Easy trip!
                             </h1>
-                            <p className="text-center xxs11:w-[150px] xxs8:w-[155px] xxs6:w-[160px] xxs4:w-[165px] xxs2:w-[220px] xxs:w-[260px] xs:w-full 2xl:w-auto xxs11:text-base xxs6:text-lg xxs4:text-xl xxs2:text-2xl xs:text-xl md:text-2xl lg:text-lg xl:text-xl 2xl:text-2xl 2xl:mt-4 xxs11:mt-3 xxs4:mt-4 xs:mt-3">
+                            <p className="xs:text-start text-[5.2vw] xxs8:text-[4.4vw] xs:text-[3.0vw] lg:text-[1.8vw] mt-[4.5vw] xxs5:mt-[4.2vw] xs:mt-[2.8vw] lg:mt-[2.4vw] leading-tight text-gray-900 tracking-tight">
                                 Let's sign in to your account.
                             </p>
                     </div>

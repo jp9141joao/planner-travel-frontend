@@ -11,14 +11,14 @@ export default function Home() {
             <NavBar/>
         </TopPage>
         <MiddlePage>
-            <div className='text-center xs:text-start lg:place-items-start mx-[8.8vw] lg:mx-0'>
+            <div className='text-center xs:text-start lg:place-items-start mx-[8.8vw] lg:mx-0 pt-[6vw] xs:pt-0 xs:mt-[14vw] lg:mt-[6vw]'>
                 <div>
-                    <h1 className="grid text-[14vw] xxs5:text-[13.7vw] xs:text-[10.5vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[1] xs:leading-[0.9]">
+                    <h1 className="grid text-[14vw] xxs5:text-[13.7vw] xs:text-[10.5vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[1]">
                         Let's planning your trip!
                     </h1>
                 </div>
-                <div className='flex xs:justify-start mt-[4.5vw] xxs5:mt-[4.2vw] xs:mt-[2.8vw] lg:mt-[1.9vw]'>
-                    <p className='text-[5.2vw] xxs8:text-[4.4vw]  xs:text-[3.0vw] lg:text-[1.8vw] leading-tight text-gray-900 tracking-tight'>
+                <div>
+                    <p className='xs:text-start text-[5.2vw] xxs8:text-[4.4vw] xs:text-[3.0vw] lg:text-[1.8vw] mt-[4.5vw] xxs5:mt-[4.2vw] xs:mt-[2.8vw] lg:mt-[1.9vw] leading-tight text-gray-900 tracking-tight'>
                       Explore, organize, and embark on a unique adventure with ease.
                     </p>
                 </div>

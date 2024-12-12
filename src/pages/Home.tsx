@@ -31,7 +31,7 @@ export default function Home() {
                     </Button>
                 </div>
             </div>
-            <div className="mx-[8.8vw] mt-[6vw] xs:mx-[15.5vw] xs:my-[7vw] lg:mt-0 lg:my-0 lg:pt-0 lg:mx-[2vw]">
+            <div className="mx-[8.8vw] mt-[6vw] xs:mx-[15.5vw] xs:my-[7vw] lg:mt-0 lg:my-0 lg:pt-[7.4vw] lg:mx-[2vw]">
               <img
                 src={Image}
                 className="w-full h-auto"

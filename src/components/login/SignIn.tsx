@@ -16,23 +16,23 @@ export default function SignIn () {
                 <GoBack/>
             </TopPage>
             <MiddlePage>
-                <div className="mx-[8.8vw] xs:mx-[15.5vw] lg:mx-[2vw]">
+                <div className="mx-[8.8vw] xs:mx-[15.5vw] lg:mx-[2vw] mt-[15vw] xs:my-[7vw] lg:mt-0 lg:my-0 lg:pt-0">
                     <img
                         src={Image}
                         className="w-full h-auto"
                     />
                 </div>
-                <div className='text-center lg:text-start mt-[6vw] xs:my-[7vw] lg:mt-0 lg:my-0 lg:pt-0'>
+                <div className='text-center lg:text-start'>
                     <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                             <div>
-                                <p className="xs:text-start text-[5.2vw] xxs8:text-[4.4vw] xs:text-[3.0vw] lg:text-[1.8vw] mt-[4.5vw] xxs5:mt-[4.2vw] xs:mt-[2.8vw] lg:mt-[1.9vw] leading-tight text-gray-900 tracking-tight">
+                                <p className="xs:text-start text-[5.2vw] xxs8:text-[5.7vw] xs:text-[3.0vw] lg:text-[1.8vw] mt-[4.5vw] xxs5:mt-[4.2vw] xs:mt-[2.8vw] lg:mt-[1.9vw] leading-tight text-gray-900 tracking-tight">
                                     Welcome to
                                 </p>
                             </div>
-                            <h1 className="grid text-[14vw] xxs5:text-[13.7vw] xs:text-[10.5vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[1] xs:leading-[0.7]">
+                            <h1 className="grid text-[14vw] xxs5:text-[18vw] xs:text-[10.5vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.7] xs:leading-[0.7]">
                                 Easy trip!
                             </h1>
-                            <p className="xs:text-start text-[5.2vw] xxs8:text-[4.4vw] xs:text-[3.0vw] lg:text-[1.8vw] mt-[4.5vw] xxs5:mt-[4.2vw] xs:mt-[2.8vw] lg:mt-[2.4vw] leading-tight text-gray-900 tracking-tight">
+                            <p className="xs:text-start text-[5.2vw] xxs8:text-[5.7vw] xs:text-[3.0vw] lg:text-[1.8vw] mt-[4.5vw] xxs5:mt-[6.8vw] xs:mt-[2.8vw] lg:mt-[2.4vw] leading-tight text-gray-900 tracking-tight">
                                 Let's sign in to your account.
                             </p>
                     </div>

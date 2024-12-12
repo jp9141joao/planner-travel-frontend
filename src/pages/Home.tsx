@@ -11,18 +11,18 @@ export default function Home() {
             <NavBar/>
         </TopPage>
         <MiddlePage>
-            <div className='text-center lg:text-start lg:place-items-startm mx-[8.8vw]'  style={{border: '1px solid red'}}>
+            <div className='text-center xs:text-start lg:place-items-start mx-[8.8vw] lg:mx-0'>
                 <div>
-                    <h1 className="grid text-[14vw] xxs5:text-[13.7vw] xs:text-[14.1vw] text-gray-900 tracking-tight leading-[1]"  >
+                    <h1 className="grid text-[14vw] xxs5:text-[13.7vw] xs:text-[10.5vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[1] xs:leading-[0.9]">
                         Let's planning your trip!
                     </h1>
                 </div>
-                <div    className=' xs:w-auto items-center flex justify-center mt-[4.5vw] xxs5:mt-[4.2vw] md:mt-6 sm:mt-5 xs:mt-4 2xl:mt-6'>
-                    <p className='text-[5.2vw] xxs8:text-[4.4vw]  leading-tight text-gray-900 tracking-tight 3xl:text-3xl 2xl:text-2xl xl:text-xl lg:text-lg md:text-2xl '>
+                <div className='flex xs:justify-start mt-[4.5vw] xxs5:mt-[4.2vw] xs:mt-[2.8vw] lg:mt-[1.9vw]'>
+                    <p className='text-[5.2vw] xxs8:text-[4.4vw]  xs:text-[3.0vw] lg:text-[1.8vw] leading-tight text-gray-900 tracking-tight'>
                       Explore, organize, and embark on a unique adventure with ease.
                     </p>
                 </div>
-                <div   className="grid xs:flex xxs11:gap-y-2 xxs9:gap-y-3 mt-[3vw] xs:mt-[2.2vw] md:mt-4  2xl:mt-4 gap-5 sm:justify-center">
+                <div className="grid xs:flex xs:justify-start xxs11:gap-y-3 xs:gap-y-0 xs:gap-4 mt-[3vw] xs:mt-[1.4vw] lg:mt-[0.8vw]">
                     <Button size={"auto"}>
                       Place suggestions
                     </Button>
@@ -31,7 +31,7 @@ export default function Home() {
                     </Button>
                 </div>
             </div>
-            <div className="mx-[8.8vw]" style={{border: '1px solid red'}}>
+            <div className="mx-[8.8vw] mt-[6vw] xs:mx-[15.5vw] xs:my-[7vw] lg:mt-0 lg:my-0 lg:pt-0 lg:mx-[2vw]">
               <img
                 src={Image}
                 className="w-full h-auto"

@@ -1,4 +1,4 @@
-import Image from "@/assets/undraw_floating_re_xtcj.svg"
+import Image from "@/assets/undraw_world_re_768g.svg"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { Button } from "../ui/button"
@@ -6,100 +6,197 @@ import { Link } from "react-router-dom"
 import { GoBack } from "../GoBack";
 import Credits from "../Credits";
 import SizePage from "../SizePage"
-import { ArrowUp, Mouse } from "lucide-react"
+import { BodyPage, BottomPage, MiddlePage, TopPage } from "../LayoutPage/Layouts";
 
 export default function SignIn(){
 
     return (
-        <>
-            <div className=" w-full">
-                <GoBack />
-            </div>
-
-            <div className="flex min-h-screen flex-col">
-                <div className="grid grid-cols-1 sm:grid-cols-2 pt-10">
-                    <div className="grid place-items-center grid-cols-1 flex-grow">
-                            <div className="place-items-center"> {/* xxs11:my-[5vh] xs:my-[12vh] xl:my-[9vw] 2xl:mt-7 2xl: */}
-                                <div className="grid place-items-center text-center leading-tight">
-                                    <p className="xxs11:text-base xxs6:text-lg xxs4:text-xl xxs2:text-2xl xs:text-[18px] sm:text-lg md:text-xl xl:text-2xl 2xl:text-3xl">
-                                        Join the  family of
-                                    </p>
-                                    <h1 className="3xl:underline xxs11:grid text-center xs:flex xs:justify-center xxs11:text-6xl xxs6:text-7xl xxs2:text-8xl  xs:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl xxs11:-mt-2 xxs8:-mt-2 xxs6:-mt-3 xx2:-mt-4 xs:-mt-2 lg:-mt-3 2xl:-mt-4">
-                                        <span className="block">
-                                            Easy Trip
-                                        </span>
-                                    </h1>
-                                    <p className="text-center xxs11:w-[150px] xxs8:w-[155px] xxs6:w-[160px] xxs4:w-[185px] xxs2:w-[230px] xxs:w-[250px] xs:w-full 2xl:w-auto xxs11:text-base xxs6:text-lg xxs4:text-xl xxs2:text-2xl xs:text-[18px] md:text-xl xl:text-2xl 2xl:text-3xl 2xl:mt-5 xxs11:mt-2 xxs4:mt-3 xs:mt-1 md:mt-2">
-                                        Sign up and explore the world.
-                                    </p>
-                                </div>
-                                <div className="xxs11:mt-2 xs:mt-3 md:mt-4 xl:mt-6">
-                                    <div className="grid gap-y-3 xxs11:w-[200px] xxs10:w-[220px] xxs9:w-[240px] xxs8:w-[250px] xxs7:w-[270px] xxs6:w-[280px] xxs5:w-[290px] xxs4:w-[300px] xxs3:w-[310px] xxs2:w-[320px] xxs:w-[350px] xs:w-[270px] sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[450px] 2xl:w-[500px]">
-                                        <div className="grid gap-1 w-full ">
-                                            <Label htmlFor="fullName">
-                                                Full name
-                                            </Label>
-                                            <Input 
-                                                type="text" 
-                                                id="fullName"
-                                                placeholder="Your name"
-                                            />
-                                        </div>
-                                        <div className="grid gap-1 w-full ">
-                                            <Label htmlFor="email">
-                                                Email
-                                            </Label>
-                                            <Input 
-                                                type="email" 
-                                                id="email"
-                                                placeholder="name@example.com"
-                                            />
-                                        </div>
-                                        <div className="grid gap-1 w-full">
-                                            <Label htmlFor="password">
-                                                Password
-                                            </Label>
-                                            <Input 
-                                                type="password" 
-                                                id="password" 
-                                                placeholder="Abc123" 
-                                            />
-                                        </div>
-                                        <div className="mt-1 grid gap-1 w-full">
-                                            <Button type="submit">
-                                                Sign up
-                                            </Button>
-                                        </div>
-                                        <div className="flex justify-center gap-2 xxs11:text-[12px] xxs5:text-sm xs:text-[12px] sm:text-sm md:text-md xl:text-lg 2xl:text-xl">
-                                            <p>
-                                                Have an account?
-                                            </p>
-                                            <Link to={"/signIn"} className="underline">
-                                                Sign in!
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+        <BodyPage>
+            <TopPage>
+                <GoBack/>
+            </TopPage>
+            <MiddlePage>
+                <div className="grid place-items-center items-center mt-[1.3vw]"> 
+                    <div className="grid place-items-center text-center">
+                        <div>
+                            <p className="xs:text-start text-[7.6vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] leading-tight text-gray-900 tracking-tight">
+                                Join the  family of
+                            </p>
+                        </div>
+                        <div>
+                            <h1 className="grid text-[22vw] xxs5:text-[21.2vw] xs:text-[15vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.7] xs:leading-[0.8]">
+                                <span className="block">
+                                    Easy Trip
+                                </span>
+                            </h1>
+                        </div>
+                        <div>
+                            <p className="xs:text-start text-[7.6vw] xxs5:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] mt-[6.2vw] xxs5:mt-[6.4vw] xs:mt-[5.7vw] lg:mt-[2.1vw] leading-tight text-gray-900 tracking-tight">
+                                Sign up and explore the world.
+                            </p>
+                        </div>
                     </div>
-                    <div className="grid place-items-center grid-cols-1 flex-grow py-4" >
-                        <div className="">
-                            <img 
-                                src={Image} 
-                                className="w-full h-auto xxs11:px-20 py-4" 
+                    <div className="grid gap-y-2 xxs3:gap-y-4 xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
+                        <div className="grid gap-1.5 w-full place-items-start">
+                            <Label htmlFor="fullName">
+                                Full name
+                            </Label>
+                            <Input 
+                                type="text" 
+                                id="fullName"
+                                placeholder="Your name"
                             />
+                        </div>
+                        <div className="grid gap-1.5 w-full place-items-start">
+                            <Label htmlFor="email">
+                                Email
+                            </Label>
+                            <Input 
+                                type="email" 
+                                id="email"
+                                placeholder="name@example.com"
+                            />
+                        </div>
+                        <div className="grid gap-1.5 w-full place-items-start">
+                            <Label htmlFor="password">
+                                Password
+                            </Label>
+                            <Input 
+                                type="password" 
+                                id="password" 
+                                placeholder="Abc123" 
+                            />
+                        </div>
+                        <div className="grid w-full">
+                            <Button type="submit">
+                                Sign up
+                            </Button>
+                        </div>
+                        <div className="flex justify-center gap-2 text-sm sm:text-base lg:text-lg">
+                            <p>
+                                Have an account?
+                            </p>
+                            <Link to={"/signIn"} className="underline">
+                                Sign in!
+                            </Link>
                         </div>
                     </div>
                 </div>
-                <div className="w-full text-center" > 
-                    <Credits />
+                <div className="mx-[8.8vw] mt-[6vw] xs:mx-[15.5vw] xs:my-[7vw] lg:my-0 lg:mt-[7.4vw] lg:mx-[3vw]">
+                    <img
+                        src={Image}
+                        className="w-full h-auto"
+                    />
                 </div>
-            </div>
-                
-            
-            
-            
-        </>
+            </MiddlePage>
+            <BottomPage>
+                <Credits/>
+            </BottomPage>
+        </BodyPage>
     )
 
+}
+
+{
+/*
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Link } from "react-router-dom";
+import Image from '@/assets/undraw_aircraft_re_m05i.svg';
+import { GoBack } from "../GoBack";
+import Credits from "../Credits";
+import { BodyPage, BottomPage, MiddlePage, TopPage } from "../LayoutPage/Layouts";
+
+
+export default function SignIn () {
+
+    return (
+        <BodyPage>
+            <TopPage>
+                <GoBack/>
+            </TopPage>
+            <MiddlePage>
+                <div className="hidden lg:block mx-[2vw]">
+                    <img
+                        src={Image}
+                        className="w-auto h-auto"
+                    />
+                </div>
+                <div>
+                    <div className="lg:hidden mx-[8.8vw] xs:mx-[15.5vw] my-[2.7vw] xxs5:my-[2.4vw] xs:my-0">
+                        <img
+                            src={Image}
+                            className="w-auto h-auto"
+                        />
+                    </div>
+                    <div className='table mx-auto'>
+                        <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
+                                <div>
+                                    <p className="xs:text-start text-[7.6vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] leading-tight text-gray-900 tracking-tight">
+                                        Welcome to
+                                    </p>
+                                </div>
+                                <h1 className="grid text-[22vw] xxs5:text-[21.2vw] xs:text-[15vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.7] xs:leading-[0.7]">
+                                    Easy trip!
+                                </h1>
+                                <p className="xs:text-start text-[7.6vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] mt-[6.2vw] xxs5:mt-[6.4vw] xs:mt-[5.7vw] lg:mt-[2.4vw] leading-tight text-gray-900 tracking-tight">
+                                    Let's sign in to your account.
+                                </p>
+                        </div>
+                        <div className="grid place-items-center gap-y-4 xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
+                            <div className="grid gap-1.5 w-full place-items-start">
+                                <Label htmlFor="email">
+                                    Email
+                                </Label>
+                                <Input 
+                                    type="email" 
+                                    id="email"
+                                    placeholder="name@example.com"
+                                />
+                            </div>
+                            <div className="grid gap-1.5 w-full place-items-start">
+                                <Label htmlFor="password">
+                                    Password
+                                </Label>
+                                <Input 
+                                    type="password" 
+                                    id="password" 
+                                    placeholder="Abc123" 
+                                />
+                            </div>
+                            <div className="flex items-center gap-1.5 w-full text-sm sm:text-base lg:text-lg">
+                                <p>
+                                    Forgot your password?
+                                </p>
+                                <Link to={"/resetPassword"}>
+                                    <strong>
+                                        Click here.
+                                    </strong>
+                                </Link>
+                            </div>
+                            <div className="grid gap-1.5 w-full">
+                                <Button type="submit">
+                                    Sign in
+                                </Button>
+                            </div>
+                            <div className="flex justify-center gap-2 text-sm sm:text-base lg:text-lg">
+                                <p>
+                                    Don't have an account?
+                                </p>
+                                <Link to={"/signUp"} className="underline">
+                                    Sign up!
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </MiddlePage>
+            <BottomPage>
+                <Credits/>
+            </BottomPage>
+        </BodyPage>
+    )
+}
+*/
 }

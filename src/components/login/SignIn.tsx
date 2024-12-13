@@ -23,7 +23,7 @@ export default function SignIn () {
                     />
                 </div>
                 <div>
-                    <div className="lg:hidden mx-[8.8vw] xs:mx-[15.5vw] my-[2.7vw] xxs5:my-[2.4vw] xs:my-0">
+                    <div className="lg:hidden mx-[11vw] xxs3:mx-[8.8vw] xs:mx-[15.5vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-0">
                         <img
                             src={Image}
                             className="w-auto h-auto"
@@ -43,7 +43,7 @@ export default function SignIn () {
                                     Let's sign in to your account.
                                 </p>
                         </div>
-                        <div className="grid place-items-center gap-y-4 xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
+                        <div className="grid place-items-center gap-y-2 xxs3:gap-y-4 xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
                             <div className="grid gap-1.5 w-full place-items-start">
                                 <Label htmlFor="email">
                                     Email

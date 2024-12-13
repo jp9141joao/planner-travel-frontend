@@ -11,7 +11,7 @@ export default function Home() {
             <NavBar/>
         </TopPage>
         <MiddlePage>
-            <div className='text-center xs:text-start lg:place-items-start mx-[8.8vw] lg:mx-0 pt-[6vw] xs:pt-0 xs:mt-[14vw] lg:mt-[6vw]'>
+            <div className='text-center xs:text-start lg:place-items-start mx-[8.8vw] lg:mx-0 pt-[6vw] xs:pt-0 xs:mt-[14vw] lg:mt-0'>
                 <div>
                     <h1 className="grid text-[14vw] xxs5:text-[13.7vw] xs:text-[10.5vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[1]">
                         Let's planning your trip!

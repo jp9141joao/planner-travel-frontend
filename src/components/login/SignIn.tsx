@@ -16,27 +16,34 @@ export default function SignIn () {
                 <GoBack/>
             </TopPage>
             <MiddlePage>
-                <div className="mx-[10vw] xs:mx-[19vw] lg:mx-[2vw] mt-[20vw] xs:mt-[16vh]">
+                <div className="hidden lg:block mx-[2vw]">
                     <img
                         src={Image}
-                        className="w-full h-auto"
+                        className="w-auto h-auto"
                     />
                 </div>
-                <div className='text-center lg:text-start mb-[20vw] xs:mb-[16vh]'>
-                    <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
-                            <div>
-                                <p className="xs:text-start text-[7.6vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] mt-[4.5vw] xxs5:mt-[4.2vw] xs:mt-[2.8vw] lg:mt-[1.9vw] leading-tight text-gray-900 tracking-tight">
-                                    Welcome to
-                                </p>
-                            </div>
-                            <h1 className="grid text-[22vw] xxs5:text-[21.2vw] xs:text-[15vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.7] xs:leading-[0.7]">
-                                Easy trip!
-                            </h1>
-                            <p className="xs:text-start text-[7.6vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] mt-[7vw] xxs5:mt-[6.8vw] xs:mt-[5.7vw] lg:mt-[2.4vw] leading-tight text-gray-900 tracking-tight">
-                                Let's sign in to your account.
-                            </p>
+                <div>
+                    <div className="lg:hidden mx-[8.8vw] xs:mx-[15.5vw] my-[2.7vw] xxs5:my-[2.4vw] xs:my-0">
+                        <img
+                            src={Image}
+                            className="w-auto h-auto"
+                        />
                     </div>
-                    <div className="grid place-items-center gap-y-4 xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
+                    <div className='table mx-auto'>
+                        <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
+                                <div>
+                                    <p className="xs:text-start text-[7.6vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] leading-tight text-gray-900 tracking-tight">
+                                        Welcome to
+                                    </p>
+                                </div>
+                                <h1 className="grid text-[22vw] xxs5:text-[21.2vw] xs:text-[15vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.7] xs:leading-[0.7]">
+                                    Easy trip!
+                                </h1>
+                                <p className="xs:text-start text-[7.6vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] mt-[6.2vw] xxs5:mt-[6.4vw] xs:mt-[5.7vw] lg:mt-[2.4vw] leading-tight text-gray-900 tracking-tight">
+                                    Let's sign in to your account.
+                                </p>
+                        </div>
+                        <div className="grid place-items-center gap-y-4 xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
                             <div className="grid gap-1.5 w-full place-items-start">
                                 <Label htmlFor="email">
                                     Email
@@ -81,8 +88,8 @@ export default function SignIn () {
                                 </Link>
                             </div>
                         </div>
+                    </div>
                 </div>
-                
             </MiddlePage>
             <BottomPage>
                 <Credits/>

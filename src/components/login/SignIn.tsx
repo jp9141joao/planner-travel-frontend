@@ -16,36 +16,40 @@ export default function SignIn () {
                 <GoBack/>
             </TopPage>
             <MiddlePage>
-                <div className="hidden lg:block mx-[2vw]">
+                <div className="hidden lg:block mx-[2vw]"  style={{border: '1px solid red'}}>
                     <img
                         src={Image}
                         className="w-auto h-auto"
                     />
                 </div>
-                <div>
-                    <div className="lg:hidden mx-[11vw] xxs3:mx-[8.8vw] xs:mx-[15.5vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-0">
+                <div  style={{border: '1px solid red'}}>
+                    <div className="lg:hidden mx-[11vw] xxs3:mx-[8.8vw] xs:mx-[15.5vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-0"  style={{border: '1px solid red'}}>
                         <img
                             src={Image}
                             className="w-auto h-auto"
                         />
                     </div>
-                    <div className='table mx-auto'>
+                    <div className='table mx-auto'  style={{border: '1px solid red'}}>
                         <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
-                                <div>
+                                <div  style={{border: '1px solid red'}}>
                                     <p className="xs:text-start text-[7.6vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] leading-tight text-gray-900 tracking-tight">
                                         Welcome to
                                     </p>
                                 </div>
-                                <h1 className="grid text-[22vw] xxs5:text-[21.2vw] xs:text-[15vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.7] xs:leading-[0.7]">
-                                    Easy trip!
-                                </h1>
-                                <p className="xs:text-start text-[7.6vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] mt-[6.2vw] xxs5:mt-[6.4vw] xs:mt-[5.7vw] lg:mt-[2.4vw] leading-tight text-gray-900 tracking-tight">
-                                    Let's sign in to your account.
-                                </p>
+                                <div  style={{border: '1px solid red'}}>
+                                    <h1 className="grid text-[22vw] xxs5:text-[21.2vw] xs:text-[15vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.7] xs:leading-[0.7]">
+                                        Easy trip!
+                                    </h1>
+                                </div>
+                                <div  style={{border: '1px solid red'}}>
+                                    <p className="xs:text-start text-[7.6vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] mt-[6.2vw] xxs5:mt-[6.4vw] xs:mt-[5.7vw] lg:mt-[2.4vw] leading-tight text-gray-900 tracking-tight">
+                                        Let's sign in to your account.
+                                    </p>
+                                </div>
                         </div>
-                        <div className="grid place-items-center gap-y-2 xxs3:gap-y-4 xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
+                        <div  style={{border: '1px solid red'}} className="grid place-items-center gap-y-2 xxs3:gap-y-4 xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
                             <div className="grid gap-1.5 w-full place-items-start">
-                                <Label htmlFor="email">
+                                <Label htmlFor="email" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                     Email
                                 </Label>
                                 <Input 
@@ -55,7 +59,7 @@ export default function SignIn () {
                                 />
                             </div>
                             <div className="grid gap-1.5 w-full place-items-start">
-                                <Label htmlFor="password">
+                                <Label htmlFor="password" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                     Password
                                 </Label>
                                 <Input 
@@ -64,7 +68,7 @@ export default function SignIn () {
                                     placeholder="Abc123" 
                                 />
                             </div>
-                            <div className="flex items-center gap-1.5 w-full text-sm sm:text-base lg:text-lg">
+                            <div className="flex items-center gap-1.5 w-full text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                 <p>
                                     Forgot your password?
                                 </p>
@@ -79,7 +83,7 @@ export default function SignIn () {
                                     Sign in
                                 </Button>
                             </div>
-                            <div className="flex justify-center gap-2 text-sm sm:text-base lg:text-lg">
+                            <div className="flex justify-center gap-2 text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                 <p>
                                     Don't have an account?
                                 </p>
@@ -96,161 +100,4 @@ export default function SignIn () {
             </BottomPage>
         </BodyPage>
     )
-}
-
-{
-/*
-style={{border:"1px solid red"}}
-
-export default function SignIn () {
-
-    const [w, setW ] = useState<number>(window.innerWidth);
-
-    useEffect(() => {
-        setW(window.innerWidth)
-    }, [window.innerWidth]);
-
-    return (
-        <>
-            <div className="w-full bg-[#FF7F50] ">
-                <GoBack />
-            </div>
-
-            <div className="flex min-h-screen flex-col">
-                <div className="grid place-items-center grid-cols-1 flex-grow">
-                    <div className="place-items-center xxs11:mb-10">{/* xxs8:my-4 xxs6:my-[60px] xxs2:my-14 xs:my-11 sm:mt-10 sm:pb-28 md:pb-32 md:mt-14 lg:my-28 lg:mb-0 xl:mt-56 xl:mb-20 2xl:my-28 
-                        <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
-                            <p className="xxs11:text-base xxs6:text-lg xxs4:text-xl xxs2:text-2xl xs:text-[18px] sm:text-lg md:text-xl xl:text-2xl 2xl:text-3xl">
-                                Welcome to
-                            </p>
-                            <h1 className="3xl:underline xxs11:grid text-center xs:flex xs:justify-center xxs11:text-6xl xxs6:text-7xl xxs2:text-8xl  xs:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl xxs11:-mt-2 xxs8:-mt-2 xxs6:-mt-3 xx2:-mt-4 xs:-mt-2 lg:-mt-3 2xl:-mt-4">
-                                <span className="block">
-                                    Easy
-                                </span>
-                                <span className="hidden xs:block">
-                                    &nbsp;
-                                </span>
-                                <span className="block">
-                                    Trip!
-                                </span>
-                            </h1>
-                            <p className="text-center xxs11:w-[150px] xxs8:w-[155px] xxs6:w-[160px] xxs4:w-[165px] xxs2:w-[220px] xxs:w-[260px] xs:w-full 2xl:w-auto xxs11:text-base xxs6:text-lg xxs4:text-xl xxs2:text-2xl xs:text-[18px] md:text-xl xl:text-2xl 2xl:text-3xl 2xl:mt-4 xxs11:mt-3 xxs4:mt-4 xs:mt-1 md:mt-2">
-                                Let's sign in to your account.
-                            </p>
-                        </div>
-                        <div className="xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6">
-                            <div className="grid gap-y-4 xxs11:w-[200px] xxs10:w-[220px] xxs9:w-[240px] xxs8:w-[250px] xxs7:w-[270px] xxs6:w-[280px] xxs5:w-[290px] xxs4:w-[300px] xxs3:w-[310px] xxs2:w-[320px] xxs:w-[350px] xs:w-[270px] sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[450px] 2xl:w-[500px]">
-                                <div className="grid gap-1.5 w-full ">
-                                    <Label htmlFor="email">
-                                        Email
-                                    </Label>
-                                    <Input 
-                                        type="email" 
-                                        id="email"
-                                        placeholder="name@example.com"
-                                    />
-                                </div>
-                                <div className="grid gap-1.5 w-full">
-                                    <Label htmlFor="password">
-                                        Password
-                                    </Label>
-                                    <Input 
-                                        type="password" 
-                                        id="password" 
-                                        placeholder="Abc123" 
-                                    />
-                                </div>
-                                <div className="flex items-center gap-1.5 w-full">
-                                    <p>
-                                        Forgot your password?
-                                    </p>
-                                    <Link to={"/resetPassword"}>
-                                        <strong>
-                                            Click here.
-                                        </strong>
-                                    </Link>
-                                </div>
-                                <div className="mt-2 grid gap-1.5 w-full">
-                                    <Button type="submit">
-                                        Sign in
-                                    </Button>
-                                </div>
-                                <div className="flex justify-center gap-2 xxs11:text-[12px] xxs5:text-sm xs:text-[12px] sm:text-sm md:text-md xl:text-lg 2xl:text-xl">
-                                    <p>
-                                        Don't have an account?
-                                    </p>
-                                    <Link to={"/signUp"} className="underline">
-                                        Sign up!
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="w-full text-center"> 
-                    <Credits />
-                </div>
-            </div>
-        </>
-    )
-}
-
-
-
-
-
-
-
-<div className="grid gap-y-4 xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
-                            <div className=" gap-1.5 w-full ">
-                                <Label htmlFor="email">
-                                    Email
-                                </Label>
-                                <Input 
-                                    type="email" 
-                                    id="email"
-                                    placeholder="name@example.com"
-                                />
-                            </div>
-                            <div className="grid gap-1.5 w-full">
-                                <Label htmlFor="password">
-                                    Password
-                                </Label>
-                                <Input 
-                                    type="password" 
-                                    id="password" 
-                                    placeholder="Abc123" 
-                                />
-                            </div>
-                            <div className="flex items-center gap-1.5 w-full text-sm sm:text-base lg:text-lg">
-                                <p>
-                                    Forgot your password?
-                                </p>
-                                <Link to={"/resetPassword"}>
-                                    <strong>
-                                        Click here.
-                                    </strong>
-                                </Link>
-                            </div>
-                            <div className="grid gap-1.5 w-full">
-                                <Button type="submit">
-                                    Sign in
-                                </Button>
-                            </div>
-                            <div className="flex justify-center gap-2 text-sm sm:text-base lg:text-lg">
-                                <p>
-                                    Don't have an account?
-                                </p>
-                                <Link to={"/signUp"} className="underline">
-                                    Sign up!
-                                </Link>
-                            </div>
-                        </div>
-
-
-
-
-
-
-*/
 }

@@ -1,104 +1,3 @@
-import Image from "@/assets/undraw_world_re_768g.svg"
-import { Input } from "../ui/input"
-import { Label } from "../ui/label"
-import { Button } from "../ui/button"
-import { Link } from "react-router-dom"
-import { GoBack } from "../GoBack";
-import Credits from "../Credits";
-import SizePage from "../SizePage"
-import { BodyPage, BottomPage, MiddlePage, TopPage } from "../LayoutPage/Layouts";
-
-export default function SignIn(){
-
-    return (
-        <BodyPage>
-            <TopPage>
-                <GoBack/>
-            </TopPage>
-            <MiddlePage>
-                <div className="grid place-items-center items-center mt-[1.3vw]"> 
-                    <div className="grid place-items-center text-center">
-                        <div>
-                            <p className="xs:text-start text-[7.6vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] leading-tight text-gray-900 tracking-tight">
-                                Join the  family of
-                            </p>
-                        </div>
-                        <div>
-                            <h1 className="grid text-[22vw] xxs5:text-[21.2vw] xs:text-[15vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.7] xs:leading-[0.8]">
-                                <span className="block">
-                                    Easy Trip
-                                </span>
-                            </h1>
-                        </div>
-                        <div>
-                            <p className="xs:text-start text-[7.6vw] xxs5:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] mt-[6.2vw] xxs5:mt-[6.4vw] xs:mt-[5.7vw] lg:mt-[2.1vw] leading-tight text-gray-900 tracking-tight">
-                                Sign up and explore the world.
-                            </p>
-                        </div>
-                    </div>
-                    <div className="grid gap-y-2 xxs3:gap-y-4 xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
-                        <div className="grid gap-1.5 w-full place-items-start">
-                            <Label htmlFor="fullName">
-                                Full name
-                            </Label>
-                            <Input 
-                                type="text" 
-                                id="fullName"
-                                placeholder="Your name"
-                            />
-                        </div>
-                        <div className="grid gap-1.5 w-full place-items-start">
-                            <Label htmlFor="email">
-                                Email
-                            </Label>
-                            <Input 
-                                type="email" 
-                                id="email"
-                                placeholder="name@example.com"
-                            />
-                        </div>
-                        <div className="grid gap-1.5 w-full place-items-start">
-                            <Label htmlFor="password">
-                                Password
-                            </Label>
-                            <Input 
-                                type="password" 
-                                id="password" 
-                                placeholder="Abc123" 
-                            />
-                        </div>
-                        <div className="grid w-full">
-                            <Button type="submit">
-                                Sign up
-                            </Button>
-                        </div>
-                        <div className="flex justify-center gap-2 text-sm sm:text-base lg:text-lg">
-                            <p>
-                                Have an account?
-                            </p>
-                            <Link to={"/signIn"} className="underline">
-                                Sign in!
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-                <div className="mx-[8.8vw] mt-[6vw] xs:mx-[15.5vw] xs:my-[7vw] lg:my-0 lg:mt-[7.4vw] lg:mx-[3vw]">
-                    <img
-                        src={Image}
-                        className="w-full h-auto"
-                    />
-                </div>
-            </MiddlePage>
-            <BottomPage>
-                <Credits/>
-            </BottomPage>
-        </BodyPage>
-    )
-
-}
-
-{
-/*
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -117,77 +16,64 @@ export default function SignIn () {
                 <GoBack/>
             </TopPage>
             <MiddlePage>
-                <div className="hidden lg:block mx-[2vw]">
+                <div className="lg:hidden mx-[11vw] xxs3:mx-[8.8vw] xs:mx-[15.5vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-0"  style={{border: '1px solid red'}}>
                     <img
                         src={Image}
                         className="w-auto h-auto"
                     />
                 </div>
-                <div>
-                    <div className="lg:hidden mx-[8.8vw] xs:mx-[15.5vw] my-[2.7vw] xxs5:my-[2.4vw] xs:my-0">
-                        <img
-                            src={Image}
-                            className="w-auto h-auto"
-                        />
-                    </div>
-                    <div className='table mx-auto'>
-                        <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
-                                <div>
-                                    <p className="xs:text-start text-[7.6vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] leading-tight text-gray-900 tracking-tight">
-                                        Welcome to
-                                    </p>
-                                </div>
+                <div className='table mx-auto'  style={{border: '1px solid red'}}>
+                    <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
+                            <div  style={{border: '1px solid red'}}>
+                                <p className="xs:text-start text-[7.6vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] leading-tight text-gray-900 tracking-tight">
+                                    Welcome to
+                                </p>
+                            </div>
+                            <div  style={{border: '1px solid red'}}>
                                 <h1 className="grid text-[22vw] xxs5:text-[21.2vw] xs:text-[15vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.7] xs:leading-[0.7]">
                                     Easy trip!
                                 </h1>
+                            </div>
+                            <div  style={{border: '1px solid red'}}>
                                 <p className="xs:text-start text-[7.6vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] mt-[6.2vw] xxs5:mt-[6.4vw] xs:mt-[5.7vw] lg:mt-[2.4vw] leading-tight text-gray-900 tracking-tight">
                                     Let's sign in to your account.
                                 </p>
+                            </div>
+                    </div>
+                    <div  style={{border: '1px solid red'}} className="grid place-items-center gap-y-2 xxs3:gap-y-4 xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
+                        <div className="grid gap-1.5 w-full place-items-start">
+                            <Label htmlFor="email" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
+                                Email
+                            </Label>
+                            <Input 
+                                type="email" 
+                                id="email"
+                                placeholder="name@example.com"
+                            />
                         </div>
-                        <div className="grid place-items-center gap-y-4 xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
-                            <div className="grid gap-1.5 w-full place-items-start">
-                                <Label htmlFor="email">
-                                    Email
-                                </Label>
-                                <Input 
-                                    type="email" 
-                                    id="email"
-                                    placeholder="name@example.com"
-                                />
-                            </div>
-                            <div className="grid gap-1.5 w-full place-items-start">
-                                <Label htmlFor="password">
-                                    Password
-                                </Label>
-                                <Input 
-                                    type="password" 
-                                    id="password" 
-                                    placeholder="Abc123" 
-                                />
-                            </div>
-                            <div className="flex items-center gap-1.5 w-full text-sm sm:text-base lg:text-lg">
-                                <p>
-                                    Forgot your password?
-                                </p>
-                                <Link to={"/resetPassword"}>
-                                    <strong>
-                                        Click here.
-                                    </strong>
-                                </Link>
-                            </div>
-                            <div className="grid gap-1.5 w-full">
-                                <Button type="submit">
-                                    Sign in
-                                </Button>
-                            </div>
-                            <div className="flex justify-center gap-2 text-sm sm:text-base lg:text-lg">
-                                <p>
-                                    Don't have an account?
-                                </p>
-                                <Link to={"/signUp"} className="underline">
-                                    Sign up!
-                                </Link>
-                            </div>
+                        <div className="grid gap-1.5 w-full place-items-start">
+                            <Label htmlFor="password" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
+                                Password
+                            </Label>
+                            <Input 
+                                type="password" 
+                                id="password" 
+                                placeholder="Abc123" 
+                            />
+                        </div>
+                        
+                        <div className="grid gap-1.5 w-full">
+                            <Button type="submit">
+                                Sign up
+                            </Button>
+                        </div>
+                        <div className="flex justify-center gap-2 text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
+                            <p>
+                                Have an account?
+                            </p>
+                            <Link to={"/signIn"} className="underline">
+                                Sign up!
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -197,6 +83,4 @@ export default function SignIn () {
             </BottomPage>
         </BodyPage>
     )
-}
-*/
 }

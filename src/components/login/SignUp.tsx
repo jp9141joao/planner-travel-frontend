@@ -16,7 +16,7 @@ export default function SignIn () {
                 <GoBack/>
             </TopPage>
             <MiddlePage>
-                <div className='table mx-auto'>
+                <div className='mt-[6vw] xs:mt-[14vw] lg:mt-0'>
                     <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                             <div>
                                 <p className="xs:text-start text-[7vw] xxs8:text-[6.8vw] xs:text-[4.75vw] lg:text-[2.1vw] leading-tight text-gray-900 tracking-tight">

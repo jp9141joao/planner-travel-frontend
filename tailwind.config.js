@@ -8,6 +8,7 @@ export default {
   theme: {
   	extend: {
 		screens: {
+			'3xl': '1920px',
 			'xs': '450px',
 			'xxs': '430px',
 			'xxs2': '410px',

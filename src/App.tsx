@@ -11,6 +11,7 @@ import SignIn from "./components/login/SignIn";
 import Home from "./pages/Home"
 import Test from "./pages/test";
 import SignUp from "./components/login/SignUp";
+import { ResetPassword } from "./pages/resetPassword";
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/home" element={<Home/>}/>
           <Route path="/signUp" element={<SignUp/>}/>
           <Route path="/signIn" element={<SignIn/>}/>
+          <Route path="/resetPassword" element={<ResetPassword/>}/>
           <Route path="/test" element={<Test/>}/>
           <Route path="/travel/add" element={<AddTravel/>}/>
           <Route path="/travel/details/:idTravel" element={<TravelDetails/>}/>

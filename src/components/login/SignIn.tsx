@@ -13,7 +13,7 @@ export default function SignIn () {
     return (
         <BodyPage>
             <TopPage>
-                <GoBack/>
+                <GoBack to="home"/>
             </TopPage>
             <MiddlePage>
                 <div className="hidden lg:block mx-[2vw]">
@@ -23,7 +23,7 @@ export default function SignIn () {
                     />
                 </div>
                 <div>
-                    <div className="lg:hidden mx-[11vw] xxs3:mx-[8.8vw] xs:mx-[15.5vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-0">
+                    <div className="lg:hidden mx-[17vw] xxs3:mx-[8.8vw] xs:mx-[20.5vw] sm:mx-[15.5vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
                         <img
                             src={Image}
                             className="w-auto h-auto"
@@ -37,12 +37,12 @@ export default function SignIn () {
                                     </p>
                                 </div>
                                 <div>
-                                    <h1 className="grid text-[22vw] xxs5:text-[21.2vw] xs:text-[15vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.7] xs:leading-[0.7]">
+                                    <h1 className="grid text-[22vw] xxs5:text-[21.2vw] xs:text-[15vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.6] xxs3:leading-[0.7]">
                                         Easy trip!
                                     </h1>
                                 </div>
                                 <div>
-                                    <p className="xs:text-start text-[7.6vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] mt-[6.2vw] xxs5:mt-[6.4vw] xs:mt-[5.7vw] lg:mt-[2.4vw] leading-tight text-gray-900 tracking-tight">
+                                    <p className="xs:text-start text-[7.6vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] mt-[6.2vw] xxs5:mt-[6.9vw] xxs3:mt-[6.4vw] xs:mt-[5.7vw] lg:mt-[2.4vw] leading-tight text-gray-900 tracking-tight">
                                         Let's sign in to your account.
                                     </p>
                                 </div>

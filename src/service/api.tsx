@@ -76,6 +76,7 @@ interface Activitie {
 import axios from "axios";
 const api = axios.create({ baseURL: 'http://localhost:3001' })
 
+
 export const getTravel = () => api.get(`/travel`);
 export const getDay = () => api.get('/day');
 //export const getDailyExpense = () => api.get('/dailyExpense');

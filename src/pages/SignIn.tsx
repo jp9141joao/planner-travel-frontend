@@ -10,13 +10,17 @@ import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPa
 import { GoBack } from "@/components/GoBack";
 import { signInUser } from "@/service/userService";
 import Credits from "@/components/Credits";
-import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast"
+import { Toaster } from "@/components/ui/toaster"
+import { toast } from "@/hooks/use-toast"
 
 export default function SignIn () {
 
     const [ email, setEmail ] = useState<string>('');
     const [ password, setPassword ] = useState<string>('');
-    const { toast } = useToast()
+    const [ toastMessage, setToastMessage ] = useState<string>(
+        ''
+    );
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -109,16 +113,18 @@ export default function SignIn () {
                                 </Link>
                             </div>
                             <div className="grid gap-1.5 w-full" onSubmit={handleSubmit}>
-                            <Button
-                                variant="outline"
-                                onClick={() => {
-                                    toast({
-                                    description: "Your message has been sent.",
-                                    })
-                                }}
+                                <Button
+                                    onClick={() => {
+                                        toast({
+                                        variant: "success",
+                                        title: "Account Created Successfully!",
+                                        description: "",
+                                        })
+                                    }}
                                 >
-                                Show Toast
+                                    Show Toast
                                 </Button>
+                                <Toaster />
                             </div>
                             <div className="flex justify-center gap-2 text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                 <p>

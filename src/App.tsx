@@ -7,11 +7,11 @@ import AddTravel from "./pages/AddTravel";
 import DayDetails from "./pages/DayDetails";
 //import AddDailyExpense from "./pages/AddDailyExpense";
 import TravelItineraryForm from "./components/TravelItineraryForm";
-import SignIn from "./components/login/SignIn";
 import Home from "./pages/Home"
-import Test from "./pages/test";
-import SignUp from "./components/login/SignUp";
 import { ResetPassword } from "./pages/resetPassword";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import { Test } from "./pages/test";
 
 function App() {
 

@@ -1,11 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router-dom";
 import Image from '@/assets/undraw_world_re_768g.svg';
-import { GoBack } from "../GoBack";
-import Credits from "../Credits";
-import { BodyPage, BottomPage, MiddlePage, TopPage } from "../LayoutPage/Layouts";
+import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts";
+import { GoBack } from "@/components/GoBack";
+import Credits from "@/components/Credits";
 
 
 export default function SignIn () {

@@ -8,9 +8,8 @@ import Image from '@/assets/undraw_aircraft_re_m05i.svg';
 import React, { useState } from "react";
 import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts";
 import { GoBack } from "@/components/GoBack";
-import { signInUser } from "@/service/userService";
+import { signInUser } from "@/service/service";
 import Credits from "@/components/Credits";
-import { ToastAction } from "@/components/ui/toast"
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
 
@@ -18,14 +17,16 @@ export default function SignIn () {
 
     const [ email, setEmail ] = useState<string>('');
     const [ password, setPassword ] = useState<string>('');
-    const [ toastMessage, setToastMessage ] = useState<string>(
-        ''
-    );
+    const [ toastMessage, setToastMessage ] = useState({
+        variant: '', title: '', description: ''
+    });
+    const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         try {
             e.preventDefault();
+            setIsLoading(true);
 
             const response = await signInUser(email, password);
             
@@ -33,10 +34,21 @@ export default function SignIn () {
                 localStorage.setItem('token', response.data.token);
                 navigate('/');
             } else {
-
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Invalid credentials',
+                    description: 'The email or password provided is incorrect. Please, check your informations and try again'
+                });
             }
         } catch (error: any) {
-
+            setToastMessage({
+                variant: 'destructive',
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
+            console.error(`Error: ${error}`);
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -52,7 +64,7 @@ export default function SignIn () {
                         className="w-auto h-auto"
                     />
                 </div>
-                <div>
+                <form onSubmit={handleSubmit}>
                     <div className="lg:hidden mx-[17vw] xxs3:mx-[8.8vw] xs:mx-[20.5vw] sm:mx-[15.5vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
                         <img
                             src={Image}
@@ -112,17 +124,27 @@ export default function SignIn () {
                                     </strong>
                                 </Link>
                             </div>
-                            <div className="grid gap-1.5 w-full" onSubmit={handleSubmit}>
+                            <div className="grid gap-1.5 w-full">
                                 <Button
                                     onClick={() => {
                                         toast({
-                                        variant: "success",
-                                        title: "Account Created Successfully!",
-                                        description: "",
+                                        variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
+                                        title: toastMessage.title,
+                                        description: toastMessage.description,
                                         })
                                     }}
                                 >
-                                    Show Toast
+                                    {
+                                        isLoading ? 
+                                        <div role="status">
+                                            <svg aria-hidden="true" className="w-8 h-8 text-white animate-spin fill-white py-1" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                                                <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5533C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.723 75.2124 7.41289C69.5422 4.10285 63.2754 1.94025 56.7222 1.05197C51.7666 0.3679 46.7398 0.446843 41.8198 1.27873C39.297 1.6983 37.8255 4.19778 38.4626 6.62326C39.0998 9.04874 41.5717 10.4717 44.0965 10.1071C47.8511 9.53005 51.7015 9.52622 55.4656 10.0962C60.878 10.9201 65.9925 13.1373 70.396 16.5714C74.7995 20.0055 78.3892 24.5698 80.8418 29.841C83.0456 34.3696 84.5159 39.246 85.1999 44.2728C85.6531 47.6269 88.1603 50.0379 91.5303 50.0379C91.9338 50.0379 92.3423 49.9962 92.7521 49.9106C95.209 49.4046 96.5425 46.9181 95.9355 44.4609C95.324 41.9793 94.5211 39.5402 93.9676 39.0409Z" fill="currentFill"/>
+                                            </svg>
+                                            <span className="sr-only">Carregando...</span>
+                                        </div>
+                                        : "Sign In"
+                                    }
                                 </Button>
                                 <Toaster />
                             </div>
@@ -136,7 +158,7 @@ export default function SignIn () {
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </MiddlePage>
             <BottomPage>
                 <Credits/>

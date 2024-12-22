@@ -4,21 +4,23 @@ import { loginUser } from '../services/userService';
 
 export const LoginPage = () => {
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const response = await loginUser(email, senha);
+      const response = await loginUser(email, password);
 
       if (response.data.token) {
         // Armazena o token no localStorage (ou sessionStorage)
         localStorage.setItem('token', response.data.token);
         navigate('/');  // Redireciona para a página inicial
       } else {
-        alert('Credenciais inválidas');
+        alert('Invalid email or password. Please try again');
+        setEmail('');
+        setPassword('');
       }
     } catch (error) {
       console.error('Erro ao fazer login:', error);
@@ -39,9 +41,9 @@ export const LoginPage = () => {
         />
         <input
           type="password"
-          placeholder="Senha"
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           className="block w-full mb-4 p-2 border"
         />
         <button type="submit" className="bg-blue-700 text-red p-2 w-full">

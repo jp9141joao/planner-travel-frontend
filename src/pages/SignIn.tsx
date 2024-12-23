@@ -71,7 +71,7 @@ export default function SignIn () {
                             className="w-auto h-auto"
                         />
                     </div>
-                    <div className='table mx-auto lg:mt-[2vw]'>
+                    <div className='table mx-auto'>
                         <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                             <div>
                                 <p className="xs:text-start text-[7.6vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] leading-tight text-gray-900 tracking-tight">
@@ -126,6 +126,7 @@ export default function SignIn () {
                             </div>
                             <div className="grid gap-1.5 w-full">
                                 <Button
+                                    type="submit"
                                     onClick={() => {
                                         toast({
                                         variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',

@@ -8,6 +8,8 @@ import Credits from "@/components/Credits";
 import React, { useEffect, useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { toast } from "@/hooks/use-toast";
+import { signUpUser } from "@/service/service";
+import { useNavigate } from "react-router-dom";
 
 
 export default function SignIn () {
@@ -20,33 +22,99 @@ export default function SignIn () {
     });
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ showToast, setShowToast ] = useState<boolean>(false);
+    const [ status, setStatus ] = useState<number>();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         try {
             e.preventDefault();
             setIsLoading(true);
-            setTimeout(() => {
-                console.log('hi');
-                setIsLoading(false);
-            }, 2000);
-            setShowToast(true);
-            
-        } catch (error: any) {
+            const response = 0// await signUpUser({ fullName: fullName, email: email, password: password, profileImage: null });
 
-        } finally {
+            if (response.data.success) {
+                setStatus(1);
+                navigate('/')
+            } else {
+                
+                if (response.data.error = '') {
+                    setStatus(2);
+                } else if (response.data.error == '') {
+                    setStatus(3);
+                } else if (response.data.error == '') {
+                    setStatus(4);
+                } else if (response.data.error == '') {
+                    setStatus(5);
+                } else if (response.data.error == '') {
+                    setStatus(6);
+                } else if (response.data.error == '') {
+                    setStatus(7);
+                } else {
+                    setStatus(8);
+                }
+            }
+
             setIsLoading(false);
-        }
+            setShowToast(true);
+        } catch (error: any) {
+            setStatus(8);
+            setIsLoading(false);
+            setShowToast(true);
+        } 
     }
 
     useEffect(() => {
         if (!isLoading && showToast) {
-            setToastMessage({
-                variant: 'success',
-                title: 'Account created successfully!',
-                description: 'Welcome! Your account has been created. You can now plan your travels with us.',
-            });
+            if (status == 1) {
+                setToastMessage({
+                    variant: 'success',
+                    title: 'Account created successfully!',
+                    description: 'Welcome! Your account has been created. You can now plan your travels with us.',
+                });
+            }if (status == 2) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Invalid Full Name',
+                    description: 'Please provide a valid full name with only letters and spaces.',
+                });
+            } else if (status == 3) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Full Name Too Long',
+                    description: 'Your full name is too long. Please enter a shorter name.',
+                });
+            } else if (status == 4) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Invalid Email',
+                    description: 'The email address you entered is invalid. Please check and try again.',
+                });
+            } else if (status == 5) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Email Too Long',
+                    description: 'The email address is too long. Please enter a shorter email address.',
+                });
+            } else if (status == 6) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Invalid Password',
+                    description: 'Please provide a password that meets the minimum criteria, including at least one uppercase letter, one number, and one special character.',
+                });
+            } else if (status == 7) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Password Too Short',
+                    description: 'Your password is too short. Please enter a password with at least 8 characters.',
+                });
+            } else {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
+            }
         }
-    }, [isLoading, showToast]);
+    }, [isLoading, showToast, status]);
 
     useEffect(() => {
         if (showToast) {
@@ -120,9 +188,7 @@ export default function SignIn () {
                             />
                         </div>
                         <div className="grid gap-1.5 w-full mt-2">
-                            <Button
-                                type="submit"
-                            >
+                            <Button type="submit">
                                 {
                                     isLoading ? 
                                     <div role="status">

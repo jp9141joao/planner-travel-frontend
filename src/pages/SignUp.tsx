@@ -11,6 +11,11 @@ import { toast } from "@/hooks/use-toast";
 import { signUpUser } from "@/service/service";
 import { useNavigate } from "react-router-dom";
 
+interface User {
+    fullName: string,
+    email: string,
+    password: string
+}
 
 export default function SignIn () {
 
@@ -22,31 +27,30 @@ export default function SignIn () {
     });
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ showToast, setShowToast ] = useState<boolean>(false);
-    const [ status, setStatus ] = useState<number>();
+    const [ status, setStatus ] = useState<number>(0);
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         try {
             e.preventDefault();
             setIsLoading(true);
-            const response = 0// await signUpUser({ fullName: fullName, email: email, password: password, profileImage: null });
-
+            const response = await signUpUser({ fullName: fullName, email: email, password: password } as User);
+            alert(response.data.success);
             if (response.data.success) {
                 setStatus(1);
-                navigate('/')
             } else {
                 
-                if (response.data.error = '') {
+                if (response.data.error = 'Error: The value of fullName is invalid!') {
                     setStatus(2);
-                } else if (response.data.error == '') {
+                } else if (response.data.error == 'Error: The value of fullName is too large!') {
                     setStatus(3);
-                } else if (response.data.error == '') {
+                } else if (response.data.error == 'Error: The value of email is invalid!') {
                     setStatus(4);
-                } else if (response.data.error == '') {
+                } else if (response.data.error == 'Error: The value of email is too large!') {
                     setStatus(5);
-                } else if (response.data.error == '') {
+                } else if (response.data.error == 'Error: The value of password is invalid!') {
                     setStatus(6);
-                } else if (response.data.error == '') {
+                } else if (response.data.error == 'Error: The value of password is too large!') {
                     setStatus(7);
                 } else {
                     setStatus(8);
@@ -56,6 +60,7 @@ export default function SignIn () {
             setIsLoading(false);
             setShowToast(true);
         } catch (error: any) {
+            console.log(error)
             setStatus(8);
             setIsLoading(false);
             setShowToast(true);
@@ -106,7 +111,7 @@ export default function SignIn () {
                     title: 'Password Too Short',
                     description: 'Your password is too short. Please enter a password with at least 8 characters.',
                 });
-            } else {
+            } else if (status == 8) {
                 setToastMessage({
                     variant: 'destructive',
                     title: "Uh oh! Something went wrong.",

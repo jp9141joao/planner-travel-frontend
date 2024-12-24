@@ -1,21 +1,25 @@
 import axios from 'axios';
-const url = 'http://localhost:3001';
+const url = 'http://localhost:3000';
 
 interface User {
     fullName: string,
     email: string,
-    password: string,
-    profileImage: string | null
+    password: string
 }
 
 export const signInUser = async (email: string, password: string) => {
     return await axios.post(`${url}/signIn`, { email, password }); 
 }
-
 export const signUpUser = async (user: User) => {
-    return await axios.put(`${url}/signUp`, user);
-}
+    const response = await axios.post(`${url}/signUp`, user, {
+        validateStatus: (status) => {
+            return status !== 400;
+        }
+    });
+    return response;
+};
+
 
 export const resetPasswordUser = async (password: string) => {
-    return await axios.post(`${url}/resetPassword`, password);
+    return await axios.put(`${url}/resetPassword`, password);
 }

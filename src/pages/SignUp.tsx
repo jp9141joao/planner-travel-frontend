@@ -34,102 +34,94 @@ export default function SignIn () {
         try {
             e.preventDefault();
             setIsLoading(true);
-            const response = await signUpUser({ fullName: fullName, email: email, password: password } as User);
+            const response = {data: { sucess: true, error: ''}}//await signUpUser({ fullName: fullName, email: email, password: password } as User);
             alert(response.data.success);
             if (response.data.success) {
-                setStatus(1);
+                setToastMessage({
+                    variant: 'success',
+                    title: 'Account created successfully!',
+                    description: 'Welcome! Your account has been created. You can now plan your travels with us.',
+                });
             } else {
-                
                 if (response.data.error = 'Error: The value of fullName is invalid!') {
-                    setStatus(2);
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: 'Invalid Full Name',
+                        description: 'Please provide a valid full name with only letters and spaces.',
+                    });
                 } else if (response.data.error == 'Error: The value of fullName is too large!') {
-                    setStatus(3);
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: 'Full Name Too Long',
+                        description: 'Your full name is too long. Please enter a shorter name.',
+                    });
                 } else if (response.data.error == 'Error: The value of email is invalid!') {
-                    setStatus(4);
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: 'Invalid Email',
+                        description: 'The email address you entered is invalid. Please check and try again.',
+                    });
                 } else if (response.data.error == 'Error: The value of email is too large!') {
-                    setStatus(5);
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: 'Email Too Long',
+                        description: 'The email address is too long. Please enter a shorter email address.',
+                    });
                 } else if (response.data.error == 'Error: The value of password is invalid!') {
-                    setStatus(6);
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: 'Invalid Password',
+                        description: 'Please provide a password that meets the minimum criteria, including at least one uppercase letter, one number, and one special character.',
+                    });
                 } else if (response.data.error == 'Error: The value of password is too large!') {
-                    setStatus(7);
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: 'Password Too Large',
+                        description: 'Your password is too large. Please enter a shorter password.',
+                    });
+                } else if (response.data.error == 'Error: The value of password is too short') {
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: 'Password Too Short',
+                        description: 'Your password is too short. Please enter a password with at least 8 characters.',
+                    });
                 } else {
-                    setStatus(8);
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: "Uh oh! Something went wrong.",
+                        description: "There was a problem with your request.",
+                    });
                 }
             }
 
             setIsLoading(false);
             setShowToast(true);
         } catch (error: any) {
-            console.log(error)
-            setStatus(8);
+            setToastMessage({
+                variant: 'destructive',
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
+
             setIsLoading(false);
             setShowToast(true);
+
+            console.log(error);
         } 
     }
 
     useEffect(() => {
-        if (!isLoading && showToast) {
-            if (status == 1) {
-                setToastMessage({
-                    variant: 'success',
-                    title: 'Account created successfully!',
-                    description: 'Welcome! Your account has been created. You can now plan your travels with us.',
-                });
-            }if (status == 2) {
-                setToastMessage({
-                    variant: 'destructive',
-                    title: 'Invalid Full Name',
-                    description: 'Please provide a valid full name with only letters and spaces.',
-                });
-            } else if (status == 3) {
-                setToastMessage({
-                    variant: 'destructive',
-                    title: 'Full Name Too Long',
-                    description: 'Your full name is too long. Please enter a shorter name.',
-                });
-            } else if (status == 4) {
-                setToastMessage({
-                    variant: 'destructive',
-                    title: 'Invalid Email',
-                    description: 'The email address you entered is invalid. Please check and try again.',
-                });
-            } else if (status == 5) {
-                setToastMessage({
-                    variant: 'destructive',
-                    title: 'Email Too Long',
-                    description: 'The email address is too long. Please enter a shorter email address.',
-                });
-            } else if (status == 6) {
-                setToastMessage({
-                    variant: 'destructive',
-                    title: 'Invalid Password',
-                    description: 'Please provide a password that meets the minimum criteria, including at least one uppercase letter, one number, and one special character.',
-                });
-            } else if (status == 7) {
-                setToastMessage({
-                    variant: 'destructive',
-                    title: 'Password Too Short',
-                    description: 'Your password is too short. Please enter a password with at least 8 characters.',
-                });
-            } else if (status == 8) {
-                setToastMessage({
-                    variant: 'destructive',
-                    title: "Uh oh! Something went wrong.",
-                    description: "There was a problem with your request.",
-                });
-            }
-        }
-    }, [isLoading, showToast, status]);
+    }, [status]);
 
     useEffect(() => {
-        if (showToast) {
+        if (!isLoading && showToast && toastMessage) {
             toast({
                 variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
                 title: toastMessage.title,
                 description: toastMessage.description,
             })
         }
-    }, [toastMessage]);
+    }, [isLoading, showToast, toastMessage]);
 
     return (
         <BodyPage>
@@ -157,7 +149,7 @@ export default function SignIn () {
                     </div>
                     <div className="grid place-items-center gap-y-1 xxs3:gap-y-2 xxs11:mt-[3vw] xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
                         <div className="grid gap-1.5 w-full place-items-start">
-                            <Label htmlFor="fullName" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
+                            <Label htmlFor="fullName" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg border">
                                 Full name
                             </Label>
                             <Input 
@@ -166,6 +158,7 @@ export default function SignIn () {
                                 placeholder="Your full name"
                                 value={fullName}
                                 onChange={(e) => setFullName(e.target.value)}
+                                className="focus:border-red-500"
                             />
                         </div>
                         <div className="grid gap-1.5 w-full place-items-start">

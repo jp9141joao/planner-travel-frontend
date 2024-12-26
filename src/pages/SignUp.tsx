@@ -30,9 +30,11 @@ export default function SignIn () {
             e.preventDefault();
             setIsLoading(true);
             const response = await AsignUpUser({ fullName: fullName, email: email, password: password } as User);
-            alert(response.data.success);
             if (response.data.success) {
                 setStatus(1);
+                setTimeout(() => {
+                    navigate('/signIn');
+                }, 500);
             } else {
                 
                 if (response.data.error = 'Error: The value of fullName is invalid!') {

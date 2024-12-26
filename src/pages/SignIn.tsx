@@ -32,22 +32,22 @@ export default function SignIn () {
                 setIsLoading(true);
                 const response = await AsignInUser({ email, password } as Login);
                 if (response.data.success) {
-                    setStatus(1);
+                    navigate('/home')
                 } else {
                     if (response.data.error == 'Error: The value of email is invalid!') {
-                        setStatus(2);
+                        setStatus(1);
                     } else if (response.data.error == 'Error: The value of email is too large!') {
-                        setStatus(3);
+                        setStatus(2);
                     } else if (response.data.error == 'Error: The value of password is invalid!') {
-                        setStatus(4);
+                        setStatus(3);
                     } else if (response.data.error == 'Error: The value of password is too large!') {
-                        setStatus(5);
+                        setStatus(4);
                     } else if (response.data.error == 'Error: the value of password is too short!') {
-                        setStatus(6);
+                        setStatus(5);
                     } else if (response.data.error == 'Error: The email or password you entered is incorrect') {
-                        setStatus(7);
+                        setStatus(6);
                     } else {
-                        setStatus(8);
+                        setStatus(7);
                     }
                 }
     
@@ -65,41 +65,35 @@ export default function SignIn () {
             if (!isLoading && showToast) {
                 if (status == 1) {
                     setToastMessage({
-                        variant: 'success',
-                        title: 'Account created successfully!',
-                        description: 'Welcome! Your account has been created. You can now plan your travels with us.',
-                    });
-                } else if (status == 2) {
-                    setToastMessage({
                         variant: 'destructive',
                         title: 'Invalid Email',
                         description: 'The email address you entered is invalid. Please check and try again.',
                     });
-                } else if (status == 3) {
+                } else if (status == 2) {
                     setToastMessage({
                         variant: 'destructive',
                         title: 'Email Too Long',
                         description: 'The email address is too long. Please enter a shorter email address.',
                     });
-                } else if (status == 4) {
+                } else if (status == 3) {
                     setToastMessage({
                         variant: 'destructive',
                         title: 'Invalid Password',
                         description: 'Please provide a password that meets the minimum criteria, including at least one uppercase letter, one number, and one special character.',
                     });
-                } else if (status == 5) {
+                } else if (status == 4) {
                     setToastMessage({
                         variant: 'destructive',
                         title: 'Password Too Short',
                         description: 'Your password is too short. Please enter a password with at least 8 characters.',
                     });
-                } else if (status == 6) {
+                } else if (status == 5) {
                     setToastMessage({
                         variant: 'destructive',
                         title: 'Password Too Long',
                         description: 'Your password is too long. Please enter a shoter password.',
                     });
-                } else if (status == 7) {
+                } else if (status == 6) {
                     setToastMessage({
                         variant: 'destructive', 
                         title: 'Email or Password Incorrect', 
@@ -174,7 +168,7 @@ export default function SignIn () {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     onClick={() => setStatus(0)}
-                                    className={status == 2 ? "border-red-500 " : "" }
+                                    className={status == 1 || status == 2 ? "border-red-500 " : "" }
                                 />
                             </div>
                             <div className="grid gap-1.5 w-full place-items-start">
@@ -182,13 +176,13 @@ export default function SignIn () {
                                     Password
                                 </Label>
                                 <Input 
-                                    type="password" 
+                                    type="password"
                                     id="password" 
                                     placeholder="Abc123" 
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     onClick={() => setStatus(0)}
-                                    className={status == 3 ? "border-red-500 " : "" }
+                                    className={status >= 3 && status <= 5 ? "border-red-500 " : "" }
                                 />
                             </div>
                             <div className="flex items-center gap-1.5 w-full text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
@@ -202,16 +196,7 @@ export default function SignIn () {
                                 </Link>
                             </div>
                             <div className="grid gap-1.5 w-full">
-                                <Button
-                                    type="submit"
-                                    onClick={() => {
-                                        toast({
-                                        variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
-                                        title: toastMessage.title,
-                                        description: toastMessage.description,
-                                        })
-                                    }}
-                                >
+                                <Button type="submit">
                                     {
                                         isLoading ? 
                                         <div role="status">

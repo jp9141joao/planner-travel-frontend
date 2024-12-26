@@ -1,14 +1,9 @@
+import { Login, User } from '@/types/types';
 import axios from 'axios';
 const url = 'http://localhost:3000';
 
-interface User {
-    fullName: string,
-    email: string,
-    password: string
-}
-
-export const signInUser = async (email: string, password: string) => {
-    return await axios.post(`${url}/signIn`, { email, password }); 
+export const signInUser = async (login: Login) => {
+    return await axios.post(`${url}/signIn`, login); 
 }
 export const signUpUser = async (user: User) => {
     const response = await axios.post(`${url}/signUp`, user, {

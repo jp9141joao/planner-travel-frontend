@@ -5,13 +5,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
 import Image from '@/assets/undraw_aircraft_re_m05i.svg';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts";
 import { GoBack } from "@/components/GoBack";
 import { signInUser } from "@/service/service";
 import Credits from "@/components/Credits";
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
+import { Login } from "@/types/types";
 
 export default function SignIn () {
 
@@ -21,36 +22,108 @@ export default function SignIn () {
         variant: '', title: '', description: ''
     });
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
+    const [ showToast, setShowToast ] = useState<boolean>(false);
+    const [ status, setStatus ] = useState<number>(0);
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
-        try {
-            e.preventDefault();
-            setIsLoading(true);
-
-            const response = await signInUser(email, password);
-            
-            if (response.data.token) {
-                localStorage.setItem('token', response.data.token);
-                navigate('/');
-            } else {
-                setToastMessage({
-                    variant: 'destructive',
-                    title: 'Invalid credentials',
-                    description: 'The email or password provided is incorrect. Please, check your informations and try again'
-                });
-            }
-        } catch (error: any) {
-            setToastMessage({
-                variant: 'destructive',
-                title: "Uh oh! Something went wrong.",
-                description: "There was a problem with your request.",
-            });
-            console.error(`Error: ${error}`);
-        } finally {
-            setIsLoading(false);
+            try {
+                e.preventDefault();
+                setIsLoading(true);
+                const response = await AsignInUser({ email, password } as Login);
+                if (response.data.success) {
+                    setStatus(1);
+                } else {
+                    if (response.data.error == 'Error: The value of email is invalid!') {
+                        setStatus(2);
+                    } else if (response.data.error == 'Error: The value of email is too large!') {
+                        setStatus(3);
+                    } else if (response.data.error == 'Error: The value of password is invalid!') {
+                        setStatus(4);
+                    } else if (response.data.error == 'Error: The value of password is too large!') {
+                        setStatus(5);
+                    } else if (response.data.error == 'Error: the value of password is too short!') {
+                        setStatus(6);
+                    } else if (response.data.error == 'Error: The email or password you entered is incorrect') {
+                        setStatus(7);
+                    } else {
+                        setStatus(8);
+                    }
+                }
+    
+                setIsLoading(false);
+                setShowToast(true);
+            } catch (error: any) {
+                setStatus(8);
+                setIsLoading(false);
+                setShowToast(true);
+                console.log(error);
+            } 
         }
-    }
+    
+        useEffect(() => {
+            if (!isLoading && showToast) {
+                if (status == 1) {
+                    setToastMessage({
+                        variant: 'success',
+                        title: 'Account created successfully!',
+                        description: 'Welcome! Your account has been created. You can now plan your travels with us.',
+                    });
+                } else if (status == 2) {
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: 'Invalid Email',
+                        description: 'The email address you entered is invalid. Please check and try again.',
+                    });
+                } else if (status == 3) {
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: 'Email Too Long',
+                        description: 'The email address is too long. Please enter a shorter email address.',
+                    });
+                } else if (status == 4) {
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: 'Invalid Password',
+                        description: 'Please provide a password that meets the minimum criteria, including at least one uppercase letter, one number, and one special character.',
+                    });
+                } else if (status == 5) {
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: 'Password Too Short',
+                        description: 'Your password is too short. Please enter a password with at least 8 characters.',
+                    });
+                } else if (status == 6) {
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: 'Password Too Long',
+                        description: 'Your password is too long. Please enter a shoter password.',
+                    });
+                } else if (status == 7) {
+                    setToastMessage({
+                        variant: 'destructive', 
+                        title: 'Email or Password Incorrect', 
+                        description: 'The email or password you entered is incorrect. Please try again.', 
+                    }); 
+                } else {
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: "Uh oh! Something went wrong.",
+                        description: "There was a problem with your request.",
+                    });
+                }
+            }
+        }, [isLoading, showToast, status]);
+    
+        useEffect(() => {
+            if (showToast) {
+                toast({
+                    variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
+                    title: toastMessage.title,
+                    description: toastMessage.description,
+                })
+            }
+        }, [toastMessage]);
 
     return (
         <BodyPage>
@@ -100,6 +173,8 @@ export default function SignIn () {
                                     placeholder="name@example.com"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
+                                    onClick={() => setStatus(0)}
+                                    className={status == 2 ? "border-red-500 " : "" }
                                 />
                             </div>
                             <div className="grid gap-1.5 w-full place-items-start">
@@ -112,6 +187,8 @@ export default function SignIn () {
                                     placeholder="Abc123" 
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
+                                    onClick={() => setStatus(0)}
+                                    className={status == 3 ? "border-red-500 " : "" }
                                 />
                             </div>
                             <div className="flex items-center gap-1.5 w-full text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">

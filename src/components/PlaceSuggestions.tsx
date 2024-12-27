@@ -36,55 +36,44 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-const data: Payment[] = [
+const data: dataPlace[] = [
   {
-    id: "m5gr84i9",
-    amount: 316,
-    status: "success",
-    email: "ken99@yahoo.com",
+    id: "1",
+    city: "Paris",
+    country: "France",
+    language: "French",
+    wether: "Mild",
+    countryCurrency: "Euro",
+    cost: "High"
   },
   {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
+    id: "2",
+    city: "Bangkok",
+    country: "Thailand",
+    language: "Thai",
+    wether: "Hot",
+    countryCurrency: "Baht",
+    cost: "Low"
   },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@gmail.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@hotmail.com",
-  },
+  // Adicione outros objetos aqui
 ]
 
-export type Payment = {
-  id: string
-  amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
+export type dataPlace = {
+  id: string,
+  city: string,
+  country: string,
+  language: string,
+  wether: string,
+  countryCurrency: string,
+  cost: string
 }
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<dataPlace>[] = [
   {
     id: "select",
     header: ({ table }: any) => (
       <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
+        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
       />
@@ -100,41 +89,34 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }: any) => (
-      <div className="capitalize">{row.getValue("status")}</div>
-    ),
+    accessorKey: "city",
+    header: "City",
+    cell: ({ row }: any) => <div>{row.getValue("city")}</div>,
   },
   {
-    accessorKey: "email",
-    header: ({ column }: any) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown />
-        </Button>
-      )
-    },
-    cell: ({ row }: any) => <div className="lowercase">{row.getValue("email")}</div>,
+    accessorKey: "country",
+    header: "Country",
+    cell: ({ row }: any) => <div>{row.getValue("country")}</div>,
   },
   {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }: any) => {
-      const amount = parseFloat(row.getValue("amount"))
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount)
-
-      return <div className="text-right font-medium">{formatted}</div>
-    },
+    accessorKey: "language",
+    header: "Language",
+    cell: ({ row }: any) => <div>{row.getValue("language")}</div>,
+  },
+  {
+    accessorKey: "wether",
+    header: "Weather",
+    cell: ({ row }: any) => <div>{row.getValue("wether")}</div>,
+  },
+  {
+    accessorKey: "countryCurrency",
+    header: "Currency",
+    cell: ({ row }: any) => <div>{row.getValue("countryCurrency")}</div>,
+  },
+  {
+    accessorKey: "cost",
+    header: "Cost",
+    cell: ({ row }: any) => <div>{row.getValue("cost")}</div>,
   },
   {
     id: "actions",
@@ -167,13 +149,10 @@ export const columns: ColumnDef<Payment>[] = [
   },
 ]
 
-export function DataTableDemo() {
+export function PlaceSuggestions() {
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
 
   const table = useReactTable({
@@ -199,12 +178,12 @@ export function DataTableDemo() {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter by city..."
+          value={(table.getColumn("city")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("city")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className=""
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -238,18 +217,16 @@ export function DataTableDemo() {
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup: any) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header: any) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  )
-                })}
+                {headerGroup.headers.map((header: any) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -272,10 +249,7 @@ export function DataTableDemo() {
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>

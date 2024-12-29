@@ -29,15 +29,11 @@ export default function SignIn () {
         try {
             e.preventDefault();
             setIsLoading(true);
-            const response = await AsignUpUser({ fullName: fullName, email: email, password: password } as User);
+            const response = await signUpUser({ fullName: fullName, email: email, password: password } as User);
             if (response.data.success) {
                 setStatus(1);
-                setTimeout(() => {
-                    navigate('/signIn');
-                }, 500);
             } else {
-                
-                if (response.data.error = 'Error: The value of fullName is invalid!') {
+                if (response.data.error == 'Error: The value of fullName is invalid!') {
                     setStatus(2);
                 } else if (response.data.error == 'Error: The value of fullName is too large!') {
                     setStatus(3);
@@ -47,12 +43,14 @@ export default function SignIn () {
                     setStatus(5);
                 } else if (response.data.error == 'Error: The value of password is invalid!') {
                     setStatus(6);
-                } else if (response.data.error == 'Error: The value of password is too large!') {
-                    setStatus(7);
                 } else if (response.data.error == 'Error: the value of password is too short!') {
+                    setStatus(7);
+                } else if (response.data.error == 'Error: The value of password is too large!') {
                     setStatus(8);
-                } else {
+                } else if (response.data.error == 'Error: There is already a user using this email!') {
                     setStatus(9)
+                } else {
+                    setStatus(10)
                 }
             }
 
@@ -116,6 +114,12 @@ export default function SignIn () {
                     title: 'Password Too Long',
                     description: 'Your password is too long. Please enter a shoter password.',
                 });
+            } else if (status == 9) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Email Already in Use',
+                    description: 'Error: There is already a user using this email. Please use a different email address or log in to your account.',
+                });
             } else {
                 setToastMessage({
                     variant: 'destructive',
@@ -127,7 +131,7 @@ export default function SignIn () {
     }, [isLoading, showToast, status]);
 
     useEffect(() => {
-        if (showToast) {
+        if (showToast && status != 0) {
             toast({
                 variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
                 title: toastMessage.title,

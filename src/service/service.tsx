@@ -1,4 +1,4 @@
-import { Login, User } from '@/types/types';
+import { Login, NewPasswordUser, User } from '@/types/types';
 import axios from 'axios';
 const url = 'http://localhost:3000';
 
@@ -8,13 +8,13 @@ export const signInUser = async (login: Login) => {
 export const signUpUser = async (user: User) => {
     const response = await axios.post(`${url}/signUp`, user, {
         validateStatus: (status) => {
-            return status !== 400;
+            return status != 400;
         }
     });
     return response;
 };
 
 
-export const resetPasswordUser = async (password: string) => {
-    return await axios.put(`${url}/resetPassword`, password);
+export const resetPasswordUser = async (newPasswordUser: NewPasswordUser) => {
+    return await axios.put(`${url}/resetPassword`, newPasswordUser);
 }

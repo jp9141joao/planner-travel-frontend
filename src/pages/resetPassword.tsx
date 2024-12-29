@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
-import { newPasswordUser } from "@/types/types";
+import { resetPasswordUser } from "@/service/service";
 
 export function ResetPassword() {
     const [ email, setEmail ] = useState<string>('');
@@ -27,7 +27,7 @@ export function ResetPassword() {
             try {
                 e.preventDefault();
                 setIsLoading(true);
-                const response = await AsignInUser({ email, password, newPassword } as newPasswordUser);
+                const response = await resetPasswordUser({ email, password, newPassword } as newPasswordUser);
                 if (response.data.success) {
                     setStatus(1);
                     setTimeout(() => {

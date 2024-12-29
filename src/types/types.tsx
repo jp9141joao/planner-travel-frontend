@@ -9,7 +9,7 @@ export interface Login {
     password: string
 }
 
-export interface newPasswordUser {
+export interface NewPasswordUser {
     email: string,
     password: string,
     newPassword: string

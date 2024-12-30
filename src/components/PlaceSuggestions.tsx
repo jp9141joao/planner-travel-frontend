@@ -13,13 +13,11 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { ChevronDown, MoreHorizontal } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -55,8 +53,305 @@ const data: dataPlace[] = [
     countryCurrency: "Baht",
     cost: "Low"
   },
-  // Adicione outros objetos aqui
+  {
+    id: "3",
+    city: "New York",
+    country: "USA",
+    language: "English",
+    wether: "Cold",
+    countryCurrency: "USD",
+    cost: "High"
+  },
+  {
+    id: "4",
+    city: "Tokyo",
+    country: "Japan",
+    language: "Japanese",
+    wether: "Temperate",
+    countryCurrency: "Yen",
+    cost: "High"
+  },
+  {
+    id: "5",
+    city: "London",
+    country: "UK",
+    language: "English",
+    wether: "Rainy",
+    countryCurrency: "Pound",
+    cost: "High"
+  },
+  {
+    id: "6",
+    city: "Berlin",
+    country: "Germany",
+    language: "German",
+    wether: "Cold",
+    countryCurrency: "Euro",
+    cost: "Moderate"
+  },
+  {
+    id: "7",
+    city: "Rome",
+    country: "Italy",
+    language: "Italian",
+    wether: "Warm",
+    countryCurrency: "Euro",
+    cost: "Moderate"
+  },
+  {
+    id: "8",
+    city: "Sydney",
+    country: "Australia",
+    language: "English",
+    wether: "Hot",
+    countryCurrency: "AUD",
+    cost: "High"
+  },
+  {
+    id: "9",
+    city: "Rio de Janeiro",
+    country: "Brazil",
+    language: "Portuguese",
+    wether: "Tropical",
+    countryCurrency: "Real",
+    cost: "Moderate"
+  },
+  {
+    id: "10",
+    city: "Cape Town",
+    country: "South Africa",
+    language: "Afrikaans",
+    wether: "Mild",
+    countryCurrency: "Rand",
+    cost: "Moderate"
+  },
+  {
+    id: "11",
+    city: "Moscow",
+    country: "Russia",
+    language: "Russian",
+    wether: "Cold",
+    countryCurrency: "Ruble",
+    cost: "Moderate"
+  },
+  {
+    id: "12",
+    city: "Dubai",
+    country: "UAE",
+    language: "Arabic",
+    wether: "Hot",
+    countryCurrency: "Dirham",
+    cost: "High"
+  },
+  {
+    id: "13",
+    city: "Seoul",
+    country: "South Korea",
+    language: "Korean",
+    wether: "Cold",
+    countryCurrency: "Won",
+    cost: "Moderate"
+  },
+  {
+    id: "14",
+    city: "Amsterdam",
+    country: "Netherlands",
+    language: "Dutch",
+    wether: "Mild",
+    countryCurrency: "Euro",
+    cost: "Moderate"
+  },
+  {
+    id: "15",
+    city: "Madrid",
+    country: "Spain",
+    language: "Spanish",
+    wether: "Hot",
+    countryCurrency: "Euro",
+    cost: "Moderate"
+  },
+  {
+    id: "16",
+    city: "Lisbon",
+    country: "Portugal",
+    language: "Portuguese",
+    wether: "Warm",
+    countryCurrency: "Euro",
+    cost: "Moderate"
+  },
+  {
+    id: "17",
+    city: "Los Angeles",
+    country: "USA",
+    language: "English",
+    wether: "Hot",
+    countryCurrency: "USD",
+    cost: "High"
+  },
+  {
+    id: "18",
+    city: "Barcelona",
+    country: "Spain",
+    language: "Spanish",
+    wether: "Mild",
+    countryCurrency: "Euro",
+    cost: "Moderate"
+  },
+  {
+    id: "19",
+    city: "San Francisco",
+    country: "USA",
+    language: "English",
+    wether: "Mild",
+    countryCurrency: "USD",
+    cost: "High"
+  },
+  {
+    id: "20",
+    city: "Bangkok",
+    country: "Thailand",
+    language: "Thai",
+    wether: "Hot",
+    countryCurrency: "Baht",
+    cost: "Low"
+  },
+  {
+    id: "21",
+    city: "Hong Kong",
+    country: "China",
+    language: "Cantonese",
+    wether: "Tropical",
+    countryCurrency: "HKD",
+    cost: "High"
+  },
+  {
+    id: "22",
+    city: "Buenos Aires",
+    country: "Argentina",
+    language: "Spanish",
+    wether: "Warm",
+    countryCurrency: "Peso",
+    cost: "Moderate"
+  },
+  {
+    id: "23",
+    city: "Cairo",
+    country: "Egypt",
+    language: "Arabic",
+    wether: "Hot",
+    countryCurrency: "Pound",
+    cost: "Low"
+  },
+  {
+    id: "24",
+    city: "Singapore",
+    country: "Singapore",
+    language: "English",
+    wether: "Tropical",
+    countryCurrency: "SGD",
+    cost: "High"
+  },
+  {
+    id: "25",
+    city: "Istanbul",
+    country: "Turkey",
+    language: "Turkish",
+    wether: "Mild",
+    countryCurrency: "Lira",
+    cost: "Moderate"
+  },
+  {
+    id: "26",
+    city: "Lagos",
+    country: "Nigeria",
+    language: "English",
+    wether: "Tropical",
+    countryCurrency: "Naira",
+    cost: "Low"
+  },
+  {
+    id: "27",
+    city: "Mexico City",
+    country: "Mexico",
+    language: "Spanish",
+    wether: "Tropical",
+    countryCurrency: "Peso",
+    cost: "Moderate"
+  },
+  {
+    id: "28",
+    city: "Vancouver",
+    country: "Canada",
+    language: "English",
+    wether: "Cold",
+    countryCurrency: "CAD",
+    cost: "High"
+  },
+  {
+    id: "29",
+    city: "Stockholm",
+    country: "Sweden",
+    language: "Swedish",
+    wether: "Cold",
+    countryCurrency: "Krona",
+    cost: "High"
+  },
+  {
+    id: "30",
+    city: "Athens",
+    country: "Greece",
+    language: "Greek",
+    wether: "Warm",
+    countryCurrency: "Euro",
+    cost: "Moderate"
+  },
+  {
+    id: "31",
+    city: "Montreal",
+    country: "Canada",
+    language: "French",
+    wether: "Cold",
+    countryCurrency: "CAD",
+    cost: "Moderate"
+  },
+  {
+    id: "32",
+    city: "Kuala Lumpur",
+    country: "Malaysia",
+    language: "Malay",
+    wether: "Tropical",
+    countryCurrency: "MYR",
+    cost: "Moderate"
+  },
+  {
+    id: "33",
+    city: "Chicago",
+    country: "USA",
+    language: "English",
+    wether: "Cold",
+    countryCurrency: "USD",
+    cost: "High"
+  },
+  {
+    id: "34",
+    city: "Madrid",
+    country: "Spain",
+    language: "Spanish",
+    wether: "Hot",
+    countryCurrency: "Euro",
+    cost: "Moderate"
+  },
+  {
+    id: "35",
+    city: "Prague",
+    country: "Czech Republic",
+    language: "Czech",
+    wether: "Cold",
+    countryCurrency: "Krona",
+    cost: "Moderate"
+  }
 ]
+
 
 export type dataPlace = {
   id: string,
@@ -68,26 +363,7 @@ export type dataPlace = {
   cost: string
 }
 
-export const columns: ColumnDef<dataPlace>[] = [
-  {
-    id: "select",
-    header: ({ table }: any) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }: any) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+export const columns: ColumnDef<dataPlace, any>[] = [
   {
     accessorKey: "city",
     header: "City",
@@ -117,36 +393,7 @@ export const columns: ColumnDef<dataPlace>[] = [
     accessorKey: "cost",
     header: "Cost",
     cell: ({ row }: any) => <div>{row.getValue("cost")}</div>,
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }: any) => {
-      const payment = row.original
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    },
-  },
+  }
 ]
 
 export function PlaceSuggestions() {
@@ -154,6 +401,7 @@ export function PlaceSuggestions() {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+  const [selectedColumn, setSelectedColumn] = React.useState<string>('city') 
 
   const table = useReactTable({
     data,
@@ -177,40 +425,32 @@ export function PlaceSuggestions() {
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter by city..."
-          value={(table.getColumn("city")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("city")?.setFilterValue(event.target.value)
-          }
-          className=""
-        />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown />
+              {selectedColumn ? selectedColumn : "Select column to filter"} <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column: any) => column.getCanHide())
-              .map((column: any) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value: any) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
+            {columns.map((col) => (
+              <DropdownMenuItem
+                key={col.id}
+                onClick={() => setSelectedColumn(col.accessorKey || col.id)}
+              >
+                {col.header as React.ReactNode}
+              </DropdownMenuItem>
+            ))}
           </DropdownMenuContent>
         </DropdownMenu>
+        
+        <Input
+          placeholder={`Filter by ${selectedColumn}...`}
+          value={(table.getColumn(selectedColumn)?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn(selectedColumn)?.setFilterValue(event.target.value)
+          }
+          className="flex-1"
+        />
       </div>
       <div className="rounded-md border">
         <Table>
@@ -258,10 +498,6 @@ export function PlaceSuggestions() {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
         <div className="space-x-2">
           <Button
             variant="outline"

@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,19 +12,18 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
-import { ChevronDown, MoreHorizontal } from "lucide-react"
+} from "@tanstack/react-table";
+import { ChevronDown } from "lucide-react";
+import { Link } from "react-router-dom";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -32,376 +31,90 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 
 const data: dataPlace[] = [
   {
     id: "1",
-    city: "Paris",
-    country: "France",
-    language: "French",
-    wether: "Mild",
-    countryCurrency: "Euro",
-    cost: "High"
+    City: "Paris",
+    Country: "France",
+    Language: "French",
+    Wether: "Mild",
+    Currency: "Euro",
+    Cost: "High",
+    Pictures: "/paris-gallery",
   },
   {
     id: "2",
-    city: "Bangkok",
-    country: "Thailand",
-    language: "Thai",
-    wether: "Hot",
-    countryCurrency: "Baht",
-    cost: "Low"
+    City: "Bangkok",
+    Country: "Thailand",
+    Language: "Thai",
+    Wether: "Hot",
+    Currency: "Baht",
+    Cost: "Low",
+    Pictures: "/bangkok-gallery",
   },
-  {
-    id: "3",
-    city: "New York",
-    country: "USA",
-    language: "English",
-    wether: "Cold",
-    countryCurrency: "USD",
-    cost: "High"
-  },
-  {
-    id: "4",
-    city: "Tokyo",
-    country: "Japan",
-    language: "Japanese",
-    wether: "Temperate",
-    countryCurrency: "Yen",
-    cost: "High"
-  },
-  {
-    id: "5",
-    city: "London",
-    country: "UK",
-    language: "English",
-    wether: "Rainy",
-    countryCurrency: "Pound",
-    cost: "High"
-  },
-  {
-    id: "6",
-    city: "Berlin",
-    country: "Germany",
-    language: "German",
-    wether: "Cold",
-    countryCurrency: "Euro",
-    cost: "Moderate"
-  },
-  {
-    id: "7",
-    city: "Rome",
-    country: "Italy",
-    language: "Italian",
-    wether: "Warm",
-    countryCurrency: "Euro",
-    cost: "Moderate"
-  },
-  {
-    id: "8",
-    city: "Sydney",
-    country: "Australia",
-    language: "English",
-    wether: "Hot",
-    countryCurrency: "AUD",
-    cost: "High"
-  },
-  {
-    id: "9",
-    city: "Rio de Janeiro",
-    country: "Brazil",
-    language: "Portuguese",
-    wether: "Tropical",
-    countryCurrency: "Real",
-    cost: "Moderate"
-  },
-  {
-    id: "10",
-    city: "Cape Town",
-    country: "South Africa",
-    language: "Afrikaans",
-    wether: "Mild",
-    countryCurrency: "Rand",
-    cost: "Moderate"
-  },
-  {
-    id: "11",
-    city: "Moscow",
-    country: "Russia",
-    language: "Russian",
-    wether: "Cold",
-    countryCurrency: "Ruble",
-    cost: "Moderate"
-  },
-  {
-    id: "12",
-    city: "Dubai",
-    country: "UAE",
-    language: "Arabic",
-    wether: "Hot",
-    countryCurrency: "Dirham",
-    cost: "High"
-  },
-  {
-    id: "13",
-    city: "Seoul",
-    country: "South Korea",
-    language: "Korean",
-    wether: "Cold",
-    countryCurrency: "Won",
-    cost: "Moderate"
-  },
-  {
-    id: "14",
-    city: "Amsterdam",
-    country: "Netherlands",
-    language: "Dutch",
-    wether: "Mild",
-    countryCurrency: "Euro",
-    cost: "Moderate"
-  },
-  {
-    id: "15",
-    city: "Madrid",
-    country: "Spain",
-    language: "Spanish",
-    wether: "Hot",
-    countryCurrency: "Euro",
-    cost: "Moderate"
-  },
-  {
-    id: "16",
-    city: "Lisbon",
-    country: "Portugal",
-    language: "Portuguese",
-    wether: "Warm",
-    countryCurrency: "Euro",
-    cost: "Moderate"
-  },
-  {
-    id: "17",
-    city: "Los Angeles",
-    country: "USA",
-    language: "English",
-    wether: "Hot",
-    countryCurrency: "USD",
-    cost: "High"
-  },
-  {
-    id: "18",
-    city: "Barcelona",
-    country: "Spain",
-    language: "Spanish",
-    wether: "Mild",
-    countryCurrency: "Euro",
-    cost: "Moderate"
-  },
-  {
-    id: "19",
-    city: "San Francisco",
-    country: "USA",
-    language: "English",
-    wether: "Mild",
-    countryCurrency: "USD",
-    cost: "High"
-  },
-  {
-    id: "20",
-    city: "Bangkok",
-    country: "Thailand",
-    language: "Thai",
-    wether: "Hot",
-    countryCurrency: "Baht",
-    cost: "Low"
-  },
-  {
-    id: "21",
-    city: "Hong Kong",
-    country: "China",
-    language: "Cantonese",
-    wether: "Tropical",
-    countryCurrency: "HKD",
-    cost: "High"
-  },
-  {
-    id: "22",
-    city: "Buenos Aires",
-    country: "Argentina",
-    language: "Spanish",
-    wether: "Warm",
-    countryCurrency: "Peso",
-    cost: "Moderate"
-  },
-  {
-    id: "23",
-    city: "Cairo",
-    country: "Egypt",
-    language: "Arabic",
-    wether: "Hot",
-    countryCurrency: "Pound",
-    cost: "Low"
-  },
-  {
-    id: "24",
-    city: "Singapore",
-    country: "Singapore",
-    language: "English",
-    wether: "Tropical",
-    countryCurrency: "SGD",
-    cost: "High"
-  },
-  {
-    id: "25",
-    city: "Istanbul",
-    country: "Turkey",
-    language: "Turkish",
-    wether: "Mild",
-    countryCurrency: "Lira",
-    cost: "Moderate"
-  },
-  {
-    id: "26",
-    city: "Lagos",
-    country: "Nigeria",
-    language: "English",
-    wether: "Tropical",
-    countryCurrency: "Naira",
-    cost: "Low"
-  },
-  {
-    id: "27",
-    city: "Mexico City",
-    country: "Mexico",
-    language: "Spanish",
-    wether: "Tropical",
-    countryCurrency: "Peso",
-    cost: "Moderate"
-  },
-  {
-    id: "28",
-    city: "Vancouver",
-    country: "Canada",
-    language: "English",
-    wether: "Cold",
-    countryCurrency: "CAD",
-    cost: "High"
-  },
-  {
-    id: "29",
-    city: "Stockholm",
-    country: "Sweden",
-    language: "Swedish",
-    wether: "Cold",
-    countryCurrency: "Krona",
-    cost: "High"
-  },
-  {
-    id: "30",
-    city: "Athens",
-    country: "Greece",
-    language: "Greek",
-    wether: "Warm",
-    countryCurrency: "Euro",
-    cost: "Moderate"
-  },
-  {
-    id: "31",
-    city: "Montreal",
-    country: "Canada",
-    language: "French",
-    wether: "Cold",
-    countryCurrency: "CAD",
-    cost: "Moderate"
-  },
-  {
-    id: "32",
-    city: "Kuala Lumpur",
-    country: "Malaysia",
-    language: "Malay",
-    wether: "Tropical",
-    countryCurrency: "MYR",
-    cost: "Moderate"
-  },
-  {
-    id: "33",
-    city: "Chicago",
-    country: "USA",
-    language: "English",
-    wether: "Cold",
-    countryCurrency: "USD",
-    cost: "High"
-  },
-  {
-    id: "34",
-    city: "Madrid",
-    country: "Spain",
-    language: "Spanish",
-    wether: "Hot",
-    countryCurrency: "Euro",
-    cost: "Moderate"
-  },
-  {
-    id: "35",
-    city: "Prague",
-    country: "Czech Republic",
-    language: "Czech",
-    wether: "Cold",
-    countryCurrency: "Krona",
-    cost: "Moderate"
-  }
-]
-
+];
 
 export type dataPlace = {
-  id: string,
-  city: string,
-  country: string,
-  language: string,
-  wether: string,
-  countryCurrency: string,
-  cost: string
-}
+  id: string;
+  City: string;
+  Country: string;
+  Language: string;
+  Wether: string;
+  Currency: string;
+  Cost: string;
+  Pictures: string;
+};
 
 export const columns: ColumnDef<dataPlace, any>[] = [
   {
-    accessorKey: "city",
+    accessorKey: "City",
     header: "City",
-    cell: ({ row }: any) => <div>{row.getValue("city")}</div>,
+    cell: ({ row }: any) => <div>{row.getValue("City")}</div>,
   },
   {
-    accessorKey: "country",
+    accessorKey: "Country",
     header: "Country",
-    cell: ({ row }: any) => <div>{row.getValue("country")}</div>,
+    cell: ({ row }: any) => <div>{row.getValue("Country")}</div>,
   },
   {
-    accessorKey: "language",
+    accessorKey: "Language",
     header: "Language",
-    cell: ({ row }: any) => <div>{row.getValue("language")}</div>,
+    cell: ({ row }: any) => <div>{row.getValue("Language")}</div>,
   },
   {
-    accessorKey: "wether",
+    accessorKey: "Wether",
     header: "Weather",
-    cell: ({ row }: any) => <div>{row.getValue("wether")}</div>,
+    cell: ({ row }: any) => <div>{row.getValue("Wether")}</div>,
   },
   {
-    accessorKey: "countryCurrency",
+    accessorKey: "Currency",
     header: "Currency",
-    cell: ({ row }: any) => <div>{row.getValue("countryCurrency")}</div>,
+    cell: ({ row }: any) => <div>{row.getValue("Currency")}</div>,
   },
   {
-    accessorKey: "cost",
+    accessorKey: "Cost",
     header: "Cost",
-    cell: ({ row }: any) => <div>{row.getValue("cost")}</div>,
-  }
-]
+    cell: ({ row }: any) => <div>{row.getValue("Cost")}</div>,
+  },
+  {
+    accessorKey: "Pictures",
+    header: "Pictures",
+    cell: ({ row }: any) => (
+      <Link to={row.getValue("Pictures")} className="text-blue-500 underline">
+        Link
+      </Link>
+    ),
+  },
+];
 
 export function PlaceSuggestions() {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
-  const [selectedColumn, setSelectedColumn] = React.useState<string>('city') 
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [selectedColumn, setSelectedColumn] = React.useState<string>("City");
 
   const table = useReactTable({
     data,
@@ -420,7 +133,7 @@ export function PlaceSuggestions() {
       columnVisibility,
       rowSelection,
     },
-  })
+  });
 
   return (
     <div className="w-full">
@@ -442,7 +155,7 @@ export function PlaceSuggestions() {
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
-        
+
         <Input
           placeholder={`Filter by ${selectedColumn}...`}
           value={(table.getColumn(selectedColumn)?.getFilterValue() as string) ?? ""}
@@ -518,5 +231,5 @@ export function PlaceSuggestions() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -29,28 +29,23 @@ export default function Home() {
                     </p>
                 </div>
                 <div className="grid xs:flex xs:justify-start xxs11:gap-y-3 xs:gap-y-0 xs:gap-4 mt-[3vw] xs:mt-[1.4vw] lg:mt-[0.8vw]">
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button size={"auto"}>
-                          Place suggestions
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="max-w-full overflow-y-auto max-h-screen">
-                        <DialogHeader>
-                          <DialogTitle>Place Suggestions</DialogTitle>
-                          <DialogDescription>
-                            Find places to add to your travel plan and make the most of your trip.
-                          </DialogDescription>
-                        </DialogHeader>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button size={"auto"}>Place suggestions</Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-full max-h-screen overflow-auto p-4">
+                      <DialogHeader>
+                        <DialogTitle>Place Suggestions</DialogTitle>
+                        <DialogDescription>
+                          Find places to add to your travel plan and make the most of your trip.
+                        </DialogDescription>
+                      </DialogHeader>
                         <PlaceSuggestions />
-                        <DialogFooter>
-                          <Button size={"auto"}>Go to this place</Button>
-                        </DialogFooter>
-                      </DialogContent>
-                    </Dialog>
-                    <Button size={"auto"} variant={"outline"}>
-                      I know where to go
-                    </Button>
+                    </DialogContent>
+                  </Dialog>
+                  <Button size={"auto"} variant={"outline"}>
+                    I know where to go
+                  </Button>
                 </div>
             </div>
             <div className="mx-[8.8vw] mt-[6vw] xs:mx-[15.5vw] xs:my-[7vw] lg:my-0 lg:mt-[7.4vw] lg:mx-[2vw]">

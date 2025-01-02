@@ -32,24 +32,28 @@ export function ResetPassword() {
             if (response.data.success) {
                 setStatus(1);
             } else {
-                if (response.data.error == 'Error: The value of fullName is invalid!') {
+                if (response.data.error == 'Error: The value of email is invalid!') {
                     setStatus(2);
-                } else if (response.data.error == 'Error: The value of fullName is too large!') {
-                    setStatus(3);
-                } else if (response.data.error == 'Error: The value of email is invalid!') {
-                    setStatus(4);
                 } else if (response.data.error == 'Error: The value of email is too large!') {
-                    setStatus(5);
+                    setStatus(3);
                 } else if (response.data.error == 'Error: The value of password is invalid!') {
-                    setStatus(6);
+                    setStatus(4);
                 } else if (response.data.error == 'Error: the value of password is too short!') {
-                    setStatus(7);
+                    setStatus(5);
                 } else if (response.data.error == 'Error: The value of password is too large!') {
+                    setStatus(6);
+                } else if (response.data.error == 'Error: The value of the new password is invalid!') {
+                    setStatus(7);
+                } else if (response.data.error == 'Error: the value of the new password is too short!') {
                     setStatus(8);
-                } else if (response.data.error == 'Error: There is already a user using this email!') {
-                    setStatus(9)
-                } else {
+                } else if (response.data.error == 'Error: The value of the new password is too large!') {
+                    setStatus(9);
+                } else if (response.data.error == 'Error: The value of the new password is the same as your current password') {
                     setStatus(10)
+                } else if (response.data.error == 'Error: The email or password you entered is incorrect') {
+                    setStatus(11);
+                } else {
+                    setStatus(12)
                 }
             }
 
@@ -68,57 +72,69 @@ export function ResetPassword() {
             if (status == 1) {
                 setToastMessage({
                     variant: 'success',
-                    title: 'Account created successfully!',
-                    description: 'Welcome! Your account has been created. You can now plan your travels with us.',
+                    title: 'Password altered successfully!',
+                    description: 'Your password has been successfully updated. You can now log in with your new password and continue exploring with us.',
                 });
             } else if (status == 2) {
-                setToastMessage({
-                    variant: 'destructive',
-                    title: 'Invalid Full Name',
-                    description: 'Please provide a valid full name with only letters and spaces.',
-                });
-            } else if (status == 3) {
-                setToastMessage({
-                    variant: 'destructive',
-                    title: 'Full Name Too Long',
-                    description: 'Your full name is too long. Please enter a shorter name.',
-                });
-            } else if (status == 4) {
                 setToastMessage({
                     variant: 'destructive',
                     title: 'Invalid Email',
                     description: 'The email address you entered is invalid. Please check and try again.',
                 });
-            } else if (status == 5) {
+            } else if (status == 3) {
                 setToastMessage({
                     variant: 'destructive',
                     title: 'Email Too Long',
                     description: 'The email address is too long. Please enter a shorter email address.',
                 });
-            } else if (status == 6) {
+            } else if (status == 4) {
                 setToastMessage({
                     variant: 'destructive',
                     title: 'Invalid Password',
                     description: 'Please provide a password that meets the minimum criteria, including at least one uppercase letter, one number, and one special character.',
                 });
-            } else if (status == 7) {
+            } else if (status == 5) {
                 setToastMessage({
                     variant: 'destructive',
                     title: 'Password Too Short',
                     description: 'Your password is too short. Please enter a password with at least 8 characters.',
                 });
-            } else if (status == 8) {
+            } else if (status == 6) {
                 setToastMessage({
                     variant: 'destructive',
                     title: 'Password Too Long',
                     description: 'Your password is too long. Please enter a shoter password.',
                 });
+            } else if (status == 7) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Invalid New Password',
+                    description: 'Please provide a new password that meets the minimum criteria, including at least one uppercase letter, one number, and one special character.',
+                });
+            } else if (status == 8) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'New Password Too Short',
+                    description: 'Your new password is too short. Please enter a password with at least 8 characters.',
+                });
             } else if (status == 9) {
                 setToastMessage({
                     variant: 'destructive',
-                    title: 'Email Already in Use',
-                    description: 'Error: There is already a user using this email. Please use a different email address or log in to your account.',
+                    title: 'New Password Too Long',
+                    description: 'Your new password is too long. Please enter a shoter password.',
                 });
+            } else if (status == 10) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'New Password Matches Current Password',
+                    description: 'Your new password cannot be the same as your current password. Please choose a different password.',
+                });
+            } else if (status == 11) {
+                setToastMessage({
+                    variant: 'destructive', 
+                    title: 'Email or Password Incorrect', 
+                    description: 'The email or password you entered is incorrect. Please try again.', 
+                }); 
             } else {
                 setToastMessage({
                     variant: 'destructive',

@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
 import { resetPasswordUser } from "@/service/service";
+import { NewPasswordUser } from "@/types/types";
 
 export function ResetPassword() {
     const [ email, setEmail ] = useState<string>('');
@@ -24,130 +25,119 @@ export function ResetPassword() {
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
-            try {
-                e.preventDefault();
-                setIsLoading(true);
-                const response = await resetPasswordUser({ email, password, newPassword } as newPasswordUser);
-                if (response.data.success) {
-                    setStatus(1);
-                    setTimeout(() => {
-                        navigate('/signIn');
-                    }, 500);
+        try {
+            e.preventDefault();
+            setIsLoading(true);
+            const response = await resetPasswordUser({ email: email, password: password, newPassword: newPassword } as NewPasswordUser);
+            if (response.data.success) {
+                setStatus(1);
+            } else {
+                if (response.data.error == 'Error: The value of fullName is invalid!') {
+                    setStatus(2);
+                } else if (response.data.error == 'Error: The value of fullName is too large!') {
+                    setStatus(3);
+                } else if (response.data.error == 'Error: The value of email is invalid!') {
+                    setStatus(4);
+                } else if (response.data.error == 'Error: The value of email is too large!') {
+                    setStatus(5);
+                } else if (response.data.error == 'Error: The value of password is invalid!') {
+                    setStatus(6);
+                } else if (response.data.error == 'Error: the value of password is too short!') {
+                    setStatus(7);
+                } else if (response.data.error == 'Error: The value of password is too large!') {
+                    setStatus(8);
+                } else if (response.data.error == 'Error: There is already a user using this email!') {
+                    setStatus(9)
                 } else {
-                    if (response.data.error == 'Error: The value of email is invalid!') {
-                        setStatus(2);
-                    } else if (response.data.error == 'Error: The value of email is too large!') {
-                        setStatus(3);
-                    } else if (response.data.error == 'Error: The value of password is invalid!') {
-                        setStatus(4);
-                    } else if (response.data.error == 'Error: The value of password is too large!') {
-                        setStatus(5);
-                    } else if (response.data.error == 'Error: the value of password is too short!') {
-                        setStatus(6);
-                    } else if (response.data.error == 'Error: The value of the new password is invalid!') {
-                        setStatus(7);
-                    } else if (response.data.error == 'Error: The value of the new password is too large!') {
-                        setStatus(8);
-                    } else if (response.data.error == 'Error: the value of the new password is too short!') {
-                        setStatus(9);
-                    } else if (response.data.error == 'Error: The email or password you entered is incorrect') {
-                        setStatus(10);
-                    }  else {
-                        setStatus(11);
-                    }
+                    setStatus(10)
                 }
-    
-                setIsLoading(false);
-                setShowToast(true);
-            } catch (error: any) {
-                setStatus(8);
-                setIsLoading(false);
-                setShowToast(true);
-                console.log(error);
-            } 
-        }
+            }
 
-        useEffect(() => {
-            if (!isLoading && showToast) {
-                if (status == 1) {
-                    setToastMessage({
-                        variant: 'success',
-                        title: 'Password Altered successfully!',
-                        description: 'You can now log in with your new password.',
-                    });
-                } else if (status == 2) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'Invalid Email',
-                        description: 'The email address you entered is invalid. Please check and try again.',
-                    });
-                } else if (status == 3) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'Email Too Long',
-                        description: 'The email address is too long. Please enter a shorter email address.',
-                    });
-                } else if (status == 4) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'Invalid Password',
-                        description: 'Please provide a password that meets the minimum criteria, including at least one uppercase letter, one number, and one special character.',
-                    });
-                } else if (status == 5) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'Password Too Short',
-                        description: 'Your password is too short. Please enter a password with at least 8 characters.',
-                    });
-                } else if (status == 6) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'Password Too Long',
-                        description: 'Your password is too long. Please enter a shoter password.',
-                    });
-                } else if (status == 7) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'Invalid New Password',
-                        description: 'Please provide a new password that meets the minimum criteria, including at least one uppercase letter, one number, and one special character.',
-                    });
-                } else if (status == 8) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'New Password Too Short',
-                        description: 'Your new password is too short. Please enter a new password with at least 8 characters.',
-                    });
-                } else if (status == 9) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'New Password Too Long',
-                        description: 'Your new password is too long. Please enter a shoter new password.',
-                    });
-                } else if (status == 10) {
-                    setToastMessage({
-                        variant: 'destructive', 
-                        title: 'Email or Password Incorrect', 
-                        description: 'The email or password you entered is incorrect. Please try again.', 
-                    }); 
-                } else {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: "Uh oh! Something went wrong.",
-                        description: "There was a problem with your request.",
-                    });
-                }
-            }
-        }, [isLoading, showToast, status]);
+            setIsLoading(false);
+            setShowToast(true);
+        } catch (error: any) {
+            setStatus(8);
+            setIsLoading(false);
+            setShowToast(true);
+            console.log(error);
+        } 
+    }
     
-        useEffect(() => {
-            if (showToast) {
-                toast({
-                    variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
-                    title: toastMessage.title,
-                    description: toastMessage.description,
-                })
+    useEffect(() => {
+        if (!isLoading && showToast) {
+            if (status == 1) {
+                setToastMessage({
+                    variant: 'success',
+                    title: 'Account created successfully!',
+                    description: 'Welcome! Your account has been created. You can now plan your travels with us.',
+                });
+            } else if (status == 2) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Invalid Full Name',
+                    description: 'Please provide a valid full name with only letters and spaces.',
+                });
+            } else if (status == 3) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Full Name Too Long',
+                    description: 'Your full name is too long. Please enter a shorter name.',
+                });
+            } else if (status == 4) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Invalid Email',
+                    description: 'The email address you entered is invalid. Please check and try again.',
+                });
+            } else if (status == 5) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Email Too Long',
+                    description: 'The email address is too long. Please enter a shorter email address.',
+                });
+            } else if (status == 6) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Invalid Password',
+                    description: 'Please provide a password that meets the minimum criteria, including at least one uppercase letter, one number, and one special character.',
+                });
+            } else if (status == 7) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Password Too Short',
+                    description: 'Your password is too short. Please enter a password with at least 8 characters.',
+                });
+            } else if (status == 8) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Password Too Long',
+                    description: 'Your password is too long. Please enter a shoter password.',
+                });
+            } else if (status == 9) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Email Already in Use',
+                    description: 'Error: There is already a user using this email. Please use a different email address or log in to your account.',
+                });
+            } else {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
             }
-        }, [toastMessage]);
+        }
+    }, [isLoading, showToast, status]);
+
+    useEffect(() => {
+        if (showToast && status != 0) {
+            toast({
+                variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
+                title: toastMessage.title,
+                description: toastMessage.description,
+            })
+        }
+    }, [toastMessage]);
 
     return (
         <BodyPage>

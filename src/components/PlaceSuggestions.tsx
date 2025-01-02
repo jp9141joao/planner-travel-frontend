@@ -13,7 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, MoveRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
@@ -34,357 +34,44 @@ import {
 } from "@/components/ui/table";
 
 const data: dataPlace[] = [
-  {
-    id: "1",
-    City: "Paris",
-    Country: "France",
-    Language: "French",
-    Wether: "Mild",
-    Currency: "Euro",
-    Cost: "High",
-    Pictures: ""
-  },
-  {
-    id: "2",
-    City: "Bangkok",
-    Country: "Thailand",
-    Language: "Thai",
-    Wether: "Hot",
-    Currency: "Baht",
-    Cost: "Low",
-    Pictures: ""
-  },
-  {
-    id: "3",
-    City: "New York",
-    Country: "USA",
-    Language: "English",
-    Wether: "Cold",
-    Currency: "USD",
-    Cost: "High",
-    Pictures: ""
-  },
-  {
-    id: "4",
-    City: "Tokyo",
-    Country: "Japan",
-    Language: "Japanese",
-    Wether: "Temperate",
-    Currency: "Yen",
-    Cost: "High",
-    Pictures: ""
-  },
-  {
-    id: "5",
-    City: "London",
-    Country: "UK",
-    Language: "English",
-    Wether: "Rainy",
-    Currency: "Pound",
-    Cost: "High",
-    Pictures: ""
-  },
-  {
-    id: "6",
-    City: "Berlin",
-    Country: "Germany",
-    Language: "German",
-    Wether: "Cold",
-    Currency: "Euro",
-    Cost: "Moderate",
-    Pictures: ""
-  },
-  {
-    id: "7",
-    City: "Rome",
-    Country: "Italy",
-    Language: "Italian",
-    Wether: "Warm",
-    Currency: "Euro",
-    Cost: "Moderate",
-    Pictures: ""
-  },
-  {
-    id: "8",
-    City: "Sydney",
-    Country: "Australia",
-    Language: "English",
-    Wether: "Hot",
-    Currency: "AUD",
-    Cost: "High",
-    Pictures: ""
-  },
-  {
-    id: "9",
-    City: "Rio de Janeiro",
-    Country: "Brazil",
-    Language: "Portuguese",
-    Wether: "Tropical",
-    Currency: "Real",
-    Cost: "Moderate",
-    Pictures: ""
-  },
-  {
-    id: "10",
-    City: "Cape Town",
-    Country: "South Africa",
-    Language: "Afrikaans",
-    Wether: "Mild",
-    Currency: "Rand",
-    Cost: "Moderate",
-    Pictures: ""
-  },
-  {
-    id: "11",
-    City: "Moscow",
-    Country: "Russia",
-    Language: "Russian",
-    Wether: "Cold",
-    Currency: "Ruble",
-    Cost: "Moderate",
-    Pictures: ""
-  },
-  {
-    id: "12",
-    City: "Dubai",
-    Country: "UAE",
-    Language: "Arabic",
-    Wether: "Hot",
-    Currency: "Dirham",
-    Cost: "High",
-    Pictures: ""
-  },
-  {
-    id: "13",
-    City: "Seoul",
-    Country: "South Korea",
-    Language: "Korean",
-    Wether: "Cold",
-    Currency: "Won",
-    Cost: "Moderate",
-    Pictures: ""
-  },
-  {
-    id: "14",
-    City: "Amsterdam",
-    Country: "Netherlands",
-    Language: "Dutch",
-    Wether: "Mild",
-    Currency: "Euro",
-    Cost: "Moderate",
-    Pictures: ""
-  },
-  {
-    id: "15",
-    City: "Madrid",
-    Country: "Spain",
-    Language: "Spanish",
-    Wether: "Hot",
-    Currency: "Euro",
-    Cost: "Moderate",
-    Pictures: ""
-  },
-  {
-    id: "16",
-    City: "Lisbon",
-    Country: "Portugal",
-    Language: "Portuguese",
-    Wether: "Warm",
-    Currency: "Euro",
-    Cost: "Moderate",
-    Pictures: ""
-  },
-  {
-    id: "17",
-    City: "Los Angeles",
-    Country: "USA",
-    Language: "English",
-    Wether: "Hot",
-    Currency: "USD",
-    Cost: "High",
-    Pictures: ""
-  },
-  {
-    id: "18",
-    City: "Barcelona",
-    Country: "Spain",
-    Language: "Spanish",
-    Wether: "Mild",
-    Currency: "Euro",
-    Cost: "Moderate",
-    Pictures: ""
-  },
-  {
-    id: "19",
-    City: "San Francisco",
-    Country: "USA",
-    Language: "English",
-    Wether: "Mild",
-    Currency: "USD",
-    Cost: "High",
-    Pictures: ""
-  },
-  {
-    id: "20",
-    City: "Bangkok",
-    Country: "Thailand",
-    Language: "Thai",
-    Wether: "Hot",
-    Currency: "Baht",
-    Cost: "Low",
-    Pictures: ""
-  },
-  {
-    id: "21",
-    City: "Hong Kong",
-    Country: "China",
-    Language: "Cantonese",
-    Wether: "Tropical",
-    Currency: "HKD",
-    Cost: "High",
-    Pictures: ""
-  },
-  {
-    id: "22",
-    City: "Buenos Aires",
-    Country: "Argentina",
-    Language: "Spanish",
-    Wether: "Warm",
-    Currency: "Peso",
-    Cost: "Moderate",
-    Pictures: ""
-  },
-  {
-    id: "23",
-    City: "Cairo",
-    Country: "Egypt",
-    Language: "Arabic",
-    Wether: "Hot",
-    Currency: "Pound",
-    Cost: "Low",
-    Pictures: ""
-  },
-  {
-    id: "24",
-    City: "Singapore",
-    Country: "Singapore",
-    Language: "English",
-    Wether: "Tropical",
-    Currency: "SGD",
-    Cost: "High",
-    Pictures: ""
-  },
-  {
-    id: "25",
-    City: "Istanbul",
-    Country: "Turkey",
-    Language: "Turkish",
-    Wether: "Mild",
-    Currency: "Lira",
-    Cost: "Moderate",
-    Pictures: ""
-  },
-  {
-    id: "26",
-    City: "Lagos",
-    Country: "Nigeria",
-    Language: "English",
-    Wether: "Tropical",
-    Currency: "Naira",
-    Cost: "Low",
-    Pictures: ""
-  },
-  {
-    id: "27",
-    City: "Mexico City",
-    Country: "Mexico",
-    Language: "Spanish",
-    Wether: "Tropical",
-    Currency: "Peso",
-    Cost: "Moderate",
-    Pictures: ""
-  },
-  {
-    id: "28",
-    City: "Vancouver",
-    Country: "Canada",
-    Language: "English",
-    Wether: "Cold",
-    Currency: "CAD",
-    Cost: "High",
-    Pictures: ""
-  },
-  {
-    id: "29",
-    City: "Stockholm",
-    Country: "Sweden",
-    Language: "Swedish",
-    Wether: "Cold",
-    Currency: "Krona",
-    Cost: "High",
-    Pictures: ""
-  },
-  {
-    id: "30",
-    City: "Athens",
-    Country: "Greece",
-    Language: "Greek",
-    Wether: "Warm",
-    Currency: "Euro",
-    Cost: "Moderate",
-    Pictures: ""
-  },
-  {
-    id: "31",
-    City: "Montreal",
-    Country: "Canada",
-    Language: "French",
-    Wether: "Cold",
-    Currency: "CAD",
-    Cost: "Moderate",
-    Pictures: ""
-  },
-  {
-    id: "32",
-    City: "Kuala Lumpur",
-    Country: "Malaysia",
-    Language: "Malay",
-    Wether: "Tropical",
-    Currency: "MYR",
-    Cost: "Moderate",
-    Pictures: ""
-  },
-  {
-    id: "33",
-    City: "Chicago",
-    Country: "USA",
-    Language: "English",
-    Wether: "Cold",
-    Currency: "USD",
-    Cost: "High",
-    Pictures: ""
-  },
-  {
-    id: "34",
-    City: "Madrid",
-    Country: "Spain",
-    Language: "Spanish",
-    Wether: "Hot",
-    Currency: "Euro",
-    Cost: "Moderate",
-    Pictures: ""
-  },
-  {
-    id: "35",
-    City: "Prague",
-    Country: "Czech Republic",
-    Language: "Czech",
-    Wether: "Cold",
-    Currency: "Krona",
-    Cost: "Moderate",
-    Pictures: ""
-  }
+  { id: "1", City: "Paris", Country: "France", Language: "French", Wether: "Mild", Currency: "Euro", Cost: "High", Pictures: "https://www.google.com/search?q=Paris&tbm=isch" },
+  { id: "2", City: "Bangkok", Country: "Thailand", Language: "Thai", Wether: "Hot", Currency: "Baht", Cost: "Low", Pictures: "https://www.google.com/search?q=Bangkok&tbm=isch" },
+  { id: "3", City: "New York", Country: "USA", Language: "English", Wether: "Cold", Currency: "USD", Cost: "High", Pictures: "https://www.google.com/search?q=New+York&tbm=isch" },
+  { id: "4", City: "Tokyo", Country: "Japan", Language: "Japanese", Wether: "Temperate", Currency: "Yen", Cost: "High", Pictures: "https://www.google.com/search?q=Tokyo&tbm=isch" },
+  { id: "5", City: "London", Country: "UK", Language: "English", Wether: "Rainy", Currency: "Pound", Cost: "High", Pictures: "https://www.google.com/search?q=London&tbm=isch" },
+  { id: "6", City: "Berlin", Country: "Germany", Language: "German", Wether: "Cold", Currency: "Euro", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Berlin&tbm=isch" },
+  { id: "7", City: "Rome", Country: "Italy", Language: "Italian", Wether: "Warm", Currency: "Euro", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Rome&tbm=isch" },
+  { id: "8", City: "Sydney", Country: "Australia", Language: "English", Wether: "Hot", Currency: "AUD", Cost: "High", Pictures: "https://www.google.com/search?q=Sydney&tbm=isch" },
+  { id: "9", City: "Rio de Janeiro", Country: "Brazil", Language: "Portuguese", Wether: "Tropical", Currency: "Real", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Rio+de+Janeiro&tbm=isch" },
+  { id: "10", City: "Cape Town", Country: "South Africa", Language: "Afrikaans", Wether: "Mild", Currency: "Rand", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Cape+Town&tbm=isch" },
+  { id: "11", City: "Moscow", Country: "Russia", Language: "Russian", Wether: "Cold", Currency: "Ruble", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Moscow&tbm=isch" },
+  { id: "12", City: "Dubai", Country: "UAE", Language: "Arabic", Wether: "Hot", Currency: "Dirham", Cost: "High", Pictures: "https://www.google.com/search?q=Dubai&tbm=isch" },
+  { id: "13", City: "Seoul", Country: "South Korea", Language: "Korean", Wether: "Cold", Currency: "Won", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Seoul&tbm=isch" },
+  { id: "14", City: "Amsterdam", Country: "Netherlands", Language: "Dutch", Wether: "Mild", Currency: "Euro", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Amsterdam&tbm=isch" },
+  { id: "15", City: "Madrid", Country: "Spain", Language: "Spanish", Wether: "Hot", Currency: "Euro", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Madrid&tbm=isch" },
+  { id: "16", City: "Lisbon", Country: "Portugal", Language: "Portuguese", Wether: "Warm", Currency: "Euro", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Lisbon&tbm=isch" },
+  { id: "17", City: "Los Angeles", Country: "USA", Language: "English", Wether: "Hot", Currency: "USD", Cost: "High", Pictures: "https://www.google.com/search?q=Los+Angeles&tbm=isch" },
+  { id: "18", City: "Barcelona", Country: "Spain", Language: "Spanish", Wether: "Mild", Currency: "Euro", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Barcelona&tbm=isch" },
+  { id: "19", City: "San Francisco", Country: "USA", Language: "English", Wether: "Mild", Currency: "USD", Cost: "High", Pictures: "https://www.google.com/search?q=San+Francisco&tbm=isch" },
+  { id: "20", City: "Hong Kong", Country: "China", Language: "Cantonese", Wether: "Tropical", Currency: "HKD", Cost: "High", Pictures: "https://www.google.com/search?q=Hong+Kong&tbm=isch" },
+  { id: "21", City: "Buenos Aires", Country: "Argentina", Language: "Spanish", Wether: "Warm", Currency: "Peso", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Buenos+Aires&tbm=isch" },
+  { id: "22", City: "Cairo", Country: "Egypt", Language: "Arabic", Wether: "Hot", Currency: "Pound", Cost: "Low", Pictures: "https://www.google.com/search?q=Cairo&tbm=isch" },
+  { id: "23", City: "Singapore", Country: "Singapore", Language: "English", Wether: "Tropical", Currency: "SGD", Cost: "High", Pictures: "https://www.google.com/search?q=Singapore&tbm=isch" },
+  { id: "24", City: "Istanbul", Country: "Turkey", Language: "Turkish", Wether: "Mild", Currency: "Lira", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Istanbul&tbm=isch" },
+  { id: "25", City: "Lagos", Country: "Nigeria", Language: "English", Wether: "Tropical", Currency: "Naira", Cost: "Low", Pictures: "https://www.google.com/search?q=Lagos&tbm=isch" },
+  { id: "26", City: "Mexico City", Country: "Mexico", Language: "Spanish", Wether: "Tropical", Currency: "Peso", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Mexico+City&tbm=isch" },
+  { id: "27", City: "Vancouver", Country: "Canada", Language: "English", Wether: "Cold", Currency: "CAD", Cost: "High", Pictures: "https://www.google.com/search?q=Vancouver&tbm=isch" },
+  { id: "28", City: "Stockholm", Country: "Sweden", Language: "Swedish", Wether: "Cold", Currency: "Krona", Cost: "High", Pictures: "https://www.google.com/search?q=Stockholm&tbm=isch" },
+  { id: "29", City: "Athens", Country: "Greece", Language: "Greek", Wether: "Warm", Currency: "Euro", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Athens&tbm=isch" },
+  { id: "30", City: "Montreal", Country: "Canada", Language: "French", Wether: "Cold", Currency: "CAD", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Montreal&tbm=isch" },
+  { id: "31", City: "Lagos", Country: "Nigeria", Language: "English", Wether: "Tropical", Currency: "Naira", Cost: "Low", Pictures: "https://www.google.com/search?q=Lagos&tbm=isch" },
+  { id: "32", City: "Seoul", Country: "South Korea", Language: "Korean", Wether: "Cold", Currency: "Won", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Seoul&tbm=isch" },
+  { id: "33", City: "Cairo", Country: "Egypt", Language: "Arabic", Wether: "Hot", Currency: "Pound", Cost: "Low", Pictures: "https://www.google.com/search?q=Cairo&tbm=isch" },
+  { id: "34", City: "Kuala Lumpur", Country: "Malaysia", Language: "Malay", Wether: "Tropical", Currency: "MYR", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Kuala+Lumpur&tbm=isch" },
+  { id: "35", City: "Hong Kong", Country: "China", Language: "Cantonese", Wether: "Tropical", Currency: "HKD", Cost: "High", Pictures: "https://www.google.com/search?q=Hong+Kong&tbm=isch" }
 ];
+
+
 
 export type dataPlace = {
   id: string;
@@ -431,17 +118,15 @@ export const columns: ColumnDef<dataPlace, any>[] = [
   {
     accessorKey: "Pictures",
     cell: ({ row }: any) => (
-      <Link to={row.getValue("Pictures")} className="text-blue-500 underline">
+      <a href={row.getValue("Pictures")} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
         Link
-      </Link>
+      </a>
     )
   },
   {
     accessorKey: "Go to this place",
     cell: ({ row }: any) => (
-      <Button className="px-3">
-        Start Journey
-      </Button>
+      <MoveRight className="hover:translate-x-1 transition-all"/>
     )
   }
 ];
@@ -473,7 +158,7 @@ export function PlaceSuggestions() {
   });
 
   return (
-    <div className="w-[80vw] xs:w-[60vw] lg:w-[53vw] ">
+    <div className="w-[80vw] xs:w-[60vw] lg:w-[53vw] lg:max-h-[33vw]">
       <div className="flex items-center py-4">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

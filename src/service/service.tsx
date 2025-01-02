@@ -3,7 +3,11 @@ import axios from 'axios';
 const url = 'http://localhost:3000';
 
 export const signInUser = async (login: Login) => {
-    return await axios.post(`${url}/signIn`, login); 
+    return await axios.post(`${url}/signIn`, login, {
+        validateStatus: (status) => {
+            return status != 400;
+        }
+    }); 
 }
 export const signUpUser = async (user: User) => {
     const response = await axios.post(`${url}/signUp`, user, {
@@ -16,5 +20,9 @@ export const signUpUser = async (user: User) => {
 
 
 export const resetPasswordUser = async (newPasswordUser: NewPasswordUser) => {
-    return await axios.put(`${url}/resetPassword`, newPasswordUser);
+    return await axios.put(`${url}/resetPassword`, newPasswordUser, {
+        validateStatus: (status) => {
+            return status != 400;
+        }
+    });
 }

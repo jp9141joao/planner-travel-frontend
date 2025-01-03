@@ -34,33 +34,26 @@ export function ResetPassword() {
             } else {
                 if (response.data.error == 'Error: The value of email is invalid!') {
                     setStatus(2);
-                } else if (response.data.error == 'Error: The value of email is too large!') {
-                    setStatus(3);
                 } else if (response.data.error == 'Error: The value of password is invalid!') {
+                    setStatus(3);
+                } else if (response.data.error == 'Error: The value of newPassword is invalid!') {
                     setStatus(4);
-                } else if (response.data.error == 'Error: the value of password is too short!') {
+                } else if (response.data.error == 'Error: the value of newPassword is too short!') {
                     setStatus(5);
-                } else if (response.data.error == 'Error: The value of password is too large!') {
+                } else if (response.data.error == 'Error: The value of newPassword is too large!') {
                     setStatus(6);
-                } else if (response.data.error == 'Error: The value of the new password is invalid!') {
-                    setStatus(7);
-                } else if (response.data.error == 'Error: the value of the new password is too short!') {
+                } else if (response.data.error == 'Error: The value of newPassword is the same as your current password!') {
+                    setStatus(7)
+                } else if (response.data.error == 'Error: The email or password you entered is incorrect!') {
                     setStatus(8);
-                } else if (response.data.error == 'Error: The value of the new password is too large!') {
-                    setStatus(9);
-                } else if (response.data.error == 'Error: The value of the new password is the same as your current password') {
-                    setStatus(10)
-                } else if (response.data.error == 'Error: The email or password you entered is incorrect') {
-                    setStatus(11);
                 } else {
-                    setStatus(12)
+                    setStatus(9);
                 }
             }
-
             setIsLoading(false);
             setShowToast(true);
         } catch (error: any) {
-            setStatus(8);
+            setStatus(9);
             setIsLoading(false);
             setShowToast(true);
             console.log(error);
@@ -84,52 +77,34 @@ export function ResetPassword() {
             } else if (status == 3) {
                 setToastMessage({
                     variant: 'destructive',
-                    title: 'Email Too Long',
-                    description: 'The email address is too long. Please enter a shorter email address.',
-                });
-            } else if (status == 4) {
-                setToastMessage({
-                    variant: 'destructive',
                     title: 'Invalid Password',
                     description: 'Please provide a password that meets the minimum criteria, including at least one uppercase letter, one number, and one special character.',
                 });
-            } else if (status == 5) {
-                setToastMessage({
-                    variant: 'destructive',
-                    title: 'Password Too Short',
-                    description: 'Your password is too short. Please enter a password with at least 8 characters.',
-                });
-            } else if (status == 6) {
-                setToastMessage({
-                    variant: 'destructive',
-                    title: 'Password Too Long',
-                    description: 'Your password is too long. Please enter a shoter password.',
-                });
-            } else if (status == 7) {
+            } else if (status == 4) {
                 setToastMessage({
                     variant: 'destructive',
                     title: 'Invalid New Password',
                     description: 'Please provide a new password that meets the minimum criteria, including at least one uppercase letter, one number, and one special character.',
                 });
-            } else if (status == 8) {
+            } else if (status == 5) {
                 setToastMessage({
                     variant: 'destructive',
                     title: 'New Password Too Short',
                     description: 'Your new password is too short. Please enter a password with at least 8 characters.',
                 });
-            } else if (status == 9) {
+            } else if (status == 6) {
                 setToastMessage({
                     variant: 'destructive',
                     title: 'New Password Too Long',
                     description: 'Your new password is too long. Please enter a shoter password.',
                 });
-            } else if (status == 10) {
+            } else if (status == 7) {
                 setToastMessage({
                     variant: 'destructive',
                     title: 'New Password Matches Current Password',
                     description: 'Your new password cannot be the same as your current password. Please choose a different password.',
                 });
-            } else if (status == 11) {
+            } else if (status == 8) {
                 setToastMessage({
                     variant: 'destructive', 
                     title: 'Email or Password Incorrect', 
@@ -161,7 +136,7 @@ export function ResetPassword() {
                 <GoBack to="signIn"/>
             </TopPage>
             <MiddlePage>
-                <div className='mt-[5vw] xxs3:mt-[10vw] xs:mt-[2vw] sm:mt-[7vw] lg:mt-0 lg:mb-[3vw]' >
+                <form className='mt-[5vw] xxs3:mt-[10vw] xs:mt-[2vw] sm:mt-[7vw] lg:mt-0 lg:mb-[3vw]' onSubmit={handleSubmit}>
                     <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                         <div>
                             <h1 className="grid text-[14.2vw] xxs5:text-[13.5vw] xs:text-[9.4vw] lg:text-[4.15vw] w-full text-gray-900 tracking-tight leading-[1]">
@@ -186,7 +161,7 @@ export function ResetPassword() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 onClick={() => setStatus(0)}
-                                className={status == 2 || status == 3 ? "border-red-500 " : "" }
+                                className={status == 2  || status == 8  ? "border-red-500 " : "" }
                             />
                         </div>
                         <div className="grid gap-1.5 w-full place-items-start">
@@ -200,7 +175,7 @@ export function ResetPassword() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 onClick={() => setStatus(0)}
-                                className={status >= 4 && status <= 6 ? "border-red-500 " : "" }
+                                className={status == 3 || status == 7 || status == 8 ? "border-red-500 " : "" }
                             />
                         </div>
                         <div className="grid gap-1.5 w-full place-items-start">
@@ -214,7 +189,7 @@ export function ResetPassword() {
                                 value={newPassword}
                                 onChange={(e) => setNewPassoword(e.target.value)}
                                 onClick={() => setStatus(0)}
-                                className={status >= 7 && status <= 9 ? "border-red-500 " : "" }
+                                className={status >= 4 && status <= 7 ? "border-red-500 " : "" }
                             />
                         </div>
                         <div className="grid gap-1.5 w-full mt-2">
@@ -234,7 +209,7 @@ export function ResetPassword() {
                             <Toaster />
                         </div>
                     </div>
-                </div>
+                </form>
                 <div   className="mx-[14vw] xxs3:mx-[6vw] xs:mx-[22vw] sm:mx-[20vw] lg:mx-[2vw] mt-[5vw] xxs5:mt-[2.4vw] xs:mt-[1vw]">
                     <img
                         src={Image}

@@ -36,18 +36,12 @@ export default function SignIn () {
                 } else {
                     if (response.data.error == 'Error: The value of email is invalid!') {
                         setStatus(1);
-                    } else if (response.data.error == 'Error: The value of email is too large!') {
-                        setStatus(2);
                     } else if (response.data.error == 'Error: The value of password is invalid!') {
-                        setStatus(3);
-                    } else if (response.data.error == 'Error: The value of password is too large!') {
-                        setStatus(4);
-                    } else if (response.data.error == 'Error: the value of password is too short!') {
-                        setStatus(5);
+                        setStatus(2);
                     } else if (response.data.error == 'Error: The email or password you entered is incorrect') {
-                        setStatus(6);
+                        setStatus(3);
                     } else {
-                        setStatus(7);
+                        setStatus(4);
                     }
                 }
     
@@ -72,28 +66,10 @@ export default function SignIn () {
                 } else if (status == 2) {
                     setToastMessage({
                         variant: 'destructive',
-                        title: 'Email Too Long',
-                        description: 'The email address is too long. Please enter a shorter email address.',
-                    });
-                } else if (status == 3) {
-                    setToastMessage({
-                        variant: 'destructive',
                         title: 'Invalid Password',
                         description: 'Please provide a password that meets the minimum criteria, including at least one uppercase letter, one number, and one special character.',
                     });
-                } else if (status == 4) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'Password Too Short',
-                        description: 'Your password is too short. Please enter a password with at least 8 characters.',
-                    });
-                } else if (status == 5) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'Password Too Long',
-                        description: 'Your password is too long. Please enter a shoter password.',
-                    });
-                } else if (status == 6) {
+                } else if (status == 3) {
                     setToastMessage({
                         variant: 'destructive', 
                         title: 'Email or Password Incorrect', 
@@ -168,7 +144,7 @@ export default function SignIn () {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     onClick={() => setStatus(0)}
-                                    className={status == 1 || status == 2 ? "border-red-500 " : "" }
+                                    className={status == 1 || status == 3 ? "border-red-500 " : "" }
                                 />
                             </div>
                             <div className="grid gap-1.5 w-full place-items-start">
@@ -182,7 +158,7 @@ export default function SignIn () {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     onClick={() => setStatus(0)}
-                                    className={status >= 3 && status <= 5 ? "border-red-500 " : "" }
+                                    className={status == 2 || status == 3 ? "border-red-500 " : "" }
                                 />
                             </div>
                             <div className="flex items-center gap-1.5 w-full text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">

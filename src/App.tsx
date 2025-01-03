@@ -12,6 +12,7 @@ import { ResetPassword } from "./pages/resetPassword";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import { Test } from "./pages/test";
+import { Settings } from "./pages/Settings";
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/signUp" element={<SignUp/>}/>
           <Route path="/signIn" element={<SignIn/>}/>
           <Route path="/resetPassword" element={<ResetPassword/>}/>
+          <Route path="/settings" element={<Settings/>}/>
           <Route path="/test" element={<Test/>}/>
           <Route path="/travel/add" element={<AddTravel/>}/>
           <Route path="/travel/details/:idTravel" element={<TravelDetails/>}/>

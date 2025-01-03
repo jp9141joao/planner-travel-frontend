@@ -21,8 +21,33 @@ export function Settings() {
     const navigate = useNavigate();
     
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-    };
+        try {
+            e.preventDefault();
+            setIsLoading(true);
+            const response = await signInUser({ email, password } as Login);
+            if (response.data.success) {
+                navigate('/home')
+            } else {
+                if (response.data.error == 'Error: The value of email is invalid!') {
+                    setStatus(1);
+                } else if (response.data.error == 'Error: The value of password is invalid!') {
+                    setStatus(2);
+                } else if (response.data.error == 'Error: The email or password you entered is incorrect') {
+                    setStatus(3);
+                } else {
+                    setStatus(4);
+                }
+            }
+
+            setIsLoading(false);
+            setShowToast(true);
+        } catch (error: any) {
+            setStatus(8);
+            setIsLoading(false);
+            setShowToast(true);
+            console.log(error);
+        } 
+    }
 
     const loadUser = async () => {
         try {
@@ -46,6 +71,10 @@ export function Settings() {
         loadUser();
     }, [])
 
+    useEffect(() => {
+        
+    }, [])
+
     return (
         <BodyPage>
             <TopPage>
@@ -58,12 +87,18 @@ export function Settings() {
                             Your Details
                         </h1>
                     </div>
-                    <div className="mb-[2vw] mt-[7vw]">
+                    <label className="cursor-pointer mb-[2vw] mt-[7vw]">
                         <img 
                             src={Image} 
                             className="w-[34vw] h-auto" 
+                            alt="Upload placeholder"
                         />
-                    </div>
+                        <input 
+                            type="file" 
+                            className="hidden" 
+                            onChange={(e) => setImageProfile(e)} 
+                        />
+                    </label>
                     <div className="grid place-items-center gap-y-2  px-0 w-full" >
                         <div className="grid gap-1.5 w-full place-items-start">
                             <Label htmlFor="fullName" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">

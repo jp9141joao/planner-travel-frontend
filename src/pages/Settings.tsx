@@ -54,17 +54,17 @@ export function Settings() {
             <MiddlePage>
                 <form className="grid place-items-center" onChange={handleSubmit}>
                     <div>
-                        <h1 className="grid text-[16vw] w-full text-gray-900 tracking-tight leading-[0.6] xxs3:leading-[0.7]">
-                            Your Details!
+                        <h1 className="grid text-[17.5vw] w-full text-gray-900 tracking-tight leading-[0.6] xxs3:leading-[0.7]">
+                            Your Details
                         </h1>
                     </div>
-                    <div>
+                    <div className="mb-[2vw] mt-[7vw]">
                         <img 
                             src={Image} 
                             className="w-[34vw] h-auto" 
                         />
                     </div>
-                    <div className="grid place-items-center gap-y-2 xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
+                    <div className="grid place-items-center gap-y-2  px-0 w-full" >
                         <div className="grid gap-1.5 w-full place-items-start">
                             <Label htmlFor="fullName" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                 Full name
@@ -93,7 +93,7 @@ export function Settings() {
                                 className={status == 1 || status == 3 ? "border-red-500 " : "" }
                             />
                         </div>
-                        <div className="grid gap-1.5 w-full">
+                        <div className="grid gap-1.5 w-full mt-1.5">
                             <Button type="submit">
                                 {
                                     isLoading ? 
@@ -104,7 +104,7 @@ export function Settings() {
                                         </svg>
                                         <span className="sr-only">Carregando...</span>
                                     </div>
-                                    : "Sign In"
+                                    : "Save"
                                 }
                             </Button>
                             <Toaster />

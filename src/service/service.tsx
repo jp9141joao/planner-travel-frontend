@@ -9,6 +9,7 @@ export const signInUser = async (login: Login) => {
         }
     }); 
 }
+
 export const signUpUser = async (user: User) => {
     const response = await axios.post(`${url}/signUp`, user, {
         validateStatus: (status) => {

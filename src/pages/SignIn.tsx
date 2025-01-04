@@ -31,14 +31,16 @@ export default function SignIn () {
                 e.preventDefault();
                 setIsLoading(true);
                 const response = await signInUser({ email, password } as Login);
+
                 if (response.data.success) {
-                    navigate('/home')
+                    localStorage.setItem('token', response.data.data);
+                    navigate('/home');
                 } else {
                     if (response.data.error == 'Error: The value of email is invalid!') {
                         setStatus(1);
                     } else if (response.data.error == 'Error: The value of password is invalid!') {
                         setStatus(2);
-                    } else if (response.data.error == 'Error: The email or password you entered is incorrect') {
+                    } else if (response.data.error == 'Error: The email or password you entered is incorrect!') {
                         setStatus(3);
                     } else {
                         setStatus(4);
@@ -67,7 +69,7 @@ export default function SignIn () {
                     setToastMessage({
                         variant: 'destructive',
                         title: 'Invalid Password',
-                        description: 'Please provide a password that meets the minimum criteria, including at least one uppercase letter, one number, and one special character.',
+                        description: 'The password you entered is invalid. Please check and try again.',
                     });
                 } else if (status == 3) {
                     setToastMessage({
@@ -86,7 +88,7 @@ export default function SignIn () {
         }, [isLoading, showToast, status]);
     
         useEffect(() => {
-            if (showToast) {
+            if (showToast && status != 0) {
                 toast({
                     variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
                     title: toastMessage.title,

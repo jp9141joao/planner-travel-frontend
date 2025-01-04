@@ -78,7 +78,7 @@ export function ResetPassword() {
                 setToastMessage({
                     variant: 'destructive',
                     title: 'Invalid Password',
-                    description: 'Please provide a password that meets the minimum criteria, including at least one uppercase letter, one number, and one special character.',
+                    description: 'The password you entered is invalid. Please check and try again.',
                 });
             } else if (status == 4) {
                 setToastMessage({

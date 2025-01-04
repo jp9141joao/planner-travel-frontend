@@ -19,11 +19,18 @@ export const signUpUser = async (user: User) => {
     return response;
 };
 
-
 export const resetPasswordUser = async (newPasswordUser: NewPasswordUser) => {
     return await axios.put(`${url}/resetPassword`, newPasswordUser, {
         validateStatus: (status) => {
             return status != 400;
         }
     });
+}
+
+export  const getUser = async (token: string) => {
+    return await axios.put(`${url}/home`, token, {
+        validateStatus: (status) => {
+            return status != 400;
+        }
+    })
 }

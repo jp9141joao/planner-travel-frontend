@@ -27,7 +27,7 @@ export const resetPasswordUser = async (newPasswordUser: NewPasswordUser) => {
     });
 }
 
-export  const getUser = async (email: string) => {
+export  const getUserByEmail = async (email: string) => {
     return await axios.put(`${url}/settings`, email, {
         validateStatus: (status) => {
             return status != 400;

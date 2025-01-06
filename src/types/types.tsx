@@ -15,6 +15,15 @@ export interface NewPasswordUser {
     newPassword: string,
 }
 
+export interface decodedAuthToken {
+    email: string
+}
+
 export interface ProtectedRouteProps {
     children: JSX.Element,
+}
+
+export interface UserContexType{
+    user: User,
+    setUser: (user: User) => void
 }

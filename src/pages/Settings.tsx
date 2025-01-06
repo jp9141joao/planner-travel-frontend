@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Toaster } from "@/components/ui/toaster"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import { getUser } from "@/service/service"
 
 export function Settings() {
     const [ imageProfile, setImageProfile ] = useState<string>('');
@@ -24,7 +25,7 @@ export function Settings() {
         try {
             e.preventDefault();
             setIsLoading(true);
-            const response = await signInUser({ email, password } as Login);
+            const response = await getUser(email as string);
             if (response.data.success) {
                 navigate('/home')
             } else {
@@ -72,7 +73,7 @@ export function Settings() {
     }, [])
 
     useEffect(() => {
-        
+        //alert(localStorage.getItem(`token`))
     }, [])
 
     return (
@@ -143,6 +144,9 @@ export function Settings() {
                                 }
                             </Button>
                             <Toaster />
+                        </div>
+                        <div>
+                            <Button onClick={() => (localStorage.removeItem('token'))}>Log out</Button>
                         </div>
                     </div>
                 </form>

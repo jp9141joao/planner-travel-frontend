@@ -30,6 +30,7 @@ export default function SignIn () {
             try {
                 e.preventDefault();
                 setIsLoading(true);
+
                 const response = await signInUser({ email, password } as Login);
 
                 if (response.data.success) {

@@ -14,40 +14,43 @@ import SignUp from "./pages/SignUp";
 import { Test } from "./pages/test";
 import { Settings } from "./pages/Settings";
 import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
+import { UserProvider } from "./components/Contex/contex";
 
 function App() {
 
   return (
-      <Router>
-        <Routes>
-          <Route path="/" element={<Navigate to={'/home'}/>}/>
-          <Route path="/home" element={<Home/>}/>
-          <Route path="/signUp" element={<SignUp/>}/>
-          <Route path="/signIn" element={<SignIn/>}/>
-          <Route path="/resetPassword" element={<ResetPassword/>}/>
-          <Route path="/settings" element={
-            <ProtectedRoute>
-              <Settings/>
-            </ProtectedRoute>
-          }/>
-          <Route path="/test" element={<Test/>}/>
-          {/*
-          <Route path="/travel/add" element={<AddTravel/>}/>
-          <Route path="/travel/details/:idTravel" element={<TravelDetails/>}/>
-          <Route path="/travel/edit/:idTravel" element={<EditTravel/>}/>
-          <Route path="/travel/:idTravel/day/details/:idDay" element={<DayDetails/>}/>
-          
-          <Route path="*" element={<PageNotFound />} />
-          <Route path="/travel/:idTravel/travelExpense/add" element={<AddTravelExpense/>}/>
-          <Route path="/travel/:idTravel/travelExpense/edit/:idTravelExpense" element={<EditTravelExpense/>}/>
-          <Route path="/travel/:idTravel/day/:idDay/dailyExpense/add" element={<AddDailyExpense/>}/>
-          <Route path="/travel/:idTravel/day/:idDay/dailyExpense/edit/:idDailyExpense" element={''}/>
-          
-          <Route path="/travel/:idTravel/activitie/add" element={<TravelItineraryForm/>}/>
-          <Route path="/travel/:idTravel/activitie/edit/:idActivitie" element={<TravelItineraryForm/>}/>
-          */}
-        </Routes>
-      </Router>
+      <UserProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Navigate to={'/home'}/>}/>
+            <Route path="/home" element={<Home/>}/>
+            <Route path="/signUp" element={<SignUp/>}/>
+            <Route path="/signIn" element={<SignIn/>}/>
+            <Route path="/resetPassword" element={<ResetPassword/>}/>
+            <Route path="/settings" element={
+              <ProtectedRoute>
+                <Settings/>
+              </ProtectedRoute>
+            } />
+            <Route path="/test" element={<Test/>}/>
+            {/*
+            <Route path="/travel/add" element={<AddTravel/>}/>
+            <Route path="/travel/details/:idTravel" element={<TravelDetails/>}/>
+            <Route path="/travel/edit/:idTravel" element={<EditTravel/>}/>
+            <Route path="/travel/:idTravel/day/details/:idDay" element={<DayDetails/>}/>
+            
+            <Route path="*" element={<PageNotFound />} />
+            <Route path="/travel/:idTravel/travelExpense/add" element={<AddTravelExpense/>}/>
+            <Route path="/travel/:idTravel/travelExpense/edit/:idTravelExpense" element={<EditTravelExpense/>}/>
+            <Route path="/travel/:idTravel/day/:idDay/dailyExpense/add" element={<AddDailyExpense/>}/>
+            <Route path="/travel/:idTravel/day/:idDay/dailyExpense/edit/:idDailyExpense" element={''}/>
+            
+            <Route path="/travel/:idTravel/activitie/add" element={<TravelItineraryForm/>}/>
+            <Route path="/travel/:idTravel/activitie/edit/:idActivitie" element={<TravelItineraryForm/>}/>
+            */}
+          </Routes>
+        </Router>
+      </UserProvider>
   )
 }
 

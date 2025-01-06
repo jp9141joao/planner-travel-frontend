@@ -8,11 +8,13 @@ import Image from '@/assets/undraw_aircraft_re_m05i.svg';
 import React, { useEffect, useState } from "react";
 import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts";
 import { GoBack } from "@/components/GoBack";
-import { signInUser } from "@/service/service";
+import { getUserByEmail, signInUser } from "@/service/service";
 import Credits from "@/components/Credits";
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
 import { Login } from "@/types/types";
+import { Utils } from "@/components/utils/utils";
+import { useUser } from "@/components/Contex/contex";
 
 export default function SignIn () {
 
@@ -24,6 +26,7 @@ export default function SignIn () {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ status, setStatus ] = useState<number>(0);
+    const { user, setUser } = useUser();
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -35,6 +38,13 @@ export default function SignIn () {
 
                 if (response.data.success) {
                     localStorage.setItem('token', response.data.data);
+                    const userData = Utils.getEmailByToken(response.data.data) 
+
+                    if (!userData) {
+                        throw new Error('User data could not be retrieved from the token. Please try again.');
+                    }
+
+                    setUser(userData);
                     navigate('/home');
                 } else {
                     if (response.data.error == 'Error: The value of email is invalid!') {
@@ -208,3 +218,4 @@ export default function SignIn () {
         </BodyPage>
     )
 }
+

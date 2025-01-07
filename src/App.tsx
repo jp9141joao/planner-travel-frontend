@@ -15,6 +15,7 @@ import { Test } from "./pages/test";
 import { Settings } from "./pages/Settings";
 import { UserProvider } from "./components/Contex/contex";
 import { ProtectedRoute } from "./components/protectedRoute/ProtectedRoute";
+import { NotFOund } from "./pages/NotFound";
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
         
         <Router>
           <Routes>
+            <Route path='*' element={<NotFOund />} />
             <Route path="/" element={<Navigate to={'/home'}/>}/>
             <Route path="/home" element={<Home/>}/>
             <Route path="/signUp" element={<SignUp/>}/>

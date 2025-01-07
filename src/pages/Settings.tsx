@@ -12,7 +12,6 @@ import { Input } from "@/components/ui/input"
 import { useUser } from "@/components/Contex/contex"
 
 export function Settings() {
-    const [ imageProfile, setImageProfile ] = useState<string>('');
     const [ fullName, setFullName ] = useState<string>('');
     const [ email, setEmail ] = useState<string>('');
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
@@ -39,7 +38,7 @@ export function Settings() {
             setIsLoading(true);
             const response = { data: {error: '', success: true, data: {}}};
             if (response.data.success) {
-                navigate('/home');
+                //navigate('/home');
             } else {
                 if (response.data.error == 'Error: The value of email is invalid!') {
                     setStatus(1);
@@ -65,9 +64,8 @@ export function Settings() {
     const loadUser = async () => {
         try {
             const response = { data: {
-                imageProfile: '', fullName: '', email: ''
+                fullName: '', email: ''
             } };
-            setImageProfile(response.data.imageProfile);
             setFullName(response.data.fullName);
             setEmail(response.data.email);
         } catch (error: any) { 
@@ -101,7 +99,7 @@ export function Settings() {
                         </h1>
                     </div>
                     <div>
-                        <p className="xs:text-start text-[8.7vw] xxs8:text-[8.4vw] xs:text-[5.9vw] lg:text-[2.1vw] mt-[4vw] xxs5:mt-[7.8vw] xs:mt-[5.7vw] lg:mt-[1.2vw] leading-tight text-gray-900 tracking-tight">
+                        <p className="xs:text-start text-[8.7vw] xxs8:text-[8.4vw] xs:text-[5.9vw] lg:text-[2.1vw] mt-[4vw] xxs5:mt-[3.2vw] xs:mt-[5.7vw] lg:mt-[1.2vw] leading-tight text-gray-900 tracking-tight">
                             Update your information
                         </p>
                     </div>
@@ -135,7 +133,7 @@ export function Settings() {
                             />
                         </div>
                         <div className="grid gap-1.5 w-full mt-1.5">
-                            <Button type="submit">
+                            <Button type="submit" disabled={false}>
                                 {
                                     isLoading ? 
                                     <div role="status">

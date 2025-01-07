@@ -1,24 +1,24 @@
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { User, UserContexType } from "@/types/types";
-import { createContext, ReactNode, useContext, useState } from "react";
 
-const UserContex = createContext<UserContexType | undefined>(undefined);
+const UserContext = createContext<UserContexType>();
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [ user, setUser ] = useState<User | null >(null);
+    const [user, setUser] = useState<User | null>(null);
 
     return (
-        <UserContex.Provider value={{user, setUser}}>
+        <UserContext.Provider value={{ user, setUser }}>
             {children}
-        </UserContex.Provider>
-    )
-}
+        </UserContext.Provider>
+    );
+};
 
 export const useUser = (): UserContexType => {
-    const context = useContext(UserContex);
+    const context = useContext(UserContext);
 
     if (!context) {
-        throw new Error('useUser must be used within a UserProvider');
+        throw new Error("useUser deve ser usado dentro de um UserProvider");
     }
 
     return context;
-}
+};

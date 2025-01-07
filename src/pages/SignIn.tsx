@@ -13,7 +13,6 @@ import Credits from "@/components/Credits";
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
 import { Login, User } from "@/types/types";
-import { Utils } from "@/components/utils/utils";
 import { useUser } from "@/components/Contex/contex";
 
 export default function SignIn () {
@@ -26,19 +25,8 @@ export default function SignIn () {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ status, setStatus ] = useState<number>(0);
-    const { setUser } = useUser();
+    const { user, setUser } = useUser();
     const navigate = useNavigate();
-
-    const loadUser = async () => {
-        const userData = await getUser();
-            
-        if (!userData) {
-            throw new Error('User data could not be retrieved from the token. Please try again.');
-        }
-
-        setUser(userData.data); // aqui nao pega
-       navigate('/home');
-    }
 
     const handleSubmit = async (e: React.FormEvent) => {
             try {
@@ -48,6 +36,14 @@ export default function SignIn () {
                 
                 if (response.data.success) {
                     localStorage.setItem('authToken', response.data.data);
+                    const userData = await getUser();
+
+                    if (!userData) {
+                        throw new Error('User data could not be retrieved from the token. Please try again.');
+                    }
+
+                    setUser(userData.data);
+                    navigate('/home');
                 } else {
                     if (response.data.error == 'Error: The value of email is invalid!') {
                         setStatus(1);
@@ -111,7 +107,7 @@ export default function SignIn () {
         }, [toastMessage]);
 
         useEffect(() => {
-            loadUser();
+            
         }, [localStorage.getItem('authToken')])
 
     return (

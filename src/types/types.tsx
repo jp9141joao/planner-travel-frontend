@@ -25,6 +25,6 @@ export interface ProtectedRouteProps {
 }
 
 export interface UserContexType{
-    user: User | null,
-    setUser: (user: User | null) => void
+    user: User,
+    setUser: (user: User) => void
 }

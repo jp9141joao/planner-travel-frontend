@@ -20,6 +20,7 @@ function App() {
 
   return (
       <UserProvider>
+        
         <Router>
           <Routes>
             <Route path="/" element={<Navigate to={'/home'}/>}/>

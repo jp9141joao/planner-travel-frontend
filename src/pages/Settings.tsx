@@ -110,7 +110,7 @@ export function Settings() {
                         <input 
                             type="file" 
                             className="hidden" 
-                            onChange={(e) => setImageProfile(e)} 
+                            onChange={(e:any) => setImageProfile(e)} 
                         />
                     </label>
                     <div className="grid place-items-center gap-y-2  px-0 w-full" >

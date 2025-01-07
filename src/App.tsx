@@ -29,9 +29,7 @@ function App() {
             <Route path="/signIn" element={<SignIn/>}/>
             <Route path="/resetPassword" element={<ResetPassword/>}/>
             <Route path="/settings" element={
-              <ProtectedRoute>
                 <Settings/>
-              </ProtectedRoute>
             } />
             <Route path="/test" element={<Test/>}/>
             {/*

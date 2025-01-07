@@ -65,7 +65,7 @@ export default function NavBar() {
                 <div className="hidden md:flex">
                     <Link to={`/${isAuthenticated ? 'settings' : 'signIn'}`}>
                         <h1 className="flex md:text-base lg:text-lg xl:text-xl gap-2 hover:translate-x-1 transition-all">
-                            { isAuthenticated ? 'Settings' :  'Login' }
+                            { isAuthenticated ? 'Profile' :  'Login' }
                             <MoveRight className="md:mt-0.5 lg:mt-1"/>
                         </h1>
                     </Link>
@@ -93,7 +93,7 @@ export default function NavBar() {
                                     }
                                     <Link to={`/${isAuthenticated ? 'settings' : 'signIn'}`}>
                                         <h1 className="flex gap-2 mt-6 hover:translate-x-2 transition-all">
-                                            <strong>{ isAuthenticated ? 'Settings' :  'Login' }</strong>
+                                            <strong>{ isAuthenticated ? 'Profile' :  'Login' }</strong>
                                             <MoveRight className="mt-1"/>
                                         </h1>
                                     </Link>

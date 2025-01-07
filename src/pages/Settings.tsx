@@ -1,6 +1,6 @@
 import Credits from "@/components/Credits"
 import { GoBack } from "@/components/GoBack"
-import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts"
+import { BodyPage, BottomPage, MiddlePageOneCol, TopPage } from "@/components/LayoutPage/Layouts"
 import React, { useEffect, useState } from "react"
 import Image from "../assets/undraw_pic-profile_nr49.svg"
 import { toast } from "@/hooks/use-toast"
@@ -22,7 +22,6 @@ export function Settings() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        alert(user?.email)
         if (user) {
             
             if (user.imageProfile) {
@@ -94,26 +93,19 @@ export function Settings() {
             <TopPage>
                 <GoBack to="home" />
             </TopPage>
-            <MiddlePage>
+            <MiddlePageOneCol>
                 <form className="grid place-items-center" onChange={handleSubmit}>
                     <div>
-                        <h1 className="grid text-[17.5vw] w-full text-gray-900 tracking-tight leading-[0.6] xxs3:leading-[0.7]">
+                        <h1 className="grid text-[16.1vw]  xxs8:text-[15.8vw] xs:text-[10.8vw] lg:text-[5.2vw] w-full text-gray-900 tracking-tight leading-[0.6] xxs3:leading-[0.7]">
                             Your Details
                         </h1>
                     </div>
-                    <label className="cursor-pointer mb-[2vw] mt-[7vw]">
-                        <img 
-                            src={Image} 
-                            className="w-[34vw] h-auto" 
-                            alt="Upload placeholder"
-                        />
-                        <input 
-                            type="file" 
-                            className="hidden" 
-                            onChange={(e:any) => setImageProfile(e)} 
-                        />
-                    </label>
-                    <div className="grid place-items-center gap-y-2  px-0 w-full" >
+                    <div>
+                        <p className="xs:text-start text-[8.7vw] xxs8:text-[8.4vw] xs:text-[5.9vw] lg:text-[2.1vw] mt-[4vw] xxs5:mt-[7.8vw] xs:mt-[5.7vw] lg:mt-[1.2vw] leading-tight text-gray-900 tracking-tight">
+                            Update your information
+                        </p>
+                    </div>
+                    <div className="grid place-items-center gap-y-2 mt-3 px-0 w-full" >
                         <div className="grid gap-1.5 w-full place-items-start">
                             <Label htmlFor="fullName" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                 Full name
@@ -156,14 +148,14 @@ export function Settings() {
                                     : "Save"
                                 }
                             </Button>
-                            <Toaster />
                         </div>
-                        <div>
-                            <Button onClick={() => (localStorage.removeItem('authToken'))}>Log out</Button>
+                        <div className="grid gap-1.5 w-full mt-1">
+                            <Button variant={'outline'} type="submit" onClick={() => (localStorage.removeItem('authToken'))}>Log out</Button>
                         </div>
+                        <Toaster />
                     </div>
                 </form>
-            </MiddlePage>
+            </MiddlePageOneCol>
             <BottomPage>
                 <Credits />
             </BottomPage>

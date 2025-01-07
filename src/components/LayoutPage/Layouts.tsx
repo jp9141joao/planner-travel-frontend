@@ -32,7 +32,8 @@ export const MiddlePage = ({ children }: { children: React.ReactNode }) => {
 export const MiddlePageOneCol = ({ children }: { children: React.ReactNode }) => {
     return (
         <div className="grid flex-grow">
-            <div className='grid grid-cols-1 place-items-center lg:mx-[5.5vw]'>                {
+            <div className='grid grid-cols-1 place-items-center lg:mx-[5.5vw]'>                
+                { 
                     children
                 } 
             </div>

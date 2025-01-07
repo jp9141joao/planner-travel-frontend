@@ -2,6 +2,7 @@ export interface User {
     fullName: string,
     email: string,
     password: string,
+    imageProfile: string | null
 }
 
 export interface Login {

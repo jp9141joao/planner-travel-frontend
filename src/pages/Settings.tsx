@@ -1,16 +1,15 @@
 import Credits from "@/components/Credits"
 import { GoBack } from "@/components/GoBack"
 import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import React, { useEffect, useState } from "react"
 import Image from "../assets/undraw_pic-profile_nr49.svg"
 import { toast } from "@/hooks/use-toast"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Toaster } from "@/components/ui/toaster"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { getUser } from "@/service/service"
+import { useUser } from "@/components/Contex/contex"
 
 export function Settings() {
     const [ imageProfile, setImageProfile ] = useState<string>('');
@@ -19,15 +18,29 @@ export function Settings() {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ status, setStatus ] = useState<number>(0);
+    const { user } = useUser();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        alert(user?.email)
+        if (user) {
+            
+            if (user.imageProfile) {
+                setImageProfile(user.imageProfile);
+            }
+
+            setFullName(user.fullName);
+            setEmail(user.email);
+        }
+    }, [user])
     
     const handleSubmit = async (e: React.FormEvent) => {
         try {
             e.preventDefault();
             setIsLoading(true);
-            const response = await getUser(email as string);
+            const response = { data: {error: '', success: true, data: {}}};
             if (response.data.success) {
-                navigate('/home')
+                navigate('/home');
             } else {
                 if (response.data.error == 'Error: The value of email is invalid!') {
                     setStatus(1);
@@ -146,7 +159,7 @@ export function Settings() {
                             <Toaster />
                         </div>
                         <div>
-                            <Button onClick={() => (localStorage.removeItem('token'))}>Log out</Button>
+                            <Button onClick={() => (localStorage.removeItem('authToken'))}>Log out</Button>
                         </div>
                     </div>
                 </form>

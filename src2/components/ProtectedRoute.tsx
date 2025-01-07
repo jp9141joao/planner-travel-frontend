@@ -1,3 +1,4 @@
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 interface ProtectedRouteProps {
@@ -5,7 +6,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('authToken');
 
   if (!token) {
     // Se não houver token, redireciona para a página de login

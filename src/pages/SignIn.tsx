@@ -8,11 +8,11 @@ import Image from '@/assets/undraw_aircraft_re_m05i.svg';
 import React, { useEffect, useState } from "react";
 import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts";
 import { GoBack } from "@/components/GoBack";
-import { getUserByEmail, signInUser } from "@/service/service";
+import { getUser, signInUser } from "@/service/service";
 import Credits from "@/components/Credits";
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
-import { Login } from "@/types/types";
+import { Login, User } from "@/types/types";
 import { Utils } from "@/components/utils/utils";
 import { useUser } from "@/components/Contex/contex";
 
@@ -26,26 +26,28 @@ export default function SignIn () {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ status, setStatus ] = useState<number>(0);
-    const { user, setUser } = useUser();
+    const { setUser } = useUser();
     const navigate = useNavigate();
+
+    const loadUser = async () => {
+        const userData = await getUser();
+            
+        if (!userData) {
+            throw new Error('User data could not be retrieved from the token. Please try again.');
+        }
+
+        setUser(userData.data); // aqui nao pega
+       navigate('/home');
+    }
 
     const handleSubmit = async (e: React.FormEvent) => {
             try {
                 e.preventDefault();
                 setIsLoading(true);
-
                 const response = await signInUser({ email, password } as Login);
-
+                
                 if (response.data.success) {
-                    localStorage.setItem('token', response.data.data);
-                    const userData = Utils.getEmailByToken(response.data.data) 
-
-                    if (!userData) {
-                        throw new Error('User data could not be retrieved from the token. Please try again.');
-                    }
-
-                    setUser(userData);
-                    navigate('/home');
+                    localStorage.setItem('authToken', response.data.data);
                 } else {
                     if (response.data.error == 'Error: The value of email is invalid!') {
                         setStatus(1);
@@ -107,6 +109,10 @@ export default function SignIn () {
                 })
             }
         }, [toastMessage]);
+
+        useEffect(() => {
+            loadUser();
+        }, [localStorage.getItem('authToken')])
 
     return (
         <BodyPage>

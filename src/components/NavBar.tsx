@@ -33,7 +33,7 @@ export default function NavBar() {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('authToken');
 
         if (token) {
             setIsAuthenticated(true);

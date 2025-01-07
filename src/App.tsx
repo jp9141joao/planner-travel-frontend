@@ -13,8 +13,8 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import { Test } from "./pages/test";
 import { Settings } from "./pages/Settings";
-import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
 import { UserProvider } from "./components/Contex/contex";
+import { ProtectedRoute } from "./components/protectedRoute/ProtectedRoute";
 
 function App() {
 

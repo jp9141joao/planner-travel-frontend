@@ -2,6 +2,7 @@ import { Login, NewPasswordUser, User } from '@/types/types';
 import axios from 'axios';
 const url = 'http://localhost:3000';
 
+
 export const signInUser = async (login: Login) => {
     return await axios.post(`${url}/signIn`, login, {
         validateStatus: (status) => {
@@ -27,8 +28,20 @@ export const resetPasswordUser = async (newPasswordUser: NewPasswordUser) => {
     });
 }
 
-export const getUserByEmail = async (email: string) => {
-    return await axios.get(`${url}/settings`, email
-        
-    )
-}
+export const getUser = async () => {
+
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+        throw new Error("Token is missing!");
+    }
+
+    const response = await axios.get(`${url}/signIn`, {
+        validateStatus: (status) => status != 400, 
+        headers: {
+            'authorization': `Bearer ${token}`,
+        },
+    });
+
+    return response;
+};

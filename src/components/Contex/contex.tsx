@@ -4,15 +4,7 @@ import { User, UserContextType } from "@/types/types";
 const UserContext = createContext<UserContextType | null>(null);
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<User | null>({
-        
-    });
-
-    useEffect(() => {
-        console.log(JSON.stringify(user, null, 2))
-    }, [user])
-
-    alert(JSON.stringify(user, null, 2));
+    const [user, setUser] = useState<User | null>(null);
 
     return (
         <UserContext.Provider value={{ user, setUser }}>

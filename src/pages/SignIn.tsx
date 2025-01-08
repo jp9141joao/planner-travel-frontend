@@ -12,7 +12,7 @@ import { getUser, signInUser } from "@/service/service";
 import Credits from "@/components/Credits";
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
-import { Login, User } from "@/types/types";
+import { Login } from "@/types/types";
 import { useUser } from "@/components/Contex/contex";
 
 export default function SignIn () {
@@ -25,7 +25,7 @@ export default function SignIn () {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ status, setStatus ] = useState<number>(0);
-    const { user, setUser } = useUser();
+    const { setUser } = useUser();
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -43,7 +43,7 @@ export default function SignIn () {
                     }
 
                     setUser(userData.data.data.gotUserFormatted);
-                    //navigate('/home');
+                    navigate('/home');
                 } else {
                     if (response.data.error == 'Error: The value of email is invalid!') {
                         setStatus(1);

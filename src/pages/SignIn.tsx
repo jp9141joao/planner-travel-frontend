@@ -106,10 +106,6 @@ export default function SignIn () {
             }
         }, [toastMessage]);
 
-        useEffect(() => {
-            
-        }, [localStorage.getItem('authToken')])
-
     return (
         <BodyPage>
             <TopPage>

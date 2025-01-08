@@ -1,8 +1,7 @@
 export interface User {
     fullName: string,
     email: string,
-    password: string,
-    imageProfile: string | null
+    password: string | null | undefined,
 }
 
 export interface Login {
@@ -16,6 +15,11 @@ export interface NewPasswordUser {
     newPassword: string,
 }
 
+export interface UpdateUserData {
+    fullName: string,
+    email: string
+}
+
 export interface decodedAuthToken {
     email: string
 }
@@ -24,7 +28,13 @@ export interface ProtectedRouteProps {
     children: JSX.Element,
 }
 
+export interface UserDetails {
+    id: string
+    fullName: string
+    email: string
+}
+
 export interface UserContextType{
-    user: User | null,
-    setUser: (user: User | null) => void
+    user: UserDetails | null,
+    setUser: (user: UserDetails | null) => void
 }

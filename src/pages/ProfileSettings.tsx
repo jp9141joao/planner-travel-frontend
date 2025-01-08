@@ -11,43 +11,49 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { useUser } from "@/components/Contex/contex"
 import { User } from "@/types/types"
+import { LogOut } from "lucide-react"
+import { updateUserData } from "@/service/service"
 
 export function ProfileSettings() {
     const [ fullName, setFullName ] = useState<string | undefined>('');
     const [ email, setEmail ] = useState<string | undefined>('');
+    const [ toastMessage, setToastMessage ] = useState({
+        variant: '', title: '', description: ''
+    });
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ status, setStatus ] = useState<number>(0);
-    const { user } = useUser();
+    const [ buttonDisabled, setButtonDisabled ] = useState<boolean>(true);
+    const { user, setUser } = useUser();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        if (user) {
-            setFullName(user.fullName);
-            setEmail(user.email);
-        } else {
-            setFullName(undefined);
-            setEmail(undefined)
-        }
-    }, [])
 
     const handleSubmit = async (e: React.FormEvent) => {
         try {
             e.preventDefault();
             setIsLoading(true);
-            //const response = await updateUser({fullName: fullName, email: email} as User);
-            const response = { data: {error: '', success: true, data: {}}};
+            const response = await updateUserData({fullName: fullName, email: email} as User);
             if (response.data.success) {
-                //navigate('/home');
+                if (user && fullName && email) {
+                    setUser({
+                        ...user,
+                        fullName: fullName, 
+                        email: email
+                    });
+                }
+                setStatus(1);
             } else {
-                if (response.data.error == 'Error: The value of email is invalid!') {
-                    setStatus(1);
-                } else if (response.data.error == 'Error: The value of password is invalid!') {
+                if (response.data.error == 'Error: The value of fullName is invalid!') {
                     setStatus(2);
-                } else if (response.data.error == 'Error: The email or password you entered is incorrect') {
+                } else if (response.data.error == 'Error: The value of fullName is too large!') {
                     setStatus(3);
-                } else {
+                } else if (response.data.error == 'Error: The value of email is invalid!') {
                     setStatus(4);
+                } else if (response.data.error == 'Error: The value of email is too large!') {
+                    setStatus(5);
+                } else if (response.data.error == 'Error: There is already a user using this email!') {
+                    setStatus(6);
+                } else {
+                    setStatus(7);
                 }
             }
 
@@ -61,10 +67,97 @@ export function ProfileSettings() {
         } 
     }
 
+    useEffect(() => {
+        if (user) {
+            setFullName(user.fullName);
+            setEmail(user.email);
+        } else {
+            setFullName(undefined);
+            setEmail(undefined)
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!fullName || !email) {
+            setStatus(7);
+        }
+
+        if (user) {
+            if (user.fullName != fullName || user.email != email) {
+                setButtonDisabled(false);
+            } else {
+                setButtonDisabled(true);
+            }
+        }
+    }, [fullName, email])
+
+    useEffect(() => {
+            if (!isLoading && showToast) {
+                if (status == 1) {
+                    setToastMessage({
+                        variant: 'success',
+                        title: 'Information updated successfully!',
+                        description: 'Your changes have been saved. Everything is up to date!',
+                    });                    
+                } else if (status == 2) {
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: 'Invalid Full Name',
+                        description: 'Please provide a valid full name with only letters and spaces.',
+                    });
+                } else if (status == 3) {
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: 'Full Name Too Long',
+                        description: 'Your full name is too long. Please enter a shorter name.',
+                    });
+                } else if (status == 4) {
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: 'Invalid Email',
+                        description: 'The email address you entered is invalid. Please check and try again.',
+                    });
+                } else if (status == 5) {
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: 'Email Too Long',
+                        description: 'The email address is too long. Please enter a shorter email address.',
+                    });
+                } else if (status == 6) {
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: 'Email Already in Use',
+                        description: 'Error: There is already a user using this email. Please use a different email address or log in to your account.',
+                    });
+                } else {
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: "Uh oh! Something went wrong.",
+                        description: "There was a problem with your request.",
+                    });
+                }
+            }
+        }, [isLoading, showToast, status]);
+
+    useEffect(() => {
+        if (showToast && status != 0) {
+            toast({
+                variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
+                title: toastMessage.title,
+                description: toastMessage.description,
+            })
+        }
+    }, [toastMessage]);
+
     return (
         <BodyPage>
             <TopPage>
-                <GoBack to="home" />
+                <div className="flex justify-between">
+                    <GoBack to="home" />
+                    <div className="cursor-pointer mt-3 mr-5 hover:translate-x-1 transition-all" onClick={() => (localStorage.removeItem('authToken'))}>
+                        <LogOut/>
+                    </div>
+                </div>
             </TopPage>
             <MiddlePageOneCol>
                 <form className="grid place-items-center" onChange={handleSubmit}>
@@ -108,7 +201,7 @@ export function ProfileSettings() {
                             />
                         </div>
                         <div className="grid gap-1.5 w-full mt-1.5">
-                            <Button type="submit" disabled={false}>
+                            <Button type="submit" disabled={buttonDisabled}>
                                 {
                                     isLoading ? 
                                     <div role="status">
@@ -121,11 +214,8 @@ export function ProfileSettings() {
                                     : "Save"
                                 }
                             </Button>
+                            <Toaster />
                         </div>
-                        <div className="grid gap-1.5 w-full mt-1">
-                            <Button variant={'outline'} type="submit" onClick={() => (localStorage.removeItem('authToken'))}>Log out</Button>
-                        </div>
-                        <Toaster />
                     </div>
                 </form>
             </MiddlePageOneCol>

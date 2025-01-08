@@ -1,4 +1,4 @@
-import { Login, NewPasswordUser, User } from '@/types/types';
+import { Login, NewPasswordUser, UpdateUserData, User } from '@/types/types';
 import axios from 'axios';
 const url = 'http://localhost:3000';
 //const url = '.';
@@ -46,3 +46,21 @@ export const getUser = async () => {
 
     return response;
 };
+
+export const updateUserData = async (data: UpdateUserData) => {
+
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+        throw new Error("Token is missing!");
+    }
+
+    const response = axios.put(`${URL}/profileSettings`, data, {
+        validateStatus: (status) => status != 400,
+        headers: {
+            'authorization': `Bearer ${token}`,
+        },
+    });
+
+    return response;
+}

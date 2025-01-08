@@ -14,7 +14,6 @@ import SignUp from "./pages/SignUp";
 import { Test } from "./pages/test";
 import { ProfileSettings } from "./pages/ProfileSettings";
 import { UserProvider } from "./components/Contex/contex";
-import { ProtectedRoute } from "./components/protectedRoute/ProtectedRoute";
 import { NotFOund } from "./pages/NotFound";
 
 function App() {
@@ -27,6 +26,9 @@ function App() {
             <Route path='*' element={<NotFOund />} />
             <Route path="/" element={<Navigate to={'/home'}/>}/>
             <Route path="/home" element={<Home/>}/>
+            <Route path="/addTravel" element={
+              <AddTravel />
+            } />
             <Route path="/signUp" element={<SignUp/>}/>
             <Route path="/signIn" element={<SignIn/>}/>
             <Route path="/resetPassword" element={<ResetPassword/>}/>

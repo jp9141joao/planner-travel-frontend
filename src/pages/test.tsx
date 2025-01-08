@@ -1,14 +1,9 @@
-import { PlaceSuggestions } from "@/components/PlaceSuggestions"
-import { Button } from "@/components/ui/button"
-import { ToastAction } from "@/components/ui/toast"
-import { Toaster } from "@/components/ui/toaster"
-import { toast } from "@/hooks/use-toast"
+import { DatePickerWithRange } from "@/components/DatePickerWithRange"
+import AddTravel from "./AddTravel"
+import { Travels } from "./ViewTravels"
 
 export function Test(){
     return (
-        <div className="mx-4">
-  
-          <PlaceSuggestions/>
-        </div> 
+        <DatePickerWithRange />
     )
 }

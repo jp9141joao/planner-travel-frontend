@@ -3,8 +3,6 @@ import { Button } from "@/components/ui/button";
 import Credits from '@/components/Credits';
 import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts";
 import Image from '../assets/undraw_travelers_re_y25a.svg';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { PlaceSuggestions } from "@/components/PlaceSuggestions";
 
 export default function Home() {
 
@@ -26,22 +24,11 @@ export default function Home() {
                     </p>
                 </div>
                 <div className="grid xs:flex xs:justify-start xxs11:gap-y-3 xs:gap-y-0 xs:gap-4 mt-[3vw] xs:mt-[1.4vw] lg:mt-[0.8vw]">
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button size={"auto"}>Place suggestions</Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-full max-h-screen overflow-auto p-4">
-                      <DialogHeader>
-                        <DialogTitle>Place Suggestions</DialogTitle>
-                        <DialogDescription>
-                          Find places to add to your travel plan and make the most of your trip.
-                        </DialogDescription>
-                      </DialogHeader>
-                        <PlaceSuggestions />
-                    </DialogContent>
-                  </Dialog>
+                  <Button size={"auto"}>
+                    View My Travels
+                  </Button>
                   <Button size={"auto"} variant={"outline"}>
-                    I know where to go
+                    Add New Travel
                   </Button>
                 </div>
             </div>
@@ -59,26 +46,3 @@ export default function Home() {
   )
 }
 
-
-
-{
-  /*
-  <Carousel className="w-full max-w-xs">
-                            <CarouselContent>
-                              {Array.from({ length: 5 }).map((_, index) => (
-                                <CarouselItem key={index}>
-                                  <div className="p-1">
-                                    <Card>
-                                      <CardContent className="flex aspect-square items-center justify-center p-6">
-                                        <span className="text-4xl font-semibold">{index + 1}</span>
-                                      </CardContent>
-                                    </Card>
-                                  </div>
-                                </CarouselItem>
-                              ))}
-                            </CarouselContent>
-                              <CarouselPrevious />
-                            <CarouselNext />
-                          </Carousel>
-  */
-}

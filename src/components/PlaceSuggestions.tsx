@@ -32,6 +32,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
+import { dataPlace } from "@/types/types";
 
 const data: dataPlace[] = [
   { id: "1", City: "Paris", Country: "France", Language: "French", Wether: "Mild", Currency: "Euro", Cost: "High", Pictures: "https://www.google.com/search?q=Paris&tbm=isch" },
@@ -106,18 +108,7 @@ const data: dataPlace[] = [
   { id: "70", City: "Guangzhou", Country: "China", Language: "Mandarin", Wether: "Tropical", Currency: "Yuan", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Guangzhou&tbm=isch" }
 ];
 
-export type dataPlace = {
-  id: string;
-  City: string;
-  Country: string;
-  Language: string;
-  Wether: string;
-  Currency: string;
-  Cost: string;
-  Pictures: string;
-};
-
-export const columns: ColumnDef<dataPlace, any>[] = [
+const columns: ColumnDef<dataPlace, any>[] = [
   {
     accessorKey: "City",
     header: "City",
@@ -164,7 +155,26 @@ export const columns: ColumnDef<dataPlace, any>[] = [
   }
 ];
 
-export function PlaceSuggestions() {
+export function ButtonPlaceSuggestion() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button size={"auto"}>Place suggestions</Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-full max-h-screen overflow-auto p-4">
+        <DialogHeader>
+          <DialogTitle>Place Suggestions</DialogTitle>
+          <DialogDescription>
+            Find places to add to your travel plan and make the most of your trip.
+          </DialogDescription>
+        </DialogHeader>
+          <PlaceSuggestions />
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+function PlaceSuggestions() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});

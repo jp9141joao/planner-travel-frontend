@@ -24,6 +24,18 @@ export interface decodedAuthToken {
     email: string
 }
 
+export interface dataPlace {
+  id: string,
+  City: string,
+  Country: string,
+  Language: string,
+  Wether: string,
+  Currency: string,
+  Cost: string,
+  Pictures: string
+};
+
+
 export interface ProtectedRouteProps {
     children: JSX.Element,
 }

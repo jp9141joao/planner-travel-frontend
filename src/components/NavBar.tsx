@@ -8,12 +8,11 @@ export default function NavBar() {
     
     const navigation = [
         { name: 'Home', href: '/home' },
-        { name: 'Travels', href: '/travels' },
         { name: 'Expenses', href: '/expenses' },
         { name: 'Itinerary', href: '/itinerary' },
         { name: 'To do list', href: '/toDoList' },
         { name: 'My piggy bank', href: '/myPiggyBank' },
-];
+    ];
 
     const { 
         idTravel, 

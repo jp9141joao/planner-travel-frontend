@@ -12,7 +12,7 @@ import { ResetPassword } from "./pages/resetPassword";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import { Test } from "./pages/test";
-import { Settings } from "./pages/Settings";
+import { ProfileSettings } from "./pages/ProfileSettings";
 import { UserProvider } from "./components/Contex/contex";
 import { ProtectedRoute } from "./components/protectedRoute/ProtectedRoute";
 import { NotFOund } from "./pages/NotFound";
@@ -30,8 +30,8 @@ function App() {
             <Route path="/signUp" element={<SignUp/>}/>
             <Route path="/signIn" element={<SignIn/>}/>
             <Route path="/resetPassword" element={<ResetPassword/>}/>
-            <Route path="/settings" element={
-                <Settings/>
+            <Route path="/profileSettings" element={
+                <ProfileSettings/>
             } />
             <Route path="/test" element={<Test/>}/>
             {/*

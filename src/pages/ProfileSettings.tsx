@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { useUser } from "@/components/Contex/contex"
 import { User } from "@/types/types"
 
-export function Settings() {
+export function ProfileSettings() {
     const [ fullName, setFullName ] = useState<string | undefined>('');
     const [ email, setEmail ] = useState<string | undefined>('');
     const [ isLoading, setIsLoading ] = useState<boolean>(false);

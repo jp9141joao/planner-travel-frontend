@@ -5,8 +5,12 @@ import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPa
 import Image from '../assets/undraw_travelers_re_y25a.svg';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { PlaceSuggestions } from "@/components/PlaceSuggestions";
+import { useUser } from "@/components/Contex/contex";
 
 export default function Home() {
+  const {user} = useUser();
+
+  alert(user?.email);
   return (
     <BodyPage>
         <TopPage>

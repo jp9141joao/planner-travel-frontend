@@ -42,8 +42,8 @@ export default function SignIn () {
                         throw new Error('User data could not be retrieved from the token. Please try again.');
                     }
 
-                    setUser(userData.data);
-                    navigate('/home');
+                    setUser(userData.data.data.gotUserFormatted);
+                    //navigate('/home');
                 } else {
                     if (response.data.error == 'Error: The value of email is invalid!') {
                         setStatus(1);

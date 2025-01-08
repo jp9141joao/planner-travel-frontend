@@ -24,7 +24,7 @@ export interface ProtectedRouteProps {
     children: JSX.Element,
 }
 
-export interface UserContexType{
-    user: User,
-    setUser: (user: User) => void
+export interface UserContextType{
+    user: User | null,
+    setUser: (user: User | null) => void
 }

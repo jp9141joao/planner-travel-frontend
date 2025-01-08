@@ -10,10 +10,11 @@ import { Toaster } from "@/components/ui/toaster"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { useUser } from "@/components/Contex/contex"
+import { User } from "@/types/types"
 
 export function Settings() {
-    const [ fullName, setFullName ] = useState<string>('');
-    const [ email, setEmail ] = useState<string>('');
+    const [ fullName, setFullName ] = useState<string | undefined>('');
+    const [ email, setEmail ] = useState<string | undefined>('');
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ status, setStatus ] = useState<number>(0);
@@ -22,20 +23,19 @@ export function Settings() {
 
     useEffect(() => {
         if (user) {
-            
-            if (user.imageProfile) {
-                setImageProfile(user.imageProfile);
-            }
-
             setFullName(user.fullName);
             setEmail(user.email);
+        } else {
+            setFullName(undefined);
+            setEmail(undefined)
         }
-    }, [user])
-    
+    }, [])
+
     const handleSubmit = async (e: React.FormEvent) => {
         try {
             e.preventDefault();
             setIsLoading(true);
+            //const response = await updateUser({fullName: fullName, email: email} as User);
             const response = { data: {error: '', success: true, data: {}}};
             if (response.data.success) {
                 //navigate('/home');
@@ -60,31 +60,6 @@ export function Settings() {
             console.log(error);
         } 
     }
-
-    const loadUser = async () => {
-        try {
-            const response = { data: {
-                fullName: '', email: ''
-            } };
-            setFullName(response.data.fullName);
-            setEmail(response.data.email);
-        } catch (error: any) { 
-            toast({
-                variant: 'destructive',
-                title: "Uh oh! Something went wrong.",
-                description: "There was a problem with your request.",
-            });
-            return false;
-        }
-    };
-
-    useEffect(() => {
-        loadUser();
-    }, [])
-
-    useEffect(() => {
-        //alert(localStorage.getItem(`token`))
-    }, [])
 
     return (
         <BodyPage>

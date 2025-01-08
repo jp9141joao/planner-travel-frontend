@@ -1,7 +1,7 @@
 import { Login, NewPasswordUser, User } from '@/types/types';
 import axios from 'axios';
-//const url = 'http://localhost:3000';
-const url = '.';
+const url = 'http://localhost:3000';
+//const url = '.';
 
 
 export const signInUser = async (login: Login) => {

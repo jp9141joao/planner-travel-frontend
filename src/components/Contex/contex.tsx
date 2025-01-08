@@ -1,10 +1,18 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import { User, UserContexType } from "@/types/types";
+import { User, UserContextType } from "@/types/types";
 
-const UserContext = createContext<UserContexType>();
+const UserContext = createContext<UserContextType | null>(null);
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<User | null>({
+        
+    });
+
+    useEffect(() => {
+        console.log(JSON.stringify(user, null, 2))
+    }, [user])
+
+    alert(JSON.stringify(user, null, 2));
 
     return (
         <UserContext.Provider value={{ user, setUser }}>
@@ -13,7 +21,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     );
 };
 
-export const useUser = (): UserContexType => {
+export const useUser = (): UserContextType => {
     const context = useContext(UserContext);
 
     if (!context) {

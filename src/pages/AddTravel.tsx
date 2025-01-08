@@ -12,6 +12,7 @@ import { getUser, signInUser } from "@/service/service";
 import { Login } from "@/types/types";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { DatePickerWithRange } from "@/components/DatePickerWithRange";
 
 export default function AddTravel () {
 
@@ -133,7 +134,7 @@ export default function AddTravel () {
                         <div className="grid place-items-center gap-y-2 xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
                             <div className="grid gap-1.5 w-full place-items-start">
                                 <Label htmlFor="name" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
-                                    Name
+                                    Trip Name
                                 </Label>
                                 <Input 
                                     type="text" 
@@ -146,18 +147,7 @@ export default function AddTravel () {
                                 />
                             </div>
                             <div className="grid gap-1.5 w-full place-items-start">
-                                <Label htmlFor="days" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
-                                    Password
-                                </Label>
-                                <Input 
-                                    type="password"
-                                    id="password" 
-                                    placeholder="Abc123" 
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    onClick={() => setStatus(0)}
-                                    className={status == 2 || status == 3 ? "border-red-500 " : "" }
-                                />
+                                <DatePickerWithRange />
                             </div>
                             <div className="flex items-center gap-1.5 w-full text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                 <p>

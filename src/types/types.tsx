@@ -50,3 +50,8 @@ export interface UserContextType{
     user: UserDetails | null,
     setUser: (user: UserDetails | null) => void
 }
+
+export interface DaysIntervalContextType {
+    daysInterval: number | null,
+    setDaysInterval: (daysInterval: number | null) => void
+} 

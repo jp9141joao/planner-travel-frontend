@@ -13,14 +13,13 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import { Test } from "./pages/test";
 import { ProfileSettings } from "./pages/ProfileSettings";
-import { UserProvider } from "./components/Contex/contex";
 import { NotFOund } from "./pages/NotFound";
+import { GlobalProvider } from "./components/Contex/contex";
 
 function App() {
 
   return (
-      <UserProvider>
-        
+      <GlobalProvider>
         <Router>
           <Routes>
             <Route path='*' element={<NotFOund />} />
@@ -53,7 +52,7 @@ function App() {
             */}
           </Routes>
         </Router>
-      </UserProvider>
+      </GlobalProvider>
   )
 }
 

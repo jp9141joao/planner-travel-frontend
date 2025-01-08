@@ -5,6 +5,6 @@ import { ButtonPlaceSuggestion } from "@/components/PlaceSuggestions"
 
 export function Test(){
     return (
-        <ButtonPlaceSuggestion />
+        <DatePickerWithRange />
     )
 }

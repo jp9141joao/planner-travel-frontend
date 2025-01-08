@@ -13,6 +13,7 @@ import { Login } from "@/types/types";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { DatePickerWithRange } from "@/components/DatePickerWithRange";
+import { error } from "console";
 
 export default function AddTravel () {
 
@@ -31,8 +32,9 @@ export default function AddTravel () {
             try {
                 e.preventDefault();
                 setIsLoading(true);
-                const response = await signInUser({ email, password } as Login);
-                
+                //const response = await signInUser({ email, password } as Login);
+                const response = { data: {success: true, error: '', data: ''}}
+
                 if (response.data.success) {
                     localStorage.setItem('authToken', response.data.data);
                     const userData = await getUser();

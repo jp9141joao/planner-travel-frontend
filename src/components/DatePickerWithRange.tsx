@@ -44,18 +44,18 @@ export function DatePickerWithRange({
       <PopoverTrigger asChild>
         <Button
           id="date"
-          variant={"outline"}
+          variant={"outlineInput"}
           className={cn(
-            "w-full justify-start text-left font-normal gap-2 px-1",
+            "w-full justify-start text-left font-normal text-[4.5vw] xxs5:text-[4vw] xs:text-sm sm:text-base gap-2 px-1",
             !date && "text-muted-foreground"
           )}
         >
-          <CalendarIcon />
+          <CalendarIcon className="w-[6vw] xs:w-auto h-auto"/>
           {date?.from ? (
             date.to ? (
               <>
                 {format(date.from, "LLL dd, y")} -{" "}
-                {format(date.to, "LLL dd, y")}
+                {format(date.to, "LLL dd, y")} -{" "}{daysInterval} days
               </>
             ) : (
               format(date.from, "LLL dd, y")

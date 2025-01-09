@@ -123,17 +123,17 @@ export default function AddTravel () {
                     <div className='table mx-auto'>
                         <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                             <div>
-                                <h1 className="grid text-[13.5vw] xxs5:text-[21.2vw] xs:text-[15vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.4]">
+                                <h1 className="grid text-[13.2vw] xxs5:text-[12.6vw] xs:text-[9.1vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.9] xs:leading-[0.7]">
                                     Create Your Trip!
                                 </h1>
                             </div>
                             <div>
-                                <p className="xs:text-start text-[7.1vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] mt-[6.2vw] xxs5:mt-[6.9vw] xxs3:mt-[6.4vw] xs:mt-[5.7vw] lg:mt-[2.4vw] leading-tight text-gray-900 tracking-tight">
+                                <p className="xs:text-start text-[6.9vw] xxs8:text-[6.7vw] xs:text-[4.8vw] lg:text-[1.8vw] mt-[3.2vw] xs:mt-[2.7vw] lg:mt-[2.4vw] leading-tight text-gray-900 tracking-tight">
                                     Your next adventure awaits.
                                 </p>
                             </div>
                         </div>
-                        <div className="grid place-items-center gap-y-2 xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
+                        <div className="grid place-items-center gap-y-2 xxs11:mt-[4vw] xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
                             <div className="grid gap-1.5 w-full place-items-start">
                                 <Label htmlFor="name" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                     Trip Name
@@ -149,19 +149,12 @@ export default function AddTravel () {
                                 />
                             </div>
                             <div className="grid gap-1.5 w-full place-items-start">
-                                <DatePickerWithRange />
+                                <Label htmlFor="travelPeriod" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
+                                    Select Your Travel Period
+                                </Label>
+                                <DatePickerWithRange id="travelPeriod"/>
                             </div>
-                            <div className="flex items-center gap-1.5 w-full text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
-                                <p>
-                                    Forgot your password?
-                                </p>
-                                <Link to={"/resetPassword"}>
-                                    <strong>
-                                        Click here.
-                                    </strong>
-                                </Link>
-                            </div>
-                            <div className="grid gap-1.5 w-full">
+                            <div className="grid gap-1.5 w-full mt-1 xs:mt-2">
                                 <Button type="submit">
                                     {
                                         isLoading ? 
@@ -172,28 +165,20 @@ export default function AddTravel () {
                                             </svg>
                                             <span className="sr-only">Carregando...</span>
                                         </div>
-                                        : "Sign In"
+                                        : "Create Travel"
                                     }
                                 </Button>
                                 <Toaster />
                             </div>
-                            <div className="flex justify-center gap-2 text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
-                                <p>
-                                    Don't have an account?
-                                </p>
-                                <Link to={"/signUp"} className="underline">
-                                    Sign up!
-                                </Link>
-                            </div>
                         </div>
                     </div>
-                    <div className="lg:hidden mx-[17vw] xxs3:mx-[8.8vw] xs:mx-[20.5vw] sm:mx-[15.5vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
-                        <img
-                            src={Image}
-                            className="w-auto h-auto"
-                        />
-                    </div>
                 </form>
+                <div className="lg:hidden mx-[17vw] xxs3:mx-[8.8vw] xs:mx-[20.5vw] sm:mx-[15.5vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
+                    <img
+                        src={Image}
+                        className="w-auto h-auto"
+                    />
+                </div>
             </MiddlePage>
             <BottomPage>
                 <Credits/>

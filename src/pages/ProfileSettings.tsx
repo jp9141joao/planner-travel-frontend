@@ -32,6 +32,7 @@ export function ProfileSettings() {
             e.preventDefault();
             setIsLoading(true);
             const response = await updateUserData({fullName: fullName, email: email} as UpdateUserData);
+            alert(response.success)
             if (response.success) {
                 if (user && fullName && email) {
                     setUser({
@@ -145,7 +146,10 @@ export function ProfileSettings() {
                 variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
                 title: toastMessage.title,
                 description: toastMessage.description,
-            })
+            });
+
+            setStatus(0);
+            window.location.reload();
         }
     }, [toastMessage]);
 
@@ -186,7 +190,7 @@ export function ProfileSettings() {
                                 value={fullName}
                                 onChange={(e) => setFullName(e.target.value)}
                                 onClick={() => setStatus(0)}
-                                className={status == 1 || status == 3 ? "border-red-500 " : "" }
+                                className={status == 2|| status == 3 ? "border-red-500 " : "" }
                             />
                         </div>
                         <div className="grid gap-1.5 w-full place-items-start">
@@ -200,7 +204,7 @@ export function ProfileSettings() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 onClick={() => setStatus(0)}
-                                className={status == 1 || status == 3 ? "border-red-500 " : "" }
+                                className={status >= 4 && status <= 6 ? "border-red-500 " : "" }
                             />
                         </div>
                         <div className="grid gap-1.5 w-full mt-1.5">

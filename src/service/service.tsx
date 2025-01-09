@@ -54,17 +54,16 @@ export const getUser = async () => {
 export const updateUserData = async (data: UpdateUserData) => {
 
     const token = localStorage.getItem('authToken');
-
+    
     if (!token) {
         throw new Error("Token is missing!");
     }
 
-    const response = await axios.put(`${URL}/profileSettings`, data, {
+    const response = await axios.put(`${url}/profileSettings`, data, {
         validateStatus: (status) => status != 400,
         headers: {
             'authorization': `Bearer ${token}`,
         },
     });
-
     return response.data;
 }

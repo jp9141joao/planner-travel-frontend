@@ -2,12 +2,8 @@ import Credits from "@/components/Credits";
 import { GoBack } from "@/components/GoBack";
 import { BodyPage, BottomPage, MiddlePageOneCol, TopPage } from "@/components/LayoutPage/Layouts";
 import Image from '../assets/undraw_page-not-found_6wni.svg';
-import { useUser } from "@/components/Contex/contex";
 
 export function NotFOund() {
-    const { user } = useUser();
-
-    console.log(`test: ${user}`)
 
     return (
         <BodyPage>

@@ -9,10 +9,10 @@ import { Button } from "@/components/ui/button"
 import { Toaster } from "@/components/ui/toaster"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { useUser } from "@/components/Contex/contex"
-import { UpdateUserData, User } from "@/types/types"
+import { UpdateUserData, User, UserDetails } from "@/types/types"
 import { LogOut } from "lucide-react"
 import { updateUserData } from "@/service/service"
+import { getItemSessionStorage, setItemSessionStorage } from "@/components/utils/utils"
 
 export function ProfileSettings() {
     const [ fullName, setFullName ] = useState<string | undefined>('');
@@ -24,7 +24,6 @@ export function ProfileSettings() {
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ status, setStatus ] = useState<number>(0);
     const [ buttonDisabled, setButtonDisabled ] = useState<boolean>(true);
-    const { user, setUser } = useUser();
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -34,13 +33,16 @@ export function ProfileSettings() {
             const response = await updateUserData({fullName: fullName, email: email} as UpdateUserData);
             alert(response.success)
             if (response.success) {
-                if (user && fullName && email) {
-                    setUser({
-                        ...user,
-                        fullName: fullName, 
+                const userData = getItemSessionStorage('user');
+            
+                if (userData) {
+                    setItemSessionStorage('user', {
+                        ...userData,
+                        fullName: fullName,
                         email: email
                     });
                 }
+
                 setStatus(1);
             } else {
                 if (response.error == 'Error: The value of fullName is invalid!') {
@@ -69,13 +71,15 @@ export function ProfileSettings() {
     }
 
     useEffect(() => {
-        if (user) {
-            setFullName(user.fullName);
-            setEmail(user.email);
+        const userData: UserDetails | null = getItemSessionStorage('user');
+
+        if (userData) {
+            setFullName(userData.fullName);
+            setEmail(userData.email);
         } else {
             setFullName(undefined);
             setEmail(undefined)
-        }
+        }    
     }, []);
 
     useEffect(() => {
@@ -83,8 +87,10 @@ export function ProfileSettings() {
             setStatus(7);
         }
 
-        if (user) {
-            if (user.fullName != fullName || user.email != email) {
+        const userData: UserDetails | null = getItemSessionStorage('user');
+
+        if (userData) {
+            if (userData.fullName != fullName || userData.email != email) {
                 setButtonDisabled(false);
             } else {
                 setButtonDisabled(true);

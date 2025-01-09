@@ -128,6 +128,8 @@ export function ResetPassword() {
                 description: toastMessage.description,
             })
         }
+
+        setStatus(0);
     }, [toastMessage]);
 
     return (

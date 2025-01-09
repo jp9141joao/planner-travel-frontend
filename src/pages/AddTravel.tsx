@@ -7,7 +7,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Image from '../assets/undraw_departing_010k (2).svg'
-import { useUser } from "@/components/Contex/contex";
 import { getUser, signInUser } from "@/service/service";
 import { Login } from "@/types/types";
 import { toast } from "@/hooks/use-toast";
@@ -25,7 +24,6 @@ export default function AddTravel () {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ status, setStatus ] = useState<number>(0);
-    const { setUser } = useUser();
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -43,7 +41,7 @@ export default function AddTravel () {
                         throw new Error('User data could not be retrieved from the token. Please try again.');
                     }
 
-                    setUser(userData.data.data.gotUserFormatted);
+                    //setUser(userData.data.data.gotUserFormatted);
                     navigate('/home');
                 } else {
                     if (response.data.error == 'Error: The value of email is invalid!') {
@@ -105,6 +103,8 @@ export default function AddTravel () {
                     description: toastMessage.description,
                 })
             }
+
+            setStatus(0);
         }, [toastMessage]);
 
     return (
@@ -123,12 +123,12 @@ export default function AddTravel () {
                     <div className='table mx-auto'>
                         <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                             <div>
-                                <h1 className="grid text-[10.2vw] xxs5:text-[21.2vw] xs:text-[15vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.6] xxs3:leading-[0.7]">
-                                   Create Your Travel!
+                                <h1 className="grid text-[13.5vw] xxs5:text-[21.2vw] xs:text-[15vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.4]">
+                                    Create Your Trip!
                                 </h1>
                             </div>
                             <div>
-                                <p className="xs:text-start text-[8vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] mt-[6.2vw] xxs5:mt-[6.9vw] xxs3:mt-[6.4vw] xs:mt-[5.7vw] lg:mt-[2.4vw] leading-tight text-gray-900 tracking-tight">
+                                <p className="xs:text-start text-[7.1vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] mt-[6.2vw] xxs5:mt-[6.9vw] xxs3:mt-[6.4vw] xs:mt-[5.7vw] lg:mt-[2.4vw] leading-tight text-gray-900 tracking-tight">
                                     Your next adventure awaits.
                                 </p>
                             </div>

@@ -13,7 +13,6 @@ import Credits from "@/components/Credits";
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
 import { Login } from "@/types/types";
-import { useUser } from "@/components/Contex/contex";
 
 export default function SignIn () {
 
@@ -25,7 +24,6 @@ export default function SignIn () {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ status, setStatus ] = useState<number>(0);
-    const { setUser } = useUser();
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -42,7 +40,7 @@ export default function SignIn () {
                         throw new Error('User data could not be retrieved from the token. Please try again.');
                     }
 
-                    setUser(userData.data);
+                    sessionStorage.setItem('user', JSON.stringify(userData));
                     navigate('/home');
                 } else {
                     if (response.error == 'Error: The value of email is invalid!') {
@@ -104,6 +102,8 @@ export default function SignIn () {
                     description: toastMessage.description,
                 })
             }
+
+            setStatus(0);
         }, [toastMessage]);
 
     return (

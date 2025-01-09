@@ -14,19 +14,17 @@ import SignUp from "./pages/SignUp";
 import { Test } from "./pages/test";
 import { ProfileSettings } from "./pages/ProfileSettings";
 import { NotFOund } from "./pages/NotFound";
-import { GlobalProvider } from "./components/Contex/contex";
-import { ProtectedRoute } from "./components/protectedRoute/ProtectedRoute";
+import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
 
 function App() {
 
   return (
-      <GlobalProvider>
         <Router>
           <Routes>
             <Route path='*' element={<NotFOund />} />
             <Route path="/" element={<Navigate to={'/home'}/>}/>
             <Route path="/home" element={<Home/>}/>
-            <Route path="/addTravel" element={
+            <Route path="/addTravels" element={
               <AddTravel />
             } />
             <Route path="/signUp" element={<SignUp/>}/>
@@ -55,7 +53,6 @@ function App() {
             */}
           </Routes>
         </Router>
-      </GlobalProvider>
   )
 }
 

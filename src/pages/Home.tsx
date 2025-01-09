@@ -3,8 +3,11 @@ import { Button } from "@/components/ui/button";
 import Credits from '@/components/Credits';
 import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts";
 import Image from '../assets/undraw_travelers_re_y25a.svg';
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+
+  const navigate = useNavigate();
 
   return (
     <BodyPage>
@@ -24,10 +27,10 @@ export default function Home() {
                     </p>
                 </div>
                 <div className="grid xs:flex xs:justify-start xxs11:gap-y-3 xs:gap-y-0 xs:gap-4 mt-[3vw] xs:mt-[1.4vw] lg:mt-[0.8vw]">
-                  <Button size={"auto"}>
+                  <Button size={"auto"} onClick={() => navigate('/myTravels')}>
                     View My Travels
                   </Button>
-                  <Button size={"auto"} variant={"outline"}>
+                  <Button size={"auto"} variant={"outline"} onClick={() => navigate('/addTravels')}>
                     Add New Travel
                   </Button>
                 </div>

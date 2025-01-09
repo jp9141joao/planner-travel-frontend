@@ -138,6 +138,8 @@ export default function SignIn () {
                 description: toastMessage.description,
             })
         }
+
+        setStatus(0);
     }, [toastMessage]);
 
     return (
@@ -150,11 +152,11 @@ export default function SignIn () {
                     <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                             <div>
                                 <p className="xs:text-start text-[7vw] xxs8:text-[6.9vw] xxs3:text-[6.8] xs:text-[4.75vw] lg:text-[2.1vw] leading-tight text-gray-900 tracking-tight">
-                                    Welcome to
+                                    Join the family of
                                 </p>
                             </div>
                             <div>
-                                <h1 className="grid text-[22vw] xxs5:text-[20.8vw] xxs3:text-[21.2vw] xs:text-[15vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.6] xs:leading-[0.7]">
+                                <h1 className="grid text-[22vw] xxs5:text-[20.8vw] xxs3:text-[21.2vw] xs:text-[15vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.7]">
                                     Easy trip!
                                 </h1>
                             </div>

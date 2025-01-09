@@ -13,8 +13,8 @@ export function DatePickerWithRange({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
+    from: new Date(2025, 0, 20),
+    to: addDays(new Date(2025, 0, 20), 20),
   });
 
   const [isMobile, setIsMobile] = React.useState(false); // Estado para controlar o layout
@@ -44,10 +44,9 @@ export function DatePickerWithRange({
       <PopoverTrigger asChild>
         <Button
           id="date"
-          size={"auto"}
           variant={"outline"}
           className={cn(
-            "justify-start text-left font-normal gap-2 px-1",
+            "w-full justify-start text-left font-normal gap-2 px-1",
             !date && "text-muted-foreground"
           )}
         >
@@ -66,7 +65,7 @@ export function DatePickerWithRange({
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0" align="start">
+      <PopoverContent className="w-auto p-0" align="start">
         {isMobile ? (
           <Calendar
             initialFocus
@@ -75,6 +74,7 @@ export function DatePickerWithRange({
             selected={date}
             onSelect={setDate}
             numberOfMonths={1} // Apenas um mês para telas pequenas
+            highlightSelected={true} // Garante que o primeiro dia seja destacado
           />
         ) : (
           <Calendar
@@ -84,6 +84,7 @@ export function DatePickerWithRange({
             selected={date}
             onSelect={setDate}
             numberOfMonths={2} // Dois meses para telas maiores
+            highlightSelected={true} // Garante que o primeiro dia seja destacado
           />
         )}
       </PopoverContent>

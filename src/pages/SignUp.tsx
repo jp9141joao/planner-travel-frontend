@@ -30,24 +30,24 @@ export default function SignIn () {
             e.preventDefault();
             setIsLoading(true);
             const response = await signUpUser({ fullName: fullName, email: email, password: password } as User);
-            if (response.data.success) {
+            if (response.success) {
                 setStatus(1);
             } else {
-                if (response.data.error == 'Error: The value of fullName is invalid!') {
+                if (response.error == 'Error: The value of fullName is invalid!') {
                     setStatus(2);
-                } else if (response.data.error == 'Error: The value of fullName is too large!') {
+                } else if (response.error == 'Error: The value of fullName is too large!') {
                     setStatus(3);
-                } else if (response.data.error == 'Error: The value of email is invalid!') {
+                } else if (response.error == 'Error: The value of email is invalid!') {
                     setStatus(4);
-                } else if (response.data.error == 'Error: The value of email is too large!') {
+                } else if (response.error == 'Error: The value of email is too large!') {
                     setStatus(5);
-                } else if (response.data.error == 'Error: The value of password is invalid!') {
+                } else if (response.error == 'Error: The value of password is invalid!') {
                     setStatus(6);
-                } else if (response.data.error == 'Error: the value of password is too short!') {
+                } else if (response.error == 'Error: the value of password is too short!') {
                     setStatus(7);
-                } else if (response.data.error == 'Error: The value of password is too large!') {
+                } else if (response.error == 'Error: The value of password is too large!') {
                     setStatus(8);
-                } else if (response.data.error == 'Error: There is already a user using this email!') {
+                } else if (response.error == 'Error: There is already a user using this email!') {
                     setStatus(9)
                 } else {
                     setStatus(10)

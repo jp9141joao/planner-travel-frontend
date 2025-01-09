@@ -34,22 +34,22 @@ export default function SignIn () {
                 setIsLoading(true);
                 const response = await signInUser({ email, password } as Login);
                 
-                if (response.data.success) {
-                    localStorage.setItem('authToken', response.data.data);
+                if (response.success) {
+                    localStorage.setItem('authToken', response.data);
                     const userData = await getUser();
 
                     if (!userData) {
                         throw new Error('User data could not be retrieved from the token. Please try again.');
                     }
 
-                    setUser(userData.data.data.gotUserFormatted);
+                    setUser(userData.data);
                     navigate('/home');
                 } else {
-                    if (response.data.error == 'Error: The value of email is invalid!') {
+                    if (response.error == 'Error: The value of email is invalid!') {
                         setStatus(1);
-                    } else if (response.data.error == 'Error: The value of password is invalid!') {
+                    } else if (response.error == 'Error: The value of password is invalid!') {
                         setStatus(2);
-                    } else if (response.data.error == 'Error: The email or password you entered is incorrect!') {
+                    } else if (response.error == 'Error: The email or password you entered is incorrect!') {
                         setStatus(3);
                     } else {
                         setStatus(4);

@@ -15,6 +15,7 @@ import { Test } from "./pages/test";
 import { ProfileSettings } from "./pages/ProfileSettings";
 import { NotFOund } from "./pages/NotFound";
 import { GlobalProvider } from "./components/Contex/contex";
+import { ProtectedRoute } from "./components/protectedRoute/ProtectedRoute";
 
 function App() {
 
@@ -32,7 +33,9 @@ function App() {
             <Route path="/signIn" element={<SignIn/>}/>
             <Route path="/resetPassword" element={<ResetPassword/>}/>
             <Route path="/profileSettings" element={
-              <ProfileSettings/>
+              <ProtectedRoute>
+                <ProfileSettings />
+              </ProtectedRoute>
             } />
             <Route path="/test" element={<Test/>}/>
             {/*

@@ -29,22 +29,22 @@ export function ResetPassword() {
             e.preventDefault();
             setIsLoading(true);
             const response = await resetPasswordUser({ email: email, password: password, newPassword: newPassword } as NewPasswordUser);
-            if (response.data.success) {
+            if (response.success) {
                 setStatus(1);
             } else {
-                if (response.data.error == 'Error: The value of email is invalid!') {
+                if (response.error == 'Error: The value of email is invalid!') {
                     setStatus(2);
-                } else if (response.data.error == 'Error: The value of password is invalid!') {
+                } else if (response.error == 'Error: The value of password is invalid!') {
                     setStatus(3);
-                } else if (response.data.error == 'Error: The value of newPassword is invalid!') {
+                } else if (response.error == 'Error: The value of newPassword is invalid!') {
                     setStatus(4);
-                } else if (response.data.error == 'Error: the value of newPassword is too short!') {
+                } else if (response.error == 'Error: the value of newPassword is too short!') {
                     setStatus(5);
-                } else if (response.data.error == 'Error: The value of newPassword is too large!') {
+                } else if (response.error == 'Error: The value of newPassword is too large!') {
                     setStatus(6);
-                } else if (response.data.error == 'Error: The value of newPassword is the same as your current password!') {
+                } else if (response.error == 'Error: The value of newPassword is the same as your current password!') {
                     setStatus(7)
-                } else if (response.data.error == 'Error: The email or password you entered is incorrect!') {
+                } else if (response.error == 'Error: The email or password you entered is incorrect!') {
                     setStatus(8);
                 } else {
                     setStatus(9);

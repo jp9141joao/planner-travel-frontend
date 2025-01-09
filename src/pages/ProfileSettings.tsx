@@ -10,7 +10,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { useUser } from "@/components/Contex/contex"
-import { User } from "@/types/types"
+import { UpdateUserData, User } from "@/types/types"
 import { LogOut } from "lucide-react"
 import { updateUserData } from "@/service/service"
 
@@ -31,8 +31,8 @@ export function ProfileSettings() {
         try {
             e.preventDefault();
             setIsLoading(true);
-            const response = await updateUserData({fullName: fullName, email: email} as User);
-            if (response.data.success) {
+            const response = await updateUserData({fullName: fullName, email: email} as UpdateUserData);
+            if (response.success) {
                 if (user && fullName && email) {
                     setUser({
                         ...user,
@@ -42,15 +42,15 @@ export function ProfileSettings() {
                 }
                 setStatus(1);
             } else {
-                if (response.data.error == 'Error: The value of fullName is invalid!') {
+                if (response.error == 'Error: The value of fullName is invalid!') {
                     setStatus(2);
-                } else if (response.data.error == 'Error: The value of fullName is too large!') {
+                } else if (response.error == 'Error: The value of fullName is too large!') {
                     setStatus(3);
-                } else if (response.data.error == 'Error: The value of email is invalid!') {
+                } else if (response.error == 'Error: The value of email is invalid!') {
                     setStatus(4);
-                } else if (response.data.error == 'Error: The value of email is too large!') {
+                } else if (response.error == 'Error: The value of email is too large!') {
                     setStatus(5);
-                } else if (response.data.error == 'Error: There is already a user using this email!') {
+                } else if (response.error == 'Error: There is already a user using this email!') {
                     setStatus(6);
                 } else {
                     setStatus(7);
@@ -154,13 +154,16 @@ export function ProfileSettings() {
             <TopPage>
                 <div className="flex justify-between">
                     <GoBack to="home" />
-                    <div className="cursor-pointer mt-3 mr-5 hover:translate-x-1 transition-all" onClick={() => (localStorage.removeItem('authToken'))}>
+                    <div className="cursor-pointer mt-3 mr-5 hover:translate-x-1 transition-all" onClick={() => {
+                        localStorage.removeItem('authToken');
+                        window.location.reload();
+                    }}>
                         <LogOut/>
                     </div>
                 </div>
             </TopPage>
             <MiddlePageOneCol>
-                <form className="grid place-items-center" onChange={handleSubmit}>
+                <form className="grid place-items-center" onSubmit={handleSubmit}>
                     <div>
                         <h1 className="grid text-[16.1vw]  xxs8:text-[15.8vw] xs:text-[10.8vw] lg:text-[5.2vw] w-full text-gray-900 tracking-tight leading-[0.6] xxs3:leading-[0.7]">
                             Your Details

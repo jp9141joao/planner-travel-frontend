@@ -5,11 +5,13 @@ const url = 'http://localhost:3000';
 
 
 export const signInUser = async (login: Login) => {
-    return await axios.post(`${url}/signIn`, login, {
+    const response = await axios.post(`${url}/signIn`, login, {
         validateStatus: (status) => {
             return status != 400;
         }
-    }); 
+    });
+
+    return response.data;
 }
 
 export const signUpUser = async (user: User) => {
@@ -18,15 +20,17 @@ export const signUpUser = async (user: User) => {
             return status != 400;
         }
     });
-    return response;
+    return response.data;
 };
 
 export const resetPasswordUser = async (newPasswordUser: NewPasswordUser) => {
-    return await axios.put(`${url}/resetPassword`, newPasswordUser, {
+    const response = await axios.put(`${url}/resetPassword`, newPasswordUser, {
         validateStatus: (status) => {
             return status != 400;
         }
     });
+
+    return response.data
 }
 
 export const getUser = async () => {
@@ -44,7 +48,7 @@ export const getUser = async () => {
         },
     });
 
-    return response;
+    return response.data;
 };
 
 export const updateUserData = async (data: UpdateUserData) => {
@@ -55,12 +59,12 @@ export const updateUserData = async (data: UpdateUserData) => {
         throw new Error("Token is missing!");
     }
 
-    const response = axios.put(`${URL}/profileSettings`, data, {
+    const response = await axios.put(`${URL}/profileSettings`, data, {
         validateStatus: (status) => status != 400,
         headers: {
             'authorization': `Bearer ${token}`,
         },
     });
 
-    return response;
+    return response.data;
 }

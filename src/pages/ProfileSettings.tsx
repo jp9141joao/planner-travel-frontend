@@ -31,7 +31,7 @@ export function ProfileSettings() {
             e.preventDefault();
             setIsLoading(true);
             const response = await updateUserData({fullName: fullName, email: email} as UpdateUserData);
-            alert(response.success)
+            
             if (response.success) {
                 const userData = getItemSessionStorage('user');
             
@@ -154,8 +154,11 @@ export function ProfileSettings() {
                 description: toastMessage.description,
             });
 
+            if (status == 1) {
+                setButtonDisabled(true);
+            }
             setStatus(0);
-            window.location.reload();
+            //window.location.reload();
         }
     }, [toastMessage]);
 
@@ -166,6 +169,8 @@ export function ProfileSettings() {
                     <GoBack to="home" />
                     <div className="cursor-pointer mt-3 mr-5 hover:translate-x-1 transition-all" onClick={() => {
                         localStorage.removeItem('authToken');
+                        sessionStorage.removeItem('user');
+                        sessionStorage.removeItem('daysInterval');
                         window.location.reload();
                     }}>
                         <LogOut/>

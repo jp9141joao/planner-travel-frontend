@@ -13,6 +13,7 @@ import Credits from "@/components/Credits";
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
 import { Login } from "@/types/types";
+import { getItemSessionStorage, setItemSessionStorage } from "@/components/utils/utils";
 
 export default function SignIn () {
 
@@ -31,7 +32,7 @@ export default function SignIn () {
                 e.preventDefault();
                 setIsLoading(true);
                 const response = await signInUser({ email, password } as Login);
-                
+
                 if (response.success) {
                     localStorage.setItem('authToken', response.data);
                     const userData = await getUser();
@@ -40,7 +41,7 @@ export default function SignIn () {
                         throw new Error('User data could not be retrieved from the token. Please try again.');
                     }
 
-                    sessionStorage.setItem('user', JSON.stringify(userData));
+                    setItemSessionStorage('user', userData.data);
                     navigate('/home');
                 } else {
                     if (response.error == 'Error: The value of email is invalid!') {

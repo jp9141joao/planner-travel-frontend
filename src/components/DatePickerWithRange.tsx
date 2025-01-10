@@ -12,10 +12,7 @@ import { setItemSessionStorage } from "./utils/utils";
 export function DatePickerWithRange({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2025, 0, 20),
-    to: addDays(new Date(2025, 0, 20), 20),
-  });
+  const [date, setDate] = React.useState<DateRange | undefined>(undefined);
 
   const [isMobile, setIsMobile] = React.useState(false); // Estado para controlar o layout
   const daysInterval =
@@ -74,7 +71,6 @@ export function DatePickerWithRange({
             selected={date}
             onSelect={setDate}
             numberOfMonths={1} // Apenas um mês para telas pequenas
-            highlightSelected={true} // Garante que o primeiro dia seja destacado
           />
         ) : (
           <Calendar
@@ -84,7 +80,6 @@ export function DatePickerWithRange({
             selected={date}
             onSelect={setDate}
             numberOfMonths={2} // Dois meses para telas maiores
-            highlightSelected={true} // Garante que o primeiro dia seja destacado
           />
         )}
       </PopoverContent>

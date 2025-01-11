@@ -157,8 +157,8 @@ export function ProfileSettings() {
             if (status == 1) {
                 setButtonDisabled(true);
             }
+            
             setStatus(0);
-            //window.location.reload();
         }
     }, [toastMessage]);
 

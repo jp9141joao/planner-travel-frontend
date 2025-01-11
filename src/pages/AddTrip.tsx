@@ -7,17 +7,17 @@ import { Toaster } from "@/components/ui/toaster";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Image from '../assets/undraw_departing_010k (2).svg'
-import { getUser, signInUser } from "@/service/service";
-import { Login } from "@/types/types";
+import { createTrip, getUser, signInUser } from "@/service/service";
+import { Login, Trip } from "@/types/types";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { DatePickerWithRange } from "@/components/DatePickerWithRange";
 import { error } from "console";
 
-export default function AddTravel () {
+export default function AddTrip () {
 
-    const [ name, setName ] = useState<string>('');
-    const [ password, setPassword ] = useState<string>('');
+    const [ tripName, setTripName ] = useState<string>('');
+    const [ period, setPeriod ] = useState<number>(0);
     const [ toastMessage, setToastMessage ] = useState({
         variant: '', title: '', description: ''
     });
@@ -30,28 +30,23 @@ export default function AddTravel () {
             try {
                 e.preventDefault();
                 setIsLoading(true);
-                //const response = await signInUser({ email, password } as Login);
-                const response = { data: {success: true, error: '', data: ''}}
+                const response = await createTrip({ tripName, period } as Trip);
+                //const response = { data: {success: true, error: '', data: ''}}
 
                 if (response.data.success) {
-                    localStorage.setItem('authToken', response.data.data);
-                    const userData = await getUser();
-
-                    if (!userData) {
-                        throw new Error('User data could not be retrieved from the token. Please try again.');
-                    }
-
-                    //setUser(userData.data.data.gotUserFormatted);
-                    navigate('/home');
+                    setStatus(1);
+                    //navigate('/home');
                 } else {
-                    if (response.data.error == 'Error: The value of email is invalid!') {
-                        setStatus(1);
-                    } else if (response.data.error == 'Error: The value of password is invalid!') {
+                    if (response.data.error == 'Error: The value of tripName is invalid!') {
                         setStatus(2);
-                    } else if (response.data.error == 'Error: The email or password you entered is incorrect!') {
+                    } else if (response.data.error == 'Error: The value of tripName is too short!') {
                         setStatus(3);
-                    } else {
+                    } else if (response.data.error == 'Error: The value of tripName is too large!') {
                         setStatus(4);
+                    } else if (response.data.error == 'Error: The value of period is invalid!') {
+                        setStatus(5);
+                    } else {
+                        setStatus(6);
                     }
                 }
     
@@ -70,21 +65,27 @@ export default function AddTravel () {
                 if (status == 1) {
                     setToastMessage({
                         variant: 'destructive',
-                        title: 'Invalid Email',
-                        description: 'The email address you entered is invalid. Please check and try again.',
+                        title: 'Invalid Trip Name',
+                        description: 'The trip name you entered is invalid. Please check and try again.',
                     });
                 } else if (status == 2) {
                     setToastMessage({
                         variant: 'destructive',
-                        title: 'Invalid Password',
-                        description: 'The password you entered is invalid. Please check and try again.',
+                        title: 'Trip Name Too Short',
+                        description: 'The trip name is too long. Please enter a shorter trip name.',
                     });
                 } else if (status == 3) {
                     setToastMessage({
-                        variant: 'destructive', 
-                        title: 'Email or Password Incorrect', 
-                        description: 'The email or password you entered is incorrect. Please try again.', 
-                    }); 
+                        variant: 'destructive',
+                        title: 'Trip Name Too Long',
+                        description: 'The trip name address is too long. Please enter a shorter trip name.',
+                    });
+                } else if (status == 2) {
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: 'Invalid Period',
+                        description: 'The period you entered is invalid. Please check and try again.',
+                    });
                 } else {
                     setToastMessage({
                         variant: 'destructive',
@@ -104,7 +105,10 @@ export default function AddTravel () {
                 })
             }
 
-            setStatus(0);
+            if (status == 1) {
+                setStatus(0);
+            }
+            
         }, [toastMessage]);
 
     return (
@@ -142,15 +146,15 @@ export default function AddTravel () {
                                     type="text" 
                                     id="name"
                                     placeholder="Enter the trip name"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
+                                    value={tripName}
+                                    onChange={(e) => setTripName(e.target.value)}
                                     onClick={() => setStatus(0)}
                                     className={status == 1 || status == 3 ? "border-red-500 " : "" }
                                 />
                             </div>
                             <div className="grid gap-1.5 w-full place-items-start">
                                 <Label htmlFor="travelPeriod" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
-                                    Select Your Travel Period
+                                    Select Your Trip Period
                                 </Label>
                                 <DatePickerWithRange id="travelPeriod"/>
                             </div>

@@ -1,5 +1,6 @@
-import { Login, NewPasswordUser, UpdateUserData, User } from '@/types/types';
+import { Login, NewPasswordUser, Trip, UpdateUserData, User } from '@/types/types';
 import axios from 'axios';
+import { stat } from 'fs';
 const url = 'http://localhost:3000';
 //const url = '.';
 
@@ -20,6 +21,7 @@ export const signUpUser = async (user: User) => {
             return status != 400;
         }
     });
+    
     return response.data;
 };
 
@@ -65,5 +67,23 @@ export const updateUserData = async (data: UpdateUserData) => {
             'authorization': `Bearer ${token}`,
         },
     });
+    return response.data;
+}
+
+export const createTrip = async (trip: Trip) => {
+
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+        throw new Error("Token is missing");
+    }
+
+    const response = await axios.post(`${url}/addTrips`, trip, {
+        validateStatus: (status) => status != 400,
+        headers: {
+            'authorization': `Bearer ${token}`,
+        }
+    })
+
     return response.data;
 }

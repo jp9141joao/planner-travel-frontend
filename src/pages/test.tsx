@@ -1,5 +1,5 @@
 import { DatePickerWithRange } from "@/components/DatePickerWithRange"
-import AddTravel from "./AddTravel"
+import AddTravel from "./AddTrip"
 import { Travels } from "./ViewTravels"
 import { ButtonPlaceSuggestion } from "@/components/PlaceSuggestions"
 

@@ -35,13 +35,6 @@ export default function SignIn () {
 
                 if (response.success) {
                     localStorage.setItem('authToken', response.data);
-                    const userData = await getUser();
-
-                    if (!userData) {
-                        throw new Error('User data could not be retrieved from the token. Please try again.');
-                    }
-
-                    setItemSessionStorage('user', userData.data);
                     navigate('/home');
                 } else {
                     if (response.error == 'Error: The value of email is invalid!') {

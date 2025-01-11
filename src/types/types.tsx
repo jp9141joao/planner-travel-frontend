@@ -55,3 +55,8 @@ export interface DaysIntervalContextType {
     daysInterval: number | null,
     setDaysInterval: (daysInterval: number | null) => void
 } 
+
+export interface Trip {
+    tripName: string,
+    period: number,
+}

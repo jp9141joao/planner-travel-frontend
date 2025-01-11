@@ -66,20 +66,20 @@ export function DatePickerWithRange({
         {isMobile ? (
           <Calendar
             initialFocus
-            mode="range" // Mantém o intervalo para telas pequenas
+            mode="range"
             defaultMonth={date?.from}
             selected={date}
             onSelect={setDate}
-            numberOfMonths={1} // Apenas um mês para telas pequenas
+            numberOfMonths={1} 
           />
         ) : (
           <Calendar
             initialFocus
-            mode="range" // Também é "range", mas pode alterar caso queira "single"
+            mode="range" 
             defaultMonth={date?.from}
             selected={date}
             onSelect={setDate}
-            numberOfMonths={2} // Dois meses para telas maiores
+            numberOfMonths={2} 
           />
         )}
       </PopoverContent>

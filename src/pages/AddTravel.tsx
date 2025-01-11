@@ -120,20 +120,20 @@ export default function AddTravel () {
                     />
                 </div>
                 <form onSubmit={handleSubmit}>
-                    <div className='table mx-auto'>
+                    <div className='table mx-auto mt-[5vw] xxs5:mt-[8vw] xs:mt-[3vw] sm:mt-[10vw] lg:mt-0'>
                         <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                             <div>
-                                <h1 className="grid text-[13.2vw] xxs5:text-[12.6vw] xs:text-[9.1vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.9] xs:leading-[0.7]">
+                                <h1 className="grid text-[13.2vw] xxs5:text-[12.6vw] xs:text-[9.1vw] lg:text-[3.9vw] w-full text-gray-900 tracking-tight leading-[0.9] xs:leading-[0.7]">
                                     Create Your Trip!
                                 </h1>
                             </div>
                             <div>
-                                <p className="xs:text-start text-[6.9vw] xxs8:text-[6.7vw] xs:text-[4.8vw] lg:text-[1.8vw] mt-[3.2vw] xs:mt-[2.7vw] lg:mt-[2.4vw] leading-tight text-gray-900 tracking-tight">
+                                <p className="xs:text-start text-[6.9vw] xxs8:text-[6.7vw] xs:text-[4.8vw] lg:text-[1.9vw] mt-[3.2vw] xs:mt-[2.7vw] lg:mt-[0.8vw] leading-tight text-gray-900 tracking-tight">
                                     Your next adventure awaits.
                                 </p>
                             </div>
                         </div>
-                        <div className="grid place-items-center gap-y-2 xxs11:mt-[4vw] xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
+                        <div className="grid place-items-center gap-y-2 xxs11:mt-[4vw] xs:mt-[2vw] lg:mt-[0.8vw] px-0 w-full" >
                             <div className="grid gap-1.5 w-full place-items-start">
                                 <Label htmlFor="name" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                     Trip Name
@@ -173,7 +173,7 @@ export default function AddTravel () {
                         </div>
                     </div>
                 </form>
-                <div className="lg:hidden mx-[17vw] xxs3:mx-[8.8vw] xs:mx-[20.5vw] sm:mx-[15.5vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
+                <div className="lg:hidden mx-[17vw] xxs3:mx-[8.8vw] xs:mx-[26vw] sm:mx-[21vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
                     <img
                         src={Image}
                         className="w-auto h-auto"

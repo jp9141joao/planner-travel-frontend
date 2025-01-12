@@ -84,17 +84,17 @@ export default function NavBar() {
                                     {
                                         navigation.map((item, index) => (
                                             <Link key={index} to={item.href}>
-                                                <h1 className={`hover:-translate-y-1 transition-all mt-3`}>
+                                                <p className={`hover:-translate-y-1 transition-all mt-3`}>
                                                     {item.name}
-                                                </h1>
+                                                </p>
                                             </Link>
                                         ))
                                     }
                                     <Link to={`/${isAuthenticated ? 'profileSettings' : 'signIn'}`}>
-                                        <h1 className="flex gap-2 mt-6 hover:translate-x-2 transition-all">
+                                        <p className="flex gap-2 mt-6 hover:translate-x-2 transition-all">
                                             <strong>{ isAuthenticated ? 'Profile' :  'Login' }</strong>
                                             <MoveRight className="mt-1"/>
-                                        </h1>
+                                        </p>
                                     </Link>
                                 </div>
                             </SheetDescription>

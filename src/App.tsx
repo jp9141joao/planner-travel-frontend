@@ -14,7 +14,7 @@ import SignUp from "./pages/SignUp";
 import { Test } from "./pages/test";
 import { ProfileSettings } from "./pages/ProfileSettings";
 import { NotFOund } from "./pages/NotFound";
-import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
+import { ProtectedRoute } from "./components/protectedRoute/ProtectedRoute";
 
 function App() {
 
@@ -25,7 +25,9 @@ function App() {
             <Route path="/" element={<Navigate to={'/home'}/>}/>
             <Route path="/home" element={<Home/>}/>
             <Route path="/addTrips" element={
-              <AddTravel />
+              <ProtectedRoute>
+                <AddTravel />
+              </ProtectedRoute>
             } />
             <Route path="/signUp" element={<SignUp/>}/>
             <Route path="/signIn" element={<SignIn/>}/>

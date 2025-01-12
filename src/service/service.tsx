@@ -43,7 +43,7 @@ export const getUser = async () => {
         throw new Error("Token is missing!");
     }
 
-    const response = await axios.get(`${url}/signIn`, {
+    const response = await axios.get(`${url}/home`, {
         validateStatus: (status) => status != 400, 
         headers: {
             'authorization': `Bearer ${token}`,
@@ -83,7 +83,7 @@ export const createTrip = async (trip: Trip) => {
         headers: {
             'authorization': `Bearer ${token}`,
         }
-    })
+    });
 
     return response.data;
 }

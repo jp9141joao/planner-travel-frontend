@@ -5,14 +5,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Toaster } from "@/components/ui/toaster";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Image from '../assets/undraw_departing_010k (2).svg'
-import { createTrip, getUser, signInUser } from "@/service/service";
-import { Login, Trip } from "@/types/types";
+import { createTrip } from "@/service/service";
+import { Trip } from "@/types/types";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { DatePickerWithRange } from "@/components/DatePickerWithRange";
-import { error } from "console";
+import { getItemSessionStorage } from "@/components/utils/utils";
 
 export default function AddTrip () {
 
@@ -32,24 +32,24 @@ export default function AddTrip () {
                 setIsLoading(true);
                 const response = await createTrip({ tripName, period } as Trip);
                 //const response = { data: {success: true, error: '', data: ''}}
-
-                if (response.data.success) {
+                
+                if (response.success) {
                     setStatus(1);
                     //navigate('/home');
                 } else {
-                    if (response.data.error == 'Error: The value of tripName is invalid!') {
+                    if (response.error == 'Error: The value of tripName is invalid!') {
                         setStatus(2);
-                    } else if (response.data.error == 'Error: The value of tripName is too short!') {
+                    } else if (response.error == 'Error: The value of tripName is too short!') {
                         setStatus(3);
-                    } else if (response.data.error == 'Error: The value of tripName is too large!') {
+                    } else if (response.error == 'Error: The value of tripName is too large!') {
                         setStatus(4);
-                    } else if (response.data.error == 'Error: The value of period is invalid!') {
+                    } else if (response.error == 'Error: The value of period is invalid!') {
                         setStatus(5);
                     } else {
                         setStatus(6);
                     }
                 }
-    
+
                 setIsLoading(false);
                 setShowToast(true);
             } catch (error: any) {
@@ -64,23 +64,29 @@ export default function AddTrip () {
             if (!isLoading && showToast) {
                 if (status == 1) {
                     setToastMessage({
-                        variant: 'destructive',
-                        title: 'Invalid Trip Name',
-                        description: 'The trip name you entered is invalid. Please check and try again.',
+                        variant: 'success',
+                        title: 'Trip created successfully!',
+                        description: 'Your trip is now set! Get ready for your next adventure.',
                     });
                 } else if (status == 2) {
                     setToastMessage({
                         variant: 'destructive',
-                        title: 'Trip Name Too Short',
-                        description: 'The trip name is too long. Please enter a shorter trip name.',
+                        title: 'Invalid Trip Name',
+                        description: 'The trip name you entered is invalid. Please check and try again.',
                     });
                 } else if (status == 3) {
+                    setToastMessage({
+                        variant: 'destructive',
+                        title: 'Trip Name Too Short',
+                        description: 'The trip name is too short. Please enter a shorter trip name.',
+                    });
+                } else if (status == 4) {
                     setToastMessage({
                         variant: 'destructive',
                         title: 'Trip Name Too Long',
                         description: 'The trip name address is too long. Please enter a shorter trip name.',
                     });
-                } else if (status == 2) {
+                } else if (status == 5) {
                     setToastMessage({
                         variant: 'destructive',
                         title: 'Invalid Period',
@@ -95,6 +101,10 @@ export default function AddTrip () {
                 }
             }
         }, [isLoading, showToast, status]);
+
+        const onPeriodChange = (period: number) => {
+            setPeriod(period);
+        }
     
         useEffect(() => {
             if (showToast && status != 0) {
@@ -149,14 +159,16 @@ export default function AddTrip () {
                                     value={tripName}
                                     onChange={(e) => setTripName(e.target.value)}
                                     onClick={() => setStatus(0)}
-                                    className={status == 1 || status == 3 ? "border-red-500 " : "" }
+                                    className={status == 2 || status == 3 ? "border-red-500" : "" }
                                 />
                             </div>
                             <div className="grid gap-1.5 w-full place-items-start">
                                 <Label htmlFor="travelPeriod" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
-                                    Select Your Trip Period
+                                    Select Your Trip Period.
                                 </Label>
-                                <DatePickerWithRange id="travelPeriod"/>
+                                <div className="w-full" onClick={() => { setStatus(0) }}>
+                                    <DatePickerWithRange onPeriodChange={onPeriodChange} status={status}/>
+                                </div>
                             </div>
                             <div className="grid gap-1.5 w-full mt-1 xs:mt-2">
                                 <Button type="submit">

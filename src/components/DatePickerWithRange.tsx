@@ -9,9 +9,10 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { setItemSessionStorage } from "./utils/utils";
 
-export function DatePickerWithRange({
-  className,
-}: React.HTMLAttributes<HTMLDivElement>) {
+export function DatePickerWithRange(
+  { onPeriodChange, status }: 
+  { onPeriodChange: (period: number) => void, status: number }
+) {
   const [date, setDate] = React.useState<DateRange | undefined>(undefined);
 
   const [isMobile, setIsMobile] = React.useState(false); // Estado para controlar o layout
@@ -33,7 +34,7 @@ export function DatePickerWithRange({
   }, []);
 
   React.useEffect(() => {
-    setItemSessionStorage("daysInterval", daysInterval);
+    onPeriodChange(daysInterval);
   }, [daysInterval]);
 
   return (
@@ -42,9 +43,11 @@ export function DatePickerWithRange({
         <Button
           id="date"
           variant={"outlineInput"}
+          
           className={cn(
             "w-full justify-start text-left font-normal text-[4.5vw] xxs5:text-[4vw] xs:text-sm sm:text-base gap-2 px-1",
-            !date && "text-muted-foreground"
+            !date && "text-muted-foreground",
+            status == 5 ? 'border-red-500' : ''
           )}
         >
           <CalendarIcon className="w-[6vw] xs:w-auto h-auto"/>

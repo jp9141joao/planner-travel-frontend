@@ -16,14 +16,18 @@ export default function Home() {
     const userData = await getUser();
 
     if (!userData) {
-        throw new Error('User data could not be retrieved from the token. Please try again.');
+      throw new Error('User data could not be retrieved from the token. Please try again.');
     }
 
     setItemSessionStorage('user', userData.data);
   }
 
   useEffect(() => {
-    loadData(); 
+    const token = localStorage.getItem('authToken');
+
+    if (token) {
+      loadData(); 
+    }
   }, [])
 
   return (
@@ -65,4 +69,3 @@ export default function Home() {
     </BodyPage>
   )
 }
-

@@ -12,9 +12,8 @@ import { Trip } from "@/types/types";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { DatePickerWithRange } from "@/components/DatePickerWithRange";
-import { getItemSessionStorage } from "@/components/utils/utils";
 
-export default function AddTrip () {
+export default function AddTrips () {
 
     const [ tripName, setTripName ] = useState<string>('');
     const [ period, setPeriod ] = useState<number>(0);

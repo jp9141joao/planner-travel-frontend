@@ -3,7 +3,7 @@ import { GoBack } from "@/components/GoBack";
 import { BodyPage, BottomPage, MiddlePageOneCol, TopPage } from "@/components/LayoutPage/Layouts";
 import Image from '../assets/undraw_page-not-found_6wni.svg';
 
-export function NotFOund() {
+export function NotFound() {
 
     return (
         <BodyPage>

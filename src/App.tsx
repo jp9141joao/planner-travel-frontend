@@ -1,7 +1,7 @@
 import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import TravelDetails from "./pages/TravelDetails";
 import EditTravel from "./pages/EditTravel";
-import AddTravel from "./pages/AddTrip";
+import AddTravelS from "./pages/AddTrips";
 //import AddTravelExpense from "./pages/AddTravelExpense";
 //import EditTravelExpense from "./pages/EditTravelExpense";
 import DayDetails from "./pages/DayDetails";
@@ -13,20 +13,21 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import { Test } from "./pages/test";
 import { ProfileSettings } from "./pages/ProfileSettings";
-import { NotFOund } from "./pages/NotFound";
+import { NotFound } from "./pages/NotFound";
 import { ProtectedRoute } from "./components/protectedRoute/ProtectedRoute";
+import { ViewTrips } from "./pages/ViewTrips";
 
 function App() {
 
   return (
         <Router>
           <Routes>
-            <Route path='*' element={<NotFOund />} />
+            <Route path='*' element={<NotFound />} />
             <Route path="/" element={<Navigate to={'/home'}/>}/>
             <Route path="/home" element={<Home/>}/>
             <Route path="/addTrips" element={
               <ProtectedRoute>
-                <AddTravel />
+                <AddTravelS />
               </ProtectedRoute>
             } />
             <Route path="/signUp" element={<SignUp/>}/>
@@ -35,6 +36,11 @@ function App() {
             <Route path="/profileSettings" element={
               <ProtectedRoute>
                 <ProfileSettings />
+              </ProtectedRoute>
+            } />
+            <Route path="/viewTrips" element={
+              <ProtectedRoute>
+                <ViewTrips />
               </ProtectedRoute>
             } />
             <Route path="/test" element={<Test/>}/>

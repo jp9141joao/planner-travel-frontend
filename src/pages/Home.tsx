@@ -48,7 +48,7 @@ export default function Home() {
                     </p>
                 </div>
                 <div className="grid xs:flex xs:justify-start xxs11:gap-y-3 xs:gap-y-0 xs:gap-4 mt-[3vw] xs:mt-[1.4vw] lg:mt-[0.8vw]">
-                  <Button size={"auto"} onClick={() => navigate('/myTrips')}>
+                  <Button size={"auto"} onClick={() => navigate('/viewTrips')}>
                     View My Trips
                   </Button>
                   <Button size={"auto"} variant={"outline"} onClick={() => navigate('/addTrips')}>

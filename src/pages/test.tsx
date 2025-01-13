@@ -1,10 +1,8 @@
-import { DatePickerWithRange } from "@/components/DatePickerWithRange"
-import AddTravel from "./AddTrips"
-import { Travels } from "./ViewTrips"
-import { ButtonPlaceSuggestion } from "@/components/PlaceSuggestions"
+import AddTrips from "./AddTrips";
+import { ViewTrips } from "./ViewTrips";
 
 export function Test(){
     return (
-        <DatePickerWithRange />
+        <AddTrips />
     )
 }

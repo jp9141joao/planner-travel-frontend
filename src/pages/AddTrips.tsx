@@ -12,11 +12,14 @@ import { Trip } from "@/types/types";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { DatePickerWithRange } from "@/components/DatePickerWithRange";
+import { CurrencyInput } from "@/components/CurrencyInput";
 
 export default function AddTrips () {
 
     const [ tripName, setTripName ] = useState<string>('');
-    const [ period, setPeriod ] = useState<number>(0);
+    const [ period, setPeriod ] = useState<string>('');
+    const [ daysQty, setDaysQty ] = useState<number>(0);
+    const [ budgetAmount , setBudgetAmount ] = useState<number>(0);
     const [ toastMessage, setToastMessage ] = useState({
         variant: '', title: '', description: ''
     });
@@ -29,7 +32,7 @@ export default function AddTrips () {
             try {
                 e.preventDefault();
                 setIsLoading(true);
-                const response = await createTrip({ tripName, period } as Trip);
+                const response = await createTrip({ tripName, period, daysQty, placesQty: 0 } as Trip);
                 //const response = { data: {success: true, error: '', data: ''}}
                 
                 if (response.success) {
@@ -101,12 +104,17 @@ export default function AddTrips () {
             }
         }, [isLoading, showToast, status]);
 
-        const onPeriodChange = (period: number) => {
+        const onPeriodChange = (period: string) => {
             setPeriod(period);
-        }
+        };
+
+        const onDaysQtyChange = (daysQty: number) => {
+            setDaysQty(daysQty);
+        };
+
     
         useEffect(() => {
-            if (showToast && status != 0) {
+            if (showToast && status == 100) {
                 toast({
                     variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
                     title: toastMessage.title,
@@ -133,7 +141,7 @@ export default function AddTrips () {
                     />
                 </div>
                 <form onSubmit={handleSubmit}>
-                    <div className='table mx-auto mt-[5vw] xxs5:mt-[8vw] xs:mt-[3vw] sm:mt-[10vw] lg:mt-0'>
+                    <div className='table mx-auto mt-[2vw] xxs3:mt-[8vw] xs:mt-[3vw] sm:mt-[10vw] lg:mt-0'>
                         <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                             <div>
                                 <h1 className="grid text-[13.2vw] xxs5:text-[12.6vw] xs:text-[9.1vw] lg:text-[3.9vw] w-full text-gray-900 tracking-tight leading-[0.9] xs:leading-[0.7]">
@@ -163,11 +171,17 @@ export default function AddTrips () {
                             </div>
                             <div className="grid gap-1.5 w-full place-items-start">
                                 <Label htmlFor="travelPeriod" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
-                                    Select Your Trip Period.
+                                    Trip Period.
                                 </Label>
                                 <div className="w-full" onClick={() => { setStatus(0) }}>
-                                    <DatePickerWithRange onPeriodChange={onPeriodChange} status={status}/>
+                                    <DatePickerWithRange onPeriodChange={onPeriodChange} onDaysQtyChange={onDaysQtyChange} status={status}/>
                                 </div>
+                            </div>
+                            <div className="grid gap-1.5 w-full place-items-start">
+                                <Label htmlFor="budget" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
+                                    Budget
+                                </Label>
+                                <CurrencyInput />
                             </div>
                             <div className="grid gap-1.5 w-full mt-1 xs:mt-2">
                                 <Button type="submit">
@@ -188,7 +202,7 @@ export default function AddTrips () {
                         </div>
                     </div>
                 </form>
-                <div className="lg:hidden mx-[17vw] xxs3:mx-[8.8vw] xs:mx-[26vw] sm:mx-[21vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
+                <div className="lg:hidden mx-[20vw] xxs3:mx-[10.8vw] xs:mx-[28vw] sm:mx-[21vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
                     <img
                         src={Image}
                         className="w-auto h-auto"

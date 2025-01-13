@@ -14,8 +14,9 @@ import SignUp from "./pages/SignUp";
 import { Test } from "./pages/test";
 import { ProfileSettings } from "./pages/ProfileSettings";
 import { NotFound } from "./pages/NotFound";
-import { ProtectedRoute } from "./components/protectedRoute/ProtectedRoute";
+//import { ProtectedRoute } from "./components/protectedRoute/ProtectedRoute";
 import { ViewTrips } from "./pages/ViewTrips";
+import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
 
 function App() {
 

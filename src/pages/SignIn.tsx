@@ -113,13 +113,13 @@ export default function SignIn () {
                     />
                 </div>
                 <form onSubmit={handleSubmit}>
-                    <div className="lg:hidden mx-[17vw] xxs3:mx-[8.8vw] xs:mx-[20.5vw] sm:mx-[15.5vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
+                    <div className="lg:hidden mx-[17vw] xxs3:mx-[8.8vw] xs:mx-[20.5vw] sm:mx-[15.5vw] my-[2vw] xxs5:my-[2vw] xxs3:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
                         <img
                             src={Image}
                             className="w-auto h-auto"
                         />
                     </div>
-                    <div className='table mx-auto'>
+                    <div className='table mx-auto mb-[5vw] xs:mb-0'>
                         <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                             <div>
                                 <p className="xs:text-start text-[7.6vw] xxs8:text-[7.3vw] xs:text-[5.1vw] lg:text-[1.8vw] leading-tight text-gray-900 tracking-tight">

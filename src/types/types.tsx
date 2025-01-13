@@ -57,6 +57,10 @@ export interface DaysIntervalContextType {
 } 
 
 export interface Trip {
+    id: string,
     tripName: string,
-    period: number,
+    period: string,
+    daysQty: number,
+    placesQty: number
+    budgetAmount: number
 }

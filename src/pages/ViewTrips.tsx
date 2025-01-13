@@ -17,6 +17,8 @@ export function ViewTrips() {
           period: 'Mar 04, 2026 - Mar 16, 2026',
           daysQty: 13,
           placesQty: 4,
+          currency: '$', // USD
+          budgetAmount: 5000,
         },
         {
           id: '5729294699681737993',
@@ -24,6 +26,8 @@ export function ViewTrips() {
           period: 'Dec 02, 2026 - Dec 10, 2026',
           daysQty: 9,
           placesQty: 1,
+          currency: '€', // EUR
+          budgetAmount: 3000,
         },
         {
           id: '3370619451634542461',
@@ -31,6 +35,8 @@ export function ViewTrips() {
           period: 'Jul 05, 2025 - Jul 12, 2025',
           daysQty: 8,
           placesQty: 5,
+          currency: 'R$', // BRL
+          budgetAmount: 15000,
         },
         {
           id: '2309724424561533844',
@@ -38,6 +44,8 @@ export function ViewTrips() {
           period: 'Dec 26, 2026 - Jan 07, 2027',
           daysQty: 13,
           placesQty: 2,
+          currency: '£', // GBP
+          budgetAmount: 4000,
         },
         {
           id: '843957364789331813',
@@ -45,6 +53,8 @@ export function ViewTrips() {
           period: 'Oct 31, 2025 - Nov 04, 2025',
           daysQty: 5,
           placesQty: 4,
+          currency: '¥', // JPY
+          budgetAmount: 500000,
         },
         {
           id: '7092866250445387125',
@@ -52,6 +62,8 @@ export function ViewTrips() {
           period: 'Jun 26, 2025 - Jul 08, 2025',
           daysQty: 13,
           placesQty: 5,
+          currency: 'A$', // AUD
+          budgetAmount: 7000,
         },
         {
           id: '7011888582092397720',
@@ -59,6 +71,8 @@ export function ViewTrips() {
           period: 'Feb 21, 2026 - Feb 28, 2026',
           daysQty: 8,
           placesQty: 5,
+          currency: 'C$', // CAD
+          budgetAmount: 5500,
         },
         {
           id: '426362703034783719',
@@ -66,8 +80,12 @@ export function ViewTrips() {
           period: 'Jun 15, 2026 - Jun 20, 2026',
           daysQty: 6,
           placesQty: 1,
+          currency: '₹', // INR
+          budgetAmount: 100000,
         },
       ]);
+      
+      
       
     
     return (
@@ -100,28 +118,33 @@ export function ViewTrips() {
                                 trips.length > 0 ? trips.map((trip: Trip, index: number) => (
                                     <div>
                                         <CarouselItem key={index}>
-                                            <Card className="cursor-pointer w-[12vw] h-[11vw]">
+                                            <Card className="cursor-pointer w-[12vw] h-[12.5vw]">
                                                 <CardContent>
                                                     <div className="grid place-items-center items-center gap-y-1">
                                                         <div>
                                                             <p className="text-[1.1vw] font-semibold leading-none tracking-tight">
-                                                                { trip.tripName }
+                                                                { trip.tripName }.
                                                             </p>
                                                         </div>
                                                         <div>
                                                             <p className="text-[0.75vw] text-muted-foreground">
-                                                                { trip.period }
+                                                                { trip.period }.
                                                             </p>
                                                         </div>
                                                         <div className="grid place-items-start w-full px-3">
                                                             <div>
                                                                 <p className="text-[0.75vw] text-gray-800">
-                                                                    { trip.daysQty } Days
+                                                                    { trip.daysQty } Days.
                                                                 </p>
                                                             </div>
                                                             <div>
                                                                 <p className="text-[0.75vw] text-gray-900">
                                                                     { trip.placesQty } Places util now.
+                                                                </p>
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-[0.75vw] text-gray-900">
+                                                                    Budget: { trip.currency }{ trip.budgetAmount } .
                                                                 </p>
                                                             </div>
                                                             <div>

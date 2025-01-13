@@ -21,7 +21,7 @@ const buttonVariants = cva(
         date:
           "border rounded-md border border-2 border-[#bfbfbf] hover:bg-hover-color-black hover:text-accent-foreground active:border-primary",
         outlineInput: 
-          "border border-[#bfbfbf] border-2 bg-transparent hover:border-[#707070]  hover:text-accent-foreground",
+          "border border-[#bfbfbf] border-2 bg-transparent hover:border-[#707070] hover:text-accent-foreground data-[state=open]:border-2 data-[state=open]:border-[#707070] data-[state=open]:text-accent-foreground",
       },
       size: {
         default: "h-10 px-4 py-2",

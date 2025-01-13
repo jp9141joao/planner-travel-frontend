@@ -61,6 +61,7 @@ export interface Trip {
     tripName: string,
     period: string,
     daysQty: number,
-    placesQty: number
+    placesQty: number,
+    currency: string,
     budgetAmount: number
 }

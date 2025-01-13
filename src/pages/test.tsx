@@ -3,6 +3,6 @@ import { ViewTrips } from "./ViewTrips";
 
 export function Test(){
     return (
-        <AddTrips />
+        <ViewTrips />
     )
 }

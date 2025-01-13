@@ -20,6 +20,7 @@ export default function AddTrips () {
     const [ period, setPeriod ] = useState<string>('');
     const [ daysQty, setDaysQty ] = useState<number>(0);
     const [ budgetAmount , setBudgetAmount ] = useState<number>(0);
+    const [ currency, setCurrency ] = useState<string>('');
     const [ toastMessage, setToastMessage ] = useState({
         variant: '', title: '', description: ''
     });
@@ -112,6 +113,41 @@ export default function AddTrips () {
             setDaysQty(daysQty);
         };
 
+        const onAmountChange = (budgetAmount: string) => {
+            const currencyMap: Record<string, string> = {
+                USD: "$",
+                EUR: "€",
+                BRL: "R$",
+                GBP: "£",
+                JPY: "¥",
+                AUD: "A$",
+                CAD: "C$",
+                CHF: "Fr",
+                CNY: "¥",
+                INR: "₹",
+            };
+            const currencyRegex = /^([^\d]+)?(\d*\.?\d*)$/;
+            const match = budgetAmount.match(currencyRegex);
+          
+            if (match) {
+              const extractedSymbol = match[1]?.trim() || "$";
+              const extractedAmount = parseFloat(match[2]) || 0;
+          
+              // Encontre o código da moeda correspondente ao símbolo
+              const matchedCurrency = Object.keys(currencyMap).find(
+                (key) => currencyMap[key] === extractedSymbol
+              );
+          
+              // Atualiza os estados
+              if (matchedCurrency) {
+                setCurrency(matchedCurrency);
+                setBudgetAmount(extractedAmount);
+              } else {
+                console.warn("Moeda inválida ou não suportada.");
+              }
+            }
+        };
+
     
         useEffect(() => {
             if (showToast && status == 100) {
@@ -181,7 +217,9 @@ export default function AddTrips () {
                                 <Label htmlFor="budget" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                     Budget
                                 </Label>
-                                <CurrencyInput />
+                                <div className="w-full" onClick={() => { setStatus(0) }}>
+                                    <CurrencyInput amount={budgetAmount} onAmountChange={onAmountChange} status={status}/>
+                                </div>
                             </div>
                             <div className="grid gap-1.5 w-full mt-1 xs:mt-2">
                                 <Button type="submit">

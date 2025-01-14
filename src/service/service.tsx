@@ -87,3 +87,20 @@ export const createTrip = async (trip: Trip) => {
 
     return response.data;
 }
+
+export const getTrips = async () => {
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+        throw new Error("Token is missing");
+    }
+
+    const response = await axios.get(`${url}/viewTrips`, {
+        validateStatus: (status) => status != 400,
+        headers: {
+            'authorization': `Bearer ${token}`,
+        }
+    });
+
+    return response.data;
+}

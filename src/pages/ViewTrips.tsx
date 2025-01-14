@@ -1,6 +1,6 @@
 import Credits from "@/components/Credits";
 import { GoBack } from "@/components/GoBack";
-import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts";
+import { BodyPage, BottomPage, MiddlePageOneCol, TopPage } from "@/components/LayoutPage/Layouts";
 import Image from "../assets/undraw_eiffel-tower_ju2s.svg"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useEffect, useState } from "react";
@@ -23,15 +23,6 @@ export function ViewTrips() {
             placesQty: 4,
             currency: '$', // USD
             budgetAmount: 5000,
-        },
-        {
-            id: '5729294699681737993',
-            tripName: 'WWWWWWWWWWWWWWW',
-            period: 'Dec 02, 2026 - Dec 10, 2026',
-            daysQty: 9,
-            placesQty: 1,
-            currency: '€', // EUR
-            budgetAmount: 3000,
         },
         {
             id: '3370619451634542461',
@@ -68,15 +59,6 @@ export function ViewTrips() {
             placesQty: 5,
             currency: 'A$', // AUD
             budgetAmount: 7000,
-        },
-        {
-            id: '7011888582092397720',
-            tripName: 'WWWWWWWWWWWWWWW',
-            period: 'Feb 21, 2026 - Feb 28, 2026',
-            daysQty: 8,
-            placesQty: 5,
-            currency: 'C$', // CAD
-            budgetAmount: 5500,
         },
         {
             id: '426362703034783719',
@@ -123,15 +105,19 @@ export function ViewTrips() {
             <TopPage>
                 <GoBack to="home"/>
             </TopPage>
-            <MiddlePage>
-                <div className="mx-[8.8vw] mt-[6vw] xs:mx-[15.5vw] xs:my-[7vw] lg:my-0 lg:mt-[1vw] lg:mx-[8vw]">
-                {/*
+            <MiddlePageOneCol>
+                {
+                    /*
+                    <div className="mx-[8.8vw] mt-[6vw] xs:mx-[15.5vw] xs:my-[7vw] lg:my-0 lg:mt-[1vw] lg:mx-[8vw]">
+                
                 <img
                 src={Image}
                 className="w-auto h-auto"
                 />
-                */}
+                
                 </div>
+                    */
+                }
                 <div className='text-center mx-[8.8vw] lg:mx-0 mt-[6vw] xs:mt-[14vw] lg:mt-0 lg:mb-[3vw]'>
                     <div>
                         <h1 className="grid text-center text-[14vw] xxs5:text-[13.7vw] xs:text-[10.5vw] lg:text-[6.2vw] w-full text-gray-900 tracking-tight leading-[1]">
@@ -145,12 +131,12 @@ export function ViewTrips() {
                     </div>
                     <div className="grid place-items-center mt-[1.3vw]">
                         <Carousel className="w-[19vw] grid place-items-center">
-                            <CarouselContent className="w-[19vw]">
+                            <CarouselContent className="w-[18.9vw]">
                                 {
                                     trips.length > 0 ? trips.map((trip: Trip, index: number) => ( 
                                         index == 0 ? 
                                         <div className="">
-                                            <CarouselItem key={index} className="flex gap-4 -ml-[13.05vw]">
+                                            <CarouselItem key={index} className="flex gap-4 -ml-[13.1vw]">
                                                 <Card className="w-[14vw] h-[11.4vw]">
                                                     <CardContent>
                                                         
@@ -199,7 +185,7 @@ export function ViewTrips() {
                                             </CarouselItem>
                                         </div> : index == trips.length -1 ?
                                         <div className="">
-                                            <CarouselItem key={index} className="flex gap-4 -mr-[13.05vw]">
+                                            <CarouselItem key={index} className="flex gap-4 -mr-[13.1vw]">
                                                 <Card className="grid w-[14vw] h-[11.4vw]">
                                                     <CardContent>
                                                         <div className="grid items-center w-full h-full">
@@ -293,7 +279,7 @@ export function ViewTrips() {
                                         </div>
                                     )) :
                                     <div>
-                                        <CarouselItem className="flex gap-4 -ml-[13.05vw]">
+                                        <CarouselItem className="flex gap-4 -ml-[13.1vw]">
                                         <Card className="w-[14vw] h-[11.4vw]">
                                             <CardContent>
                                                 
@@ -329,11 +315,13 @@ export function ViewTrips() {
                         </Carousel>
                         <div className="w-full mt-[1.3vw]">
                             <Button className="w-full">
+                                <Link to={trips.length > 0 ? '/addTrips' : '/viewTrips'}>
                                 {
                                     trips.length > 0 ?
                                     'Acess This Trip' :
                                     'Create Your First Trip'
                                 }
+                                </Link>
                             </Button>
                         </div>
                         {
@@ -352,7 +340,7 @@ export function ViewTrips() {
                     </div>
                     <Toaster />
                 </div>
-            </MiddlePage>
+            </MiddlePageOneCol>
             <BottomPage>
                 <Credits/>
             </BottomPage>

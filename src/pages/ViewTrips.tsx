@@ -26,7 +26,7 @@ export function ViewTrips() {
         },
         {
             id: '3370619451634542461',
-            tripName: 'Trip to Antarctica',
+            tripName: 'WWWWWWWWWWWWWWW',
             period: 'Jul 05, 2025 - Jul 12, 2025',
             daysQty: 8,
             placesQty: 5,
@@ -130,19 +130,19 @@ export function ViewTrips() {
                         </p>
                     </div>
                     <div className="grid place-items-center mt-[1.3vw]">
-                        <Carousel className="w-[19vw] grid place-items-center">
-                            <CarouselContent className="w-[18.9vw]">
+                        <Carousel className="w-[26vw] grid place-items-center">
+                            <CarouselContent className="w-[20.8vw]">
                                 {
                                     trips.length > 0 ? trips.map((trip: Trip, index: number) => ( 
                                         index == 0 ? 
                                         <div className="">
-                                            <CarouselItem key={index} className="flex gap-4 -ml-[13.1vw]">
-                                                <Card className="w-[14vw] h-[11.4vw]">
+                                            <CarouselItem key={index} className="flex gap-4 -ml-[15.2vw]">
+                                                <Card className="w-[16vw] h-[11.4vw]">
                                                     <CardContent>
                                                         
                                                     </CardContent>
                                                 </Card>
-                                                <Card className="grid w-[14vw] h-[11.4vw]">
+                                                <Card className="grid w-[16vw] h-[11.4vw]">
                                                     <CardContent>
                                                         <div className="grid items-center w-full h-full">
                                                             <div className="grid place-items-center">
@@ -185,8 +185,8 @@ export function ViewTrips() {
                                             </CarouselItem>
                                         </div> : index == trips.length -1 ?
                                         <div className="">
-                                            <CarouselItem key={index} className="flex gap-4 -mr-[13.1vw]">
-                                                <Card className="grid w-[14vw] h-[11.4vw]">
+                                            <CarouselItem key={index} className="flex gap-4 -mr-[15.2vw]">
+                                                <Card className="grid w-[16vw] h-[11.4vw]">
                                                     <CardContent>
                                                         <div className="grid items-center w-full h-full">
                                                             <div className="grid place-items-center">
@@ -226,7 +226,7 @@ export function ViewTrips() {
                                                         </div>
                                                     </CardContent>
                                                 </Card>
-                                                <Card className="w-[14vw] h-[11.4vw]">
+                                                <Card className="w-[16vw] h-[11.4vw]">
                                                     <CardContent>
                                                         
                                                     </CardContent>
@@ -235,7 +235,7 @@ export function ViewTrips() {
                                         </div>:
                                         <div>
                                             <CarouselItem key={index} className="">
-                                                <Card className="grid w-[14vw] h-[11.4vw]">
+                                                <Card className="grid w-[16vw] h-[11.4vw] pb-2">
                                                     <CardContent>
                                                         <div className="grid items-center w-full h-full">
                                                             <div className="grid place-items-center">
@@ -279,13 +279,13 @@ export function ViewTrips() {
                                         </div>
                                     )) :
                                     <div>
-                                        <CarouselItem className="flex gap-4 -ml-[13.1vw]">
-                                        <Card className="w-[14vw] h-[11.4vw]">
+                                        <CarouselItem className="flex gap-4 -ml-[15.2vw]">
+                                        <Card className="w-[16vw] h-[11.4vw]">
                                             <CardContent>
                                                 
                                             </CardContent>
                                         </Card>
-                                        <Card className="w-[14vw] h-[11.4vw]">
+                                        <Card className="w-[16vw] h-[11.4vw]">
                                             <CardContent>
                                                 <div className="grid place-items-center">
                                                     <div>
@@ -301,12 +301,12 @@ export function ViewTrips() {
                                                 </div>
                                             </CardContent>
                                         </Card>
-                                        <Card className="w-[14vw] h-[11.4vw]">
+                                        <Card className="w-[16vw] h-[11.4vw]">
                                             <CardContent>
                                                 
                                             </CardContent>
                                         </Card>
-                                    </CarouselItem>
+                                        </CarouselItem>
                                     </div>
                                 }
                             </CarouselContent>
@@ -346,70 +346,4 @@ export function ViewTrips() {
             </BottomPage>
         </BodyPage>          
     )
-}
-
-{
-    /*
-    <div className="grid place-items-center mt-[1.3vw]">
-                    <Carousel className="w-[39vw]">
-                        <CarouselContent>
-                            {
-                                trips.length > 0 ? trips.map((trip: Trip, index: number) => (
-                                    <div>
-                                        <CarouselItem key={index}>
-                                            <Card className="cursor-pointer w-[12vw] h-[12.5vw]">
-                                                <CardContent>
-                                                    <div className="grid place-items-center items-center gap-y-1">
-                                                        <div>
-                                                            <p className="text-[1.1vw] font-semibold leading-none tracking-tight">
-                                                                { trip.tripName }.
-                                                            </p>
-                                                        </div>
-                                                        <div>
-                                                            <p className="text-[0.75vw] text-muted-foreground">
-                                                                { trip.period }.
-                                                            </p>
-                                                        </div>
-                                                        <div className="grid place-items-start w-full px-3">
-                                                            <div>
-                                                                <p className="text-[0.75vw] text-gray-800">
-                                                                    { trip.daysQty } Days.
-                                                                </p>
-                                                            </div>
-                                                            <div>
-                                                                <p className="text-[0.75vw] text-gray-900">
-                                                                    { trip.placesQty } Places util now.
-                                                                </p>
-                                                            </div>
-                                                            <div>
-                                                                <p className="text-[0.75vw] text-gray-900">
-                                                                    Budget: { trip.currency }{ trip.budgetAmount } .
-                                                                </p>
-                                                            </div>
-                                                            <div>
-                                                                <p className="text-[0.75vw] font-semibold text-gray-900">
-                                                                    High Seasson
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div className="pt-1">
-                                                            <Button size={"card"} className="border-2 border-gray-900">
-                                                                Open Journey
-                                                            </Button>
-                                                        </div>
-                                                    </div>
-                                                </CardContent>
-                                            </Card>
-                                    </CarouselItem>
-                                    </div>
-                                    
-                                )) :
-                                <CarouselItem>You don't have trips yet.</CarouselItem>
-                            }
-                        </CarouselContent>
-                        <CarouselPrevious />
-                        <CarouselNext />
-                    </Carousel>
-                  </div>
-    */
 }

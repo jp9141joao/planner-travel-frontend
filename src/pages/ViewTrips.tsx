@@ -11,6 +11,8 @@ import { getTrips } from "@/service/service";
 import { Toaster } from "@/components/ui/toaster";
 import { toast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { TrendingUp } from "lucide-react";
 
 export function ViewTrips() {
     
@@ -23,6 +25,7 @@ export function ViewTrips() {
             placesQty: 4,
             currency: '$', // USD
             budgetAmount: 5000,
+            season: 'Low' // Fora do pico de turismo na Antártida (alta é no verão, Dez-Fev)
         },
         {
             id: '3370619451634542461',
@@ -32,6 +35,7 @@ export function ViewTrips() {
             placesQty: 5,
             currency: 'R$', // BRL
             budgetAmount: 15000,
+            season: 'High' // Julho é alta temporada devido a férias escolares no Brasil e Europa
         },
         {
             id: '2309724424561533844',
@@ -41,6 +45,7 @@ export function ViewTrips() {
             placesQty: 2,
             currency: '£', // GBP
             budgetAmount: 4000,
+            season: 'High' // Festas de fim de ano são alta temporada globalmente
         },
         {
             id: '843957364789331813',
@@ -50,6 +55,7 @@ export function ViewTrips() {
             placesQty: 4,
             currency: '¥', // JPY
             budgetAmount: 500000,
+            season: 'Middle' // Primavera na América do Sul, início de alta temporada em algumas regiões
         },
         {
             id: '7092866250445387125',
@@ -59,6 +65,7 @@ export function ViewTrips() {
             placesQty: 5,
             currency: 'A$', // AUD
             budgetAmount: 7000,
+            season: 'High' // Junho-Julho são meses populares para safáris na África
         },
         {
             id: '426362703034783719',
@@ -68,6 +75,7 @@ export function ViewTrips() {
             placesQty: 1,
             currency: '₹', // INR
             budgetAmount: 100000,
+            season: 'Low' // Inverno na Antártida, sem turismo significativo
         },
     ]);
 
@@ -130,214 +138,43 @@ export function ViewTrips() {
                         </p>
                     </div>
                     <div className="grid place-items-center mt-[1.3vw]">
-                        <Carousel className="w-[26vw] grid place-items-center">
-                            <CarouselContent className="w-[20.8vw]">
-                                {
-                                    trips.length > 0 ? trips.map((trip: Trip, index: number) => ( 
-                                        index == 0 ? 
-                                        <div className="">
-                                            <CarouselItem key={index} className="flex gap-4 -ml-[15.2vw]">
-                                                <Card className="w-[16vw] h-[11.4vw]">
-                                                    <CardContent>
-                                                        
-                                                    </CardContent>
-                                                </Card>
-                                                <Card className="grid w-[16vw] h-[11.4vw]">
-                                                    <CardContent>
-                                                        <div className="grid items-center w-full h-full">
-                                                            <div className="grid place-items-center">
-                                                                <div>
-                                                                    <p className="text-[1.17vw] font-semibold leading-none tracking-tight break-all">
-                                                                        { trip.tripName }.
-                                                                    </p>
-                                                                </div>
-                                                                <div>
-                                                                    <p className="text-[0.96vw] text-muted-foreground mt-1">
-                                                                        { trip.period }.
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div className="grid place-items-start items-centerm mx-1">
-                                                                <div>
-                                                                    <p className="text-[0.9vw] text-gray-800">
-                                                                        { trip.daysQty } Days.
-                                                                    </p>
-                                                                </div>
-                                                                <div>
-                                                                    <p className="text-[0.9vw] text-gray-900">
-                                                                        { trip.placesQty } Places util now.
-                                                                    </p>
-                                                                </div>
-                                                                <div>
-                                                                    <p className="text-[0.9vw] text-gray-900">
-                                                                        Budget: { trip.currency }{ trip.budgetAmount } .
-                                                                    </p>
-                                                                </div>
-                                                                <div>
-                                                                    <p className="text-[0.9vw] font-semibold text-gray-900">
-                                                                        High Seasson
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </CardContent>
-                                                </Card>
-                                            </CarouselItem>
-                                        </div> : index == trips.length -1 ?
-                                        <div className="">
-                                            <CarouselItem key={index} className="flex gap-4 -mr-[15.2vw]">
-                                                <Card className="grid w-[16vw] h-[11.4vw]">
-                                                    <CardContent>
-                                                        <div className="grid items-center w-full h-full">
-                                                            <div className="grid place-items-center">
-                                                                <div>
-                                                                    <p className="text-[1.17vw] font-semibold leading-none tracking-tight break-all">
-                                                                        { trip.tripName }.
-                                                                    </p>
-                                                                </div>
-                                                                <div>
-                                                                    <p className="text-[0.96vw] text-muted-foreground mt-1">
-                                                                        { trip.period }.
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div className="grid place-items-start items-centerm mx-1">
-                                                                <div>
-                                                                    <p className="text-[0.9vw] text-gray-800">
-                                                                        { trip.daysQty } Days.
-                                                                    </p>
-                                                                </div>
-                                                                <div>
-                                                                    <p className="text-[0.9vw] text-gray-900">
-                                                                        { trip.placesQty } Places util now.
-                                                                    </p>
-                                                                </div>
-                                                                <div>
-                                                                    <p className="text-[0.9vw] text-gray-900">
-                                                                        Budget: { trip.currency }{ trip.budgetAmount } .
-                                                                    </p>
-                                                                </div>
-                                                                <div>
-                                                                    <p className="text-[0.9vw] font-semibold text-gray-900">
-                                                                        High Seasson
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </CardContent>
-                                                </Card>
-                                                <Card className="w-[16vw] h-[11.4vw]">
-                                                    <CardContent>
-                                                        
-                                                    </CardContent>
-                                                </Card>
-                                            </CarouselItem>
-                                        </div>:
-                                        <div>
-                                            <CarouselItem key={index} className="">
-                                                <Card className="grid w-[16vw] h-[11.4vw] pb-2">
-                                                    <CardContent>
-                                                        <div className="grid items-center w-full h-full">
-                                                            <div className="grid place-items-center">
-                                                                <div>
-                                                                    <p className="text-[1.17vw] font-semibold leading-none tracking-tight break-all">
-                                                                        { trip.tripName }.
-                                                                    </p>
-                                                                </div>
-                                                                <div>
-                                                                    <p className="text-[0.96vw] text-muted-foreground mt-1">
-                                                                        { trip.period }.
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div className="grid place-items-start items-centerm mx-1">
-                                                                <div>
-                                                                    <p className="text-[0.9vw] text-gray-800">
-                                                                        { trip.daysQty } Days.
-                                                                    </p>
-                                                                </div>
-                                                                <div>
-                                                                    <p className="text-[0.9vw] text-gray-900">
-                                                                        { trip.placesQty } Places util now.
-                                                                    </p>
-                                                                </div>
-                                                                <div>
-                                                                    <p className="text-[0.9vw] text-gray-900">
-                                                                        Budget: { trip.currency }{ trip.budgetAmount } .
-                                                                    </p>
-                                                                </div>
-                                                                <div>
-                                                                    <p className="text-[0.9vw] font-semibold text-gray-900">
-                                                                        High Seasson
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </CardContent>
-                                                </Card>
-                                            </CarouselItem>
-                                        </div>
-                                    )) :
-                                    <div>
-                                        <CarouselItem className="flex gap-4 -ml-[15.2vw]">
-                                        <Card className="w-[16vw] h-[11.4vw]">
-                                            <CardContent>
-                                                
-                                            </CardContent>
-                                        </Card>
-                                        <Card className="w-[16vw] h-[11.4vw]">
-                                            <CardContent>
-                                                <div className="grid place-items-center">
-                                                    <div>
-                                                        <p className="text-[1.17vw] font-semibold leading-none tracking-tight break-all">
-                                                            No Trips Created Yet.
-                                                        </p>
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-[0.96vw] text-muted-foreground mt-1">
-                                                            Start planning your first adventure and make your travel dreams come true!
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </CardContent>
-                                        </Card>
-                                        <Card className="w-[16vw] h-[11.4vw]">
-                                            <CardContent>
-                                                
-                                            </CardContent>
-                                        </Card>
-                                        </CarouselItem>
-                                    </div>
-                                }
-                            </CarouselContent>
-                            <CarouselPrevious />
-                            <CarouselNext />
-                        </Carousel>
-                        <div className="w-full mt-[1.3vw]">
-                            <Button className="w-full">
-                                <Link to={trips.length > 0 ? '/addTrips' : '/viewTrips'}>
+                    <Select>
+                        <SelectTrigger defaultValue={trips.length == 0 ? "No trips created yet" : ""}>
+                            <SelectValue placeholder="Select Your Trip" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
                                 {
                                     trips.length > 0 ?
-                                    'Acess This Trip' :
-                                    'Create Your First Trip'
+                                    trips.map((trip: Trip) => (
+                                        <SelectItem className="grid gap-4 text-gray-900" value={trip.id}>
+                                            {trip.tripName} - {trip.period}
+                                        </SelectItem>
+                                    ))
+                                    : <SelectItem value="*">No trips created yet</SelectItem>
                                 }
-                                </Link>
-                            </Button>
-                        </div>
-                        {
-                            trips.length > 0 ?
-                            <div className="flex justify-center items-center gap-1.5 w-full text-[4vw] xxs5:text-sm mt-[0.8vw] sm:text-base lg:text-lg">
-                                <p>
-                                    Want to create another trip?
-                                </p>
-                                <Link to={"/addTrips"}>
-                                    <strong>
-                                        Click here.
-                                    </strong>
-                                </Link>
-                            </div> : ''
-                        }
+                            </SelectGroup>
+                        </SelectContent>
+                        </Select>
                     </div>
+                    <div className="w-full mt-[0.8vw]">
+                        <Button size={"card"} disabled={false}>
+                            Access This Trip
+                        </Button>
+                    </div>
+                    {
+                        trips.length > 0 ?
+                        <div className="flex justify-center items-center gap-1.5 w-full text-[4vw] xxs5:text-sm mt-[0.8vw] sm:text-base lg:text-lg">
+                            <p>
+                                Want to create another trip?
+                            </p>
+                            <Link to={"/addTrips"}>
+                                <strong>
+                                    Click here.
+                                </strong>
+                            </Link>
+                        </div> : ''
+                    }
                     <Toaster />
                 </div>
             </MiddlePageOneCol>

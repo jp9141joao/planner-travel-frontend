@@ -1,5 +1,5 @@
 import { Input, InputIntegraded } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { Select, SelectContent, SelectItem, SelectTriggerInput, SelectValue } from "./ui/select";
 
 export function CurrencyInput({ amount, onAmountChange, status }: { amount: number, onAmountChange: (amount: string) => void, status: number}) {
 
@@ -13,9 +13,9 @@ export function CurrencyInput({ amount, onAmountChange, status }: { amount: numb
         className={`w-full ${status === 5 ? "border-red-500" : ""}`}
       />
       <Select defaultValue="USD">
-        <SelectTrigger className="w-24">
+        <SelectTriggerInput className="w-24">
           <SelectValue placeholder="Currency" />
-        </SelectTrigger>
+        </SelectTriggerInput>
         <SelectContent>
           <SelectItem value="USD">USD</SelectItem>
           <SelectItem value="EUR">EUR</SelectItem>

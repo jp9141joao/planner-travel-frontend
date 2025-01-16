@@ -5,7 +5,7 @@ import { ViewTrips } from "./ViewTrips";
 export function Test(){
     return (
         <div className="px-20 py-10">
-            <DisplayTrips />
+            <ViewTrips />
         </div>
     )
 }

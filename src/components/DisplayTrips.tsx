@@ -102,76 +102,76 @@ const data: Trip[] = [
   },
 ];
 
-export const columns: ColumnDef<Trip>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "tripName",
-    header: "Trip Name",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("tripName")}</div>
-    ),
-  },
-  {
-    accessorKey: "period",
-    header: "Period",
-    cell: ({ row }) => <div className="lowercase">{row.getValue("period")}</div>,
-  },
-  {
-    accessorKey: "daysQty",
-    header: "Duration",
-    cell: ({ row }) => <div className="lowercase">{row.getValue("daysQty")} days</div>,
-  },
-  {
-    accessorKey: "placesQty",
-    header: "placesQty",
-    cell: ({ row }) => <div className="lowercase">{row.getValue("placesQty")} places</div>,
-  },
-  {
-    accessorKey: 'currency',
-    header: 'Currency',
-  },
-  {
-    accessorKey: "budgetAmount",
-    header: () => <div className="text-right">Budget</div>,
-    cell: ({ row }) => {
-  
-      return <div className="text-right font-medium">{row.getValue('currency')}{row.getValue('budgetAmount')}</div>;
-    },
-  },   
-  {
-    accessorKey: "season", 
-    header: "Season",
-    cell: ({ row }) => {
-      return <div className="text-left font-medium">{row.getValue("season")}</div>;
-    },
-  }, 
-  {
-    id: "options",
-    enableHiding: false,
-    cell: ({ row }) => {
+export function DisplayTrips() {
+  const [selectedRowId, setSelectedRowId] = React.useState<string | null>(null);
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
 
-      return (
+  // Mover a definição de `columns` para dentro do componente
+  const columns: ColumnDef<Trip>[] = [
+    {
+      id: "select",
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.id === selectedRowId}
+          onCheckedChange={(value) => {
+            setSelectedRowId(value ? row.id : null);
+          }}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "tripName",
+      header: "Trip Name",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("tripName")}</div>
+      ),
+    },
+    {
+      accessorKey: "period",
+      header: "Period",
+      cell: ({ row }) => <div className="lowercase">{row.getValue("period")}</div>,
+    },
+    {
+      accessorKey: "daysQty",
+      header: "Duration",
+      cell: ({ row }) => <div className="lowercase">{row.getValue("daysQty")} days</div>,
+    },
+    {
+      accessorKey: "placesQty",
+      header: "Places",
+      cell: ({ row }) => <div className="lowercase">{row.getValue("placesQty")} places</div>,
+    },
+    {
+      accessorKey: "currency",
+      header: "Currency",
+    },
+    {
+      accessorKey: "budgetAmount",
+      header: "Budget",
+      cell: ({ row }) => (
+        <div className="text-left font-medium">
+          {row.getValue("currency")}
+          {row.getValue("budgetAmount")}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "season",
+      header: "Season",
+      cell: ({ row }) => (
+        <div className="text-left font-medium">{row.getValue("season")}</div>
+      ),
+    },
+    {
+      id: "options",
+      enableHiding: false,
+      cell: ({ row }) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
@@ -182,30 +182,16 @@ export const columns: ColumnDef<Trip>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Options</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-                Edit Trip
-            </DropdownMenuItem>
+            <DropdownMenuItem>Edit Trip</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-                Delete Trip
-            </DropdownMenuItem>
+            <DropdownMenuItem>Delete Trip</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              Duplicate Trip
-            </DropdownMenuItem>
+            <DropdownMenuItem>Duplicate Trip</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      ),
     },
-  },
-]
-
-export function DisplayTrips() {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+  ];
 
   const table = useReactTable({
     data,
@@ -224,11 +210,11 @@ export function DisplayTrips() {
       columnVisibility,
       rowSelection,
     },
-  })
+  });
 
   return (
     <div className="w-full">
-      <div className="rounded-md border">
+      <div className="rounded-lg border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -236,7 +222,7 @@ export function DisplayTrips() {
                 {headerGroup.headers.map((header) => {
                   return (
                     header.id != 'currency' ?
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="bg-color-orange text-white">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -282,10 +268,6 @@ export function DisplayTrips() {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
         <div className="space-x-2">
           <Button
             variant="outline"

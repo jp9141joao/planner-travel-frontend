@@ -1,7 +1,7 @@
 import Credits from "@/components/Credits";
 import { GoBack } from "@/components/GoBack";
-import { BodyPage, BottomPage, MiddlePageOneCol, TopPage } from "@/components/LayoutPage/Layouts";
-import Image from "../assets/undraw_eiffel-tower_ju2s.svg"
+import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts";
+import Image from "../assets/undraw_eiffel-tower_ju2s_flipped.svg"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useEffect, useState } from "react";
 import { Trip } from "@/types/types";
@@ -12,7 +12,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { toast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { TrendingUp } from "lucide-react";
+import { MoreHorizontal, TrendingUp } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 export function ViewTrips() {
     
@@ -113,19 +114,13 @@ export function ViewTrips() {
             <TopPage>
                 <GoBack to="home"/>
             </TopPage>
-            <MiddlePageOneCol>
-                {
-                    /*
-                    <div className="mx-[8.8vw] mt-[6vw] xs:mx-[15.5vw] xs:my-[7vw] lg:my-0 lg:mt-[1vw] lg:mx-[8vw]">
-                
-                <img
-                src={Image}
-                className="w-auto h-auto"
-                />
-                
+            <MiddlePage>
+                <div className="mx-[8.8vw] mt-[6vw] xs:mx-[15.5vw] xs:my-[7vw] lg:my-0 lg:mt-[1vw] lg:mx-[7vw] ">
+                    <img
+                        src={Image}
+                        className="w-full h-auto"
+                    />
                 </div>
-                    */
-                }
                 <div className='text-center mx-[8.8vw] lg:mx-0 mt-[6vw] xs:mt-[14vw] lg:mt-0 lg:mb-[3vw]'>
                     <div>
                         <h1 className="grid text-center text-[14vw] xxs5:text-[13.7vw] xs:text-[10.5vw] lg:text-[6.2vw] w-full text-gray-900 tracking-tight leading-[1]">
@@ -137,7 +132,7 @@ export function ViewTrips() {
                             All your journeys in one place.
                         </p>
                     </div>
-                    <div className="grid place-items-center mt-[1.3vw]">
+                    <div className="flex items-center mt-[1.3vw]">
                     <Select>
                         <SelectTrigger defaultValue={trips.length == 0 ? "No trips created yet" : ""}>
                             <SelectValue placeholder="Select Your Trip" />
@@ -155,7 +150,19 @@ export function ViewTrips() {
                                 }
                             </SelectGroup>
                         </SelectContent>
-                        </Select>
+                    </Select>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger className="flex h-10  items-center justify-between border rounded-r-md border-t-2 border-b-2 border-r-2 border-l-1 border-[#bfbfbf] bg-transparent px-2 py-1 border-[#bfbfbf] text-sm ring-offset-background placeholder:text-muted-foreground hover:border-[#707070] hover:border-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 data-[state=open]:border-2 data-[state=open]:border-[#707070] data-[state=open]:text-accent-foreground">
+                            <MoreHorizontal />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Trip Options</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>Edit</DropdownMenuItem>
+                            <DropdownMenuItem>Delete</DropdownMenuItem>
+                            <DropdownMenuItem>Duplicate</DropdownMenuItem>
+                        </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                     <div className="w-full mt-[0.8vw]">
                         <Button size={"card"} disabled={false}>
@@ -177,7 +184,7 @@ export function ViewTrips() {
                     }
                     <Toaster />
                 </div>
-            </MiddlePageOneCol>
+            </MiddlePage>
             <BottomPage>
                 <Credits/>
             </BottomPage>

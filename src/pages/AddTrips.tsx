@@ -1,7 +1,7 @@
 import Credits from "@/components/Credits";
 import { GoBack } from "@/components/GoBack";
 import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts";
-import { Input } from "@/components/ui/input";
+import { Input, InputIntegraded } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Toaster } from "@/components/ui/toaster";
 import { useEffect, useState } from "react";
@@ -12,7 +12,7 @@ import { Trip } from "@/types/types";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { DatePickerWithRange } from "@/components/DatePickerWithRange";
-import { CurrencyInput } from "@/components/CurrencyInput";
+import { Select, SelectContent, SelectItem, SelectTriggerInput, SelectValue } from "@/components/ui/select";
 
 export default function AddTrips () {
 
@@ -113,42 +113,6 @@ export default function AddTrips () {
             setDaysQty(daysQty);
         };
 
-        const onAmountChange = (budgetAmount: string) => {
-            const currencyMap: Record<string, string> = {
-                USD: "$",
-                EUR: "€",
-                BRL: "R$",
-                GBP: "£",
-                JPY: "¥",
-                AUD: "A$",
-                CAD: "C$",
-                CHF: "Fr",
-                CNY: "¥",
-                INR: "₹",
-            };
-            const currencyRegex = /^([^\d]+)?(\d*\.?\d*)$/;
-            const match = budgetAmount.match(currencyRegex);
-          
-            if (match) {
-              const extractedSymbol = match[1]?.trim() || "$";
-              const extractedAmount = parseFloat(match[2]) || 0;
-          
-              // Encontre o código da moeda correspondente ao símbolo
-              const matchedCurrency = Object.keys(currencyMap).find(
-                (key) => currencyMap[key] === extractedSymbol
-              );
-          
-              // Atualiza os estados
-              if (matchedCurrency) {
-                setCurrency(matchedCurrency);
-                setBudgetAmount(extractedAmount);
-              } else {
-                console.warn("Moeda inválida ou não suportada.");
-              }
-            }
-        };
-
-    
         useEffect(() => {
             if (showToast && status == 100) {
                 toast({
@@ -217,8 +181,31 @@ export default function AddTrips () {
                                 <Label htmlFor="budget" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                     Budget
                                 </Label>
-                                <div className="w-full" onClick={() => { setStatus(0) }}>
-                                    <CurrencyInput amount={budgetAmount} onAmountChange={onAmountChange} status={status}/>
+                                <div className="w-full flex items-center w-full" onClick={() => { setStatus(0) }}>
+                                    <InputIntegraded
+                                        type="text"
+                                        placeholder="Enter amount"
+                                        value={budgetAmount}
+                                        onChange={(e) => setBudgetAmount(Number(e.target.value))}
+                                        className={`w-full ${status === 5 ? "border-red-500" : ""}`}
+                                    />
+                                    <Select defaultValue="USD" onValueChange={(e) => setCurrency(e)}>
+                                        <SelectTriggerInput className="w-24">
+                                        <SelectValue placeholder="Currency" />
+                                        </SelectTriggerInput>
+                                        <SelectContent>
+                                            <SelectItem value="USD">USD</SelectItem>
+                                            <SelectItem value="EUR">EUR</SelectItem>
+                                            <SelectItem value="BRL">BRL</SelectItem>
+                                            <SelectItem value="GBP">GBP</SelectItem>
+                                            <SelectItem value="JPY">JPY</SelectItem>
+                                            <SelectItem value="AUD">AUD</SelectItem>
+                                            <SelectItem value="CAD">CAD</SelectItem>
+                                            <SelectItem value="CHF">CHF</SelectItem>
+                                            <SelectItem value="CNY">CNY</SelectItem>
+                                            <SelectItem value="INR">INR</SelectItem>
+                                        </SelectContent>
+                                    </Select>
                                 </div>
                             </div>
                             <div className="grid gap-1.5 w-full mt-1 xs:mt-2">

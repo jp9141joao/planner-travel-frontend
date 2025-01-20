@@ -4,8 +4,8 @@ import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPa
 import { Input, InputIntegraded } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Toaster } from "@/components/ui/toaster";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { ReactHTML, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Image from '../assets/undraw_departing_010k (2).svg'
 import { createTrip } from "@/service/service";
 import { Trip } from "@/types/types";
@@ -13,14 +13,17 @@ import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { DatePickerWithRange } from "@/components/DatePickerWithRange";
 import { Select, SelectContent, SelectItem, SelectTriggerInput, SelectValue } from "@/components/ui/select";
+import { ButtonPlaceSuggestion } from "@/components/PlaceSuggestions";
+import { Value } from "@radix-ui/react-select";
 
 export default function AddTrips () {
 
     const [ tripName, setTripName ] = useState<string>('');
     const [ period, setPeriod ] = useState<string>('');
     const [ daysQty, setDaysQty ] = useState<number>(0);
-    const [ budgetAmount , setBudgetAmount ] = useState<number>(0);
-    const [ currency, setCurrency ] = useState<string>('');
+    const [ budgetAmount , setBudgetAmount ] = useState<number | string>('$0');
+    const [ currency, setCurrency ] = useState<string>('USD');
+    const [ season, setSeason] = useState<string>('');
     const [ toastMessage, setToastMessage ] = useState({
         variant: '', title: '', description: ''
     });
@@ -29,105 +32,175 @@ export default function AddTrips () {
     const [ status, setStatus ] = useState<number>(0);
     const navigate = useNavigate();
 
-    const handleSubmit = async (e: React.FormEvent) => {
-            try {
-                e.preventDefault();
-                setIsLoading(true);
-                const response = await createTrip({ tripName, period, daysQty, placesQty: 0 } as Trip);
-                //const response = { data: {success: true, error: '', data: ''}}
-                
-                if (response.success) {
-                    setStatus(1);
-                    //navigate('/home');
-                } else {
-                    if (response.error == 'Error: The value of tripName is invalid!') {
-                        setStatus(2);
-                    } else if (response.error == 'Error: The value of tripName is too short!') {
-                        setStatus(3);
-                    } else if (response.error == 'Error: The value of tripName is too large!') {
-                        setStatus(4);
-                    } else if (response.error == 'Error: The value of period is invalid!') {
-                        setStatus(5);
-                    } else {
-                        setStatus(6);
-                    }
-                }
+    const getCurrencySymbol = (value: string) => {
+        const symbols: { [key: string]: string } = {
+            USD: '$',
+            EUR: '€',
+            BRL: 'R$',
+            GBP: '£',
+            JPY: '¥',
+            AUD: 'A$',
+            CAD: 'C$',
+            CHF: 'Fr.',
+            CNY: '¥',
+            INR: '₹'
+        };
+        return symbols[value] || currency;
+    }
 
-                setIsLoading(false);
-                setShowToast(true);
-            } catch (error: any) {
-                setStatus(8);
-                setIsLoading(false);
-                setShowToast(true);
-                console.log(error);
-            } 
+    const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const inputValue = e.target.value;
+        const symbol = getCurrencySymbol(currency);
+    
+        if (!inputValue.startsWith(symbol)) {
+            setBudgetAmount(symbol);
+            return;
         }
     
-        useEffect(() => {
-            if (!isLoading && showToast) {
-                if (status == 1) {
-                    setToastMessage({
-                        variant: 'success',
-                        title: 'Trip created successfully!',
-                        description: 'Your trip is now set! Get ready for your next adventure.',
-                    });
-                } else if (status == 2) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'Invalid Trip Name',
-                        description: 'The trip name you entered is invalid. Please check and try again.',
-                    });
-                } else if (status == 3) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'Trip Name Too Short',
-                        description: 'The trip name is too short. Please enter a shorter trip name.',
-                    });
-                } else if (status == 4) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'Trip Name Too Long',
-                        description: 'The trip name address is too long. Please enter a shorter trip name.',
-                    });
-                } else if (status == 5) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'Invalid Period',
-                        description: 'The period you entered is invalid. Please check and try again.',
-                    });
+        const valueWithoutSymbol = inputValue.substring(symbol.length);
+        const numericValue = parseFloat(valueWithoutSymbol.replace(',', '.'));
+    
+        if (!isNaN(numericValue)) {
+            setBudgetAmount(`${symbol}${numericValue}`);
+        } else {
+            setBudgetAmount(`${symbol}`);
+        }
+    }
+
+    const handleChangeSelect = (value: string) => {
+        const oldSymbol = getCurrencySymbol(currency);
+        const newSymbol = getCurrencySymbol(value);
+
+        setCurrency(newSymbol);
+
+        if (typeof budgetAmount == 'string') {
+            const InputValue = budgetAmount.substring(oldSymbol.length);
+            setBudgetAmount(`${newSymbol}${InputValue}`)
+        }
+    }
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        try {
+            e.preventDefault();
+            setIsLoading(true);
+            
+            //const response = await createTrip({ 
+            // tripName, 
+            // period, 
+            // daysQty, 
+            // placesQty: 0
+            // currency,
+            // budgetAmount: Number(budgetAmount.substring(currency.length)),
+            // season: 
+            //} as Trip);
+            const response = { success: true, error: '', data: ''}
+            
+            if (response.success) {
+                setStatus(1);
+                //navigate('/home');
+            } else {
+                if (response.error == 'Error: The value of tripName is invalid!') {
+                    setStatus(2);
+                } else if (response.error == 'Error: The value of tripName is too short!') {
+                    setStatus(3);
+                } else if (response.error == 'Error: The value of tripName is too large!') {
+                    setStatus(4);
+                } else if (response.error == 'Error: The value of period is invalid!') {
+                    setStatus(5);
                 } else {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: "Uh oh! Something went wrong.",
-                        description: "There was a problem with your request.",
-                    });
+                    setStatus(6);
                 }
             }
-        }, [isLoading, showToast, status]);
 
-        const onPeriodChange = (period: string) => {
-            console.log(period.length)
-            setPeriod(period);
-        };
+            setIsLoading(false);
+            setShowToast(true);
+        } catch (error: any) {
+            setStatus(8);
+            setIsLoading(false);
+            setShowToast(true);
+            console.log(error);
+        } 
+    };
+    
+    useEffect(() => {
+        const startMonth = period.substring(0, 3);
 
-        const onDaysQtyChange = (daysQty: number) => {
-            setDaysQty(daysQty);
-        };
+        if (['Dec', 'Jan', 'Feb', 'Jun', 'Jul', 'Aug'].includes(startMonth)) {
+            setSeason('High');
+        } else if (['Mar', 'Apr', 'May'].includes(startMonth)) {
+            setSeason('Middle');
+        } else if (['Sep', 'Oct', 'Nov'].includes(startMonth)) {
+            setSeason('Low');
+        } else {
+            setSeason(''); 
+        }
 
-        useEffect(() => {
-            if (showToast && status == 100) {
-                toast({
-                    variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
-                    title: toastMessage.title,
-                    description: toastMessage.description,
-                })
-            }
-
+    }, [period]);
+    
+    useEffect(() => {
+        if (!isLoading && showToast) {
             if (status == 1) {
-                setStatus(0);
+                setToastMessage({
+                    variant: 'success',
+                    title: 'Trip created successfully!',
+                    description: 'Your trip is now set! Get ready for your next adventure.',
+                });
+            } else if (status == 2) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Invalid Trip Name',
+                    description: 'The trip name you entered is invalid. Please check and try again.',
+                });
+            } else if (status == 3) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Trip Name Too Short',
+                    description: 'The trip name is too short. Please enter a shorter trip name.',
+                });
+            } else if (status == 4) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Trip Name Too Long',
+                    description: 'The trip name address is too long. Please enter a shorter trip name.',
+                });
+            } else if (status == 5) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Invalid Period',
+                    description: 'The period you entered is invalid. Please check and try again.',
+                });
+            } else {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
             }
-            
-        }, [toastMessage]);
+        }
+    }, [isLoading, showToast, status]);
+
+    const onPeriodChange = (period: string) => {
+        setPeriod(period);
+    };
+
+    const onDaysQtyChange = (daysQty: number) => {
+        setDaysQty(daysQty);
+    };
+
+    useEffect(() => {
+        if (showToast && status == 100) {
+            toast({
+                variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
+                title: toastMessage.title,
+                description: toastMessage.description,
+            })
+        }
+
+        if (status == 1) {
+            setStatus(0);
+        }
+        
+    }, [toastMessage]);
 
     return (
         <BodyPage>
@@ -136,10 +209,12 @@ export default function AddTrips () {
             </TopPage>
             <MiddlePage>
                 <div className="hidden lg:block mx-[2vw]">
+                    {/*
                     <img
                         src={Image}
                         className="w-auto h-auto"
                     />
+                    */}
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className='table mx-auto mt-[2vw] xxs3:mt-[8vw] xs:mt-[3vw] sm:mt-[10vw] lg:mt-0'>
@@ -187,12 +262,12 @@ export default function AddTrips () {
                                         type="text"
                                         placeholder="Enter amount"
                                         value={budgetAmount}
-                                        onChange={(e) => setBudgetAmount(Number(e.target.value))}
+                                        onChange={handleChangeInput}
                                         className={`w-full ${status === 5 ? "border-red-500" : ""}`}
                                     />
-                                    <Select defaultValue="USD" onValueChange={(e) => setCurrency(e)}>
+                                    <Select defaultValue="USD" onValueChange={handleChangeSelect}>
                                         <SelectTriggerInput className="w-24">
-                                        <SelectValue placeholder="Currency" />
+                                            <SelectValue placeholder="Currency" />
                                         </SelectTriggerInput>
                                         <SelectContent>
                                             <SelectItem value="USD">USD</SelectItem>
@@ -223,6 +298,12 @@ export default function AddTrips () {
                                         : "Create Travel"
                                     }
                                 </Button>
+                                <div className="flex justify-center items-center gap-1.5 w-full text-[4vw] xxs5:text-sm mt-[0.8vw] sm:text-base lg:text-lg">
+                                    <p>
+                                        Don't you know where to go?
+                                    </p>
+                                    <ButtonPlaceSuggestion/>
+                                </div>
                                 <Toaster />
                             </div>
                         </div>

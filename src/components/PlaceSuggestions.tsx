@@ -146,20 +146,15 @@ const columns: ColumnDef<dataPlace, any>[] = [
         Link
       </a>
     )
-  },
-  {
-    accessorKey: "Go to this place",
-    cell: ({ row }: any) => (
-      <MoveRight className="hover:translate-x-1 transition-all"/>
-    )
   }
 ];
 
 export function ButtonPlaceSuggestion() {
+
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size={"auto"}>Place suggestions</Button>
+        <strong className="cursor-pointer">Click here.</strong>
       </DialogTrigger>
       <DialogContent className="max-w-full max-h-screen overflow-auto p-4">
         <DialogHeader>
@@ -180,6 +175,10 @@ function PlaceSuggestions() {
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const [selectedColumn, setSelectedColumn] = React.useState<string>("City");
+
+  const updateFilter = (newFilter: { id: string; value: string }) => {
+    setColumnFilters([newFilter]); // Reseta todos os filtros e aplica o novo
+  };
 
   const table = useReactTable({
     data,
@@ -202,7 +201,7 @@ function PlaceSuggestions() {
 
   return (
     <div className="w-[80vw] xs:w-[60vw] lg:w-[53vw] lg:max-h-[33vw]">
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 gap-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className="ml-auto">
@@ -225,7 +224,7 @@ function PlaceSuggestions() {
           placeholder={`Filter by ${selectedColumn}...`}
           value={(table.getColumn(selectedColumn)?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn(selectedColumn)?.setFilterValue(event.target.value)
+            updateFilter({ id: selectedColumn, value: event.target.value })
           }
           className="flex-1"
         />

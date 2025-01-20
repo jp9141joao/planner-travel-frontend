@@ -1,7 +1,7 @@
 import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import TravelDetails from "./pages/TravelDetails";
 import EditTravel from "./pages/EditTravel";
-import AddTravelS from "./pages/AddTrips";
+import AddTravelS from "./pages/addTrips";
 //import AddTravelExpense from "./pages/AddTravelExpense";
 //import EditTravelExpense from "./pages/EditTravelExpense";
 import DayDetails from "./pages/DayDetails";
@@ -42,6 +42,11 @@ function App() {
             <Route path="/viewTrips" element={
               <ProtectedRoute>
                 <ViewTrips />
+              </ProtectedRoute>
+            } />
+            <Route path="/editTrip" element={
+              <ProtectedRoute>
+                <EditTrips />
               </ProtectedRoute>
             } />
             <Route path="/test" element={<Test/>}/>

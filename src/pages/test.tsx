@@ -1,10 +1,10 @@
 import { DisplayTrips } from "@/components/DisplayTrips";
-import AddTrips from "./AddTrips";
+import AddTrips from "./addTrips";
 import { ViewTrips } from "./ViewTrips";
 import { ButtonPlaceSuggestion } from "@/components/PlaceSuggestions";
 
 export function Test(){
     return (
-        <AddTrips />
+        <ViewTrips/>
     )
 }

@@ -104,3 +104,21 @@ export const getTrips = async () => {
 
     return response.data;
 }
+
+export const deleteTrip = async (tripId: bigint) => {
+    
+    const token = localStorage.getItem('authToken');
+    
+    if (!token) {
+        throw new Error("Token is missing!");
+    }
+
+    const response = await axios.delete(`${url}/viewTrips`, {
+        validateStatus: (status) => status != 400,
+        headers: {
+            'authorization': `Bearer ${token}`,
+        },
+    });
+
+    return response.data;
+}

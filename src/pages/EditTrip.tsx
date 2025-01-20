@@ -19,7 +19,7 @@ import { Input, InputIntegraded } from "@/components/ui/input";
 import { DatePickerWithRange } from "@/components/DatePickerWithRange";
 import { setItemSessionStorage } from "@/components/utils/utils";
 
-export function ViewTrips() {
+export function EditTrip() {
     
     const [trips, setTrips] = useState<Trip[]>([
         {

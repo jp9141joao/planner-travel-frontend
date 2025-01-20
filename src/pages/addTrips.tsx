@@ -79,6 +79,14 @@ export default function AddTrips () {
         }
     }
 
+    const onPeriodChange = (period: string) => {
+        setPeriod(period);
+    };
+
+    const onDaysQtyChange = (daysQty: number) => {
+        setDaysQty(daysQty);
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         try {
             e.preventDefault();
@@ -179,13 +187,6 @@ export default function AddTrips () {
         }
     }, [isLoading, showToast, status]);
 
-    const onPeriodChange = (period: string) => {
-        setPeriod(period);
-    };
-
-    const onDaysQtyChange = (daysQty: number) => {
-        setDaysQty(daysQty);
-    };
 
     useEffect(() => {
         if (showToast && status == 100) {

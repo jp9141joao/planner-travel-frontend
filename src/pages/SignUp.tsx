@@ -30,6 +30,8 @@ export default function SignIn () {
             e.preventDefault();
             setIsLoading(true);
             const response = await signUpUser({ fullName: fullName, email: email, password: password } as User);
+            console.log(response.error);
+
             if (response.success) {
                 setStatus(1);
             } else {
@@ -139,7 +141,7 @@ export default function SignIn () {
             })
         }
 
-        setStatus(0);
+        //setStatus(0);
     }, [toastMessage]);
 
     return (

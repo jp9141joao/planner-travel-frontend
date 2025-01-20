@@ -106,6 +106,7 @@ export default function AddTrips () {
         }, [isLoading, showToast, status]);
 
         const onPeriodChange = (period: string) => {
+            console.log(period.length)
             setPeriod(period);
         };
 

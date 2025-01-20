@@ -24,7 +24,7 @@ function App() {
         <Router>
           <Routes>
             <Route path='*' element={<NotFound />} />
-            <Route path="/" element={<Navigate to={'/test'}/>}/>
+            <Route path="/" element={<Navigate to={'/home'}/>}/>
             <Route path="/home" element={<Home/>}/>
             <Route path="/addTrips" element={
               <ProtectedRoute>

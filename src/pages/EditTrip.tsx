@@ -1,416 +1,331 @@
 import Credits from "@/components/Credits";
 import { GoBack } from "@/components/GoBack";
 import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts";
-import Image from "../assets/undraw_adventure-map_8hg8.svg"
-import { useEffect, useState } from "react";
-import { Trip } from "@/types/types";
-import { Button } from "@/components/ui/button";
-import { deleteTrip, getTrips } from "@/service/service";
-import { Toaster } from "@/components/ui/toaster";
-import { toast } from "@/hooks/use-toast";
-import { Link } from "react-router-dom";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectTriggerInput, SelectValue } from "@/components/ui/select";
-import { MoreHorizontal } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
 import { Input, InputIntegraded } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Toaster } from "@/components/ui/toaster";
+import { ReactHTML, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Image from '../assets/undraw_departing_010k (2).svg'
+import { createTrip } from "@/service/service";
+import { Trip } from "@/types/types";
+import { toast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
 import { DatePickerWithRange } from "@/components/DatePickerWithRange";
-import { setItemSessionStorage } from "@/components/utils/utils";
+import { Select, SelectContent, SelectItem, SelectTriggerInput, SelectValue } from "@/components/ui/select";
+import { ModalPlaceSuggestion } from "@/components/PlaceSuggestions";
+import { Value } from "@radix-ui/react-select";
 
-export function EditTrip() {
+export default function EditTrip() {
+
+    const [ tripName, setTripName ] = useState<string>('');
+    const [ period, setPeriod ] = useState<string>('');
+    const [ daysQty, setDaysQty ] = useState<number>(0);
+    const [ budgetAmount , setBudgetAmount ] = useState<number | string>('$0');
+    const [ currency, setCurrency ] = useState<string>('USD');
+    const [ season, setSeason] = useState<string>('');
+    const [ visitPlace, setVisitPlace ] = useState('');
+    const [ toastMessage, setToastMessage ] = useState({
+        variant: '', title: '', description: ''
+    });
+    const [ isLoading, setIsLoading ] = useState<boolean>(false);
+    const [ showToast, setShowToast ] = useState<boolean>(false);
+    const [ status, setStatus ] = useState<number>(0);
+    const navigate = useNavigate();
+
+    const getCurrencySymbol = (value: string) => {
+        const symbols: { [key: string]: string } = {
+            USD: '$',
+            EUR: '€',
+            BRL: 'R$',
+            GBP: '£',
+            JPY: '¥',
+            AUD: 'A$',
+            CAD: 'C$',
+            CHF: 'Fr.',
+            CNY: '¥',
+            INR: '₹'
+        };
+        return symbols[value] || currency;
+    }
+
+    const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const inputValue = e.target.value;
+        const symbol = getCurrencySymbol(currency);
     
-    const [trips, setTrips] = useState<Trip[]>([
-        {
-            id: '7101923785401883001',
-            tripName: 'Expedition to the Arctic',
-            period: 'Apr 15, 2025 - Apr 25, 2025',
-            daysQty: 11,
-            placesQty: 3,
-            currency: '€', // EUR
-            budgetAmount: 6000,
-            season: 'Middle',
-        },
-        {
-            id: '9982750139284717261',
-            tripName: 'Journey through Asia',
-            period: 'Nov 01, 2025 - Nov 14, 2025',
-            daysQty: 14,
-            placesQty: 6,
-            currency: '₩', // KRW
-            budgetAmount: 8000,
-            season: 'High',
-        },
-        {
-            id: '2946725839203741829',
-            tripName: 'European Summer Adventure',
-            period: 'Jun 10, 2025 - Jun 20, 2025',
-            daysQty: 11,
-            placesQty: 8,
-            currency: '£', // GBP
-            budgetAmount: 12000,
-            season: 'High',
-        },
-        {
-            id: '1207583948275461234',
-            tripName: 'Exploring the Amazon',
-            period: 'Sep 05, 2026 - Sep 15, 2026',
-            daysQty: 11,
-            placesQty: 5,
-            currency: '$', // USD
-            budgetAmount: 4500,
-            season: 'Low',
-        },
-        {
-            id: '4827103985476130891',
-            tripName: 'Discovering Japan',
-            period: 'Mar 20, 2025 - Apr 01, 2025',
-            daysQty: 13,
-            placesQty: 7,
-            currency: '¥', // JPY
-            budgetAmount: 550000,
-            season: 'Middle',
-        },
-        {
-            id: '2198475620317489203',
-            tripName: 'Road Trip through the USA',
-            period: 'Jul 01, 2025 - Jul 20, 2025',
-            daysQty: 20,
-            placesQty: 10,
-            currency: '$', // USD
-            budgetAmount: 10000,
-            season: 'High',
-        },
-        {
-            id: '8492730156837450912',
-            tripName: 'Trekking in Nepal',
-            period: 'Oct 15, 2026 - Oct 30, 2026',
-            daysQty: 16,
-            placesQty: 3,
-            currency: '₹', // INR
-            budgetAmount: 70000,
-            season: 'High',
-        },
-        {
-            id: '4209837490568172345',
-            tripName: 'Desert Safari in Dubai',
-            period: 'Dec 01, 2025 - Dec 10, 2025',
-            daysQty: 10,
-            placesQty: 2,
-            currency: 'د.إ', // AED
-            budgetAmount: 9000,
-            season: 'Middle',
-        },
-        {
-            id: '5127403981567320497',
-            tripName: 'Caribbean Cruise',
-            period: 'Jan 05, 2026 - Jan 15, 2026',
-            daysQty: 11,
-            placesQty: 6,
-            currency: '$', // USD
-            budgetAmount: 5000,
-            season: 'High',
-        },
-        {
-            id: '2148390567439208145',
-            tripName: 'Mediterranean Escape',
-            period: 'Aug 10, 2025 - Aug 18, 2025',
-            daysQty: 9,
-            placesQty: 4,
-            currency: '€', // EUR
-            budgetAmount: 7000,
-            season: 'High',
-        },
-        {
-            id: '8701927345098712341',
-            tripName: 'Adventure in New Zealand',
-            period: 'Feb 10, 2026 - Feb 25, 2026',
-            daysQty: 16,
-            placesQty: 5,
-            currency: 'NZ$', // NZD
-            budgetAmount: 12000,
-            season: 'Middle',
-        },
-        {
-            id: '3247890156432987120',
-            tripName: 'Canadian Rockies Tour',
-            period: 'May 15, 2026 - May 25, 2026',
-            daysQty: 11,
-            placesQty: 4,
-            currency: 'CA$', // CAD
-            budgetAmount: 6000,
-            season: 'Middle',
-        },
-        {
-            id: '4560982710346581293',
-            tripName: 'Bali Beaches Escape',
-            period: 'Apr 01, 2026 - Apr 10, 2026',
-            daysQty: 10,
-            placesQty: 3,
-            currency: 'IDR', // Indonesian Rupiah
-            budgetAmount: 2500000,
-            season: 'High',
-        },
-        {
-            id: '8102937456812734509',
-            tripName: 'Patagonia Hiking Adventure',
-            period: 'Nov 15, 2025 - Nov 30, 2025',
-            daysQty: 16,
-            placesQty: 4,
-            currency: '$', // USD
-            budgetAmount: 8000,
-            season: 'Middle',
-        },
-        {
-            id: '1029837456123784091',
-            tripName: 'Norwegian Fjord Exploration',
-            period: 'Sep 01, 2026 - Sep 10, 2026',
-            daysQty: 10,
-            placesQty: 6,
-            currency: 'kr', // NOK
-            budgetAmount: 7000,
-            season: 'Low',
-        },
-        {
-            id: '8902134576029487134',
-            tripName: 'Exploring the Galápagos',
-            period: 'Jun 01, 2025 - Jun 10, 2025',
-            daysQty: 10,
-            placesQty: 2,
-            currency: '$', // USD
-            budgetAmount: 4500,
-            season: 'High',
-        },
-        {
-            id: '3720415892364710284',
-            tripName: 'Safari in Tanzania',
-            period: 'Aug 20, 2025 - Sep 01, 2025',
-            daysQty: 13,
-            placesQty: 5,
-            currency: 'TSh', // Tanzanian Shilling
-            budgetAmount: 6000,
-            season: 'High',
-        },
-        {
-            id: '8910247563284901234',
-            tripName: 'Great Barrier Reef Dive',
-            period: 'Mar 15, 2025 - Mar 25, 2025',
-            daysQty: 11,
-            placesQty: 3,
-            currency: 'A$', // AUD
-            budgetAmount: 5000,
-            season: 'Middle',
-        },
-        {
-            id: '9012873456123490823',
-            tripName: 'Cultural Tour of India',
-            period: 'Feb 01, 2025 - Feb 20, 2025',
-            daysQty: 20,
-            placesQty: 10,
-            currency: '₹', // INR
-            budgetAmount: 90000,
-            season: 'High',
-        },
-        {
-            id: '2849015674320918745',
-            tripName: 'Icelandic Volcanoes',
-            period: 'Oct 01, 2025 - Oct 10, 2025',
-            daysQty: 10,
-            placesQty: 2,
-            currency: 'kr', // ISK
-            budgetAmount: 7500,
-            season: 'Middle',
-        },
-    ]);
-    const [tripsExist, setTripsExist] = useState<boolean>(true);
-    const [isDisabled, setIsDisabled] = useState<boolean>(true);
-    const [tripSelected, setTripSelected] = useState<string>('');
-
-    const loadTrips = async () => {
-        try {
-            const response = await getTrips();
-
-            if (response.success) {
-                setTrips([response.data]);
-                
-                if (response.data.length > 0) {
-                    setTripsExist(true);
-                } else {
-                    setTripsExist(false);
-                }
-                
-            } else {
-                toast({
-                    variant: 'destructive',
-                    title: "Uh oh! Something went wrong.",
-                    description: "There was a problem with your request.",
-                });
-            }
-        } catch (error: any) {
-            toast({
-                variant: 'destructive',
-                title: "Uh oh! Something went wrong.",
-                description: "There was a problem with your request.",
-            });
+        if (!inputValue.startsWith(symbol)) {
+            setBudgetAmount(symbol);
+            return;
         }
-    };
-
-    const handleDelete = async () => {
-        try {
-            const response = await deleteTrip(BigInt(tripSelected) as bigint);
-
-            if (response.success) {
-                loadTrips();
-                toast({
-                    variant: 'success',
-                    title: 'Trip deleted successfully!',
-                    description: 'Your trip has been deleted. It is no longer in your list.',
-                });
-            } else {
-                toast({
-                    variant: 'destructive',
-                    title: "Uh oh! Something went wrong.",
-                    description: "There was a problem with your request.",
-                });
-            }
-        } catch (error: any) {
-            toast({
-                variant: 'destructive',
-                title: "Uh oh! Something went wrong.",
-                description: "There was a problem with your request.",
-            });
-            console.error(error);
+    
+        const valueWithoutSymbol = inputValue.substring(symbol.length);
+        const numericValue = parseFloat(valueWithoutSymbol.replace(',', '.'));
+    
+        if (!isNaN(numericValue)) {
+            setBudgetAmount(`${symbol}${numericValue}`);
+        } else {
+            setBudgetAmount(`${symbol}`);
         }
     }
 
+    const handleChangeSelect = (value: string) => {
+        const oldSymbol = getCurrencySymbol(currency);
+        const newSymbol = getCurrencySymbol(value);
+
+        setCurrency(value);
+
+        if (typeof budgetAmount == 'string') {
+            const InputValue = budgetAmount.substring(oldSymbol.length);
+            setBudgetAmount(`${newSymbol}${InputValue}`)
+        }
+    }
+
+    const onPeriodChange = (period: string) => {
+        setPeriod(period);
+    };
+
+    const onDaysQtyChange = (daysQty: number) => {
+        setDaysQty(daysQty);
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        try {
+            e.preventDefault();
+            setIsLoading(true);
+
+            const response = await createTrip({ 
+                tripName, 
+                period, 
+                daysQty, 
+                placesQty: 0,
+                currency,
+                budgetAmount: Number(budgetAmount.toString().substring(getCurrencySymbol(currency).length)),
+                season
+            } as Trip);
+                        
+            if (response.success) {
+                setStatus(1);
+                //navigate('/home');
+            } else {
+                if (response.error == 'Error: The value of tripName is invalid!') {
+                    setStatus(2);
+                } else if (response.error == 'Error: The value of tripName is too short!') {
+                    setStatus(3);
+                } else if (response.error == 'Error: The value of tripName is too large!') {
+                    setStatus(4);
+                } else if (response.error == 'Error: The value of period is invalid!') {
+                    setStatus(5);
+                } else if (response.error == 'Error: The value of budget is invalid!') {
+                    setStatus(6);
+                } else if (response.error == 'Error: The value of currency is invalid!') {
+                    setStatus(7);
+                } else {
+                    setStatus(8);
+                }
+            }
+
+            setIsLoading(false);
+            setShowToast(true);
+        } catch (error: any) {
+            setStatus(8);
+            setIsLoading(false);
+            setShowToast(true);
+            console.log(error);
+        } 
+    };
+    
     useEffect(() => {
-        if (tripSelected == '*' || tripSelected == '' ) {
-            setIsDisabled(true);
-            localStorage.removeItem('tripId');
+        const startMonth = period.substring(0, 3);
+
+        if (['Dec', 'Jan', 'Feb', 'Jun', 'Jul', 'Aug'].includes(startMonth)) {
+            setSeason('High');
+        } else if (['Mar', 'Apr', 'May'].includes(startMonth)) {
+            setSeason('Middle');
+        } else if (['Sep', 'Oct', 'Nov'].includes(startMonth)) {
+            setSeason('Low');
         } else {
-            setIsDisabled(false);
-            setItemSessionStorage('tripId', tripSelected);
+            setSeason(''); 
         }
 
-    }, [tripSelected])
-      
-    useEffect(() => {
-        //loadTrips();
-    }, [])
+    }, [period]);
     
+    useEffect(() => {
+        if (!isLoading && showToast) {
+            if (status == 1) {
+                setToastMessage({
+                    variant: 'success',
+                    title: 'Trip created successfully!',
+                    description: 'Your trip is now set! Get ready for your next adventure.',
+                });
+            } else if (status == 2) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Invalid Trip Name',
+                    description: 'The trip name you entered is invalid. Please check and try again.',
+                });
+            } else if (status == 3) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Trip Name Too Short',
+                    description: 'The trip name is too short. Please enter a shorter trip name.',
+                });
+            } else if (status == 4) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Trip Name Too Long',
+                    description: 'The trip name address is too long. Please enter a shorter trip name.',
+                });
+            } else if (status == 5) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Invalid Period',
+                    description: 'The period you entered is invalid. Please check and try again.',
+                });
+            } else if (status == 6) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Invalid Budget',
+                    description: 'The budget you entered is invalid. Please check and try again.',
+                });
+            } else if (status == 7) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Invalid Currency',
+                    description: 'The currency you entered is invalid. Please check and try again.',
+                });
+            } else {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
+            }
+        }
+    }, [isLoading, showToast, status]);
+
+
+    useEffect(() => {
+        if (showToast) {
+            toast({
+                variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
+                title: toastMessage.title,
+                description: toastMessage.description,
+            })
+
+            setShowToast(false);
+        }
+
+    }, [toastMessage]);
+
+    useEffect(() => {
+        setTripName(`Trip to ${visitPlace}`)
+    }, [visitPlace]);
+
     return (
         <BodyPage>
             <TopPage>
                 <GoBack to="home"/>
             </TopPage>
             <MiddlePage>
-                <div className="hidden lg:block mx-[3vw]">
-                    {/*
-                    <img
-                        src={Image}
-                        className="w-full h-auto"
-                    />
-                    */}
-                </div>
-                <div className='text-center mx-[8.8vw] lg:mx-0 mt-[0vw] xs:mt-[14vw] lg:mt-0 lg:mb-[3vw]'>
-                    <div className="lg:hidden mx-[17vw] xxs3:mx-[8.8vw] xs:mx-[20.5vw] sm:mx-[15.5vw] my-[2vw] xxs5:my-[2vw] xxs3:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
-                        <img
-                            src={Image}
-                            className="w-auto h-auto"
-                        />
-                    </div>
-                    <div>
-                        <h1 className="grid text-center text-[14vw] xxs5:text-[13.7vw] xs:text-[10.5vw] lg:text-[6.2vw] w-full text-gray-900 tracking-tight leading-[1]">
-                            Your Trips!
-                        </h1>
-                    </div>
-                    <div>
-                        <p className='text-center text-[5.2vw] xxs8:text-[4.4vw] xs:text-[3.0vw] lg:text-[1.8vw] mt-[4.5vw] xxs5:mt-[4.2vw] xs:mt-[2.8vw] lg:mt-[1vw] leading-tight text-gray-900 tracking-tight'>
-                            All your journeys in one place.
-                        </p>
-                    </div>
-                    <div className="flex items-center mt-[1.3vw]">
-                    <Select defaultValue={trips.length === 0 ? "*" : ""} onValueChange={(e) => setTripSelected(e)}>
-                        <SelectTrigger>
-                            <SelectValue placeholder="Select Your Trip" />
-                        </SelectTrigger>
-                        <SelectContent className="h-[16vw]">
-                            <SelectGroup>
-                            {tripsExist ? (
-                                trips.map((trip: Trip) => (
-                                <SelectItem key={trip.id} value={trip.id}>
-                                    <p className="text-[0.8vw] text-gray-900">
-                                        {trip.tripName} - {trip.period}
+                <form onSubmit={handleSubmit}>
+                    <div className='table mx-auto mt-[2vw] xxs3:mt-[8vw] xs:mt-[3vw] sm:mt-[10vw] lg:mt-0'>
+                        <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
+                            <div>
+                                <h1 className="grid text-[13.2vw] xxs5:text-[12.6vw] xs:text-[9.1vw] lg:text-[3.9vw] w-full text-gray-900 tracking-tight leading-[0.9] xs:leading-[0.7]">
+                                    Edit Your Trip!
+                                </h1>
+                            </div>
+                            <div>
+                                <p className="xs:text-start text-[6.9vw] xxs8:text-[6.7vw] xs:text-[4.8vw] lg:text-[1.9vw] mt-[3.2vw] xs:mt-[2.7vw] lg:mt-[0.8vw] leading-tight text-gray-900 tracking-tight">
+                                    Tweak your plans and make them perfect!
+                                </p>
+                            </div>
+                        </div>
+                        <div className="grid place-items-center gap-y-2 xxs11:mt-[4vw] xs:mt-[2vw] lg:mt-[0.8vw] px-0 w-full" >
+                            <div className="grid gap-1.5 w-full place-items-start">
+                                <Label htmlFor="name" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
+                                    Trip Name
+                                </Label>
+                                <Input 
+                                    type="text" 
+                                    id="name"
+                                    placeholder="Enter the trip name"
+                                    value={tripName}
+                                    onChange={(e) => setTripName(e.target.value)}
+                                    onClick={() => setStatus(0)}
+                                    className={status >= 2 && status <= 4 ? "border-red-500" : "" }
+                                />
+                            </div>
+                            <div className="grid gap-1.5 w-full place-items-start">
+                                <Label htmlFor="travelPeriod" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
+                                    Trip Period.
+                                </Label>
+                                <div className="w-full" onClick={() => setStatus(0)}>
+                                    <DatePickerWithRange onPeriodChange={onPeriodChange} onDaysQtyChange={onDaysQtyChange} status={status}/>
+                                </div>
+                            </div>
+                            <div className="grid gap-1.5 w-full place-items-start">
+                                <Label htmlFor="budget" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
+                                    Budget
+                                </Label>
+                                <div className="w-full flex items-center w-full" onClick={() => setStatus(0)}>
+                                    <InputIntegraded
+                                        type="text"
+                                        placeholder="Enter amount"
+                                        value={budgetAmount}
+                                        onChange={handleChangeInput}
+                                        className={`w-full ${status === 6 ? "border-red-500" : ""}`}
+                                    />
+                                    <Select defaultValue="USD" onValueChange={handleChangeSelect} onOpenChange={() => setStatus(0) }>
+                                        <div>
+                                            <SelectTriggerInput className={`w-24 ${status === 7 ? "border-red-500" : ""}`}>
+                                                <SelectValue placeholder="Currency" />
+                                            </SelectTriggerInput>
+                                        </div>
+                                        <SelectContent>
+                                            <SelectItem value="USD">USD</SelectItem>
+                                            <SelectItem value="EUR">EUR</SelectItem>
+                                            <SelectItem value="BRL">BRL</SelectItem>
+                                            <SelectItem value="GBP">GBP</SelectItem>
+                                            <SelectItem value="JPY">JPY</SelectItem>
+                                            <SelectItem value="AUD">AUD</SelectItem>
+                                            <SelectItem value="CAD">CAD</SelectItem>
+                                            <SelectItem value="CHF">CHF</SelectItem>
+                                            <SelectItem value="CNY">CNY</SelectItem>
+                                            <SelectItem value="INR">INR</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                            </div>
+                            <div className="grid gap-1.5 w-full mt-1 xs:mt-2">
+                                <Button type="submit">
+                                    {
+                                        isLoading ? 
+                                        <div role="status">
+                                            <svg aria-hidden="true" className="w-8 h-8 text-white animate-spin fill-white py-1" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                                                <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5533C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.723 75.2124 7.41289C69.5422 4.10285 63.2754 1.94025 56.7222 1.05197C51.7666 0.3679 46.7398 0.446843 41.8198 1.27873C39.297 1.6983 37.8255 4.19778 38.4626 6.62326C39.0998 9.04874 41.5717 10.4717 44.0965 10.1071C47.8511 9.53005 51.7015 9.52622 55.4656 10.0962C60.878 10.9201 65.9925 13.1373 70.396 16.5714C74.7995 20.0055 78.3892 24.5698 80.8418 29.841C83.0456 34.3696 84.5159 39.246 85.1999 44.2728C85.6531 47.6269 88.1603 50.0379 91.5303 50.0379C91.9338 50.0379 92.3423 49.9962 92.7521 49.9106C95.209 49.4046 96.5425 46.9181 95.9355 44.4609C95.324 41.9793 94.5211 39.5402 93.9676 39.0409Z" fill="currentFill"/>
+                                            </svg>
+                                            <span className="sr-only">Carregando...</span>
+                                        </div>
+                                        : "Create Travel"
+                                    }
+                                </Button>
+                                <div className="flex justify-center items-center gap-1.5 w-full text-[4vw] xxs5:text-sm mt-[0.8vw] sm:text-base lg:text-lg">
+                                    <p>
+                                        Don't you know where to go?
                                     </p>
-                                </SelectItem>
-                                ))
-                            ) : (
-                                <SelectItem value="*">No trips created yet</SelectItem>
-                            )}
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger className="flex h-10  items-center justify-between border rounded-r-md border-t-2 border-b-2 border-r-2 border-l-1 border-[#bfbfbf] bg-transparent px-2 py-1 border-[#bfbfbf] text-sm ring-offset-background placeholder:text-muted-foreground hover:border-[#707070] hover:border-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 data-[state=open]:border-2 data-[state=open]:border-[#707070] data-[state=open]:text-accent-foreground">
-                            <MoreHorizontal />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Trip Options</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem disabled={isDisabled} onClick={(e) => e.preventDefault()}>
-                                <Link to={'/editTrip'}>
-                                    Edit
-                                </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem disabled={isDisabled} onClick={(e) => e.preventDefault()}>
-                                <AlertDialog>
-                                    <AlertDialogTrigger asChild>
-                                        <p>Delete</p>
-                                    </AlertDialogTrigger>
-                                    <AlertDialogContent>
-                                        <AlertDialogHeader>
-                                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                            <AlertDialogDescription>
-                                                This action cannot be undone. This will permanently delete your trip and remove 
-                                                all related data from our system.
-                                            </AlertDialogDescription>
-                                        </AlertDialogHeader>
-                                        <AlertDialogFooter>
-                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                            <AlertDialogAction onClick={handleDelete}>Delete Trip</AlertDialogAction>
-                                        </AlertDialogFooter>
-                                    </AlertDialogContent>
-                                </AlertDialog>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem disabled={isDisabled}>Duplicate</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                                    <ModalPlaceSuggestion onVisitPlaceClicked={setVisitPlace}/>
+                                </div>
+                                <Toaster />
+                            </div>
+                        </div>
                     </div>
-                    <div className="w-full mt-[0.8vw]">
-                        <Button size={"card"} disabled={false}>
-                            Access This Trip
-                        </Button>
-                    </div>
-                    {
-                        tripsExist ?
-                        <div className="flex justify-center items-center gap-1.5 w-full text-[4vw] xxs5:text-sm mt-[0.8vw] sm:text-base lg:text-lg">
-                            <p>
-                                Want to create another trip?
-                            </p>
-                            <Link to={"/addTrips"}>
-                                <strong>
-                                    Click here.
-                                </strong>
-                            </Link>
-                        </div> : ''
-                    }
-                    <Toaster />
-                </div>
+                </form>
             </MiddlePage>
             <BottomPage>
                 <Credits/>
             </BottomPage>
-        </BodyPage>          
+        </BodyPage>
     )
 }

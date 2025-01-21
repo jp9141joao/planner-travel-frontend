@@ -8,7 +8,7 @@ import Image from '@/assets/undraw_aircraft_re_m05i.svg';
 import React, { useEffect, useState } from "react";
 import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts";
 import { GoBack } from "@/components/GoBack";
-import { getUser, signInUser } from "@/service/service";
+import { signInUser } from "@/service/service";
 import Credits from "@/components/Credits";
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"

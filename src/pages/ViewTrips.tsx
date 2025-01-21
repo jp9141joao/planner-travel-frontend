@@ -226,6 +226,7 @@ export function ViewTrips() {
     const [tripsExist, setTripsExist] = useState<boolean>(true);
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
     const [tripSelected, setTripSelected] = useState<string>('');
+    const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const loadTrips = async () => {
         try {
@@ -333,107 +334,121 @@ export function ViewTrips() {
                 <GoBack to="home"/>
             </TopPage>
             <MiddlePage>
-                <div className="hidden lg:block mx-[3vw]">
+            <div className="hidden lg:block mx-[2vw]">
                     <img
                         src={Image}
-                        className="w-full h-auto"
+                        className="w-auto h-auto"
                     />
                 </div>
-                <div className='text-center mx-[8.8vw] lg:mx-0 mt-[0vw] xs:mt-[14vw] lg:mt-0 lg:mb-[3vw]'>
+                <div>
                     <div className="lg:hidden mx-[17vw] xxs3:mx-[8.8vw] xs:mx-[20.5vw] sm:mx-[15.5vw] my-[2vw] xxs5:my-[2vw] xxs3:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
                         <img
                             src={Image}
                             className="w-auto h-auto"
                         />
                     </div>
-                    <div>
-                        <h1 className="grid text-center text-[14vw] xxs5:text-[13.7vw] xs:text-[10.5vw] lg:text-[6.2vw] w-full text-gray-900 tracking-tight leading-[1]">
-                            Your Trips!
-                        </h1>
-                    </div>
-                    <div>
-                        <p className='text-center text-[5.2vw] xxs8:text-[4.4vw] xs:text-[3.0vw] lg:text-[1.8vw] mt-[4.5vw] xxs5:mt-[4.2vw] xs:mt-[2.8vw] lg:mt-[1vw] leading-tight text-gray-900 tracking-tight'>
-                            All your journeys in one place.
-                        </p>
-                    </div>
-                    <div className="flex items-center mt-[1.3vw]">
-                    <Select defaultValue={trips.length === 0 ? "*" : ""} onValueChange={(e) => setTripSelected(e)}>
-                        <SelectTrigger>
-                            <SelectValue placeholder="Select Your Trip" />
-                        </SelectTrigger>
-                        <SelectContent className="lg:h-[16vw]">
-                            <SelectGroup>
-                            {tripsExist ? (
-                                trips.map((trip: Trip) => (
-                                <SelectItem key={trip.id} value={trip.id}>
-                                    <p className="text-gray-900">
-                                        {trip.tripName} - {trip.period}
-                                    </p>
-                                </SelectItem>
-                                ))
-                            ) : (
-                                <SelectItem value="*">No trips created yet</SelectItem>
-                            )}
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger className="flex h-10  items-center justify-between border rounded-r-md border-t-2 border-b-2 border-r-2 border-l-1 border-[#bfbfbf] bg-transparent px-2 py-1 border-[#bfbfbf] text-sm ring-offset-background placeholder:text-muted-foreground hover:border-[#707070] hover:border-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 data-[state=open]:border-2 data-[state=open]:border-[#707070] data-[state=open]:text-accent-foreground">
-                            <MoreHorizontal />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Trip Options</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem disabled={isDisabled} onClick={(e) => e.preventDefault()}>
-                                <Link to={'/editTrip'} onClick={() => setItemSessionStorage('tripId', tripSelected)}>
-                                    Edit
-                                </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem disabled={isDisabled} onClick={(e) => e.preventDefault()}>
-                                <AlertDialog>
-                                    <AlertDialogTrigger asChild>
-                                        <p>Delete</p>
-                                    </AlertDialogTrigger>
-                                    <AlertDialogContent>
-                                        <AlertDialogHeader>
-                                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                            <AlertDialogDescription>
-                                                This action cannot be undone. This will permanently delete your trip and remove 
-                                                all related data from our system.
-                                            </AlertDialogDescription>
-                                        </AlertDialogHeader>
-                                        <AlertDialogFooter>
-                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                            <AlertDialogAction onClick={handleDelete}>Delete Trip</AlertDialogAction>
-                                        </AlertDialogFooter>
-                                    </AlertDialogContent>
-                                </AlertDialog>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem disabled={isDisabled} onClick={handleDublicate}>
-                                <p>Duplicate</p>
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                    </div>
-                    <div className="w-full mt-[0.8vw]">
-                        <Button size={"card"} disabled={false}>
-                            Access This Trip
-                        </Button>
-                    </div>
-                    {
-                        tripsExist ?
-                        <div className="flex justify-center items-center gap-1.5 w-full text-[4vw] xxs5:text-sm mt-[0.8vw] sm:text-base lg:text-lg">
-                            <p>
-                                Want to create another trip?
+                    <div className='table mx-auto mb-[5vw] mt-[3vw] xs:mb-0'>
+                        <div>
+                            <h1 className="grid text-center text-[18.5vw] xxs5:text-[18vw] xs:text-[12.7vw] lg:text-[6.2vw] w-full text-gray-900 tracking-tight leading-[0.9]">
+                                Your Trips!
+                            </h1>
+                        </div>
+                        <div>
+                            <p className='text-center text-[7.2vw] xxs8:text-[6.9vw] xs:text-[4.9vw] lg:text-[1.8vw] mt-[4.5vw] xxs5:mt-[4.2vw] xs:mt-[2.8vw] lg:mt-[1vw] leading-tight text-gray-900 tracking-tight'>
+                                All your journeys in one place.
                             </p>
-                            <Link to={"/addTrips"}>
-                                <strong>
-                                    Click here.
-                                </strong>
-                            </Link>
-                        </div> : ''
-                    }
-                    <Toaster />
+                        </div>
+                        <div className="flex items-center mt-[1.3vw] xxs5:mt-[3.5vw] lg:mt-[1.2vw]">
+                            <Select 
+                                defaultValue={trips.length === 0 ? "*" : ""} 
+                                onValueChange={(e) => setTripSelected(e)} 
+                                open={isOpen} 
+                                onOpenChange={setIsOpen}
+                            >
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select Your Trip">
+                                        {tripSelected 
+                                            ? trips.find((trip) => trip.id === tripSelected)?.tripName 
+                                            : "Select Your Trip"}
+                                    </SelectValue>
+                                </SelectTrigger>
+                                <SelectContent className="h-[49vw] lg:h-[16vw]">
+                                    <SelectGroup>
+                                        {tripsExist ? (
+                                            trips.map((trip: Trip) => (
+                                                <SelectItem key={trip.id} value={trip.id}>
+                                                    <p className="text-gray-900">
+                                                        {trip.tripName}
+                                                    </p>
+                                                    <p>
+                                                        {isOpen ? `${trip.period}` : null}
+                                                    </p>
+                                                </SelectItem>
+                                            ))
+                                        ) : (
+                                            <SelectItem value="*">No trips created yet</SelectItem>
+                                        )}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger className="flex h-10  items-center justify-between border rounded-r-md border-t-2 border-b-2 border-r-2 border-l-1 border-[#bfbfbf] bg-transparent px-2 py-1 border-[#bfbfbf] text-sm ring-offset-background placeholder:text-muted-foreground hover:border-[#707070] hover:border-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 data-[state=open]:border-2 data-[state=open]:border-[#707070] data-[state=open]:text-accent-foreground">
+                                    <MoreHorizontal />
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    <DropdownMenuLabel>Trip Options</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem disabled={isDisabled} onClick={(e) => e.preventDefault()}>
+                                        <Link to={'/editTrip'} onClick={() => setItemSessionStorage('tripId', tripSelected)}>
+                                            Edit
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem disabled={isDisabled} onClick={(e) => e.preventDefault()}>
+                                        <AlertDialog>
+                                            <AlertDialogTrigger asChild>
+                                                <p>Delete</p>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                    <AlertDialogDescription>
+                                                        This action cannot be undone. This will permanently delete your trip and remove 
+                                                        all related data from our system.
+                                                    </AlertDialogDescription>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                    <AlertDialogAction onClick={handleDelete}>Delete Trip</AlertDialogAction>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem disabled={isDisabled} onClick={handleDublicate}>
+                                        <p>Duplicate</p>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+                        <div className="w-full mt-[2.5vw] lg:mt-[0.7vw]">
+                            <Button size={"card"} disabled={false}>
+                                Access This Trip
+                            </Button>
+                        </div>
+                        {
+                            tripsExist ?
+                            <div className="flex justify-center items-center gap-1.5 w-full text-[4vw] xxs5:text-sm mt-[0.8vw] sm:text-base lg:text-lg">
+                                <p>
+                                    Want to create another trip?
+                                </p>
+                                <Link to={"/addTrips"}>
+                                    <strong>
+                                        Click here.
+                                    </strong>
+                                </Link>
+                            </div> : ''
+                        }
+                        <Toaster />
+                    </div>
                 </div>
             </MiddlePage>
             <BottomPage>

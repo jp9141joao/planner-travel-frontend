@@ -108,58 +108,7 @@ const data: dataPlace[] = [
   { id: "70", City: "Guangzhou", Country: "China", Language: "Mandarin", Weather: "Tropical", Currency: "Yuan", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Guangzhou&tbm=isch" }
 ];
 
-const columns: ColumnDef<dataPlace, any>[] = [
-  {
-    accessorKey: "City",
-    header: "City",
-    cell: ({ row }: any) => <div>{row.getValue("City")}</div>,
-  },
-  {
-    accessorKey: "Country",
-    header: "Country",
-    cell: ({ row }: any) => <div>{row.getValue("Country")}</div>,
-  },
-  {
-    accessorKey: "Language",
-    header: "Language",
-    cell: ({ row }: any) => <div>{row.getValue("Language")}</div>,
-  },
-  {
-    accessorKey: "Weather",
-    header: "Weather",
-    cell: ({ row }: any) => <div>{row.getValue("Weather")}</div>,
-  },
-  {
-    accessorKey: "Currency",
-    header: "Currency",
-    cell: ({ row }: any) => <div>{row.getValue("Currency")}</div>,
-  },
-  {
-    accessorKey: "Cost",
-    header: "Cost",
-    cell: ({ row }: any) => <div>{row.getValue("Cost")}</div>,
-  },
-  {
-    accessorKey: "Pictures",
-    header: "Pictures",
-    cell: ({ row }: any) => (
-      <a href={row.getValue("Pictures")} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
-        Link
-      </a>
-    )
-  },
-  {
-    accessorKey: "Visit",
-    header: "Visit",
-    cell: ({ row }: any) => (
-      <div className="">
-        <MoveRight className="hover:translate-x-1 transition-all"/>
-      </div>
-    )
-  }
-];
-
-export function ButtonPlaceSuggestion() {
+export function ModalPlaceSuggestion({ onVisitPlaceClicked }: { onVisitPlaceClicked: (city: string) => void }) {
 
   return (
     <Dialog>
@@ -173,21 +122,76 @@ export function ButtonPlaceSuggestion() {
             Find places to add to your travel plan and make the most of your trip.
           </DialogDescription>
         </DialogHeader>
-          <PlaceSuggestions />
+          <PlaceSuggestions onVisitPlaceClicked={onVisitPlaceClicked}/>
       </DialogContent>
     </Dialog>
   )
 }
 
-function PlaceSuggestions() {
+function PlaceSuggestions({ onVisitPlaceClicked }: { onVisitPlaceClicked: (city: string) => void }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const [selectedColumn, setSelectedColumn] = React.useState<string>("City");
+  
+  const columns: ColumnDef<dataPlace, any>[] = [
+    {
+      accessorKey: "City",
+      header: "City",
+      cell: ({ row }: any) => <div>{row.getValue("City")}</div>,
+    },
+    {
+      accessorKey: "Country",
+      header: "Country",
+      cell: ({ row }: any) => <div>{row.getValue("Country")}</div>,
+    },
+    {
+      accessorKey: "Language",
+      header: "Language",
+      cell: ({ row }: any) => <div>{row.getValue("Language")}</div>,
+    },
+    {
+      accessorKey: "Weather",
+      header: "Weather",
+      cell: ({ row }: any) => <div>{row.getValue("Weather")}</div>,
+    },
+    {
+      accessorKey: "Currency",
+      header: "Currency",
+      cell: ({ row }: any) => <div>{row.getValue("Currency")}</div>,
+    },
+    {
+      accessorKey: "Cost",
+      header: "Cost",
+      cell: ({ row }: any) => <div>{row.getValue("Cost")}</div>,
+    },
+    {
+      accessorKey: "Pictures",
+      header: "Pictures",
+      cell: ({ row }: any) => (
+        <a href={row.getValue("Pictures")} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+          Link
+        </a>
+      )
+    },
+    {
+      accessorKey: "Visit",
+      header: "Visit",
+      cell: ({ row }: any) => (
+        <div onClick={() => handleButton(row.getValue("City"))}>
+          <MoveRight className="hover:translate-x-1 transition-all"/>
+        </div>
+      )
+    }
+  ];
 
   const updateFilter = (newFilter: { id: string; value: string }) => {
-    setColumnFilters([newFilter]); // Reseta todos os filtros e aplica o novo
+    setColumnFilters([newFilter]);
+  };
+
+  const handleButton = (city: string) => {
+    onVisitPlaceClicked(city);
   };
 
   const table = useReactTable({

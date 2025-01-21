@@ -13,7 +13,7 @@ import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { DatePickerWithRange } from "@/components/DatePickerWithRange";
 import { Select, SelectContent, SelectItem, SelectTriggerInput, SelectValue } from "@/components/ui/select";
-import { ButtonPlaceSuggestion } from "@/components/PlaceSuggestions";
+import { ModalPlaceSuggestion } from "@/components/PlaceSuggestions";
 import { Value } from "@radix-ui/react-select";
 
 export default function AddTrips () {
@@ -24,6 +24,7 @@ export default function AddTrips () {
     const [ budgetAmount , setBudgetAmount ] = useState<number | string>('$0');
     const [ currency, setCurrency ] = useState<string>('USD');
     const [ season, setSeason] = useState<string>('');
+    const [ visitPlace, setVisitPlace ] = useState('');
     const [ toastMessage, setToastMessage ] = useState({
         variant: '', title: '', description: ''
     });
@@ -216,6 +217,10 @@ export default function AddTrips () {
 
     }, [toastMessage]);
 
+    useEffect(() => {
+        setTripName(`Trip to ${visitPlace}`)
+    }, [visitPlace]);
+
     return (
         <BodyPage>
             <TopPage>
@@ -316,14 +321,14 @@ export default function AddTrips () {
                                     <p>
                                         Don't you know where to go?
                                     </p>
-                                    <ButtonPlaceSuggestion/>
+                                    <ModalPlaceSuggestion onVisitPlaceClicked={setVisitPlace}/>
                                 </div>
                                 <Toaster />
                             </div>
                         </div>
                     </div>
                 </form>
-                <div className="lg:hidden mx-[20vw] xxs3:mx-[10.8vw] xs:mx-[28vw] sm:mx-[21vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
+                <div className="lg:hidden mx-[24vw] xxs3:mx-[10.8vw] xs:mx-[28vw] sm:mx-[21vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
                     <img
                         src={Image}
                         className="w-auto h-auto"

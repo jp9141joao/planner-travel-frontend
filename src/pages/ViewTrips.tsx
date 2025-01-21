@@ -5,7 +5,7 @@ import Image from "../assets/undraw_adventure-map_8hg8.svg"
 import { useEffect, useState } from "react";
 import { Trip } from "@/types/types";
 import { Button } from "@/components/ui/button";
-import { deleteTrip, getTrips } from "@/service/service";
+import { deleteTrip, duplicateTrip, getTrips } from "@/service/service";
 import { Toaster } from "@/components/ui/toaster";
 import { toast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
@@ -24,7 +24,7 @@ export function ViewTrips() {
     const [trips, setTrips] = useState<Trip[]>([
         {
             id: '7101923785401883001',
-            tripName: 'Expedition to the Arctic',
+            tripName: 'wwwwwwwwwwwwwwwwwwwwww',
             period: 'Apr 15, 2025 - Apr 25, 2025',
             daysQty: 11,
             placesQty: 3,
@@ -282,6 +282,34 @@ export function ViewTrips() {
             });
             console.error(error);
         }
+    };
+
+    const handleDublicate = async () => {
+        try {
+            const response = await duplicateTrip(BigInt(tripSelected) as bigint);
+
+            if (response.success) {
+                loadTrips();
+                toast({
+                    variant: 'success',
+                    title: 'Trip duplicated successfully!',
+                    description: 'Your trip has been duplicated and is now in your list.',
+                });
+            } else {
+                toast({
+                    variant: 'destructive',
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
+            }
+        } catch (error: any) {
+            toast({
+                variant: 'destructive',
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
+            console.error(error);
+        }
     }
 
     useEffect(() => {
@@ -306,12 +334,10 @@ export function ViewTrips() {
             </TopPage>
             <MiddlePage>
                 <div className="hidden lg:block mx-[3vw]">
-                    {/*
                     <img
                         src={Image}
                         className="w-full h-auto"
                     />
-                    */}
                 </div>
                 <div className='text-center mx-[8.8vw] lg:mx-0 mt-[0vw] xs:mt-[14vw] lg:mt-0 lg:mb-[3vw]'>
                     <div className="lg:hidden mx-[17vw] xxs3:mx-[8.8vw] xs:mx-[20.5vw] sm:mx-[15.5vw] my-[2vw] xxs5:my-[2vw] xxs3:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
@@ -335,12 +361,12 @@ export function ViewTrips() {
                         <SelectTrigger>
                             <SelectValue placeholder="Select Your Trip" />
                         </SelectTrigger>
-                        <SelectContent className="h-[16vw]">
+                        <SelectContent className="lg:h-[16vw]">
                             <SelectGroup>
                             {tripsExist ? (
                                 trips.map((trip: Trip) => (
                                 <SelectItem key={trip.id} value={trip.id}>
-                                    <p className="text-[0.8vw] text-gray-900">
+                                    <p className="text-gray-900">
                                         {trip.tripName} - {trip.period}
                                     </p>
                                 </SelectItem>
@@ -359,7 +385,7 @@ export function ViewTrips() {
                             <DropdownMenuLabel>Trip Options</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem disabled={isDisabled} onClick={(e) => e.preventDefault()}>
-                                <Link to={'/editTrip'}>
+                                <Link to={'/editTrip'} onClick={() => setItemSessionStorage('tripId', tripSelected)}>
                                     Edit
                                 </Link>
                             </DropdownMenuItem>
@@ -383,7 +409,9 @@ export function ViewTrips() {
                                     </AlertDialogContent>
                                 </AlertDialog>
                             </DropdownMenuItem>
-                            <DropdownMenuItem disabled={isDisabled}>Duplicate</DropdownMenuItem>
+                            <DropdownMenuItem disabled={isDisabled} onClick={handleDublicate}>
+                                <p>Duplicate</p>
+                            </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                     </div>

@@ -105,6 +105,24 @@ export const getTrips = async () => {
     return response.data;
 }
 
+export const editTrip = async (trip: Trip) => {
+    
+    const token = localStorage.getItem('authToken');
+    
+    if (!token) {
+        throw new Error("Token is missing!");
+    }
+
+    const response = await axios.put(`${url}/viewTrips`, trip,{
+        validateStatus: (status) => status != 400,
+        headers: {
+            'authorization': `Bearer ${token}`,
+        },
+    });
+
+    return response.data;
+}
+
 export const deleteTrip = async (tripId: bigint) => {
     
     const token = localStorage.getItem('authToken');
@@ -114,6 +132,25 @@ export const deleteTrip = async (tripId: bigint) => {
     }
 
     const response = await axios.delete(`${url}/viewTrips`, {
+        data: tripId,
+        validateStatus: (status) => status != 400,
+        headers: {
+            'authorization': `Bearer ${token}`,
+        },
+    });
+
+    return response.data;
+}
+
+export const duplicateTrip = async (tripId: bigint) => {
+
+    const token = localStorage.getItem('authToken');
+    
+    if (!token) {
+        throw new Error("Token is missing!");
+    }
+
+    const response = await axios.post(`${url}/viewTrips`, tripId, {
         validateStatus: (status) => status != 400,
         headers: {
             'authorization': `Bearer ${token}`,

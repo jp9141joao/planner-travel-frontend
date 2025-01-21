@@ -1,24 +1,20 @@
-import { ProtectedRouteProps } from "@/types/types";
-import { jwtDecode } from "jwt-decode";
-import { Navigate } from "react-router-dom";
+import { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import { ProtectedRouteProps } from '@/types/types';
+import { CheckTokenExpiration } from '../CheckTokenExpiration';
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     const token = localStorage.getItem('authToken');
 
+    useEffect(() => {
+        const interval = setInterval(CheckTokenExpiration, 60000);
 
-    if (token) {
-        const decodedToken = jwtDecode(token);
-      
-        if (decodedToken.exp) {
-            const currentTime = Date.now() / 1000;
-        
-            if (decodedToken.exp < currentTime) {
-                localStorage.removeItem('authToken');
-            }
-        }
-    } else {
-        return <Navigate to='/signIn' />
+        return () => clearInterval(interval);
+    }, []);
+
+    if (!token) {
+        return <Navigate to='/signIn' />;
     }
 
     return children;
-}
+};

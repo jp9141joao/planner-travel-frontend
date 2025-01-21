@@ -71,7 +71,7 @@ export default function AddTrips () {
         const oldSymbol = getCurrencySymbol(currency);
         const newSymbol = getCurrencySymbol(value);
 
-        setCurrency(newSymbol);
+        setCurrency(value);
 
         if (typeof budgetAmount == 'string') {
             const InputValue = budgetAmount.substring(oldSymbol.length);
@@ -91,18 +91,17 @@ export default function AddTrips () {
         try {
             e.preventDefault();
             setIsLoading(true);
-            
-            //const response = await createTrip({ 
-            // tripName, 
-            // period, 
-            // daysQty, 
-            // placesQty: 0
-            // currency,
-            // budgetAmount: Number(budgetAmount.substring(currency.length)),
-            // season: 
-            //} as Trip);
-            const response = { success: true, error: '', data: ''}
-            
+
+            const response = await createTrip({ 
+                tripName, 
+                period, 
+                daysQty, 
+                placesQty: 0,
+                currency,
+                budgetAmount: Number(budgetAmount.toString().substring(getCurrencySymbol(currency).length)),
+                season
+            } as Trip);
+                        
             if (response.success) {
                 setStatus(1);
                 //navigate('/home');
@@ -115,8 +114,12 @@ export default function AddTrips () {
                     setStatus(4);
                 } else if (response.error == 'Error: The value of period is invalid!') {
                     setStatus(5);
-                } else {
+                } else if (response.error == 'Error: The value of budget is invalid!') {
                     setStatus(6);
+                } else if (response.error == 'Error: The value of currency is invalid!') {
+                    setStatus(7);
+                } else {
+                    setStatus(8);
                 }
             }
 
@@ -177,6 +180,18 @@ export default function AddTrips () {
                     title: 'Invalid Period',
                     description: 'The period you entered is invalid. Please check and try again.',
                 });
+            } else if (status == 6) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Invalid Budget',
+                    description: 'The budget you entered is invalid. Please check and try again.',
+                });
+            } else if (status == 7) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Invalid Currency',
+                    description: 'The currency you entered is invalid. Please check and try again.',
+                });
             } else {
                 setToastMessage({
                     variant: 'destructive',
@@ -189,18 +204,16 @@ export default function AddTrips () {
 
 
     useEffect(() => {
-        if (showToast && status == 100) {
+        if (showToast) {
             toast({
                 variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
                 title: toastMessage.title,
                 description: toastMessage.description,
             })
+
+            setShowToast(false);
         }
 
-        if (status == 1) {
-            setStatus(0);
-        }
-        
     }, [toastMessage]);
 
     return (
@@ -210,12 +223,10 @@ export default function AddTrips () {
             </TopPage>
             <MiddlePage>
                 <div className="hidden lg:block mx-[2vw]">
-                    {/*
                     <img
                         src={Image}
                         className="w-auto h-auto"
                     />
-                    */}
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className='table mx-auto mt-[2vw] xxs3:mt-[8vw] xs:mt-[3vw] sm:mt-[10vw] lg:mt-0'>
@@ -243,14 +254,14 @@ export default function AddTrips () {
                                     value={tripName}
                                     onChange={(e) => setTripName(e.target.value)}
                                     onClick={() => setStatus(0)}
-                                    className={status == 2 || status == 3 ? "border-red-500" : "" }
+                                    className={status >= 2 && status <= 4 ? "border-red-500" : "" }
                                 />
                             </div>
                             <div className="grid gap-1.5 w-full place-items-start">
                                 <Label htmlFor="travelPeriod" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                     Trip Period.
                                 </Label>
-                                <div className="w-full" onClick={() => { setStatus(0) }}>
+                                <div className="w-full" onClick={() => setStatus(0)}>
                                     <DatePickerWithRange onPeriodChange={onPeriodChange} onDaysQtyChange={onDaysQtyChange} status={status}/>
                                 </div>
                             </div>
@@ -258,18 +269,20 @@ export default function AddTrips () {
                                 <Label htmlFor="budget" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                     Budget
                                 </Label>
-                                <div className="w-full flex items-center w-full" onClick={() => { setStatus(0) }}>
+                                <div className="w-full flex items-center w-full" onClick={() => setStatus(0)}>
                                     <InputIntegraded
                                         type="text"
                                         placeholder="Enter amount"
                                         value={budgetAmount}
                                         onChange={handleChangeInput}
-                                        className={`w-full ${status === 5 ? "border-red-500" : ""}`}
+                                        className={`w-full ${status === 6 ? "border-red-500" : ""}`}
                                     />
-                                    <Select defaultValue="USD" onValueChange={handleChangeSelect}>
-                                        <SelectTriggerInput className="w-24">
-                                            <SelectValue placeholder="Currency" />
-                                        </SelectTriggerInput>
+                                    <Select defaultValue="USD" onValueChange={handleChangeSelect} onOpenChange={() => setStatus(0) }>
+                                        <div>
+                                            <SelectTriggerInput className={`w-24 ${status === 7 ? "border-red-500" : ""}`}>
+                                                <SelectValue placeholder="Currency" />
+                                            </SelectTriggerInput>
+                                        </div>
                                         <SelectContent>
                                             <SelectItem value="USD">USD</SelectItem>
                                             <SelectItem value="EUR">EUR</SelectItem>

@@ -29,7 +29,7 @@ export interface dataPlace {
   City: string,
   Country: string,
   Language: string,
-  Wether: string,
+  Weather: string,
   Currency: string,
   Cost: string,
   Pictures: string

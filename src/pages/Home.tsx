@@ -16,6 +16,7 @@ export default function Home() {
     const userData = await getUser();
 
     if (!userData) {
+      localStorage.removeItem('user')
       throw new Error('User data could not be retrieved from the token. Please try again.');
     }
 

@@ -16,8 +16,8 @@ import { ProfileSettings } from "./pages/ProfileSettings";
 import { NotFound } from "./pages/NotFound";
 //import { ProtectedRoute } from "./components/protectedRoute/ProtectedRoute";
 import { ViewTrips } from "./pages/ViewTrips";
-import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
-import { EditTrip } from "./pages/EditTrip";
+import EditTrip from "./pages/EditTrip";
+import { ProtectedRoute } from "./components/protectedRoute/ProtectedRoute";
 
 function App() {
 

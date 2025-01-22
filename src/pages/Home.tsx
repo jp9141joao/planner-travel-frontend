@@ -29,7 +29,7 @@ export default function Home() {
     if (token) {
       loadData(); 
     }
-  }, [])
+  }, []);
 
   return (
     <BodyPage>

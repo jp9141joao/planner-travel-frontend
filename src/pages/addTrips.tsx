@@ -218,7 +218,9 @@ export default function AddTrips () {
     }, [toastMessage]);
 
     useEffect(() => {
-        setTripName(`Trip to ${visitPlace}`)
+        if (visitPlace != '') {
+            setTripName(`Trip to ${visitPlace}`)
+        }
     }, [visitPlace]);
 
     return (

@@ -108,33 +108,59 @@ const data: dataPlace[] = [
   { id: "70", City: "Guangzhou", Country: "China", Language: "Mandarin", Weather: "Tropical", Currency: "Yuan", Cost: "Moderate", Pictures: "https://www.google.com/search?q=Guangzhou&tbm=isch" }
 ];
 
-export function ModalPlaceSuggestion({ onVisitPlaceClicked }: { onVisitPlaceClicked: (city: string) => void }) {
+export function ModalPlaceSuggestion({
+  onVisitPlaceClicked,
+}: {
+  onVisitPlaceClicked: (city: string) => void;
+}) {
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
-    <Dialog>
+    <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
-        <strong className="cursor-pointer">Click here.</strong>
+        <strong
+          className="cursor-pointer"
+          onClick={() => setIsModalOpen(true)}
+        >
+          Click here.
+        </strong>
       </DialogTrigger>
       <DialogContent className="max-w-full max-h-screen overflow-auto p-4">
         <DialogHeader>
           <DialogTitle>Place Suggestions</DialogTitle>
           <DialogDescription>
-            Find places to add to your travel plan and make the most of your trip.
+            Find places to add to your travel plan and make the most of your
+            trip.
           </DialogDescription>
         </DialogHeader>
-          <PlaceSuggestions onVisitPlaceClicked={onVisitPlaceClicked}/>
+        <PlaceSuggestions
+          onVisitPlaceClicked={(city: string) => {
+            onVisitPlaceClicked(city);
+            handleCloseModal(); // Fecha a modal após a ação
+          }}
+        />
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 
-function PlaceSuggestions({ onVisitPlaceClicked }: { onVisitPlaceClicked: (city: string) => void }) {
+function PlaceSuggestions({
+  onVisitPlaceClicked,
+}: {
+  onVisitPlaceClicked: (city: string) => void;
+}) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] =
+    React.useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const [selectedColumn, setSelectedColumn] = React.useState<string>("City");
-  
+
   const columns: ColumnDef<dataPlace, any>[] = [
     {
       accessorKey: "City",
@@ -170,20 +196,25 @@ function PlaceSuggestions({ onVisitPlaceClicked }: { onVisitPlaceClicked: (city:
       accessorKey: "Pictures",
       header: "Pictures",
       cell: ({ row }: any) => (
-        <a href={row.getValue("Pictures")} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+        <a
+          href={row.getValue("Pictures")}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 underline"
+        >
           Link
         </a>
-      )
+      ),
     },
     {
       accessorKey: "Visit",
       header: "Visit",
       cell: ({ row }: any) => (
         <div onClick={() => handleButton(row.getValue("City"))}>
-          <MoveRight className="hover:translate-x-1 transition-all"/>
+          <MoveRight className="hover:translate-x-1 transition-all" />
         </div>
-      )
-    }
+      ),
+    },
   ];
 
   const updateFilter = (newFilter: { id: string; value: string }) => {
@@ -191,7 +222,7 @@ function PlaceSuggestions({ onVisitPlaceClicked }: { onVisitPlaceClicked: (city:
   };
 
   const handleButton = (city: string) => {
-    onVisitPlaceClicked(city);
+    onVisitPlaceClicked(city); // Chama o evento com a cidade selecionada
   };
 
   const table = useReactTable({
@@ -219,19 +250,21 @@ function PlaceSuggestions({ onVisitPlaceClicked }: { onVisitPlaceClicked: (city:
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className="ml-auto">
-              {selectedColumn ? selectedColumn : "Select column to filter"} <ChevronDown />
+              {selectedColumn ? selectedColumn : "Select column to filter"}{" "}
+              <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            {columns.map((col) => (
-              col.header != 'Visit' && col.header != 'Pictures' ?
-              <DropdownMenuItem
-                key={col.id}
-                onClick={() => setSelectedColumn(col.accessorKey || col.id)}
-              >
-                {col.header as React.ReactNode} 
-              </DropdownMenuItem> : null
-            ))}
+            {columns.map((col) =>
+              col.header !== "Visit" && col.header !== "Pictures" ? (
+                <DropdownMenuItem
+                  key={col.id}
+                  onClick={() => setSelectedColumn(col.accessorKey || col.id)}
+                >
+                  {col.header as React.ReactNode}
+                </DropdownMenuItem>
+              ) : null
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
 
@@ -244,6 +277,7 @@ function PlaceSuggestions({ onVisitPlaceClicked }: { onVisitPlaceClicked: (city:
           className="flex-1"
         />
       </div>
+
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -288,26 +322,6 @@ function PlaceSuggestions({ onVisitPlaceClicked }: { onVisitPlaceClicked: (city:
             )}
           </TableBody>
         </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
       </div>
     </div>
   );

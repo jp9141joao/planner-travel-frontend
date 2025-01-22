@@ -239,12 +239,12 @@ export default function AddTrips () {
                     <div className='table mx-auto mt-[2vw] xxs3:mt-[8vw] xs:mt-[3vw] sm:mt-[10vw] lg:mt-0'>
                         <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                             <div>
-                                <h1 className="grid text-[13.2vw] xxs5:text-[12.6vw] xs:text-[9.1vw] lg:text-[3.9vw] w-full text-gray-900 tracking-tight leading-[0.9] xs:leading-[0.7]">
+                                <h1 className="grid text-[11.9vw] xxs5:text-[12.5vw] xs:text-[9.1vw] lg:text-[3.9vw] w-full text-gray-900 tracking-tight leading-[0.9] xs:leading-[0.7]">
                                     Create Your Trip!
                                 </h1>
                             </div>
                             <div>
-                                <p className="xs:text-start text-[6.9vw] xxs8:text-[6.7vw] xs:text-[4.8vw] lg:text-[1.9vw] mt-[3.2vw] xs:mt-[2.7vw] lg:mt-[0.8vw] leading-tight text-gray-900 tracking-tight">
+                                <p className="xs:text-start text-[7.9vw] xxs8:text-[7.6vw] xs:text-[4.8vw] lg:text-[1.9vw] mt-[3.2vw] xs:mt-[2.7vw] lg:mt-[0.8vw] leading-tight text-gray-900 tracking-tight">
                                     Your next adventure awaits.
                                 </p>
                             </div>
@@ -276,21 +276,27 @@ export default function AddTrips () {
                                 <Label htmlFor="budget" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                     Budget
                                 </Label>
-                                <div className="w-full flex items-center w-full" onClick={() => setStatus(0)}>
+                                <div className="w-full flex items-center" onClick={() => setStatus(0)}>
                                     <InputIntegraded
                                         type="text"
                                         placeholder="Enter amount"
                                         value={budgetAmount}
                                         onChange={handleChangeInput}
-                                        className={`w-full ${status === 6 ? "border-red-500" : ""}`}
+                                        className={`w-full text-[4vw] xs:text-base ${status === 6 ? "border-red-500" : ""}`}
                                     />
-                                    <Select defaultValue="USD" onValueChange={handleChangeSelect} onOpenChange={() => setStatus(0) }>
+                                    <Select 
+                                        defaultValue="USD" 
+                                        onValueChange={handleChangeSelect} 
+                                        onOpenChange={() => setStatus(0) }
+                                    >
                                         <div>
-                                            <SelectTriggerInput className={`w-24 ${status === 7 ? "border-red-500" : ""}`}>
-                                                <SelectValue placeholder="Currency" />
+                                            <SelectTriggerInput className={` ${status === 7 ? "border-red-500" : ""}`}>
+                                                <SelectValue placeholder="Currency">
+                                                    <p className="text-[4vw] xs:text-base">{currency}</p>
+                                                </SelectValue>
                                             </SelectTriggerInput>
                                         </div>
-                                        <SelectContent>
+                                        <SelectContent className="max-h-[70vw] xs:h-auto">
                                             <SelectItem value="USD">USD</SelectItem>
                                             <SelectItem value="EUR">EUR</SelectItem>
                                             <SelectItem value="BRL">BRL</SelectItem>

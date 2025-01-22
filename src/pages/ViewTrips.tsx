@@ -244,7 +244,7 @@ export function ViewTrips() {
                                 All your journeys in one place.
                             </p>
                         </div>
-                        <div className="flex items-center mt-[4vw] xxs5:mt-[0vw] lg:mt-[1.2vw]">
+                        <div className="flex items-center mt-[4vw] xxs5:mt-[4vw] xs:mt-[2vw] lg:mt-[1.2vw]">
                             <Select 
                                 defaultValue={trips.length === 0 ? "*" : ""} 
                                 onValueChange={(e) => setTripSelected(e)} 
@@ -254,7 +254,7 @@ export function ViewTrips() {
                                 <SelectTrigger className="">
                                     <SelectValue placeholder="Select Your Trip">
                                         <div>
-                                        <p className="text-[3.5vw] xxs3:text-[2.8vw] xs:text-sm breaK-all">
+                                        <p className="text-[3.4vw] xxs3:text-[3.2vw] xs:text-[2.4vw] lg:text-[1vw] breaK-all">
                                         {tripSelected 
                                             ? trips.find((trip) => trip.id === tripSelected)?.tripName 
                                             : "Select Your Trip"}
@@ -319,7 +319,7 @@ export function ViewTrips() {
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </div>
-                        <div className="w-full mt-[3vw] lg:mt-[0.7vw]">
+                        <div className="w-full mt-[3vw] xs:mt-[2vw] lg:mt-[0.7vw]">
                             <Button size={"card"} disabled={false}>
                                 Access This Trip
                             </Button>

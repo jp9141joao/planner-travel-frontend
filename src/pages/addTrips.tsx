@@ -336,7 +336,7 @@ export default function AddTrips () {
                         </div>
                     </div>
                 </form>
-                <div className="lg:hidden mx-[24vw] xxs3:mx-[10.8vw] xs:mx-[28vw] sm:mx-[21vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
+                <div className="lg:hidden mx-[25vw] xxs3:mx-[10.8vw] xs:mx-[29vw] sm:mx-[21vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
                     <img
                         src={Image}
                         className="w-auto h-auto"

@@ -44,7 +44,6 @@ export const getUser = async () => {
     }
 
     const response = await axios.get(`${url}/home`, {
-        validateStatus: (status) => status != 400, 
         headers: {
             'authorization': `Bearer ${token}`,
         },
@@ -123,7 +122,7 @@ export const editTrip = async (trip: Trip) => {
     return response.data;
 }
 
-export const deleteTrip = async (tripId: bigint) => {
+export const deleteTrip = async (tripId: string) => {
     
     const token = localStorage.getItem('authToken');
     
@@ -131,8 +130,10 @@ export const deleteTrip = async (tripId: bigint) => {
         throw new Error("Token is missing!");
     }
 
+    alert(tri)
+
     const response = await axios.delete(`${url}/viewTrips`, {
-        data: tripId,
+        data: { tripId },
         validateStatus: (status) => status != 400,
         headers: {
             'authorization': `Bearer ${token}`,

@@ -13,14 +13,19 @@ export default function Home() {
   const navigate = useNavigate();
 
   const loadData = async () => {
-    const userData = await getUser();
+    try {
+      const userData = await getUser();
 
-    if (!userData) {
-      localStorage.removeItem('user')
-      throw new Error('User data could not be retrieved from the token. Please try again.');
+      if (!userData) {
+        localStorage.removeItem('user')
+        throw new Error('User data could not be retrieved from the token. Please try again.');
+      }
+
+      setItemSessionStorage('user', userData.data);
+    } catch (error: any) {
+      console.error(error);
+      localStorage.removeItem('authToken');
     }
-
-    setItemSessionStorage('user', userData.data);
   }
 
   useEffect(() => {

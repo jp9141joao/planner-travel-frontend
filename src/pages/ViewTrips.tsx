@@ -17,98 +17,99 @@ import { setItemSessionStorage } from "@/components/utils/utils";
 
 export function ViewTrips() {
     
-    const [trips, setTrips] = useState<Trip[]>([
-            {
-                id: '7101923785401883001',
-                tripName: 'WWWWWWWWWWWWWWWWWWWWWW',
-                period: 'Apr 15, 2025 - Apr 25, 2025',
-                daysQty: 11,
-                placesQty: 3,
-                currency: '€', // EUR
-                budgetAmount: 6000,
-                season: 'Middle',
-            },
-            {
-                id: '9982750139284717261',
-                tripName: 'Journey through Asia',
-                period: 'Nov 01, 2025 - Nov 14, 2025',
-                daysQty: 14,
-                placesQty: 6,
-                currency: '₩', // KRW
-                budgetAmount: 8000,
-                season: 'High',
-            },
-            {
-                id: '2946725839203741829',
-                tripName: 'European Summer Adventure',
-                period: 'Jun 10, 2025 - Jun 20, 2025',
-                daysQty: 11,
-                placesQty: 8,
-                currency: '£', // GBP
-                budgetAmount: 12000,
-                season: 'High',
-            },
-            {
-                id: '1207583948275461234',
-                tripName: 'Exploring the Amazon',
-                period: 'Sep 05, 2026 - Sep 15, 2026',
-                daysQty: 11,
-                placesQty: 5,
-                currency: '$', // USD
-                budgetAmount: 4500,
-                season: 'Low',
-            },
-            {
-                id: '4827103985476130891',
-                tripName: 'Discovering Japan',
-                period: 'Mar 20, 2025 - Apr 01, 2025',
-                daysQty: 13,
-                placesQty: 7,
-                currency: '¥', // JPY
-                budgetAmount: 550000,
-                season: 'Middle',
-            },
-            {
-                id: '2198475620317489203',
-                tripName: 'Road Trip through the USA',
-                period: 'Jul 01, 2025 - Jul 20, 2025',
-                daysQty: 20,
-                placesQty: 10,
-                currency: '$', // USD
-                budgetAmount: 10000,
-                season: 'High',
-            },
-            {
-                id: '8492730156837450912',
-                tripName: 'Trekking in Nepal',
-                period: 'Oct 15, 2026 - Oct 30, 2026',
-                daysQty: 16,
-                placesQty: 3,
-                currency: '₹', // INR
-                budgetAmount: 70000,
-                season: 'High',
-            },
-            {
-                id: '4209837490568172345',
-                tripName: 'Desert Safari in Dubai',
-                period: 'Dec 01, 2025 - Dec 10, 2025',
-                daysQty: 10,
-                placesQty: 2,
-                currency: 'د.إ', // AED
-                budgetAmount: 9000,
-                season: 'Middle',
-            },
-            {
-                id: '5127403981567320497',
-                tripName: 'Caribbean Cruise',
-                period: 'Jan 05, 2026 - Jan 15, 2026',
-                daysQty: 11,
-                placesQty: 6,
-                currency: '$', // USD
-                budgetAmount: 5000,
-                season: 'High',
-            }
-    ]);
+    {/*const [trips, setTrips] = useState<Trip[]>([
+        {
+            id: '7101923785401883001',
+            tripName: 'WWWWWWWWWWWWWWWWWWWWWW',
+            period: 'Apr 15, 2025 - Apr 25, 2025',
+            daysQty: 11,
+            placesQty: 3,
+            currency: '€', // EUR
+            budgetAmount: 6000,
+            season: 'Middle',
+        },
+        {
+            id: '9982750139284717261',
+            tripName: 'Journey through Asia',
+            period: 'Nov 01, 2025 - Nov 14, 2025',
+            daysQty: 14,
+            placesQty: 6,
+            currency: '₩', // KRW
+            budgetAmount: 8000,
+            season: 'High',
+        },
+        {
+            id: '2946725839203741829',
+            tripName: 'European Summer Adventure',
+            period: 'Jun 10, 2025 - Jun 20, 2025',
+            daysQty: 11,
+            placesQty: 8,
+            currency: '£', // GBP
+            budgetAmount: 12000,
+            season: 'High',
+        },
+        {
+            id: '1207583948275461234',
+            tripName: 'Exploring the Amazon',
+            period: 'Sep 05, 2026 - Sep 15, 2026',
+            daysQty: 11,
+            placesQty: 5,
+            currency: '$', // USD
+            budgetAmount: 4500,
+            season: 'Low',
+        },
+        {
+            id: '4827103985476130891',
+            tripName: 'Discovering Japan',
+            period: 'Mar 20, 2025 - Apr 01, 2025',
+            daysQty: 13,
+            placesQty: 7,
+            currency: '¥', // JPY
+            budgetAmount: 550000,
+            season: 'Middle',
+        },
+        {
+            id: '2198475620317489203',
+            tripName: 'Road Trip through the USA',
+            period: 'Jul 01, 2025 - Jul 20, 2025',
+            daysQty: 20,
+            placesQty: 10,
+            currency: '$', // USD
+            budgetAmount: 10000,
+            season: 'High',
+        },
+        {
+            id: '8492730156837450912',
+            tripName: 'Trekking in Nepal',
+            period: 'Oct 15, 2026 - Oct 30, 2026',
+            daysQty: 16,
+            placesQty: 3,
+            currency: '₹', // INR
+            budgetAmount: 70000,
+            season: 'High',
+        },
+        {
+            id: '4209837490568172345',
+            tripName: 'Desert Safari in Dubai',
+            period: 'Dec 01, 2025 - Dec 10, 2025',
+            daysQty: 10,
+            placesQty: 2,
+            currency: 'د.إ', // AED
+            budgetAmount: 9000,
+            season: 'Middle',
+        },
+        {
+            id: '5127403981567320497',
+            tripName: 'Caribbean Cruise',
+            period: 'Jan 05, 2026 - Jan 15, 2026',
+            daysQty: 11,
+            placesQty: 6,
+            currency: '$', // USD
+            budgetAmount: 5000,
+            season: 'High',
+        }
+    ]); */}
+    const [trips, setTrips] = useState<Trip[]>([]);
     const [tripsExist, setTripsExist] = useState<boolean>(true);
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
     const [tripSelected, setTripSelected] = useState<string>('');
@@ -119,7 +120,7 @@ export function ViewTrips() {
             const response = await getTrips();
 
             if (response.success) {
-                setTrips([response.data]);
+                setTrips(response.data);
                 
                 if (response.data.length > 0) {
                     setTripsExist(true);
@@ -135,6 +136,7 @@ export function ViewTrips() {
                 });
             }
         } catch (error: any) {
+            console.error(error);
             toast({
                 variant: 'destructive',
                 title: "Uh oh! Something went wrong.",
@@ -145,10 +147,11 @@ export function ViewTrips() {
 
     const handleDelete = async () => {
         try {
-            const response = await deleteTrip(BigInt(tripSelected) as bigint);
+            const response = await deleteTrip(tripSelected);
 
             if (response.success) {
                 loadTrips();
+                setTripSelected('')
                 toast({
                     variant: 'success',
                     title: 'Trip deleted successfully!',
@@ -167,7 +170,6 @@ export function ViewTrips() {
                 title: "Uh oh! Something went wrong.",
                 description: "There was a problem with your request.",
             });
-            console.error(error);
         }
     };
 
@@ -211,7 +213,7 @@ export function ViewTrips() {
     }, [tripSelected]);
       
     useEffect(() => {
-        //loadTrips();
+        loadTrips();
     }, []);
     
     return (
@@ -246,7 +248,8 @@ export function ViewTrips() {
                         </div>
                         <div className="flex items-center mt-[4vw] xxs5:mt-[4vw] xs:mt-[2vw] lg:mt-[1.2vw]">
                             <Select 
-                                defaultValue={trips.length === 0 ? "*" : ""} 
+                                defaultValue={trips.length === 0 ? "*" : ""}
+                                value={tripSelected}
                                 onValueChange={(e) => setTripSelected(e)} 
                                 open={isOpen} 
                                 onOpenChange={setIsOpen}
@@ -265,14 +268,16 @@ export function ViewTrips() {
                                 <SelectContent className={`${tripsExist ? 'max-h-[70vw] lg:h-[16vw]' : null}`}>
                                     <SelectGroup>
                                         {tripsExist ? (
-                                            trips.map((trip: Trip) => (
-                                                <SelectItem key={trip.id} value={trip.id}>
-                                                    <p className="text-gray-900">
-                                                        {trip.tripName}
-                                                    </p>
-                                                    <p>
-                                                        {isOpen ? `${trip.period}` : null}
-                                                    </p>
+                                            trips.map((trip: Trip, index: number) => (
+                                                <SelectItem key={index} value={trip.id}>
+                                                    <div>
+                                                        <p className="text-gray-900">
+                                                            {trip.tripName}
+                                                        </p>
+                                                        <p>
+                                                            {isOpen ? `${trip.period}` : null}
+                                                        </p>
+                                                    </div>
                                                 </SelectItem>
                                             ))
                                         ) : (

@@ -13,6 +13,7 @@ import { UpdateUserData, User, UserDetails } from "@/types/types"
 import { LogOut } from "lucide-react"
 import { updateUserData } from "@/service/service"
 import { getItemSessionStorage, setItemSessionStorage } from "@/components/utils/utils"
+import { LoadData } from "@/components/LoadData"
 
 export function ProfileSettings() {
     const [ fullName, setFullName ] = useState<string | undefined>('');
@@ -71,6 +72,8 @@ export function ProfileSettings() {
     }
 
     useEffect(() => {
+        LoadData();
+        
         const userData: UserDetails | null = getItemSessionStorage('user');
 
         if (userData) {

@@ -56,49 +56,57 @@ export default function SignIn () {
                 setShowToast(true);
                 console.log(error);
             } 
-        }
-    
-        useEffect(() => {
-            if (!isLoading && showToast) {
-                if (status == 1) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'Invalid Email',
-                        description: 'The email address you entered is invalid. Please check and try again.',
-                    });
-                } else if (status == 2) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'Invalid Password',
-                        description: 'The password you entered is invalid. Please check and try again.',
-                    });
-                } else if (status == 3) {
-                    setToastMessage({
-                        variant: 'destructive', 
-                        title: 'Email or Password Incorrect', 
-                        description: 'The email or password you entered is incorrect. Please try again.', 
-                    }); 
-                } else {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: "Uh oh! Something went wrong.",
-                        description: "There was a problem with your request.",
-                    });
-                }
-            }
-        }, [isLoading, showToast, status]);
-    
-        useEffect(() => {
-            if (showToast && status != 0) {
-                toast({
-                    variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
-                    title: toastMessage.title,
-                    description: toastMessage.description,
-                })
-            }
+    }
 
-            setStatus(0);
-        }, [toastMessage]);
+    useEffect(() => {
+        if (!isLoading && showToast) {
+            if (status == 1) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Invalid Email',
+                    description: 'The email address you entered is invalid. Please check and try again.',
+                });
+            } else if (status == 2) {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: 'Invalid Password',
+                    description: 'The password you entered is invalid. Please check and try again.',
+                });
+            } else if (status == 3) {
+                setToastMessage({
+                    variant: 'destructive', 
+                    title: 'Email or Password Incorrect', 
+                    description: 'The email or password you entered is incorrect. Please try again.', 
+                }); 
+            } else {
+                setToastMessage({
+                    variant: 'destructive',
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
+            }
+        }
+    }, [isLoading, showToast, status]);
+
+    useEffect(() => {
+        if (showToast && status != 0) {
+            toast({
+                variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
+                title: toastMessage.title,
+                description: toastMessage.description,
+            })
+        }
+
+        setStatus(0);
+    }, [toastMessage]);
+
+    useEffect(() => {
+        const token = localStorage.getItem('authToken');
+
+        if (token) {
+            localStorage.removeItem('authToken');
+        }
+    }, []);
 
     return (
         <BodyPage>

@@ -15,6 +15,7 @@ import { DatePickerWithRange } from "@/components/DatePickerWithRange";
 import { Select, SelectContent, SelectItem, SelectTriggerInput, SelectValue } from "@/components/ui/select";
 import { ModalPlaceSuggestion } from "@/components/PlaceSuggestions";
 import { Value } from "@radix-ui/react-select";
+import { LoadData } from "@/components/LoadData";
 
 export default function AddTrips () {
 
@@ -222,6 +223,10 @@ export default function AddTrips () {
             setTripName(`Trip to ${visitPlace}`)
         }
     }, [visitPlace]);
+
+    useEffect(() => {
+        //LoadData();
+    }, [])
 
     return (
         <BodyPage>

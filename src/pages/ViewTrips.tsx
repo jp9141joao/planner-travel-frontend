@@ -14,6 +14,7 @@ import { MoreHorizontal } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { setItemSessionStorage } from "@/components/utils/utils";
+import { LoadData } from "@/components/LoadData";
 
 export function ViewTrips() {
     
@@ -213,6 +214,7 @@ export function ViewTrips() {
     }, [tripSelected]);
       
     useEffect(() => {
+        //LoadData();
         //loadTrips();
     }, []);
     

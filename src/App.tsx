@@ -1,14 +1,14 @@
 import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import TravelDetails from "./pages/TravelDetails";
 import EditTravel from "./pages/EditTravel";
-import AddTravelS from "./pages/addTrips";
+import AddTravelS from "./pages/AddTrips";
 //import AddTravelExpense from "./pages/AddTravelExpense";
 //import EditTravelExpense from "./pages/EditTravelExpense";
 import DayDetails from "./pages/DayDetails";
 //import AddDailyExpense from "./pages/AddDailyExpense";
 import TravelItineraryForm from "./components/TravelItineraryForm";
 import Home from "./pages/Home"
-import { ResetPassword } from "./pages/resetPassword";
+import { ResetPassword } from "./pages/ResetPassword";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import { Test } from "./pages/test";

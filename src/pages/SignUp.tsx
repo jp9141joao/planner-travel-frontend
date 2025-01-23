@@ -144,6 +144,14 @@ export default function SignIn () {
         //setStatus(0);
     }, [toastMessage]);
 
+    useEffect(() => {
+        const token = localStorage.getItem('authToken');
+
+        if (token) {
+            localStorage.removeItem('authToken');
+        }
+    }, []);
+
     return (
         <BodyPage>
             <TopPage>

@@ -1,5 +1,5 @@
 import { DisplayTrips } from "@/components/DisplayTrips";
-import AddTrips from "./addTrips";
+import AddTrips from "./AddTrips";
 import { ViewTrips } from "./ViewTrips";
 import { ButtonPlaceSuggestion } from "@/components/PlaceSuggestions";
 import EditTrip from "./EditTrip";

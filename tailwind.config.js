@@ -7,25 +7,25 @@ export default {
   ],
   theme: {
   	extend: {
-		screens: {
-			'3xl': '1920px',
-			'xs': '450px',
-			'xxs': '430px',
-			'xxs2': '410px',
-			'xxs3': '390px',
-			'xxs4': '370px',
-			'xxs5': '350px',
-			'xxs6': '330px',
-			'xxs7': '310px',
-			'xxs8': '290px',
-			'xxs9': '270px',
-			'xxs10': '250px',
-			'xxs11': '230px'
-		},
+  		screens: {
+  			'3xl': '1920px',
+  			xs: '450px',
+  			xxs: '430px',
+  			xxs2: '410px',
+  			xxs3: '390px',
+  			xxs4: '370px',
+  			xxs5: '350px',
+  			xxs6: '330px',
+  			xxs7: '310px',
+  			xxs8: '290px',
+  			xxs9: '270px',
+  			xxs10: '250px',
+  			xxs11: '230px'
+  		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)',
+  			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
   			background: 'hsl(var(--background))',
@@ -68,10 +68,32 @@ export default {
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
   			},
-			'color-body-gray': '#f7f8fa',
-			'color-orange': '#FF7F50',
-			'hover-color-orange': '#FF9F73',
-			'hover-color-gray': '#e5e5e5'
+  			'color-body-gray': '#f7f8fa',
+  			'color-orange': '#FF7F50',
+  			'hover-color-orange': '#FF9F73',
+  			'hover-color-gray': '#e5e5e5'
+  		},
+  		keyframes: {
+  			'accordion-down': {
+  				from: {
+  					height: '0'
+  				},
+  				to: {
+  					height: 'var(--radix-accordion-content-height)'
+  				}
+  			},
+  			'accordion-up': {
+  				from: {
+  					height: 'var(--radix-accordion-content-height)'
+  				},
+  				to: {
+  					height: '0'
+  				}
+  			}
+  		},
+  		animation: {
+  			'accordion-down': 'accordion-down 0.2s ease-out',
+  			'accordion-up': 'accordion-up 0.2s ease-out'
   		}
   	}
   },

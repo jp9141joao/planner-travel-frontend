@@ -4,7 +4,7 @@ import { stat } from 'fs';
 //const url = 'http://localhost:3000';
 const url = '.';
 
-
+{/*
 export const signInUser = async (login: Login) => {
 
     if (!login) {
@@ -194,3 +194,56 @@ export const duplicateTrip = async (tripId: bigint) => {
 
     return response.data;
 }
+*/}
+
+//{/*
+export const signInUser = async (login: Login) => {
+    const response = { data: { error: '', success: '', data: '' } };
+    return response.data;
+}
+
+export const signUpUser = async (user: User) => {
+    const response = { data: { error: '', success: '', data: '' } };
+    return response.data;
+};
+
+export const resetPasswordUser = async (newPasswordUser: NewPasswordUser) => {
+    const response = { data: { error: '', success: '', data: '' } };
+    return response.data;
+}
+
+export const getUser = async () => {
+    const response = { data: { error: '', success: '', data: '' } };
+    return response.data;
+};
+
+export const updateUserData = async (data: UpdateUserData) => {
+    const response = { data: { error: '', success: '', data: '' } };
+    return response.data;
+}
+
+export const createTrip = async (trip: Trip) => {
+    const response = { data: { error: '', success: '', data: '' } };
+    return response.data;
+}
+
+export const getTrips = async () => {
+    const response = { data: { error: '', success: '', data: '' } };
+    return response.data;
+}
+
+export const editTrip = async (trip: Trip) => {
+    const response = { data: { error: '', success: '', data: '' } };
+    return response.data;
+}
+
+export const deleteTrip = async (tripId: string) => {
+    const response = { data: { error: '', success: '', data: '' } };
+    return response.data;
+}
+
+export const duplicateTrip = async (tripId: bigint) => {
+    const response = { data: { error: '', success: '', data: '' } };
+    return response.data;
+}
+//*/}

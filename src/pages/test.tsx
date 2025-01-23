@@ -3,10 +3,11 @@ import AddTrips from "./AddTrips";
 import { ViewTrips } from "./ViewTrips";
 import { ButtonPlaceSuggestion } from "@/components/PlaceSuggestions";
 import EditTrip from "./EditTrip";
+import TripDetails from "./TripDetails";
 
 
 export function Test(){
     return (
-        <ViewTrips />
+        <TripDetails />
     )
 }

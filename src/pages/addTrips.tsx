@@ -239,12 +239,12 @@ export default function AddTrips () {
                     <div className='table mx-auto mt-[2vw] xxs3:mt-[8vw] xs:mt-[3vw] sm:mt-[10vw] lg:mt-0'>
                         <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                             <div>
-                                <h1 className="grid text-[11.9vw] xxs5:text-[12.5vw] xs:text-[9.1vw] lg:text-[3.9vw] w-full text-gray-900 tracking-tight leading-[0.9] xs:leading-[0.7]">
+                                <h1 className="grid text-[11.9vw] xxs5:text-[12.5vw] xs:text-[8.8vw] lg:text-[3.85vw] w-full text-gray-900 tracking-tight leading-[0.9] xs:leading-[0.7]">
                                     Create Your Trip!
                                 </h1>
                             </div>
                             <div>
-                                <p className="xs:text-start text-[7.9vw] xxs8:text-[7.6vw] xs:text-[4.8vw] lg:text-[1.9vw] mt-[3.2vw] xs:mt-[2.7vw] lg:mt-[0.8vw] leading-tight text-gray-900 tracking-tight">
+                                <p className="xs:text-start text-[7.9vw] xxs8:text-[7.6vw] xs:text-[4.6vw] lg:text-[1.8vw] mt-[3.2vw] xs:mt-[2.7vw] lg:mt-[0.9vw] leading-tight text-gray-900 tracking-tight">
                                     Your next adventure awaits.
                                 </p>
                             </div>
@@ -336,7 +336,7 @@ export default function AddTrips () {
                         </div>
                     </div>
                 </form>
-                <div className="lg:hidden mx-[25vw] xxs3:mx-[10.8vw] xs:mx-[29vw] sm:mx-[21vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
+                <div className="lg:hidden mx-[25vw] xxs3:mx-[10.8vw] xs:mx-[30vw] sm:mx-[21vw] my-[2.8vw] xxs5:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
                     <img
                         src={Image}
                         className="w-auto h-auto"

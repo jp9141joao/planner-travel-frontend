@@ -1,6 +1,6 @@
 import Credits from "@/components/Credits";
 import { GoBack } from "@/components/GoBack";
-import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts";
+import { BodyPage, BottomPage, MiddlePageOneCol, TopPage } from "@/components/LayoutPage/Layouts";
 import { Input, InputIntegraded } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Toaster } from "@/components/ui/toaster";
@@ -217,26 +217,22 @@ export default function EditTrip() {
 
     }, [toastMessage]);
 
-    useEffect(() => {
-        setTripName(`Trip to ${visitPlace}`)
-    }, [visitPlace]);
-
     return (
         <BodyPage>
             <TopPage>
                 <GoBack to="home"/>
             </TopPage>
-            <MiddlePage>
+            <MiddlePageOneCol>
                 <form onSubmit={handleSubmit}>
                     <div className='table mx-auto mt-[2vw] xxs3:mt-[8vw] xs:mt-[3vw] sm:mt-[10vw] lg:mt-0'>
                         <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                             <div>
-                                <h1 className="grid text-[13.2vw] xxs5:text-[13.6vw] xs:text-[9.1vw] lg:text-[3.9vw] w-full text-gray-900 tracking-tight leading-[0.9] xs:leading-[0.7]">
+                                <h1 className="grid text-[14.3vw] xxs5:text-[13.6vw] xs:text-[9.65vw] lg:text-[4.6vw] w-full text-gray-900 tracking-tight leading-[0.9] xs:leading-[1]">
                                     Edit Your Trip!
                                 </h1>
                             </div>
                             <div>
-                                <p className="xs:text-start text-[4.2vw] xxs8:text-[4.98vw] xs:text-[4.8vw] lg:text-[1.9vw] mt-[3.2vw] xs:mt-[2.7vw] lg:mt-[0.8vw] leading-tight text-gray-900 tracking-tight">
+                                <p className="xs:text-start text-[5.2vw] xxs8:text-[4.98vw] xs:text-[3.5vw] lg:text-[1.4vw] mt-[3.2vw] xs:mt-[2.7vw] lg:mt-[0.8vw] leading-tight text-gray-900 tracking-tight">
                                     Tweak your plans and make them perfect.
                                 </p>
                             </div>
@@ -268,21 +264,27 @@ export default function EditTrip() {
                                 <Label htmlFor="budget" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                     Budget
                                 </Label>
-                                <div className="w-full flex items-center w-full" onClick={() => setStatus(0)}>
+                                <div className="w-full flex items-center" onClick={() => setStatus(0)}>
                                     <InputIntegraded
                                         type="text"
                                         placeholder="Enter amount"
                                         value={budgetAmount}
                                         onChange={handleChangeInput}
-                                        className={`w-full ${status === 6 ? "border-red-500" : ""}`}
+                                        className={`w-full text-[4vw] xs:text-base ${status === 6 ? "border-red-500" : ""}`}
                                     />
-                                    <Select defaultValue="USD" onValueChange={handleChangeSelect} onOpenChange={() => setStatus(0) }>
+                                    <Select 
+                                        defaultValue="USD" 
+                                        onValueChange={handleChangeSelect} 
+                                        onOpenChange={() => setStatus(0) }
+                                    >
                                         <div>
-                                            <SelectTriggerInput className={`w-24 ${status === 7 ? "border-red-500" : ""}`}>
-                                                <SelectValue placeholder="Currency" />
+                                            <SelectTriggerInput className={` ${status === 7 ? "border-red-500" : ""}`}>
+                                                <SelectValue placeholder="Currency">
+                                                    <p className="text-[4vw] xs:text-base">{currency}</p>
+                                                </SelectValue>
                                             </SelectTriggerInput>
                                         </div>
-                                        <SelectContent>
+                                        <SelectContent className="max-h-[70vw] xs:h-auto">
                                             <SelectItem value="USD">USD</SelectItem>
                                             <SelectItem value="EUR">EUR</SelectItem>
                                             <SelectItem value="BRL">BRL</SelectItem>
@@ -316,7 +318,7 @@ export default function EditTrip() {
                         </div>
                     </div>
                 </form>
-            </MiddlePage>
+            </MiddlePageOneCol>
             <BottomPage>
                 <Credits/>
             </BottomPage>

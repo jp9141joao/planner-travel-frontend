@@ -110,7 +110,7 @@ export function ViewTrips() {
         }
     ]); */}
     const [trips, setTrips] = useState<Trip[]>([]);
-    const [tripsExist, setTripsExist] = useState<boolean>(true);
+    const [tripsExist, setTripsExist] = useState<boolean>(false);
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
     const [tripSelected, setTripSelected] = useState<string>('');
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -213,7 +213,7 @@ export function ViewTrips() {
     }, [tripSelected]);
       
     useEffect(() => {
-        loadTrips();
+        //loadTrips();
     }, []);
     
     return (
@@ -222,14 +222,14 @@ export function ViewTrips() {
                 <GoBack to="home"/>
             </TopPage>
             <MiddlePage>
-            <div className="hidden lg:block mx-[2vw]">
+                <div className="hidden lg:block mx-[2vw]">
                     <img
                         src={Image}
                         className="w-auto h-auto"
                     />
                 </div>
                 <div>
-                    <div className="lg:hidden mx-[17vw] xxs3:mx-[8.8vw] xs:mx-[20.5vw] sm:mx-[15.5vw] my-[2vw] xxs5:my-[2vw] xxs3:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
+                    <div className="lg:hidden mx-[17vw] xxs3:mx-[8.8vw] xs:mx-[24vw] sm:mx-[20.5vw] my-[2vw] xxs5:my-[2vw] xxs3:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
                         <img
                             src={Image}
                             className="w-auto h-auto"
@@ -237,12 +237,12 @@ export function ViewTrips() {
                     </div>
                     <div className='table mx-auto mb-[5vw] mt-[3vw] xs:mb-0'>
                         <div>
-                            <h1 className="grid text-center text-[18.5vw] xxs5:text-[18vw] xs:text-[12.7vw] lg:text-[6.2vw] w-full text-gray-900 tracking-tight leading-[0.9]">
+                            <h1 className="grid text-center text-[18.5vw] xxs5:text-[18vw] xs:text-[12.7vw] lg:text-[6.1vw] w-full text-gray-900 tracking-tight leading-[0.9]">
                                 Your Trips!
                             </h1>
                         </div>
                         <div>
-                            <p className='text-center text-[7.2vw] xxs8:text-[6.9vw] xs:text-[4.9vw] lg:text-[1.8vw] mt-[4.5vw] xxs5:mt-[4.2vw] xs:mt-[2.8vw] lg:mt-[1vw] leading-tight text-gray-900 tracking-tight'>
+                            <p className='text-center text-[7.2vw] xxs8:text-[6.9vw] xs:text-[4.79vw] lg:text-[1.8vw] mt-[4.5vw] xxs5:mt-[4.2vw] xs:mt-[2.8vw] lg:mt-[1vw] leading-tight text-gray-900 tracking-tight'>
                                 All your journeys in one place.
                             </p>
                         </div>
@@ -258,7 +258,7 @@ export function ViewTrips() {
                                     <SelectValue placeholder="Select Your Trip">
                                         <div>
                                         <p className="text-[3.4vw] xxs3:text-[3.2vw] xs:text-[2.4vw] lg:text-[1vw] breaK-all">
-                                        {tripSelected 
+                                        {tripSelected && tripSelected != '*'
                                             ? trips.find((trip) => trip.id === tripSelected)?.tripName 
                                             : "Select Your Trip"}
                                         </p>

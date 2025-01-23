@@ -1,11 +1,16 @@
 import { Login, NewPasswordUser, Trip, UpdateUserData, User } from '@/types/types';
 import axios from 'axios';
 import { stat } from 'fs';
-const url = 'http://localhost:3000';
-//const url = '.';
+//const url = 'http://localhost:3000';
+const url = '.';
 
 
 export const signInUser = async (login: Login) => {
+
+    if (!login) {
+        throw new Error("Login is missing at service!");
+    }
+
     const response = await axios.post(`${url}/signIn`, login, {
         validateStatus: (status) => {
             return status != 400;
@@ -16,6 +21,11 @@ export const signInUser = async (login: Login) => {
 }
 
 export const signUpUser = async (user: User) => {
+
+    if (!user) {
+        throw new Error("User is missing at service!");
+    }
+
     const response = await axios.post(`${url}/signUp`, user, {
         validateStatus: (status) => {
             return status != 400;
@@ -26,6 +36,11 @@ export const signUpUser = async (user: User) => {
 };
 
 export const resetPasswordUser = async (newPasswordUser: NewPasswordUser) => {
+
+    if (!newPasswordUser) {
+        throw new Error("New password is missing at service!");
+    }
+
     const response = await axios.put(`${url}/resetPassword`, newPasswordUser, {
         validateStatus: (status) => {
             return status != 400;
@@ -54,6 +69,10 @@ export const getUser = async () => {
 
 export const updateUserData = async (data: UpdateUserData) => {
 
+    if (!data) {
+        throw new Error("User data is missing at service!");
+    }
+
     const token = localStorage.getItem('authToken');
     
     if (!token) {
@@ -70,6 +89,10 @@ export const updateUserData = async (data: UpdateUserData) => {
 }
 
 export const createTrip = async (trip: Trip) => {
+
+    if (!trip) {
+        throw new Error("Trip is missing at service!");
+    }
 
     const token = localStorage.getItem('authToken');
 
@@ -88,6 +111,7 @@ export const createTrip = async (trip: Trip) => {
 }
 
 export const getTrips = async () => {
+
     const token = localStorage.getItem('authToken');
 
     if (!token) {
@@ -105,6 +129,10 @@ export const getTrips = async () => {
 }
 
 export const editTrip = async (trip: Trip) => {
+
+    if (!trip) {
+        throw new Error("Trip is missing at service!");
+    }
     
     const token = localStorage.getItem('authToken');
     
@@ -123,14 +151,16 @@ export const editTrip = async (trip: Trip) => {
 }
 
 export const deleteTrip = async (tripId: string) => {
+
+    if (!tripId) {
+        throw new Error("Trip ID is missing at service!");
+    }
     
     const token = localStorage.getItem('authToken');
     
     if (!token) {
         throw new Error("Token is missing!");
     }
-
-    alert(tri)
 
     const response = await axios.delete(`${url}/viewTrips`, {
         data: { tripId },
@@ -144,6 +174,10 @@ export const deleteTrip = async (tripId: string) => {
 }
 
 export const duplicateTrip = async (tripId: bigint) => {
+
+    if (!tripId) {
+        throw new Error("Trip ID is missing at service!");
+    }
 
     const token = localStorage.getItem('authToken');
     

@@ -7,6 +7,6 @@ import EditTrip from "./EditTrip";
 
 export function Test(){
     return (
-        <AddTrips/>
+        <ViewTrips />
     )
 }

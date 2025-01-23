@@ -25,7 +25,6 @@ export default function EditTrip() {
     const [ budgetAmount , setBudgetAmount ] = useState<number | string>('$0');
     const [ currency, setCurrency ] = useState<string>('USD');
     const [ season, setSeason] = useState<string>('');
-    const [ visitPlace, setVisitPlace ] = useState('');
     const [ toastMessage, setToastMessage ] = useState({
         variant: '', title: '', description: ''
     });

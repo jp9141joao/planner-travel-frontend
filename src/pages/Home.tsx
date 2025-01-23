@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { getUser } from "@/service/service";
 import { setItemSessionStorage } from "@/components/utils/utils";
+import { LoadImages } from "@/components/LoadData";
 
 export default function Home() {
 

@@ -244,12 +244,12 @@ export default function AddTrips () {
                     <div className='table mx-auto mt-[2vw] xxs3:mt-[8vw] xs:mt-[3vw] sm:mt-[10vw] lg:mt-0'>
                         <div className="grid text-center place-items-center leading-tight gap-y-0 text-gray-900 tracking-tight">
                             <div>
-                                <h1 className="grid text-[11.9vw] xxs5:text-[12.5vw] xs:text-[8.8vw] lg:text-[3.85vw] w-full text-gray-900 tracking-tight leading-[0.9] xs:leading-[0.7]">
+                                <h1 className="grid text-[11.9vw] xxs5:text-[11.4vw] xs:text-[8.8vw] lg:text-[3.85vw] w-full text-gray-900 tracking-tight leading-[0.9] xs:leading-[0.7]">
                                     Create Your Trip!
                                 </h1>
                             </div>
                             <div>
-                                <p className="xs:text-start text-[7.9vw] xxs8:text-[7.6vw] xs:text-[4.6vw] lg:text-[1.8vw] mt-[3.2vw] xs:mt-[2.7vw] lg:mt-[0.9vw] leading-tight text-gray-900 tracking-tight">
+                                <p className="xs:text-start text-[7.9vw] xxs8:text-[7.6vw] xs:text-[4.6vw] lg:text-[1.8vw] mt-[2vw] xs:mt-[2.7vw] lg:mt-[0.9vw] leading-tight text-gray-900 tracking-tight">
                                     Your next adventure awaits.
                                 </p>
                             </div>

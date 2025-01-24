@@ -3,8 +3,40 @@ import Credits from "@/components/Credits";
 import { GoBack } from "@/components/GoBack";
 import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Label } from "@/components/ui/label";
 import { PiggyBank } from "lucide-react";
+import { Link } from "react-router-dom";
+
+const data = [
+    {
+        name: 'Expenses',
+        href: '/expenses',
+        nmr: 0
+    }, {
+        name: 'Itinerary',
+        href: '/itinerary',
+        nmr: 1
+    }, {
+        name: 'To Do List',
+        href: '/toDoList',
+        nmr: 2
+    }, {
+        name: 'My Piggy Bank',
+        href: '/myPiggyBank',
+        nmr: 3
+    }, {
+        name: 'Trip Details',
+        href: null,
+        nmr: 4
+    }, {
+        name: 'Notes',
+        href: null,
+        nmr: 5
+    }
+]
 
 export default function TripDetails() {
 
@@ -28,53 +60,44 @@ export default function TripDetails() {
                             Jan 20, 2025 - Fev 23, 2026
                         </p>
                     </div>
-                    <div className="flex gap-3">
-                        <Card className="grid place-items-center w-[6vw] h-[6vw]">
-                            <p>Piggy Bank</p>
-                            <PiggyBank strokeWidth={1} className="w-[3vw] h-[3vw]"/>
-                        </Card>
-                        <Card className="w-[6vw] h-[6vw]">
-                            <p>4</p>
-                        </Card>
-                        <Card className="w-[6vw] h-[6vw]">
-                            <p>4</p>
-                        </Card>
-                        <Card className="w-[6vw] h-[6vw]">
-                            <p>4</p>
-                        </Card>
-                    </div>
-                    <div className="grid place-items-center w-full">
-                        <Accordion type="single" collapsible className="w-full">
-                            <AccordionItem className="w-full" value="item-1">
-                                <AccordionTrigger>Trip Overview</AccordionTrigger>
-                                <AccordionContent>
-                                    <div className="flex gap-4 w-full">
-                                        <p>
-                                            <strong>Days:</strong> 15
-                                        </p>
-                                        <p>
-                                            <strong>Places:</strong> 15
-                                        </p>
-                                        <p>
-                                            <strong>Currency:</strong> USD
-                                        </p>
-                                        <p>
-                                            <strong>Budget:</strong> $34.000
-                                        </p>
-                                        <p>
-                                            <strong>Season:</strong> Low
-                                        </p>
+                    <div className="mt-3">
+                        <Carousel className="w-full max-w-sm">
+                            <CarouselContent className="-ml-1">
+                                {data.map((obj, index) => (
+                                <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/3">
+                                    <div className="p-1">
+                                        <Button variant={"outline"} className="w-full">
+                                            <Link to={obj.href ? obj.href : ''}>
+                                                {obj.name}
+                                            </Link>
+                                        </Button>                
                                     </div>
-                                </AccordionContent>
-                            </AccordionItem>
-                            <AccordionItem value="item-2">
-                                <AccordionTrigger>Notes</AccordionTrigger>
-                                <AccordionContent>
-                                Yes. It comes with default styles that matches the other
-                                components&apos; aesthetic.
-                                </AccordionContent>
-                            </AccordionItem>
-                        </Accordion>
+                                </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                            <CarouselPrevious />
+                            <CarouselNext />
+                        </Carousel>
+                        <Carousel className="w-full max-w-sm">
+                            <CarouselContent className="w-full">
+                                {data.map((obj, index) => (
+                                    <CarouselItem key={index} className={`flex w-full ${index == obj.nmr ? 'basis-[21vw]' : ''} ${index == 0 ? '' : ''}`}>
+                                        <div>
+                                            <Button className="rounded-[200vw]">
+                                                {index}
+                                            </Button>                
+                                        </div>
+                                        <div className="flex items-center w-full">
+                                            <div className="flex items-center w-full">
+                                                <div className="w-full h-[2px] bg-gray-900"></div>
+                                            </div>
+                                        </div>
+                                </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                            <CarouselPrevious />
+                            <CarouselNext />
+                        </Carousel>
                     </div>
                 </div>
             </MiddlePage>

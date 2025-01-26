@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { CarrouselButtonType } from "@/types/types"
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -16,15 +17,17 @@ type CarouselProps = {
   opts?: CarouselOptions
   plugins?: CarouselPlugin
   orientation?: "horizontal" | "vertical"
-  setApi?: (api: CarouselApi) => void
+  setApi?: (api: CarouselApi) => void,
+  onScrollNext?: () => void,
+  onScrollPrevious?: () => void,
 }
 
 type CarouselContextProps = {
   carouselRef: ReturnType<typeof useEmblaCarousel>[0]
   api: ReturnType<typeof useEmblaCarousel>[1]
   scrollPrev: () => void
-  scrollNext: () => void
-  canScrollPrev: boolean
+  scrollNext: () => void,
+  canScrollPrev: boolean,
   canScrollNext: boolean
 } & CarouselProps
 
@@ -80,17 +83,18 @@ const Carousel = React.forwardRef<
     }, [api])
 
     const scrollNext = React.useCallback(() => {
-      api?.scrollNext()
+      api?.scrollNext();
+
     }, [api])
 
     const handleKeyDown = React.useCallback(
       (event: React.KeyboardEvent<HTMLDivElement>) => {
         if (event.key === "ArrowLeft") {
           event.preventDefault()
-          scrollPrev()
+          scrollPrev();
         } else if (event.key === "ArrowRight") {
           event.preventDefault()
-          scrollNext()
+          scrollNext();
         }
       },
       [scrollPrev, scrollNext]
@@ -147,6 +151,145 @@ const Carousel = React.forwardRef<
   }
 )
 Carousel.displayName = "Carousel"
+
+const CarouselButton = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & CarouselProps
+>(
+  (
+    {
+      orientation = "horizontal",
+      opts,
+      setApi,
+      plugins,
+      className,
+      children,
+      onScrollNext,
+      onScrollPrevious,
+      ...props
+    },
+    ref
+  ) => {
+    const [carouselRef, api] = useEmblaCarousel(
+      {
+        ...opts,
+        axis: orientation === "horizontal" ? "x" : "y",
+      },
+      plugins
+    );
+    const [canScrollPrev, setCanScrollPrev] = React.useState(false);
+    const [canScrollNext, setCanScrollNext] = React.useState(false);
+    const [previousIndex, setPreviousIndex] = React.useState(0); // Armazenando o índice anterior
+
+    React.useEffect(() => {
+      if (!api) return;
+
+      const onSelect = () => {
+        const currentIndex = api.selectedScrollSnap(); // Obtendo o índice atual
+        const direction = currentIndex > previousIndex ? "right" : "left"; // Detectando a direção
+
+        if (direction === "right" && onScrollNext) {
+          onScrollNext();
+        } else if (direction === "left" && onScrollPrevious) {
+          onScrollPrevious();
+        }
+
+        setPreviousIndex(currentIndex); // Atualiza o índice anterior
+      };
+
+      api.on("select", onSelect); // Adiciona o evento "select"
+
+      return () => {
+        api.off("select", onSelect); // Remove o evento "select" quando o componente for desmontado
+      };
+    }, [api, previousIndex, onScrollNext, onScrollPrevious]);
+
+    const onSelect = React.useCallback((api: CarouselApi) => {
+      if (!api) {
+        return;
+      }
+
+      setCanScrollPrev(api.canScrollPrev());
+      setCanScrollNext(api.canScrollNext());
+    }, []);
+
+    const scrollPrev = React.useCallback(() => {
+      if (onScrollPrevious) onScrollPrevious();
+      api?.scrollPrev();
+    }, [api, onScrollPrevious]);
+
+    const scrollNext = React.useCallback(() => {
+      if (onScrollNext) onScrollNext();
+      api?.scrollNext();
+    }, [api, onScrollNext]);
+
+    const handleKeyDown = React.useCallback(
+      (event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          scrollPrev();
+        } else if (event.key === "ArrowRight") {
+          event.preventDefault();
+          scrollNext();
+        }
+      },
+      [scrollPrev, scrollNext]
+    );
+
+    React.useEffect(() => {
+      if (!api || !setApi) {
+        return;
+      }
+
+      setApi(api);
+    }, [api, setApi]);
+
+    React.useEffect(() => {
+      if (!api) {
+        return;
+      }
+
+      onSelect(api);
+      api.on("reInit", onSelect);
+      api.on("select", onSelect);
+
+      return () => {
+        api?.off("select", onSelect);
+      };
+    }, [api, onSelect]);
+
+    return (
+      <CarouselContext.Provider
+        value={{
+          carouselRef,
+          api: api,
+          opts,
+          orientation:
+            orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
+          scrollPrev,
+          scrollNext,
+          canScrollPrev,
+          canScrollNext,
+        }}
+      >
+        <div
+          ref={ref}
+          onKeyDownCapture={handleKeyDown}
+          className={cn("relative", className)}
+          role="region"
+          aria-roledescription="carousel"
+          {...props}
+        >
+          {children}
+        </div>
+      </CarouselContext.Provider>
+    );
+  }
+);
+
+CarouselButton.displayName = "CarouselButton";
+
+
 
 const CarouselContent = React.forwardRef<
   HTMLDivElement,
@@ -254,6 +397,7 @@ CarouselNext.displayName = "CarouselNext"
 export {
   type CarouselApi,
   Carousel,
+  CarouselButton,
   CarouselContent,
   CarouselItem,
   CarouselPrevious,

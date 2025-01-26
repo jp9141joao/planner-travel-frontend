@@ -67,6 +67,6 @@ export interface Trip {
     season: string, 
 }
 
-export interface CarouselContentProps extends React.HTMLAttributes<HTMLDivElement> {
-    overflowActive?: boolean; 
+export interface CarrouselButtonType {
+    onScroll: (value: number) => void
 }

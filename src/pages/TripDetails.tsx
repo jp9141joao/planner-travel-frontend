@@ -7,35 +7,89 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Label } from "@/components/ui/label";
-import { PiggyBank } from "lucide-react";
+import { Map, CheckSquare, PiggyBank, Wallet } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const data = [
     {
         name: 'Expenses',
         href: '/expenses',
-        nmr: 0
-    }, {
+        nmr: 0,
+        icon: <Wallet />
+    },
+    {
         name: 'Itinerary',
         href: '/itinerary',
-        nmr: 1
-    }, {
+        nmr: 1,
+        icon: <Map />
+    },
+    {
         name: 'To Do List',
         href: '/toDoList',
-        nmr: 2
-    }, {
+        nmr: 2,
+        icon: <CheckSquare />
+    },
+    {
         name: 'My Piggy Bank',
         href: '/myPiggyBank',
-        nmr: 3
-    }, {
+        nmr: 3,
+        icon: <PiggyBank />
+    },
+    {
         name: 'Trip Details',
         href: null,
-        nmr: 4
-    }, {
+        nmr: 4,
+        icon: null 
+    },
+    {
         name: 'Notes',
         href: null,
-        nmr: 5
+        nmr: 5,
+        icon: null
     }
+];
+
+{/*const data = [
+    {
+        name: 'Expenses',
+        href: '/expenses',
+        nmr: 0,
+        icon: <Wallet />
+    },
+    {
+        name: 'Itinerary',
+        href: '/itinerary',
+        nmr: 1,
+        icon: <Map />
+    },
+    {
+        name: 'To Do List',
+        href: '/toDoList',
+        nmr: 2,
+        icon: <CheckSquare />
+    },
+    {
+        name: 'My Piggy Bank',
+        href: '/myPiggyBank',
+        nmr: 3,
+        icon: <PiggyBank />
+    },
+    {
+        name: 'Trip Details',
+        href: null,
+        nmr: 4,
+        icon: null 
+    },
+    {
+        name: 'Notes',
+        href: null,
+        nmr: 5,
+        icon: null
+    }
+]; */}
+
+const local = [
+    {}, {}
 ]
 
 export default function TripDetails() {
@@ -61,13 +115,14 @@ export default function TripDetails() {
                         </p>
                     </div>
                     <div className="mt-3">
-                        <Carousel className="w-full max-w-sm">
+                        <Carousel opts={{align: "start" }} className="w-full max-w-md">
                             <CarouselContent className="-ml-1">
                                 {data.map((obj, index) => (
-                                <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/3">
-                                    <div className="p-1">
+                                <CarouselItem key={index} className={`pl-1 basis-1/2`}>
+                                    <div className="flex">
                                         <Button variant={"outline"} className="w-full">
-                                            <Link to={obj.href ? obj.href : ''}>
+                                            <Link className="flex justify-center items-center gap-2" to={obj.href ? obj.href : ''}>
+                                                {obj.icon}
                                                 {obj.name}
                                             </Link>
                                         </Button>                
@@ -78,12 +133,14 @@ export default function TripDetails() {
                             <CarouselPrevious />
                             <CarouselNext />
                         </Carousel>
-                        <Carousel className="w-full max-w-sm">
-                            <CarouselContent className="w-full">
-                                {data.map((obj, index) => (
-                                    <CarouselItem key={index} className={`flex w-full ${index == obj.nmr ? 'basis-[21vw]' : ''} ${index == 0 ? '' : ''}`}>
+                    </div>
+                    <div className="w-full mt-3">
+                    <Carousel opts={{align: "start" }} className="w-full max-w-md">
+                            <CarouselContent className="ml-1 w-[45vw]" >
+                                {local.map((obj, index) => (
+                                    <CarouselItem key={index} className={`flex w-full ${local.length > 2 && index != local.length - 1 ? 'basis-[15.43vw]' : index == 0 && local.length == 1 ? 'basis-full' : index == 0 ? 'basis-[31vw]' : ''} `}>
                                         <div>
-                                            <Button className="rounded-[200vw]">
+                                            <Button className="rounded-[99vw]">
                                                 {index}
                                             </Button>                
                                         </div>

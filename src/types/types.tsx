@@ -66,3 +66,7 @@ export interface Trip {
     budgetAmount: number,
     season: string, 
 }
+
+export interface CarouselContentProps extends React.HTMLAttributes<HTMLDivElement> {
+    overflowActive?: boolean; 
+}

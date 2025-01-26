@@ -4,7 +4,7 @@ import { stat } from 'fs';
 //const url = 'http://localhost:3000';
 const url = '.';
 
-{/*
+//{/*
 export const signInUser = async (login: Login) => {
 
     if (!login) {
@@ -194,9 +194,9 @@ export const duplicateTrip = async (tripId: bigint) => {
 
     return response.data;
 }
-*/}
+//*/}
 
-//{/*
+{/*
 export const signInUser = async (login: Login) => {
     const response = { data: { error: '', success: '', data: '' } };
     return response.data;
@@ -246,4 +246,4 @@ export const duplicateTrip = async (tripId: bigint) => {
     const response = { data: { error: '', success: '', data: '' } };
     return response.data;
 }
-//*/}
+*/}

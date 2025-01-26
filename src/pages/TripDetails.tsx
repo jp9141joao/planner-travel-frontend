@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Label } from "@/components/ui/label";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Map, CheckSquare, PiggyBank, Wallet } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -89,8 +90,8 @@ const data = [
 ]; */}
 
 const local = [
-    {}, {}, {}, {}
-]
+    {}, {}, {},
+];
 
 export default function TripDetails() {
 
@@ -118,7 +119,7 @@ export default function TripDetails() {
                         <Carousel opts={{align: "start" }} className="w-full max-w-md">
                             <CarouselContent className="-ml-1">
                                 {data.map((obj, index) => (
-                                <CarouselItem key={index} className={`pl-1 basis-1/2`}>
+                                <CarouselItem key={index} className={`pl-1 basis-1/2 `}>
                                     <div className="flex">
                                         <Button variant={"outline"} className="w-full">
                                             <Link className="flex justify-center items-center gap-2" to={obj.href ? obj.href : ''}>
@@ -135,27 +136,49 @@ export default function TripDetails() {
                         </Carousel>
                     </div>
                     <div className="w-full mt-3">
-                    <Carousel opts={{align: "start" }} className="w-full max-w-md">
-                            <CarouselContent className="ml-1 w-full" >
-                                {local.map((obj, index) => (
-                                    <CarouselItem key={index} className={`flex w-full basis-1/${local.length < 3 ? local.length : 3}`}>
+                        <Label className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">Overview Places</Label>
+                        <Carousel opts={{align: "start" }} className="w-ful max-w-md mt-3">
+                            <CarouselContent className="ml-1 w-full">
+                            {local.length > 1 ? (local.map((obj, index) => (
+                                <CarouselItem
+                                    key={index}
+                                    className={`flex w-full ${local.length < 3 ? `basis-1/${local.length}` : `basis-1/3`}`}
+                                >
+                                    <div className="flex items-center w-full">
                                         <div className="flex items-center w-full">
-                                            <div className="flex items-center w-full">
-                                                <div className="w-full h-[2px] bg-gray-900"></div>
-                                            </div>
-                                        </div> 
-                                        <div>
-                                            <Button className="rounded-[99vw]">
-                                                {index}
-                                            </Button>                
+                                            <div className="w-full h-[2px] bg-gray-900"></div>
                                         </div>
+                                    </div>
+                                    <div>
+                                        <Button className="rounded-[99vw]">
+                                            {index}
+                                        </Button>
+                                        
+                                    </div>
+                                    <div className="flex items-center w-full">
                                         <div className="flex items-center w-full">
-                                            <div className="flex items-center w-full">
-                                                <div className="w-full h-[2px] bg-gray-900"></div>
-                                            </div>
+                                            <div className="w-full h-[2px] bg-gray-900"></div>
                                         </div>
+                                    </div>
+                                    </CarouselItem>
+                                ))
+                                ) : (
+                                <CarouselItem className="flex w-full basis-1/1">
+                                    <div className="flex items-center w-full">
+                                        <div className="flex items-center w-full">
+                                            <div className="w-full h-[2px] bg-gray-900"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <Button className="rounded-[99vw]">+</Button>
+                                    </div>
+                                    <div className="flex items-center w-full">
+                                        <div className="flex items-center w-full">
+                                            <div className="w-full h-[2px] bg-gray-900"></div>
+                                        </div>
+                                    </div>
                                 </CarouselItem>
-                                ))}
+                                )}
                             </CarouselContent>
                             <CarouselPrevious />
                             <CarouselNext />

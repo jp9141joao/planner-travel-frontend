@@ -89,7 +89,7 @@ const data = [
 ]; */}
 
 const local = [
-    {}, {}
+    {}, {}, {}, {}
 ]
 
 export default function TripDetails() {
@@ -138,7 +138,12 @@ export default function TripDetails() {
                     <Carousel opts={{align: "start" }} className="w-full max-w-md">
                             <CarouselContent className="ml-1 w-full" >
                                 {local.map((obj, index) => (
-                                    <CarouselItem key={index} className={`flex w-full ${local.length > 2 && index != local.length - 1 ? 'basis-[15.43vw]' : index == 0 && local.length == 1 ? 'basis-full' : index == 0 ? 'basis-[31vw]' : ''} `}>
+                                    <CarouselItem key={index} className={`flex w-full basis-1/${local.length < 3 ? local.length : 3}`}>
+                                        <div className="flex items-center w-full">
+                                            <div className="flex items-center w-full">
+                                                <div className="w-full h-[2px] bg-gray-900"></div>
+                                            </div>
+                                        </div> 
                                         <div>
                                             <Button className="rounded-[99vw]">
                                                 {index}

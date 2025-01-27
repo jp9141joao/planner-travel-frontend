@@ -1,4 +1,3 @@
-import { CarouselDemo } from "@/components/CarrouselDemo";
 import Credits from "@/components/Credits";
 import { GoBack } from "@/components/GoBack";
 import { BodyPage, BottomPage, MiddlePageOneCol, TopPage } from "@/components/LayoutPage/Layouts";
@@ -11,6 +10,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Image1 from '../assets/undraw_travel-plans_l0fo (2).svg'
 import Image2 from '../assets/undraw_travel-plans_l0fo (1).svg'
+import Image3 from '../assets/undraw_journey_friends (3).svg'
 
 const data = [
     {
@@ -110,32 +110,32 @@ export default function TripDetails() {
                 <GoBack to="viewTrips" />
             </TopPage>
             <MiddlePageOneCol>
-                <div className="flex gap-32 " >
-                    <div className="w-full grid place-items-left items-left mt-10" >
+                <div className="flex justify-center gap-32 " >
+                    <div className="hidden w-full lg:grid place-items-left items-left mt-10" >
                         <img
                             src={Image1}
                             className="w-[12vw] h-auto "
                         />
                     </div>
-                    <div className='grid  place-items-center w-[26.5vw] mx-auto mb-[5vw] mt-[3vw] xs:mb-[5vw]'>
-                        <div className="max-w-[26.5vw]">
-                            <h1 className="grid text-center text-[18.5vw] xxs5:text-[18vw] xs:text-[12.7vw] lg:text-[3vw] w-full text-gray-900 tracking-tight leading-[0.9] break-all">
+                    <div className='grid place-items-center items-center w-full lg:w-[26.5vw] mx-auto mb-[5vw] mt-[3vw] xs:mb-[5vw]'>
+                        <div className="lg:max-w-[26.5vw]">
+                            <h1 className="grid text-center text-[18.5vw] xxs5:text-[9.85vw] xs:text-[12.7vw] lg:text-[3vw] w-full text-gray-900 tracking-tight leading-[0.9] break-all">
                                 Trip to Rio de Janeiro
                             </h1>
                         </div>
                         <div>
-                            <p className='text-center text-[7.2vw] xxs8:text-[6.9vw] xs:text-[4.79vw] lg:text-[1.7vw] mt-[4.5vw] xxs5:mt-[4.2vw] xs:mt-[2.8vw] lg:mt-[1vw] leading-tight text-gray-900 tracking-tight'>
+                            <p className='text-center text-[7.2vw] xxs8:text-[6.1vw] xs:text-[4.79vw] lg:text-[1.7vw] mt-[4.5vw] xxs5:mt-[3vw] xs:mt-[2.8vw] lg:mt-[1vw] leading-tight text-gray-900 tracking-tight'>
                                 Jan 20, 2025 - Fev 23, 2026
                             </p>
                         </div>
                         <div className="mt-3">
-                            <CarouselButton opts={{align: "start" }} className="w-full max-w-[26.5vw]" onScrollNext={handleColorNext} onScrollPrevious={handleColorPrevious}>
+                            <CarouselButton opts={{align: "start" }} className="max-w-[80vw] lg:max-w-[26.5vw]" onScrollNext={handleColorNext} onScrollPrevious={handleColorPrevious}>
                                 <CarouselContent className="w-full ml-0.4">
                                     {data.map((obj, index) => (
                                     <CarouselItem key={index} className={`pl-1 basis-1/2 `}>
                                         <div className="flex">
                                             <Button variant={color == index ? 'default' : 'outline'} className="w-full">
-                                                <Link className="flex justify-center items-center gap-2" to={obj.href}>
+                                                <Link className="flex justify-center items-center gap-4" to={obj.href}>
                                                     {obj.icon}
                                                     {obj.name}
                                                 </Link>
@@ -171,10 +171,18 @@ export default function TripDetails() {
                             <Textarea id="notes" placeholder="Type your trip notes here!" className="w-[26.5vw] bg-transparent"/>
                         </div>
                     </div>
-                    <div className="w-full grid place-items-start items-start mt-10">
+                    <div className="hidden w-full lg:grid place-items-start items-start mt-10">
                         <img
                             src={Image2}
                             className="w-[12vw] h-auto "
+                        />
+                    </div>
+                </div>
+                <div className="flex lg:hidden">
+                    <div className="w-full grid place-items-start items-start">
+                        <img
+                            src={Image3}
+                            className="w-full h-auto px-[8vw]"
                         />
                     </div>
                 </div>

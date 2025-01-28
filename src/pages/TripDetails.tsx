@@ -129,13 +129,13 @@ export default function TripDetails() {
                             </p>
                         </div>
                         <div className="mt-3">
-                            <CarouselButton opts={{align: "start" }} className="max-w-[80vw] lg:max-w-[26.5vw]" onScrollNext={handleColorNext} onScrollPrevious={handleColorPrevious}>
-                                <CarouselContent className="w-full ml-0.4">
+                            <CarouselButton opts={{align: "start" }} className="max-w-[78.3vw] lg:max-w-[26.5vw]" onScrollNext={handleColorNext} onScrollPrevious={handleColorPrevious}>
+                                <CarouselContent className="w-full items-center -ml-1 lg:ml-0.4">
                                     {data.map((obj, index) => (
-                                    <CarouselItem key={index} className={`pl-1 basis-1/2 `}>
+                                    <CarouselItem key={index} className={`pl-1.5 basis-1/2 `}>
                                         <div className="flex">
                                             <Button variant={color == index ? 'default' : 'outline'} className="w-full">
-                                                <Link className="flex justify-center items-center gap-4" to={obj.href}>
+                                                <Link className={`flex justify-center items-center ${obj.name != 'My Piggy Bank' ? 'gap-3' : 'gap-1'}`} to={obj.href}>
                                                     {obj.icon}
                                                     {obj.name}
                                                 </Link>
@@ -148,8 +148,8 @@ export default function TripDetails() {
                                 <CarouselNext />
                             </CarouselButton>
                         </div>
-                        <div className="w-full flex justify-start items-center gap-2">
-                            <div className="w-full grid place-items-start text-start items-start break-words mt-3">
+                        <div className="w-full flex justify-center lg:justify-start items-center gap-2 px-10">
+                            <div className="w-full grid place-items-start text-start items-end break-words mt-3 ">
                                 <p>
                                     <strong>Duration:</strong> 900 Days
                                 </p>
@@ -162,16 +162,16 @@ export default function TripDetails() {
                                     <strong>Season:</strong> Middle
                                 </p>
                                 <p>
-                                    <strong>Spent:</strong> $0.00
+                                    <strong>Spent:</strong> $99,000,000,000.00
                                 </p>
                             </div>
                         </div>
-                        <div className="mt-3">
+                        <div className="w-full grid text-start mt-3 px-[6.9vw]">
                             <Label htmlFor="notes">Notes</Label>
-                            <Textarea id="notes" placeholder="Type your trip notes here!" className="w-[26.5vw] bg-transparent"/>
+                            <Textarea id="notes" placeholder="Type your trip notes here!" className="w-full lg:w-[26.5vw] bg-transparent"/>
                         </div>
                     </div>
-                    <div className="hidden w-full lg:grid place-items-start items-start mt-10">
+                    <div className="hidden w-full lg:grid place-items-start items-start">
                         <img
                             src={Image2}
                             className="w-[12vw] h-auto "

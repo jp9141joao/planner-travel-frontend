@@ -11,7 +11,7 @@ import Home from "./pages/Home"
 import { ResetPassword } from "./pages/ResetPassword";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import { Test } from "./pages/test";
+import { Test } from "./pages/Test";
 import { ProfileSettings } from "./pages/ProfileSettings";
 import { NotFound } from "./pages/NotFound";
 import { ViewTrips } from "./pages/ViewTrips";

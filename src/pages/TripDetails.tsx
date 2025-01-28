@@ -108,7 +108,7 @@ export default function TripDetails() {
                 <GoBack to="viewTrips" />
             </TopPage>
             <MiddlePageOneCol>
-                <div className="flex justify-center gap-32 mt-[4vw] xxs2:mt-[15vw]" >
+                <div className="flex justify-center gap-32 mt-[4.5vw] xxs2:mt-[15vw] xs:mt-[7vw] sm:mt-[9vw] lg:mt-0" >
                     <div className="hidden w-full lg:grid place-items-left items-left mt-10" >
                         <img
                             src={Image1}
@@ -116,8 +116,8 @@ export default function TripDetails() {
                         />
                     </div>
                     <div className='grid place-items-center items-center w-full lg:w-[26.5vw] mx-auto mt-[3vw] xs:mb-[5vw]'>
-                        <div className="w-[86.4vw] lg:max-w-[26.5vw]">
-                            <h1 className="grid text-center text-[18.5vw] xxs5:text-[9.85vw] xs:text-[12.7vw] lg:text-[3vw] w-full text-gray-900 tracking-tight leading-[0.9] break-all">
+                        <div className="w-[86.4vw] xs:w-[62.8vw] lg:max-w-[26.5vw]">
+                            <h1 className="grid text-center text-[18.5vw] xxs5:text-[9.85vw] xs:text-[6.9vw] lg:text-[3vw] w-full text-gray-900 tracking-tight leading-[0.9] break-all">
                                 Trip to Rio de Janeiro
                             </h1>
                         </div>
@@ -127,7 +127,7 @@ export default function TripDetails() {
                             </p>
                         </div>
                         <div className="mt-3">
-                            <Carousel opts={{align: "start" }} setApi={setApi} className="max-w-[87.8vw] lg:max-w-[26.5vw]">
+                            <Carousel opts={{align: "start" }} setApi={setApi} className="max-w-[87.8vw] xs:max-w-[61.5vw] lg:max-w-[26.5vw]">
                                 <CarouselContent className="w-full items-center -ml-1 lg:ml-0.4">
                                     {data.map((obj, index) => (
                                     <CarouselItem key={index} className={`pl-1.5 basis-1/2 `}>
@@ -161,7 +161,7 @@ export default function TripDetails() {
                                 ))}
                             </div>
                         </div>
-                        <div className="w-[86.4vw] flex justify-start lg:justify-start items-center text-[3.4vw] gap-2">
+                        <div className="w-[86.4vw] xs:w-[61.5vw] lg:w-[26.5vw] flex justify-start lg:justify-start items-center text-[3.4vw] xs:text-[2.4vw] lg:text-[1vw] gap-2">
                             <div className="w-full grid place-items-start text-start items-start break-all mt-3">
                                 <p>
                                     <strong>Duration:</strong> 900 Days
@@ -184,7 +184,7 @@ export default function TripDetails() {
                             <Textarea id="notes" placeholder="Type your trip notes here!" className="w-full lg:w-[26.5vw] bg-transparent"/>
                         </div>
                     </div>
-                    <div className="hidden w-full lg:grid place-items-start items-start" >
+                    <div className="hidden w-full lg:grid place-items-start items-start mt-11" >
                         <img
                             src={Image2}
                             className="w-[12vw] h-auto "
@@ -195,7 +195,7 @@ export default function TripDetails() {
                     <div className="w-full grid place-items-start items-start">
                         <img
                             src={Image3}
-                            className="w-full h-auto px-[11vw] xxs3:px-[8vw]"
+                            className="w-full h-auto px-[11vw] xxs3:px-[8vw] xs:px-[23.4vw] sm:px-[18.5vw]"
                         />
                     </div>
                 </div>

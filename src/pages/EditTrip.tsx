@@ -314,7 +314,7 @@ export default function EditTrip() {
                                             </svg>
                                             <span className="sr-only">Carregando...</span>
                                         </div>
-                                        : "Create Travel"
+                                        : "Edit Travel"
                                     }
                                 </Button>
                                 <Toaster />

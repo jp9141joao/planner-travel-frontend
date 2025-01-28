@@ -2,15 +2,16 @@ import Credits from "@/components/Credits";
 import { GoBack } from "@/components/GoBack";
 import { BodyPage, BottomPage, MiddlePageOneCol, TopPage } from "@/components/LayoutPage/Layouts";
 import { Button } from "@/components/ui/button";
-import { CarouselButton, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Map, CheckSquare, PiggyBank, Wallet } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Image1 from '../assets/undraw_travel-plans_l0fo (2).svg'
 import Image2 from '../assets/undraw_travel-plans_l0fo (1).svg'
 import Image3 from '../assets/undraw_journey_friends (3).svg'
+import { type CarouselApi } from "@/components/ui/carousel"
 
 const data = [
     {
@@ -84,25 +85,22 @@ const local = [
 
 export default function TripDetails() {
 
-    const [color, setColor] = useState<number>(0);
+    const [api, setApi] = useState<CarouselApi>();
+    const [current, setCurrent] = useState<number>(0);
+    const [count, setCount] = useState<number>(0);
 
-    const handleColorNext = () => {
-        console.log(color + 10)
-        if (color == data.length - 1) {
-            return
+    useEffect(() => {
+        if (!api) {
+          return
         }
-
-        setColor(color + 1);
-    }
-
-    const handleColorPrevious = () => {
-        console.log(color + 20)
-        if (color == 0) {
-            return
-        }
-
-        setColor(color - 1);
-    }
+     
+        setCount(api.scrollSnapList().length)
+        setCurrent(api.selectedScrollSnap() + 1)
+     
+        api.on("select", () => {
+          setCurrent(api.selectedScrollSnap() + 1)
+        })
+      }, [api])
 
     return (
         <BodyPage>
@@ -110,15 +108,15 @@ export default function TripDetails() {
                 <GoBack to="viewTrips" />
             </TopPage>
             <MiddlePageOneCol>
-                <div className="flex justify-center gap-32 " >
+                <div className="flex justify-center gap-32 mt-[4vw] xxs2:mt-[15vw]" >
                     <div className="hidden w-full lg:grid place-items-left items-left mt-10" >
                         <img
                             src={Image1}
                             className="w-[12vw] h-auto "
                         />
                     </div>
-                    <div className='grid place-items-center items-center w-full lg:w-[26.5vw] mx-auto mb-[5vw] mt-[3vw] xs:mb-[5vw]'>
-                        <div className="lg:max-w-[26.5vw]">
+                    <div className='grid place-items-center items-center w-full lg:w-[26.5vw] mx-auto mt-[3vw] xs:mb-[5vw]'>
+                        <div className="w-[86.4vw] lg:max-w-[26.5vw]">
                             <h1 className="grid text-center text-[18.5vw] xxs5:text-[9.85vw] xs:text-[12.7vw] lg:text-[3vw] w-full text-gray-900 tracking-tight leading-[0.9] break-all">
                                 Trip to Rio de Janeiro
                             </h1>
@@ -129,12 +127,17 @@ export default function TripDetails() {
                             </p>
                         </div>
                         <div className="mt-3">
-                            <CarouselButton opts={{align: "start" }} className="max-w-[78.3vw] lg:max-w-[26.5vw]" onScrollNext={handleColorNext} onScrollPrevious={handleColorPrevious}>
+                            <Carousel opts={{align: "start" }} setApi={setApi} className="max-w-[87.8vw] lg:max-w-[26.5vw]">
                                 <CarouselContent className="w-full items-center -ml-1 lg:ml-0.4">
                                     {data.map((obj, index) => (
                                     <CarouselItem key={index} className={`pl-1.5 basis-1/2 `}>
                                         <div className="flex">
-                                            <Button variant={color == index ? 'default' : 'outline'} className="w-full">
+                                            <Button 
+                                                variant={(current == 1 && obj.name == 'Expenses') || 
+                                                        (current == 2 && obj.name == 'Itinerary') ||
+                                                        (current == 3 && obj.name == 'To Do List')
+                                                        ? 'default' : 'outline'} 
+                                                className="w-full">
                                                 <Link className={`flex justify-center items-center ${obj.name != 'My Piggy Bank' ? 'gap-3' : 'gap-1'}`} to={obj.href}>
                                                     {obj.icon}
                                                     {obj.name}
@@ -144,12 +147,22 @@ export default function TripDetails() {
                                     </CarouselItem>
                                     ))}
                                 </CarouselContent>
-                                <CarouselPrevious/>
-                                <CarouselNext />
-                            </CarouselButton>
+                                
+                            </Carousel>
+                            <div className="flex justify-center mt-4">
+                                {Array.from({ length: count }).map((_, index) => (
+                                    <span
+                                        key={index}
+                                        className={`mx-1 w-3 h-3 rounded-full cursor-pointer ${
+                                        index + 1 === current ? 'bg-color-orange' : 'bg-[#bfbfbf]'
+                                        }`}
+                                        onClick={() => api && api.scrollTo(index)}
+                                    />
+                                ))}
+                            </div>
                         </div>
-                        <div className="w-full flex justify-center lg:justify-start items-center gap-2 px-10">
-                            <div className="w-full grid place-items-start text-start items-end break-words mt-3 ">
+                        <div className="w-[86.4vw] flex justify-start lg:justify-start items-center text-[3.4vw] gap-2">
+                            <div className="w-full grid place-items-start text-start items-start break-all mt-3">
                                 <p>
                                     <strong>Duration:</strong> 900 Days
                                 </p>
@@ -157,7 +170,7 @@ export default function TripDetails() {
                                     <strong>Budget:</strong> $99,000,000,000.00
                                 </p>
                             </div>
-                            <div className="w-full grid place-items-start text-start items-start break-words mt-3">
+                            <div className="w-full grid place-items-start text-start items-start break-all mt-3">
                                 <p>
                                     <strong>Season:</strong> Middle
                                 </p>
@@ -166,12 +179,12 @@ export default function TripDetails() {
                                 </p>
                             </div>
                         </div>
-                        <div className="w-full grid text-start mt-3 px-[6.9vw]">
+                        <div className="w-full grid text-start gap-1.5 mt-3 px-[1vw]">
                             <Label htmlFor="notes">Notes</Label>
                             <Textarea id="notes" placeholder="Type your trip notes here!" className="w-full lg:w-[26.5vw] bg-transparent"/>
                         </div>
                     </div>
-                    <div className="hidden w-full lg:grid place-items-start items-start">
+                    <div className="hidden w-full lg:grid place-items-start items-start" >
                         <img
                             src={Image2}
                             className="w-[12vw] h-auto "
@@ -182,7 +195,7 @@ export default function TripDetails() {
                     <div className="w-full grid place-items-start items-start">
                         <img
                             src={Image3}
-                            className="w-full h-auto px-[8vw]"
+                            className="w-full h-auto px-[11vw] xxs3:px-[8vw]"
                         />
                     </div>
                 </div>

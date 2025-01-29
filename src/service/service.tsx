@@ -128,6 +128,48 @@ export const getTrips = async () => {
     return response.data;
 }
 
+export const getTrip = async (route: string, tripId: string) => {
+
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+        throw new Error("Token is missing");
+    }
+
+    if (route != 'tripDetails' || route != 'editTrip') {
+        throw new error("Route is invalid");
+    }
+
+    const response = await axios.get(`${url}/${route}`, {
+        data: {tripId}
+        validateStatus: (status) => status != 400,
+        headers: {
+            'authorization': `Bearer ${token}`,
+        }
+    });
+
+    return response.data;
+}
+
+export const updateNotes = async (tripId: string, notes: string) => {
+
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+        throw new Error("Token is missing");
+    }
+
+    const response = await axios.get(`${url}/tripDetails`, {
+        data: {notes}
+        validateStatus: (status) => status != 400,
+        headers: {
+            'authorization': `Bearer ${token}`,
+        }
+    });
+
+    return response.data;
+}
+
 export const editTrip = async (trip: Trip) => {
 
     if (!trip) {
@@ -230,6 +272,16 @@ export const createTrip = async (trip: Trip) => {
 export const getTrips = async () => {
     const response = { data: { error: '', success: '', data: '' } };
     return response.data;
+}
+
+export const getTrip = async (route: string, tripId: string) => {
+    const response = { data: { error: '', success: '', data: '' } };
+    return response.data;
+}
+
+export const updateNotes = async (tripId: string ,notes: string) => {
+    const response = { data: { error: '', success: '', data: '' } };
+    return response.data; 
 }
 
 export const editTrip = async (trip: Trip) => {

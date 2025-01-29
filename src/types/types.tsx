@@ -35,9 +35,14 @@ export interface dataPlace {
   Pictures: string
 };
 
-
 export interface ProtectedRouteProps {
     children: JSX.Element,
+}
+
+export interface ProtectedDataProps {
+    children: JSX.Element,
+    itemName: string,
+    route: string
 }
 
 export interface UserDetails {
@@ -61,10 +66,11 @@ export interface Trip {
     tripName: string,
     period: string,
     daysQty: number,
-    placesQty: number,
     currency: string,
     budgetAmount: number,
-    season: string, 
+    spent: number
+    season: string,
+    notes: string
 }
 
 export interface CarrouselButtonType {

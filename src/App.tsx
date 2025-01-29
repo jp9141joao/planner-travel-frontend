@@ -16,7 +16,9 @@ import { ProfileSettings } from "./pages/ProfileSettings";
 import { NotFound } from "./pages/NotFound";
 import { ViewTrips } from "./pages/ViewTrips";
 import EditTrip from "./pages/EditTrip";
-import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
+import { ProtectedData, ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
+import { useEffect } from "react";
+import TripDetails from "./pages/TripDetails";
 
 function App() {
 
@@ -46,7 +48,16 @@ function App() {
             } />
             <Route path="/editTrip" element={
               <ProtectedRoute>
-                <EditTrip />
+                <ProtectedData itemName="tripId" route="viewTrip">
+                  <EditTrip />
+                </ProtectedData>
+              </ProtectedRoute>
+            } />
+            <Route path="/tripDetails" element={
+              <ProtectedRoute>
+                <ProtectedData itemName="tripId" route="viewTrip">
+                  <TripDetails />
+                </ProtectedData>
               </ProtectedRoute>
             } />
             <Route path="/test" element={<Test/>}/>

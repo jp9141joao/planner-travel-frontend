@@ -163,13 +163,18 @@ import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Map, CheckSquare, PiggyBank, Wallet } from "lucide-react";
+import { Map, CheckSquare, PiggyBank, Wallet, Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Image1 from '../assets/undraw_travel-plans_l0fo (2).svg'
 import Image2 from '../assets/undraw_travel-plans_l0fo (1).svg'
 import Image3 from '../assets/undraw_journey_friends (3).svg'
 import { type CarouselApi } from "@/components/ui/carousel"
+import { getItemSessionStorage } from "@/components/utils/utils";
+import { getTrip, getTrips, updateNotes } from "@/service/service";
+import { Trip } from "@/types/types";
+import { Toaster } from "@/components/ui/toaster";
+import { toast } from "@/hooks/use-toast";
 
 const data = [
     {
@@ -204,9 +209,69 @@ const local = [
 
 export default function TripDetails() {
 
+    const [trip, setTrip] = useState<Trip>({
+        id: '1',
+        tripName: 'Trip to Rio de Janeiro',
+        period: 'Jan 20, 2025 - Fev 07, 2025',
+        daysQty: 18,
+        currency: '$',
+        budgetAmount: 3000,
+        spent: 0,
+        season: 'High',
+        notes: 'I need to rent a house urgent'
+    });
+    const [notes, setNotes] = useState<string>('');
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState<number>(0);
     const [count, setCount] = useState<number>(0);
+
+    const loadTrip = async () => {
+        try {
+            const tripId = getItemSessionStorage('tripId');
+
+            if (!tripId) {
+                throw new Error('Trip Id is missing');
+            }
+
+            const response  = await getTrip('tripDetails' as string ,tripId as string);
+
+            if (response.success) {
+                setTrip(response.data);
+                setNotes(response.data.notes);
+            } else {
+                toast({
+                    variant: 'destructive',
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
+            }
+        } catch (error: any) {
+            toast({
+                variant: 'destructive',
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
+            console.error(error);
+        }
+    };
+
+    const handleChange = async () => {
+        try {
+            const tripId = getItemSessionStorage('tripId');
+            await updateNotes(tripId as string, notes as string);
+        } catch (error: any) {
+            toast({
+                variant: 'destructive',
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        handleChange();
+    }, [notes])
 
     useEffect(() => {
         if (!api) {
@@ -219,12 +284,21 @@ export default function TripDetails() {
         api.on("select", () => {
           setCurrent(api.selectedScrollSnap() + 1)
         })
-      }, [api])
+    }, [api])
+
+    useEffect(() => {
+        loadTrip();
+    }, []);
 
     return (
         <BodyPage>
             <TopPage>
-                <GoBack to="viewTrips" />
+                <div className="flex justify-between">
+                    <GoBack to="viewTrips" />
+                    <Link className="cursor-pointer mt-3 mr-5" to={'/editTrip'} >
+                        <Pencil />
+                    </Link>
+                </div>
             </TopPage>
             <MiddlePageOneCol>
                 <div className="flex justify-center gap-32 mt-[4.5vw] xxs2:mt-[15vw] xs:mt-[7vw] sm:mt-[9vw] lg:mt-0" >
@@ -237,12 +311,12 @@ export default function TripDetails() {
                     <div className='grid place-items-center items-center w-full lg:w-[26.5vw] mx-auto mt-[3vw] xs:mb-[5vw]'>
                         <div className="w-[86.4vw] xs:w-[62.8vw] lg:max-w-[26.5vw]">
                             <h1 className="grid text-center text-[18.5vw] xxs5:text-[9.85vw] xs:text-[6.9vw] lg:text-[3vw] w-full text-gray-900 tracking-tight leading-[0.9] break-all">
-                                Trip to Rio de Janeiro
+                                {trip?.tripName}
                             </h1>
                         </div>
                         <div>
                             <p className='text-center text-[7.2vw] xxs8:text-[6.1vw] xs:text-[4.79vw] lg:text-[1.7vw] mt-[4.5vw] xxs5:mt-[3vw] xs:mt-[2.8vw] lg:mt-[1vw] leading-tight text-gray-900 tracking-tight'>
-                                Jan 20, 2025 - Fev 23, 2026
+                                {trip?.period}
                             </p>
                         </div>
                         <div className="mt-3">
@@ -283,25 +357,26 @@ export default function TripDetails() {
                         <div className="w-[86.4vw] xs:w-[61.5vw] lg:w-[26.5vw] flex justify-start lg:justify-start items-center text-[3.4vw] xs:text-[2.4vw] lg:text-[1vw] gap-2">
                             <div className="w-full grid place-items-start text-start items-start break-all mt-3">
                                 <p>
-                                    <strong>Duration:</strong> 900 Days
+                                    <strong>Duration:</strong> {trip?.daysQty} Days
                                 </p>
                                 <p>
-                                    <strong>Budget:</strong> $99,000,000,000.00
+                                    <strong>Budget:</strong> {trip?.currency}{trip?.budgetAmount}
                                 </p>
                             </div>
                             <div className="w-full grid place-items-start text-start items-start break-all mt-3">
                                 <p>
-                                    <strong>Season:</strong> Middle
+                                    <strong>Season:</strong> {trip?.season}
                                 </p>
                                 <p>
-                                    <strong>Spent:</strong> $99,000,000,000.00
+                                    <strong>Spent:</strong> {trip?.currency}{trip?.spent}
                                 </p>
                             </div>
                         </div>
                         <div className="w-full grid text-start gap-1.5 mt-3 px-[1vw]">
                             <Label htmlFor="notes">Notes</Label>
-                            <Textarea id="notes" placeholder="Type your trip notes here!" className="w-full lg:w-[26.5vw] bg-transparent"/>
+                            <Textarea value={notes} onChange={(e) => setNotes(String(e))} id="notes" placeholder="Type your trip notes here!" className="w-full lg:w-[26.5vw] bg-transparent"/>
                         </div>
+                        <Toaster />
                     </div>
                     <div className="hidden w-full lg:grid place-items-left items-left mt-10" >
                         <img
@@ -309,6 +384,12 @@ export default function TripDetails() {
                             className="w-[12vw] h-auto "
                         />
                     </div>
+                </div>
+                <div className="lg:hidden w-full grid place-items-start items-start">
+                    <img
+                        src={Image3}
+                        className="w-full h-auto px-[11vw] xxs3:px-[8vw] xs:px-[23.4vw] sm:px-[18.5vw]"
+                    />
                 </div>
             </MiddlePageOneCol>
             <BottomPage>

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
-import { ProtectedRouteProps } from '@/types/types';
+import { ProtectedDataProps, ProtectedRouteProps } from '@/types/types';
 import { CheckTokenExpiration } from '../CheckTokenExpiration';
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
@@ -18,3 +18,13 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
     return children;
 };
+
+export const ProtectedData = ({ children, itemName, route }: ProtectedDataProps) => {
+    const tripId = sessionStorage.getItem(itemName);
+
+    if (!tripId) {
+        return <Navigate to={`/${route}`} />;
+    }
+
+    return children;
+}

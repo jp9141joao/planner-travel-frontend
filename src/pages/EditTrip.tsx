@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ReactHTML, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Image from '../assets/undraw_departing_010k (2).svg'
-import { createTrip } from "@/service/service";
+import { createTrip, editTrip, getTrip } from "@/service/service";
 import { Trip } from "@/types/types";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTriggerInput, SelectValue } fr
 import { ModalPlaceSuggestion } from "@/components/PlaceSuggestions";
 import { Value } from "@radix-ui/react-select";
 import { LoadData } from "@/components/LoadData";
+import { getItemSessionStorage, setItemSessionStorage } from "@/components/utils/utils";
 
 export default function EditTrip() {
 
@@ -31,7 +32,44 @@ export default function EditTrip() {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ status, setStatus ] = useState<number>(0);
+    const [ buttonDisabled, setButtonDisabled ] = useState<boolean>(true);
     const navigate = useNavigate();
+
+    const loadTrip = async () => {
+        try {
+            const tripId = getItemSessionStorage('tripId');
+        
+            if (!tripId) {
+                throw new Error('Trip Id is missing');
+            }
+
+            const response = await getTrip('editTrip' as string ,tripId as string, );
+
+            setItemSessionStorage('trip', response.data);
+
+            if (response.success) {
+                setTripName(response.data.tripName);
+                setPeriod(response.data.period);
+                setDaysQty(response.data.daysQty);
+                setBudgetAmount(response.data.budgetAmount);
+                setCurrency(response.data.currency);
+                setSeason(response.data.season);
+            } else {
+                toast({
+                    variant: 'destructive',
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
+            }
+        } catch(error: any) {
+            toast({
+                variant: 'destructive',
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
+            console.error(error);
+        }
+    }
 
     const getCurrencySymbol = (value: string) => {
         const symbols: { [key: string]: string } = {
@@ -93,14 +131,14 @@ export default function EditTrip() {
             e.preventDefault();
             setIsLoading(true);
 
-            const response = await createTrip({ 
+            const response = await editTrip({ 
                 tripName, 
                 period, 
                 daysQty, 
-                placesQty: 0,
                 currency,
                 budgetAmount: Number(budgetAmount.toString().substring(getCurrencySymbol(currency).length)),
-                season
+                season,
+                spent: 0
             } as Trip);
                         
             if (response.success) {
@@ -133,6 +171,24 @@ export default function EditTrip() {
             console.log(error);
         } 
     };
+
+    useEffect(() => {
+        if (!tripName || !period || !daysQty || !budgetAmount || !currency || !season) {
+            setStatus(7);
+        }
+
+        const tripData = getItemSessionStorage('trip');
+
+        if (tripData) {
+            if (tripData.tripName != tripName || tripData.period != period || tripData.daysQty != daysQty || tripData.budgetAmount != budgetAmount || tripData.currency != currency || tripData.season != season) {
+                setButtonDisabled(true);
+            }
+
+        } else {
+            setButtonDisabled(false);
+        }
+
+    }, [tripName, period, daysQty, budgetAmount, currency, season])
     
     useEffect(() => {
         const startMonth = period.substring(0, 3);
@@ -304,7 +360,7 @@ export default function EditTrip() {
                                 </div>
                             </div>
                             <div className="grid gap-1.5 w-full mt-1 xs:mt-2">
-                                <Button type="submit">
+                                <Button type="submit" disabled={buttonDisabled}>
                                     {
                                         isLoading ? 
                                         <div role="status">

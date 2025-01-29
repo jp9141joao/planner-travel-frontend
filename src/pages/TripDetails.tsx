@@ -224,7 +224,7 @@ export default function TripDetails() {
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState<number>(0);
     const [count, setCount] = useState<number>(0);
-
+    
     const loadTrip = async () => {
         try {
             const tripId = getItemSessionStorage('tripId');
@@ -287,7 +287,7 @@ export default function TripDetails() {
     }, [api])
 
     useEffect(() => {
-        loadTrip();
+        //loadTrip();
     }, []);
 
     return (
@@ -374,7 +374,11 @@ export default function TripDetails() {
                         </div>
                         <div className="w-full grid text-start gap-1.5 mt-3 px-[1vw]">
                             <Label htmlFor="notes">Notes</Label>
-                            <Textarea value={notes} onChange={(e) => setNotes(String(e))} id="notes" placeholder="Type your trip notes here!" className="w-full lg:w-[26.5vw] bg-transparent"/>
+                            <Textarea value={notes} onChange={(e) => {
+                                if (e.target.value.length <= 255) {
+                                    setNotes(e.target.value);
+                                }
+                            }} id="notes" placeholder="Type your trip notes here!" className="w-full lg:w-[26.5vw] bg-transparent"/>
                         </div>
                         <Toaster />
                     </div>

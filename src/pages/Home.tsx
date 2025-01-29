@@ -5,13 +5,15 @@ import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPa
 import Image from '../assets/undraw_travelers_re_y25a.svg';
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { getItemSessionStorage } from "@/components/utils/utils";
+import { CheckTokenExpiration } from "@/components/CheckTokenExpiration";
 
 export default function Home() {
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    //loadData(); 
+    CheckTokenExpiration();
   }, []);
 
   return (

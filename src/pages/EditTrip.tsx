@@ -280,7 +280,7 @@ export default function EditTrip() {
     return (
         <BodyPage>
             <TopPage>
-                <GoBack to="home"/>
+                <GoBack to="viewTrips"/>
             </TopPage>
             <MiddlePageOneCol>
                 <form onSubmit={handleSubmit}>

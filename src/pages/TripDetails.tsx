@@ -176,37 +176,6 @@ import { Trip } from "@/types/types";
 import { Toaster } from "@/components/ui/toaster";
 import { toast } from "@/hooks/use-toast";
 
-const data = [
-    {
-        name: 'Expenses',
-        href: '/expenses',
-        nmr: 0,
-        icon: <Wallet />
-    },
-    {
-        name: 'Itinerary',
-        href: '/itinerary',
-        nmr: 1,
-        icon: <Map />
-    },
-    {
-        name: 'To Do List',
-        href: '/toDoList',
-        nmr: 2,
-        icon: <CheckSquare />
-    },
-    {
-        name: 'My Piggy Bank',
-        href: '/myPiggyBank',
-        nmr: 3,
-        icon: <PiggyBank />
-    },
-];
-
-const local = [
-    {}, {}
-];
-
 export default function TripDetails() {
 
     const [trip, setTrip] = useState<Trip>({
@@ -224,6 +193,32 @@ export default function TripDetails() {
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState<number>(0);
     const [count, setCount] = useState<number>(0);
+    const data = [
+        {
+            name: 'Expenses',
+            href: '/expenses',
+            nmr: 0,
+            icon: <Wallet />
+        },
+        {
+            name: 'Itinerary',
+            href: '/itinerary',
+            nmr: 1,
+            icon: <Map />
+        },
+        {
+            name: 'To Do List',
+            href: '/toDoList',
+            nmr: 2,
+            icon: <CheckSquare />
+        },
+        {
+            name: 'My Piggy Bank',
+            href: '/myPiggyBank',
+            nmr: 3,
+            icon: <PiggyBank />
+        },
+    ];
     
     const loadTrip = async () => {
         try {

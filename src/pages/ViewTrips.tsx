@@ -327,7 +327,7 @@ export function ViewTrips() {
                             </DropdownMenu>
                         </div>
                         <div className="w-full mt-[3vw] xs:mt-[2vw] lg:mt-[0.7vw]">
-                            <Button size={"card"} disabled={false}>
+                            <Button size={"card"} disabled={isDisabled}>
                                 Access This Trip
                             </Button>
                         </div>

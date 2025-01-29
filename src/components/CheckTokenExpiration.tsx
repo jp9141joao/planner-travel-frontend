@@ -12,7 +12,7 @@ export const CheckTokenExpiration = () => {
 
             if (decodedToken.exp < currentTime) {
                 localStorage.removeItem('authToken');
-                window.location.href = '/signIn';
+                window.location.reload();
             }
         }
     }

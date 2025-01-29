@@ -1,6 +1,6 @@
-import Credits from "@/components/Credits";
+{/*import Credits from "@/components/Credits";
 import { GoBack } from "@/components/GoBack";
-import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts";
+import { BodyPage, BottomPage, MiddlePageOneCol, TopPage } from "@/components/LayoutPage/Layouts";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Label } from "@/components/ui/label";
@@ -40,44 +40,7 @@ const data = [
     },
 ];
 
-{/*const data = [
-    {
-        name: 'Expenses',
-        href: '/expenses',
-        nmr: 0,
-        icon: <Wallet />
-    },
-    {
-        name: 'Itinerary',
-        href: '/itinerary',
-        nmr: 1,
-        icon: <Map />
-    },
-    {
-        name: 'To Do List',
-        href: '/toDoList',
-        nmr: 2,
-        icon: <CheckSquare />
-    },
-    {
-        name: 'My Piggy Bank',
-        href: '/myPiggyBank',
-        nmr: 3,
-        icon: <PiggyBank />
-    },
-    {
-        name: 'Trip Details',
-        href: null,
-        nmr: 4,
-        icon: null 
-    },
-    {
-        name: 'Notes',
-        href: null,
-        nmr: 5,
-        icon: null
-    }
-]; */}
+
 
 const local = [
     {}, {}
@@ -107,7 +70,7 @@ export default function TripDetails() {
             <TopPage>
                 <GoBack to="viewTrips" />
             </TopPage>
-            <MiddlePage>
+            <MiddlePageOneCol>
                 <div className="flex justify-center gap-32 mt-[4.5vw] xxs2:mt-[15vw] xs:mt-[7vw] sm:mt-[9vw] lg:mt-0" >
                     <div className='grid place-items-center items-center w-full lg:w-[26.5vw] mx-auto mt-[3vw] xs:mb-[5vw]'>
                         <div className="w-[86.4vw] xs:w-[62.8vw] lg:max-w-[26.5vw]">
@@ -185,18 +148,17 @@ export default function TripDetails() {
                         className="w-full h-auto px-[11vw] xxs3:px-[8vw] xs:px-[23.4vw] sm:px-[18.5vw] lg:px-[3vw]"
                     />
                 </div>
-            </MiddlePage>
+            </MiddlePageOneCol>
             <BottomPage>
                 <Credits />
             </BottomPage>
         </BodyPage>
     )
 }
-
-{/*
+*/}
 import Credits from "@/components/Credits";
 import { GoBack } from "@/components/GoBack";
-import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts";
+import { BodyPage, BottomPage, MiddlePageOneCol, TopPage } from "@/components/LayoutPage/Layouts";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Label } from "@/components/ui/label";
@@ -264,8 +226,14 @@ export default function TripDetails() {
             <TopPage>
                 <GoBack to="viewTrips" />
             </TopPage>
-            <MiddlePage>
+            <MiddlePageOneCol>
                 <div className="flex justify-center gap-32 mt-[4.5vw] xxs2:mt-[15vw] xs:mt-[7vw] sm:mt-[9vw] lg:mt-0" >
+                    <div className="hidden w-full lg:grid place-items-left items-left mt-10" >
+                        <img
+                            src={Image1}
+                            className="w-[12vw] h-auto "
+                        />
+                    </div>
                     <div className='grid place-items-center items-center w-full lg:w-[26.5vw] mx-auto mt-[3vw] xs:mb-[5vw]'>
                         <div className="w-[86.4vw] xs:w-[62.8vw] lg:max-w-[26.5vw]">
                             <h1 className="grid text-center text-[18.5vw] xxs5:text-[9.85vw] xs:text-[6.9vw] lg:text-[3vw] w-full text-gray-900 tracking-tight leading-[0.9] break-all">
@@ -335,18 +303,17 @@ export default function TripDetails() {
                             <Textarea id="notes" placeholder="Type your trip notes here!" className="w-full lg:w-[26.5vw] bg-transparent"/>
                         </div>
                     </div>
+                    <div className="hidden w-full lg:grid place-items-left items-left mt-10" >
+                        <img
+                            src={Image2}
+                            className="w-[12vw] h-auto "
+                        />
+                    </div>
                 </div>
-                <div className="w-full grid place-items-start items-start">
-                    <img
-                        src={Image3}
-                        className="w-full h-auto px-[11vw] xxs3:px-[8vw] xs:px-[23.4vw] sm:px-[18.5vw] lg:px-[3vw]"
-                    />
-                </div>
-            </MiddlePage>
+            </MiddlePageOneCol>
             <BottomPage>
                 <Credits />
             </BottomPage>
         </BodyPage>
     )
 }    
-*/}

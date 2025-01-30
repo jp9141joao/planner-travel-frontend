@@ -30,7 +30,7 @@ const InputPassword = React.forwardRef<HTMLInputElement, InputProps>(({ classNam
         ref={ref}  // Certifique-se de que o ref é passado corretamente
         {...props}
       />
-      <Button className="text-[#bfbfbf] hover:text-[#707070] active:text-[#707070]" type="button" variant={"integrated"} onClick={() => setShow(!show)}>
+      <Button className="text-[#bfbfbf] hover:text-[#707070]" type="button" variant={"integrated"} onClick={() => setShow(!show)}>
         {show ? <EyeOff /> : <Eye />}
       </Button>
     </div>

@@ -122,7 +122,7 @@ export default function SelectTrip() {
                                 open={isOpen} 
                                 onOpenChange={setIsOpen}
                             >
-                                <SelectTrigger className="rounded-md">
+                                <SelectTrigger className="rounded-md border-r-2">
                                     <SelectValue placeholder="Select Your Trip">
                                         <div>
                                         <p className="text-[3.4vw] xxs3:text-[3.2vw] xs:text-[2.4vw] lg:text-[1vw] breaK-all">

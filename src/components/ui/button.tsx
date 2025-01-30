@@ -22,6 +22,8 @@ const buttonVariants = cva(
           "border rounded-md border border-2 border-[#bfbfbf] hover:bg-hover-color-black hover:text-accent-foreground active:border-primary",
         outlineInput: 
           "border border-[#bfbfbf] border-2 bg-transparent hover:border-[#707070] hover:text-accent-foreground data-[state=open]:border-2 data-[state=open]:border-[#707070] data-[state=open]:text-accent-foreground",
+        integrated:
+        "flex h-10 border rounded-r-md rounded-l-none border-t-2 border-b-2 border-r-2 border-l-1 border-[#bfbfbf] bg-transparent px-2 py-1 xxs5:px-3 xxs5:py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus:border-3 focus:border-[#707070] focus:border-r-2 hover:border-[#707070] hover:border-r-2 disabled:cursor-not-allowed disabled:opacity-50",
       },
       size: {
         default: "h-10 px-4 py-2",

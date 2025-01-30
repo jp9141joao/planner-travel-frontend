@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Input, InputPassword } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
 import Image from '@/assets/undraw_aircraft_re_m05i.svg';
@@ -163,8 +163,7 @@ export default function SignIn () {
                                 <Label htmlFor="password" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                     Password
                                 </Label>
-                                <Input 
-                                    type="password"
+                                <InputPassword
                                     id="password" 
                                     placeholder="Abc123" 
                                     value={password}

@@ -1,6 +1,8 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
+import { Button } from "./button"
+import { Eye, EyeOff } from "lucide-react"
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
@@ -22,6 +24,30 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 )
 Input.displayName = "Input"
 
+const InputPassword = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, ...props }, ref) => {
+    const [ show, setShow ] = React.useState<boolean>(false);
+
+    return (
+      <div className="flex w-full">
+        <InputIntegraded
+          type={show ? 'text' : 'password'}
+          ref={ref}
+          {...props}
+        /> 
+        <Button 
+          variant={'integrated'}
+          onClick={() => setShow(!show)}>
+          {
+            show ? <EyeOff /> : <Eye />
+          }
+        </Button>
+      </div>
+    )
+  }
+)
+Input.displayName = "InputPassword"
+
 const InputIntegraded = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
     return (
@@ -39,4 +65,4 @@ const InputIntegraded = React.forwardRef<HTMLInputElement, InputProps>(
 )
 Input.displayName = "InputIntegraded"
 
-export { Input, InputIntegraded }
+export { Input, InputPassword, InputIntegraded }

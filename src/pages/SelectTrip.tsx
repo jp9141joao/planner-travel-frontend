@@ -2,6 +2,8 @@ import Credits from "@/components/Credits";
 import { GoBack } from "@/components/GoBack";
 import { BodyPage, BottomPage, MiddlePage, MiddlePageOneCol, TopPage } from "@/components/LayoutPage/Layouts";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Toaster } from "@/components/ui/toaster";
 import { getItemSessionStorage, setItemSessionStorage } from "@/components/utils/utils";
@@ -9,7 +11,7 @@ import { toast } from "@/hooks/use-toast";
 import { getTrips } from "@/service/service";
 import { Trip } from "@/types/types";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SelectTrip() {
     const [route, setRoute] = useState<string>('');
@@ -18,7 +20,7 @@ export default function SelectTrip() {
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
     const [tripSelected, setTripSelected] = useState<string>('');
     const [isOpen, setIsOpen] = useState<boolean>(false);
-
+    const navigate = useNavigate();
 
     const loadTrips = async () => {
         try {
@@ -50,6 +52,28 @@ export default function SelectTrip() {
         }
     };
 
+    const handleSubmit = () => {
+        try {
+            setItemSessionStorage('tripId', tripSelected);
+            const route = getItemSessionStorage('route');
+            
+            if (route) {
+                navigate(`/${route}`);
+                sessionStorage.removeItem('route');
+            } else {
+                throw new Error('Route is missing');
+            }
+
+        } catch (error: any) { 
+            toast({
+                variant: 'destructive',
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
+            console.error(error);
+        }
+    }
+
     useEffect(() => {
         if (tripSelected == '*' || tripSelected == '' ) {
             setIsDisabled(true);
@@ -79,14 +103,14 @@ export default function SelectTrip() {
                 <GoBack to={'home'}/>
             </TopPage>
             <MiddlePageOneCol>
-                <div className="grid place-items-center">
+                <form onSubmit={handleSubmit} className="grid place-items-center">
                     <div>
-                        <h1 className="grid text-[16.1vw]  xxs8:text-[15.8vw] xs:text-[10.8vw] lg:text-[5.2vw] w-full text-gray-900 tracking-tight leading-[0.6] xxs3:leading-[0.7]">
+                        <h1 className="grid text-[13.65vw]  xxs8:text-[13.1vw] xs:text-[9.3vw] lg:text-[3.88vw] w-full text-gray-900 tracking-tight leading-[0.6] xxs3:leading-[0.9]">
                             Select Your Trip!
                         </h1>
                     </div>
                     <div>
-                        <p className="xs:text-start text-[8.7vw] xxs8:text-[8.4vw] xs:text-[5.9vw] lg:text-[2.1vw] mt-[4vw] xxs5:mt-[3.2vw] xs:mt-[5.7vw] lg:mt-[1.2vw] leading-tight text-gray-900 tracking-tight">
+                        <p className="xs:text-start text-[8.7vw] xxs8:text-[8.4vw] xs:text-[5.9vw] lg:text-[2.1vw] mt-[4vw] xxs5:mt-[3.2vw] xs:mt-[2vw] lg:mt-[0.7vw] leading-tight text-gray-900 tracking-tight">
                             Pick a trip to proceed.
                         </p>
                     </div>
@@ -138,7 +162,7 @@ export default function SelectTrip() {
                             </Link>
                         </Button>
                     </div>
-                </div>
+                </form>
             </MiddlePageOneCol>
             <BottomPage>
                 <Credits/>

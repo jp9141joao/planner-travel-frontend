@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { MoveRight } from 'lucide-react';
 import { AlignJustify } from 'lucide-react';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
+import { setItemSessionStorage } from "./utils/utils";
 
 export default function NavBar() {
     
@@ -53,7 +54,7 @@ export default function NavBar() {
                 <div className="hidden md:flex xl:gap-14 lg:gap-12 md:gap-6">
                     {
                         navigation.map((item, index) => (
-                            <Link key={index} to={item.href}>
+                            <Link key={index} to={item.href} onClick={() => setItemSessionStorage('route', item.href)}>
                                 <p className={`md:text-base lg:text-lg xl:text-xl hover:translate-y-1 transition-all`}>
                                     {item.name}
                                 </p>
@@ -77,13 +78,17 @@ export default function NavBar() {
                         <SheetContent>
                             <SheetHeader>
                                 <SheetTitle className="text-xl">
-                                    Easy Trip
+                                    <Link to={"/home"}>
+                                        <p className="md:text-base lg:text-lg xl:text-xl">
+                                            Easy Trip
+                                        </p>
+                                    </Link>
                                 </SheetTitle>
                             </SheetHeader>
                             <div className="grid text-left text-xl" aria-describedby="dialog-description">
                                 {
                                     navigation.map((item, index) => (
-                                        <Link key={index} to={item.href}>
+                                        <Link key={index} to={item.href} onClick={() => setItemSessionStorage('route', item.href)}>
                                             <p className={`hover:-translate-y-1 transition-all mt-3`}>
                                                 {item.name}
                                             </p>

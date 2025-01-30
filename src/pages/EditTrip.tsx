@@ -67,8 +67,6 @@ export default function EditTrip() {
 
             const response = await getTrip('editTrip' as string ,tripId as string, );
 
-            setItemSessionStorage('trip', response.data);
-
             if (response.success) {
                 
                 setTripName(response.data.tripName);
@@ -154,10 +152,10 @@ export default function EditTrip() {
             e.preventDefault();
             setIsLoading(true);
 
-            const userData: Trip | null = getItemSessionStorage('trip')
+            const tripId = getItemSessionStorage('tripId');
 
             const response = await editTrip({ 
-                id: userData?.id, 
+                id: tripId, 
                 tripName, 
                 period, 
                 daysQty, 
@@ -169,7 +167,8 @@ export default function EditTrip() {
                         
             if (response.success) {
                 setStatus(1);
-                //navigate('/editTri');
+                loadTrip();
+                //navigate('/editTrip');
             } else {
                 if (response.error == 'Error: The value of tripName is invalid!') {
                     setStatus(2);
@@ -191,7 +190,6 @@ export default function EditTrip() {
 
             setIsLoading(false);
             setShowToast(true);
-            loadTrip();
         } catch (error: any) {
             setStatus(8);
             setIsLoading(false);

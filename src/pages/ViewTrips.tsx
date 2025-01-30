@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { deleteTrip, duplicateTrip, getTrips } from "@/service/service";
 import { Toaster } from "@/components/ui/toaster";
 import { toast } from "@/hooks/use-toast";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectTriggerInput, SelectValue } from "@/components/ui/select";
 import { MoreHorizontal } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -17,104 +17,12 @@ import { setItemSessionStorage } from "@/components/utils/utils";
 import { LoadData } from "@/components/LoadData";
 
 export function ViewTrips() {
-    
-    {/*const [trips, setTrips] = useState<Trip[]>([
-        {
-            id: '7101923785401883001',
-            tripName: 'WWWWWWWWWWWWWWWWWWWWWW',
-            period: 'Apr 15, 2025 - Apr 25, 2025',
-            daysQty: 11,
-            placesQty: 3,
-            currency: '€', // EUR
-            budgetAmount: 6000,
-            season: 'Middle',
-        },
-        {
-            id: '9982750139284717261',
-            tripName: 'Journey through Asia',
-            period: 'Nov 01, 2025 - Nov 14, 2025',
-            daysQty: 14,
-            placesQty: 6,
-            currency: '₩', // KRW
-            budgetAmount: 8000,
-            season: 'High',
-        },
-        {
-            id: '2946725839203741829',
-            tripName: 'European Summer Adventure',
-            period: 'Jun 10, 2025 - Jun 20, 2025',
-            daysQty: 11,
-            placesQty: 8,
-            currency: '£', // GBP
-            budgetAmount: 12000,
-            season: 'High',
-        },
-        {
-            id: '1207583948275461234',
-            tripName: 'Exploring the Amazon',
-            period: 'Sep 05, 2026 - Sep 15, 2026',
-            daysQty: 11,
-            placesQty: 5,
-            currency: '$', // USD
-            budgetAmount: 4500,
-            season: 'Low',
-        },
-        {
-            id: '4827103985476130891',
-            tripName: 'Discovering Japan',
-            period: 'Mar 20, 2025 - Apr 01, 2025',
-            daysQty: 13,
-            placesQty: 7,
-            currency: '¥', // JPY
-            budgetAmount: 550000,
-            season: 'Middle',
-        },
-        {
-            id: '2198475620317489203',
-            tripName: 'Road Trip through the USA',
-            period: 'Jul 01, 2025 - Jul 20, 2025',
-            daysQty: 20,
-            placesQty: 10,
-            currency: '$', // USD
-            budgetAmount: 10000,
-            season: 'High',
-        },
-        {
-            id: '8492730156837450912',
-            tripName: 'Trekking in Nepal',
-            period: 'Oct 15, 2026 - Oct 30, 2026',
-            daysQty: 16,
-            placesQty: 3,
-            currency: '₹', // INR
-            budgetAmount: 70000,
-            season: 'High',
-        },
-        {
-            id: '4209837490568172345',
-            tripName: 'Desert Safari in Dubai',
-            period: 'Dec 01, 2025 - Dec 10, 2025',
-            daysQty: 10,
-            placesQty: 2,
-            currency: 'د.إ', // AED
-            budgetAmount: 9000,
-            season: 'Middle',
-        },
-        {
-            id: '5127403981567320497',
-            tripName: 'Caribbean Cruise',
-            period: 'Jan 05, 2026 - Jan 15, 2026',
-            daysQty: 11,
-            placesQty: 6,
-            currency: '$', // USD
-            budgetAmount: 5000,
-            season: 'High',
-        }
-    ]); */}
     const [trips, setTrips] = useState<Trip[]>([]);
     const [tripsExist, setTripsExist] = useState<boolean>(false);
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
     const [tripSelected, setTripSelected] = useState<string>('');
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const loadTrips = async () => {
         try {
@@ -146,6 +54,20 @@ export function ViewTrips() {
         }
     };
 
+    const handleSubmit = () => {
+        try {
+            setItemSessionStorage('tripId', tripSelected);
+            navigate('/tripDetails');
+        } catch (error: any) {
+            toast({
+                variant: 'destructive',
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
+            console.error(error);
+        }
+    };
+
     const handleDelete = async () => {
         try {
             const response = await deleteTrip(tripSelected);
@@ -171,6 +93,7 @@ export function ViewTrips() {
                 title: "Uh oh! Something went wrong.",
                 description: "There was a problem with your request.",
             });
+            console.error(error);
         }
     };
 
@@ -200,7 +123,7 @@ export function ViewTrips() {
             });
             console.error(error);
         }
-    }
+    };
 
     useEffect(() => {
         if (tripSelected == '*' || tripSelected == '' ) {
@@ -230,7 +153,7 @@ export function ViewTrips() {
                         className="w-auto h-auto"
                     />
                 </div>
-                <div>
+                <form onSubmit={handleSubmit}>
                     <div className="lg:hidden mx-[17vw] xxs3:mx-[8.8vw] xs:mx-[24vw] sm:mx-[20.5vw] my-[2vw] xxs5:my-[2vw] xxs3:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
                         <img
                             src={Image}
@@ -343,7 +266,7 @@ export function ViewTrips() {
                         </div>
                         <Toaster />
                     </div>
-                </div>
+                </form>
             </MiddlePage>
             <BottomPage>
                 <Credits/>

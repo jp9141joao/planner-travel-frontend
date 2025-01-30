@@ -169,9 +169,8 @@ export function ProfileSettings() {
                 <div className="flex justify-between">
                     <GoBack to="home" />
                     <div className="cursor-pointer mt-3 mr-5 hover:translate-x-1 transition-all" onClick={() => {
-                        localStorage.removeItem('authToken');
-                        sessionStorage.removeItem('user');
-                        sessionStorage.removeItem('daysInterval');
+                        localStorage.clear();
+                        sessionStorage.clear();
                         window.location.reload();
                     }}>
                         <LogOut/>

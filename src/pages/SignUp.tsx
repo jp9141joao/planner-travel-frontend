@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Input, InputPassword } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from '@/assets/undraw_world_re_768g.svg';
 import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts";
@@ -209,8 +209,7 @@ export default function SignIn () {
                             <Label htmlFor="password" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                 Password
                             </Label>
-                            <Input 
-                                type="password" 
+                            <InputPassword
                                 id="password" 
                                 placeholder="Abc123" 
                                 value={password}

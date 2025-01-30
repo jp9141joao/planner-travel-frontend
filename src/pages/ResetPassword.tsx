@@ -2,7 +2,7 @@ import Credits from "@/components/Credits";
 import { GoBack } from "@/components/GoBack";
 import { BodyPage, BottomPage, MiddlePage, TopPage } from "@/components/LayoutPage/Layouts";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Input, InputPassword } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from '../assets/undraw_forgot-password_odai_inverted.svg'
 import { useEffect, useState } from "react";
@@ -178,8 +178,7 @@ export function ResetPassword() {
                             <Label htmlFor="password" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                 Password
                             </Label>
-                            <Input 
-                                type="password" 
+                            <InputPassword
                                 id="password" 
                                 placeholder="Abc123"
                                 value={password}
@@ -192,8 +191,7 @@ export function ResetPassword() {
                             <Label htmlFor="newPassword" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                 New Password
                             </Label>
-                            <Input 
-                                type="password" 
+                            <InputPassword 
                                 id="newPassword" 
                                 placeholder="Cba321"
                                 value={newPassword}

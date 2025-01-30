@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ReactHTML, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Image from '../assets/undraw_departing_010k (2).svg'
-import { createTrip, editTrip, getTrip } from "@/service/service";
+import { createTrip, editTrip, getTrip, resetPasswordUser } from "@/service/service";
 import { Trip } from "@/types/types";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,9 @@ import { ModalPlaceSuggestion } from "@/components/PlaceSuggestions";
 import { Value } from "@radix-ui/react-select";
 import { LoadData } from "@/components/LoadData";
 import { getItemSessionStorage, setItemSessionStorage } from "@/components/utils/utils";
+import { DateRange } from "react-day-picker";
+import { parse } from 'date-fns';
+
 
 export default function EditTrip() {
 
@@ -26,6 +29,8 @@ export default function EditTrip() {
     const [ budgetAmount , setBudgetAmount ] = useState<number | string>('$0');
     const [ currency, setCurrency ] = useState<string>('USD');
     const [ season, setSeason] = useState<string>('');
+    const [ reset, setReset ] = useState<boolean>(false);
+    const [ selectValue, setSelectValue ] = useState<DateRange | undefined>(undefined);
     const [ toastMessage, setToastMessage ] = useState({
         variant: '', title: '', description: ''
     });
@@ -34,6 +39,23 @@ export default function EditTrip() {
     const [ status, setStatus ] = useState<number>(0);
     const [ buttonDisabled, setButtonDisabled ] = useState<boolean>(true);
     const navigate = useNavigate();
+
+    function transformPeriodToDateRange(period: string): DateRange | undefined {
+        const [fromDate, toDate] = period.split(' - ');
+    
+        if (!fromDate || !toDate) {
+            return undefined; 
+        }
+    
+        const from = parse(fromDate.trim(), 'MMM dd, yyyy', new Date());
+        const to = parse(toDate.trim(), 'MMM dd, yyyy', new Date());
+    
+        if (isNaN(from.getTime()) || isNaN(to.getTime())) {
+            return undefined; 
+        }
+    
+        return { from, to };
+    }
 
     const loadTrip = async () => {
         try {
@@ -48,12 +70,13 @@ export default function EditTrip() {
             setItemSessionStorage('trip', response.data);
 
             if (response.success) {
+                
                 setTripName(response.data.tripName);
                 setPeriod(response.data.period);
                 setDaysQty(response.data.daysQty);
-                setBudgetAmount(response.data.budgetAmount);
-                setCurrency(response.data.currency);
                 setSeason(response.data.season);
+                setBudgetAmount(`${getCurrencySymbol(response.data.currency)}${response.data.budgetAmount}`);
+                setCurrency(response.data.currency);
             } else {
                 toast({
                     variant: 'destructive',
@@ -131,7 +154,10 @@ export default function EditTrip() {
             e.preventDefault();
             setIsLoading(true);
 
+            const userData: Trip | null = getItemSessionStorage('trip')
+
             const response = await editTrip({ 
+                id: userData?.id, 
                 tripName, 
                 period, 
                 daysQty, 
@@ -143,7 +169,7 @@ export default function EditTrip() {
                         
             if (response.success) {
                 setStatus(1);
-                //navigate('/home');
+                //navigate('/editTri');
             } else {
                 if (response.error == 'Error: The value of tripName is invalid!') {
                     setStatus(2);
@@ -156,6 +182,7 @@ export default function EditTrip() {
                 } else if (response.error == 'Error: The value of budget is invalid!') {
                     setStatus(6);
                 } else if (response.error == 'Error: The value of currency is invalid!') {
+
                     setStatus(7);
                 } else {
                     setStatus(8);
@@ -164,6 +191,7 @@ export default function EditTrip() {
 
             setIsLoading(false);
             setShowToast(true);
+            loadTrip();
         } catch (error: any) {
             setStatus(8);
             setIsLoading(false);
@@ -172,23 +200,22 @@ export default function EditTrip() {
         } 
     };
 
+
     useEffect(() => {
         if (!tripName || !period || !daysQty || !budgetAmount || !currency || !season) {
-            setStatus(7);
+            setStatus(8);
         }
-
-        const tripData = getItemSessionStorage('trip');
-
+    
+        const tripData: Trip | null = getItemSessionStorage('trip');
         if (tripData) {
-            if (tripData.tripName != tripName || tripData.period != period || tripData.daysQty != daysQty || tripData.budgetAmount != budgetAmount || tripData.currency != currency || tripData.season != season) {
+            if (tripData?.tripName != tripName || tripData?.period != period || tripData?.daysQty != daysQty || `${getCurrencySymbol(tripData?.currency)}${tripData?.budgetAmount}` != budgetAmount || tripData?.currency != currency || tripData?.season != season) {
+                setButtonDisabled(false);
+            } else {
                 setButtonDisabled(true);
             }
-
-        } else {
-            setButtonDisabled(false);
         }
-
-    }, [tripName, period, daysQty, budgetAmount, currency, season])
+    
+    }, [tripName, period, daysQty, budgetAmount, currency, season]);
     
     useEffect(() => {
         const startMonth = period.substring(0, 3);
@@ -203,6 +230,7 @@ export default function EditTrip() {
             setSeason(''); 
         }
 
+        transformPeriodToDateRange(period);
     }, [period]);
     
     useEffect(() => {
@@ -259,7 +287,6 @@ export default function EditTrip() {
         }
     }, [isLoading, showToast, status]);
 
-
     useEffect(() => {
         if (showToast) {
             toast({
@@ -271,10 +298,11 @@ export default function EditTrip() {
             setShowToast(false);
         }
 
-    }, [toastMessage]);
+    }, [toastMessage])
+
 
     useEffect(() => {
-        //LoadData();
+        loadTrip();
     }, [])
 
     return (
@@ -317,7 +345,7 @@ export default function EditTrip() {
                                     Trip Period.
                                 </Label>
                                 <div className="w-full" onClick={() => setStatus(0)}>
-                                    <DatePickerWithRange onPeriodChange={onPeriodChange} onDaysQtyChange={onDaysQtyChange} status={status}/>
+                                    <DatePickerWithRange reset={reset} value={transformPeriodToDateRange(period)} onPeriodChange={onPeriodChange} onDaysQtyChange={onDaysQtyChange} status={status}/>
                                 </div>
                             </div>
                             <div className="grid gap-1.5 w-full place-items-start">
@@ -333,7 +361,7 @@ export default function EditTrip() {
                                         className={`w-full text-[4vw] xs:text-base ${status === 6 ? "border-red-500" : ""}`}
                                     />
                                     <Select 
-                                        defaultValue="USD" 
+                                        value={currency}
                                         onValueChange={handleChangeSelect} 
                                         onOpenChange={() => setStatus(0) }
                                     >

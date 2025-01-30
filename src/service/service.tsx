@@ -1,10 +1,10 @@
 import { Login, NewPasswordUser, Trip, UpdateUserData, User } from '@/types/types';
 import axios from 'axios';
 import { stat } from 'fs';
-//const url = 'http://localhost:3000';
-const url = '.';
+const url = 'http://localhost:3000';
+//const url = '.';
 
-{/*
+//{/*
 export const signInUser = async (login: Login) => {
 
     if (!login) {
@@ -136,13 +136,13 @@ export const getTrip = async (route: string, tripId: string) => {
         throw new Error("Token is missing");
     }
 
-    if (route != 'tripDetails' || route != 'editTrip') {
-        throw new error("Route is invalid");
+    if (route != 'tripDetails' && route != 'editTrip') {
+        throw new Error("Route is invalid");
     }
 
     const response = await axios.get(`${url}/${route}`, {
-        data: {tripId}
-        validateStatus: (status) => status != 400,
+        params: { tripId },
+        validateStatus: (status) => status !== 400,
         headers: {
             'authorization': `Bearer ${token}`,
         }
@@ -160,7 +160,7 @@ export const updateNotes = async (tripId: string, notes: string) => {
     }
 
     const response = await axios.get(`${url}/tripDetails`, {
-        data: {notes}
+        data: {tripId, notes},
         validateStatus: (status) => status != 400,
         headers: {
             'authorization': `Bearer ${token}`,
@@ -182,7 +182,7 @@ export const editTrip = async (trip: Trip) => {
         throw new Error("Token is missing!");
     }
 
-    const response = await axios.put(`${url}/viewTrips`, trip,{
+    const response = await axios.put(`${url}/editTrip`, trip,{
         validateStatus: (status) => status != 400,
         headers: {
             'authorization': `Bearer ${token}`,
@@ -236,9 +236,9 @@ export const duplicateTrip = async (tripId: bigint) => {
 
     return response.data;
 }
-*/}
+//*/}
 
-//{/*
+{/*
 export const signInUser = async (login: Login) => {
     const response = { data: { error: '', success: '', data: '' } };
     return response.data;
@@ -298,4 +298,4 @@ export const duplicateTrip = async (tripId: bigint) => {
     const response = { data: { error: '', success: '', data: '' } };
     return response.data;
 }
-//*/}
+*/}

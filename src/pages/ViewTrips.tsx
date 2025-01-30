@@ -214,8 +214,8 @@ export function ViewTrips() {
     }, [tripSelected]);
       
     useEffect(() => {
-        //LoadData();
-        //loadTrips();
+        LoadData();
+        loadTrips();
     }, []);
     
     return (
@@ -259,7 +259,7 @@ export function ViewTrips() {
                                 <SelectTrigger className="">
                                     <SelectValue placeholder="Select Your Trip">
                                         <div>
-                                        <p className="text-[3.4vw] xxs3:text-[3.2vw] xs:text-[2.4vw] lg:text-[1vw] breaK-all">
+                                        <p className="text-[3.4vw] xxs3:text-[3.2vw] xs:text-[2.4vw] lg:text-base breaK-all">
                                         {tripSelected && tripSelected != '*'
                                             ? trips.find((trip) => trip.id === tripSelected)?.tripName 
                                             : "Select Your Trip"}

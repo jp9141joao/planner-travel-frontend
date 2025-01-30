@@ -97,7 +97,6 @@ export default function SignIn () {
             })
         }
 
-        setStatus(0);
     }, [toastMessage]);
 
     useEffect(() => {

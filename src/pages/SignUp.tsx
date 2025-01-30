@@ -202,7 +202,7 @@ export default function SignIn () {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 onClick={() => setStatus(0)}
-                                className={status == 4 || status == 5 ? "border-red-500 " : "" }
+                                className={status == 4 || status == 5 || status == 9 ? "border-red-500 " : "" }
                             />
                         </div>
                         <div className="grid gap-1.5 w-full place-items-start">

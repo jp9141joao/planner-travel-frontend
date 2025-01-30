@@ -25,7 +25,8 @@ export default function AddTrips () {
     const [ budgetAmount , setBudgetAmount ] = useState<number | string>('$0');
     const [ currency, setCurrency ] = useState<string>('USD');
     const [ season, setSeason] = useState<string>('');
-    const [ visitPlace, setVisitPlace ] = useState('');
+    const [ visitPlace, setVisitPlace ] = useState<string>('');
+    const [ reset, setReset ] = useState<boolean>(false);
     const [ toastMessage, setToastMessage ] = useState({
         variant: '', title: '', description: ''
     });
@@ -98,15 +99,22 @@ export default function AddTrips () {
                 tripName, 
                 period, 
                 daysQty, 
-                placesQty: 0,
                 currency,
                 budgetAmount: Number(budgetAmount.toString().substring(getCurrencySymbol(currency).length)),
-                season
+                spent: 0,
+                season,
+                notes: '',
             } as Trip);
                         
             if (response.success) {
                 setStatus(1);
-                //navigate('/home');
+                setTripName('');
+                setPeriod('');
+                setDaysQty(0);
+                setBudgetAmount('$0');
+                setCurrency('USD');
+                setSeason('');
+                setReset(true);
             } else {
                 if (response.error == 'Error: The value of tripName is invalid!') {
                     setStatus(2);
@@ -274,7 +282,7 @@ export default function AddTrips () {
                                     Trip Period.
                                 </Label>
                                 <div className="w-full" onClick={() => setStatus(0)}>
-                                    <DatePickerWithRange onPeriodChange={onPeriodChange} onDaysQtyChange={onDaysQtyChange} status={status}/>
+                                    <DatePickerWithRange value={undefined} reset={reset} onPeriodChange={onPeriodChange} onDaysQtyChange={onDaysQtyChange} status={status}/>
                                 </div>
                             </div>
                             <div className="grid gap-1.5 w-full place-items-start">

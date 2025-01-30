@@ -8,8 +8,8 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export function DatePickerWithRange(
-  { onPeriodChange, onDaysQtyChange, status }: 
-  { onPeriodChange: (period: string) => void, onDaysQtyChange: (daysQty: number) => void, status: number }
+  { value, reset, onPeriodChange, onDaysQtyChange, status }: 
+  { value: DateRange | undefined, reset: boolean, onPeriodChange: (period: string) => void, onDaysQtyChange: (daysQty: number) => void, status: number }
 ) {
   const [date, setDate] = React.useState<DateRange | undefined>(undefined);
   const [isMobile, setIsMobile] = React.useState(false);
@@ -20,6 +20,7 @@ export function DatePickerWithRange(
     : "";
 
   React.useEffect(() => {
+
     const handleResize = () => {
       setIsMobile(window.innerWidth < 640);
     };
@@ -33,10 +34,25 @@ export function DatePickerWithRange(
   }, []);
 
   React.useEffect(() => {
+    if (value) {
+      setDate(value);
+    }
+  }, [value])
+
+  React.useEffect(() => {
+    if (reset) {
+      setDate(undefined);
+      onDaysQtyChange(0);
+      onPeriodChange("");
+    }
+  }, [reset]);
+
+  React.useEffect(() => {
     onDaysQtyChange(daysInterval);
     if (formattedPeriod) {
       onPeriodChange(formattedPeriod);
     }
+
   }, [daysInterval, formattedPeriod]);
 
   return (

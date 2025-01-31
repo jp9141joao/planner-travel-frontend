@@ -232,10 +232,6 @@ export default function AddTrips () {
         }
     }, [visitPlace]);
 
-    useEffect(() => {
-        //LoadData();
-    }, [])
-
     return (
         <BodyPage>
             <TopPage>

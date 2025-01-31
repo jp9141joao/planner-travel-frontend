@@ -8,36 +8,15 @@ import { useEffect } from "react";
 import { getItemSessionStorage, setItemSessionStorage } from "@/components/utils/utils";
 import { CheckTokenExpiration } from "@/components/CheckTokenExpiration";
 import { getUser } from "@/service/service";
+import { LoadData } from "@/components/LoadData";
 
 export default function Home() {
 
   const navigate = useNavigate();
 
-  const loadData = async () => {
-    try {
-      const userData = await getUser();
-
-      if (!userData) {
-        localStorage.removeItem('user')
-        throw new Error('User data could not be retrieved from the token. Please try again.');
-      }
-
-      setItemSessionStorage('user', userData.data);
-    } catch (error: any) {
-      console.error(error);
-      localStorage.removeItem('authToken');
-    }
-  }
-
   useEffect(() => {
-    CheckTokenExpiration();
-    const token = localStorage.getItem('authToken');
-
-    if (token) {
-      loadData(); 
-    }
-
-  }, []);
+    LoadData();
+  })
 
   return (
     <BodyPage>

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { ProtectedDataProps, ProtectedRouteProps } from '@/types/types';
 import { CheckTokenExpiration } from '../CheckTokenExpiration';
+import { LoadData } from '../LoadData';
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     const token = localStorage.getItem('authToken');
@@ -15,6 +16,8 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     if (!token) {
         return <Navigate to='/signIn' />;
     }
+
+    LoadData();
 
     return children;
 };

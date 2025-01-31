@@ -23,6 +23,7 @@ import { parse } from 'date-fns';
 
 export default function EditTrip() {
 
+    const [ trip, setTrip ] = useState<Trip | null>(null);
     const [ tripName, setTripName ] = useState<string>('');
     const [ period, setPeriod ] = useState<string>('');
     const [ daysQty, setDaysQty ] = useState<number>(0);
@@ -68,13 +69,14 @@ export default function EditTrip() {
             const response = await getTrip('editTrip' as string ,tripId as string, );
 
             if (response.success) {
-                
+                setTrip(response.data);
                 setTripName(response.data.tripName);
                 setPeriod(response.data.period);
                 setDaysQty(response.data.daysQty);
                 setSeason(response.data.season);
                 setBudgetAmount(`${getCurrencySymbol(response.data.currency)}${response.data.budgetAmount}`);
                 setCurrency(response.data.currency);
+                setButtonDisabled(true);
             } else {
                 toast({
                     variant: 'destructive',
@@ -203,10 +205,9 @@ export default function EditTrip() {
         if (!tripName || !period || !daysQty || !budgetAmount || !currency || !season) {
             setStatus(8);
         }
-    
-        const tripData: Trip | null = getItemSessionStorage('trip');
-        if (tripData) {
-            if (tripData?.tripName != tripName || tripData?.period != period || tripData?.daysQty != daysQty || `${getCurrencySymbol(tripData?.currency)}${tripData?.budgetAmount}` != budgetAmount || tripData?.currency != currency || tripData?.season != season) {
+
+        if (trip) {
+            if (trip.tripName != tripName || trip.period != period || trip.daysQty != daysQty || `${getCurrencySymbol(trip.currency)}${trip.budgetAmount}` != budgetAmount || trip.currency != currency || trip.season != season) {
                 setButtonDisabled(false);
             } else {
                 setButtonDisabled(true);

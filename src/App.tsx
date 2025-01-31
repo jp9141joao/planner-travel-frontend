@@ -16,10 +16,10 @@ import { ProfileSettings } from "./pages/ProfileSettings";
 import { NotFound } from "./pages/NotFound";
 import { ViewTrips } from "./pages/ViewTrips";
 import EditTrip from "./pages/EditTrip";
-import { ProtectedData, ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
 import { useEffect } from "react";
 import TripDetails from "./pages/TripDetails";
 import SelectTrip from "./pages/SelectTrip";
+import { ProtectedData, ProtectedRoute } from "./components/protectedRoute/ProtectedRoute";
 
 function App() {
 
@@ -29,6 +29,11 @@ function App() {
             <Route path='*' element={<NotFound />} />
             <Route path="/" element={<Navigate to={'/test'}/>}/>
             <Route path="/home" element={<Home/>}/>
+            <Route path="/viewTrips" element={
+              <ProtectedRoute>
+                <ViewTrips />
+              </ProtectedRoute>
+            } />
             <Route path="/addTrips" element={
               <ProtectedRoute>
                 <AddTravelS />
@@ -40,11 +45,6 @@ function App() {
             <Route path="/profileSettings" element={
               <ProtectedRoute>
                 <ProfileSettings />
-              </ProtectedRoute>
-            } />
-            <Route path="/viewTrips" element={
-              <ProtectedRoute>
-                <ViewTrips />
               </ProtectedRoute>
             } />
             <Route path="/editTrip" element={

@@ -1,10 +1,10 @@
 import { Login, NewPasswordUser, Trip, UpdateUserData, User } from '@/types/types';
 import axios from 'axios';
 import { stat } from 'fs';
-//const url = 'http://localhost:3000';
-const url = '.';
+const url = 'http://localhost:3000';
+//const url = '.';
 
-{/*
+//{/*
 export const signInUser = async (login: Login) => {
 
     if (!login) {
@@ -142,7 +142,7 @@ export const getTrip = async (route: string, tripId: string) => {
 
     const response = await axios.get(`${url}/${route}`, {
         params: { tripId },
-        validateStatus: (status) => status !== 400,
+        validateStatus: (status) => status != 400,
         headers: {
             'authorization': `Bearer ${token}`,
         }
@@ -159,12 +159,11 @@ export const updateNotes = async (tripId: string, notes: string) => {
         throw new Error("Token is missing");
     }
 
-    const response = await axios.get(`${url}/tripDetails`, {
-        data: {tripId, notes},
+    const response = await axios.put(`${url}/tripDetails`, { tripId, notes }, {
         validateStatus: (status) => status != 400,
         headers: {
             'authorization': `Bearer ${token}`,
-        }
+        },
     });
 
     return response.data;
@@ -227,7 +226,7 @@ export const duplicateTrip = async (tripId: bigint) => {
         throw new Error("Token is missing!");
     }
 
-    const response = await axios.post(`${url}/viewTrips`, tripId, {
+    const response = await axios.post(`${url}/viewTrips`, { tripId: tripId.toString() }, {
         validateStatus: (status) => status != 400,
         headers: {
             'authorization': `Bearer ${token}`,
@@ -236,9 +235,9 @@ export const duplicateTrip = async (tripId: bigint) => {
 
     return response.data;
 }
-*/}
+//*/}
 
-//{/*
+{/*
 export const signInUser = async (login: Login) => {
     const response = { data: { error: '', success: '', data: '' } };
     return response.data;

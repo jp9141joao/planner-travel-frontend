@@ -170,7 +170,7 @@ import Image1 from '../assets/undraw_travel-plans_l0fo (2).svg'
 import Image2 from '../assets/undraw_travel-plans_l0fo (1).svg'
 import Image3 from '../assets/undraw_journey_friends (3).svg'
 import { type CarouselApi } from "@/components/ui/carousel"
-import { getItemSessionStorage } from "@/components/utils/utils";
+import { getItemSessionStorage, setItemSessionStorage } from "@/components/utils/utils";
 import { getTrip, getTrips, updateNotes } from "@/service/service";
 import { Trip } from "@/types/types";
 import { Toaster } from "@/components/ui/toaster";
@@ -178,17 +178,7 @@ import { toast } from "@/hooks/use-toast";
 
 export default function TripDetails() {
 
-    const [trip, setTrip] = useState<Trip>({
-        id: '1',
-        tripName: 'Trip to Rio de Janeiro',
-        period: 'Jan 20, 2025 - Fev 07, 2025',
-        daysQty: 18,
-        currency: '$',
-        budgetAmount: 3000,
-        spent: 0,
-        season: 'High',
-        notes: 'I need to rent a house urgent'
-    });
+    const [trip, setTrip] = useState<Trip | null>(null);
     const [notes, setNotes] = useState<string>('');
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState<number>(0);
@@ -219,6 +209,22 @@ export default function TripDetails() {
             icon: <PiggyBank />
         },
     ];
+
+    const getCurrencySymbol = (value: string) => {
+        const symbols: { [key: string]: string } = {
+            USD: '$',
+            EUR: '€',
+            BRL: 'R$',
+            GBP: '£',
+            JPY: '¥',
+            AUD: 'A$',
+            CAD: 'C$',
+            CHF: 'Fr.',
+            CNY: '¥',
+            INR: '₹'
+        };
+        return symbols[value];
+    }
     
     const loadTrip = async () => {
         try {
@@ -265,10 +271,6 @@ export default function TripDetails() {
     }
 
     useEffect(() => {
-        handleChange();
-    }, [notes])
-
-    useEffect(() => {
         if (!api) {
           return
         }
@@ -282,7 +284,7 @@ export default function TripDetails() {
     }, [api])
 
     useEffect(() => {
-        //loadTrip();
+        loadTrip();
     }, []);
 
     return (
@@ -315,7 +317,7 @@ export default function TripDetails() {
                             </p>
                         </div>
                         <div className="mt-3">
-                            <Carousel opts={{align: "start" }} setApi={setApi} className="max-w-[87.8vw] xs:max-w-[61.5vw] lg:max-w-[26.5vw]">
+                            <Carousel opts={{align: "start" }} setApi={setApi} className="w-[87.8vw] xs:w-[61.5vw] lg:w-[26.5vw]">
                                 <CarouselContent className="w-full items-center -ml-1 lg:ml-0.4">
                                     {data.map((obj, index) => (
                                     <CarouselItem key={index} className={`pl-1.5 basis-1/2 `}>
@@ -349,13 +351,13 @@ export default function TripDetails() {
                                 ))}
                             </div>
                         </div>
-                        <div className="w-[86.4vw] xs:w-[61.5vw] lg:w-[26.5vw] flex justify-start lg:justify-start items-center text-[3.4vw] xs:text-[2.4vw] lg:text-[1vw] gap-2">
+                        <div className="w-[86.4vw] xs:w-[61.5vw] lg:w-[26.5vw] flex justify-start lg:justify-start items-center text-[3.4vw] xs:text-[2.4vw] lg:text-[0.8vw] gap-2">
                             <div className="w-full grid place-items-start text-start items-start break-all mt-3">
                                 <p>
                                     <strong>Duration:</strong> {trip?.daysQty} Days
                                 </p>
                                 <p>
-                                    <strong>Budget:</strong> {trip?.currency}{trip?.budgetAmount}
+                                    <strong>Budget:</strong> {getCurrencySymbol(String(trip?.currency))}{trip?.budgetAmount}
                                 </p>
                             </div>
                             <div className="w-full grid place-items-start text-start items-start break-all mt-3">
@@ -363,17 +365,22 @@ export default function TripDetails() {
                                     <strong>Season:</strong> {trip?.season}
                                 </p>
                                 <p>
-                                    <strong>Spent:</strong> {trip?.currency}{trip?.spent}
+                                    <strong>Spent:</strong> {getCurrencySymbol(String(trip?.currency))}{trip?.spent}
                                 </p>
                             </div>
                         </div>
                         <div className="w-full grid text-start gap-1.5 mt-3 px-[1vw]">
                             <Label htmlFor="notes">Notes</Label>
-                            <Textarea value={notes} onChange={(e) => {
-                                if (e.target.value.length <= 255) {
-                                    setNotes(e.target.value);
-                                }
-                            }} id="notes" placeholder="Type your trip notes here!" className="w-full lg:w-[26.5vw] bg-transparent"/>
+                            <Textarea value={notes == null ? '' : notes}
+                                onBlur={() => notes != null ? handleChange() : null}
+                                onChange={(e) => {
+                                    if (e.target.value.length <= 255) {
+                                        setNotes(e.target.value);
+                                    }
+                                }} 
+                                id="notes" 
+                                placeholder="Type your trip notes here!" 
+                                className="w-full lg:w-[26.5vw] bg-transparent"/>
                         </div>
                         <Toaster />
                     </div>

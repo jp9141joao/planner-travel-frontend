@@ -71,7 +71,7 @@ export function ProfileSettings() {
         } 
     }
 
-    useEffect(() => {        
+    useEffect(() => {
         const userData: UserDetails | null = getItemSessionStorage('user');
 
         if (userData) {

@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
-import { ProtectedDataProps, ProtectedRouteProps } from '@/types/types';
+import { Children, ReactNode, useEffect, useRef } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
+import { ProtectedDataProps, ChildrenElement } from '@/types/types';
 import { CheckTokenExpiration } from '../CheckTokenExpiration';
 import { LoadData } from '../LoadData';
 
-export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+export const ProtectedRoute = ({ children }: { children: ReactNode}) => {
     const token = localStorage.getItem('authToken');
 
     useEffect(() => {

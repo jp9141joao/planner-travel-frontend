@@ -58,6 +58,7 @@ export default function SelectTrip() {
             const route = getItemSessionStorage('route');
             
             if (route) {
+                console.log(route)
                 navigate(`/${route}`);
                 sessionStorage.removeItem('route');
             } else {
@@ -84,9 +85,8 @@ export default function SelectTrip() {
         }
     }, [tripSelected]);
 
-    {/*
-        useEffect(() => {
-        const routeData = getItemSessionStorage('route' );
+    useEffect(() => {
+        const routeData: string | null = getItemSessionStorage('route' );
 
         if (!routeData) {
             throw new Error('Route destination is missing');
@@ -95,7 +95,6 @@ export default function SelectTrip() {
         setRoute(routeData);
         loadTrips();
     }, [])    
-    */}
 
     return (
         <BodyPage>
@@ -125,7 +124,7 @@ export default function SelectTrip() {
                                 <SelectTrigger className="rounded-md border-r-2">
                                     <SelectValue placeholder="Select Your Trip">
                                         <div>
-                                        <p className="text-[3.4vw] xxs3:text-[3.2vw] xs:text-[2.4vw] lg:text-[1vw] breaK-all">
+                                        <p className="text-[3.4vw] xxs3:text-[3.2vw] xs:text-[2.4vw] lg:text-base breaK-all">
                                         {tripSelected && tripSelected != '*'
                                             ? trips.find((trip) => trip.id === tripSelected)?.tripName 
                                             : "Select Your Trip"}

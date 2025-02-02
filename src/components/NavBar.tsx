@@ -54,7 +54,7 @@ export default function NavBar() {
                 <div className="hidden md:flex xl:gap-14 lg:gap-12 md:gap-6">
                     {
                         navigation.map((item, index) => (
-                            <Link key={index} to={'/selectTrip'} onClick={() => setItemSessionStorage('route', item.href)}>
+                            <Link key={index} to={item.name != 'Home' ? '/selectTrip' : '/home'} onClick={() => item.name != 'Home' ? setItemSessionStorage('route', item.href) : null}>
                                 <p className={`md:text-base lg:text-lg xl:text-xl hover:translate-y-1 transition-all`}>
                                     {item.name}
                                 </p>
@@ -88,7 +88,7 @@ export default function NavBar() {
                             <div className="grid text-left text-xl" aria-describedby="dialog-description">
                                 {
                                     navigation.map((item, index) => (
-                                        <Link key={index} to={'/selectTrip'} onClick={() => setItemSessionStorage('route', item.href)}>
+                                        <Link key={index} to={item.name != 'Home' ? '/selectTrip' : '/home'}  onClick={() => item.name != 'Home' ? setItemSessionStorage('route', item.href) : null}>
                                             <p className={`hover:-translate-y-1 transition-all mt-3`}>
                                                 {item.name}
                                             </p>

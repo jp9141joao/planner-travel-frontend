@@ -1,4 +1,4 @@
-import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Navigate, Route, BrowserRouter as Router, Routes, useLocation } from "react-router-dom";
 import TravelDetails from "./pages/TravelDetails";
 import EditTravel from "./pages/EditTravel";
 import AddTravelS from "./pages/AddTrips";
@@ -16,10 +16,11 @@ import { ProfileSettings } from "./pages/ProfileSettings";
 import { NotFound } from "./pages/NotFound";
 import { ViewTrips } from "./pages/ViewTrips";
 import EditTrip from "./pages/EditTrip";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import TripDetails from "./pages/TripDetails";
 import SelectTrip from "./pages/SelectTrip";
 import { ProtectedData, ProtectedRoute } from "./components/protectedRoute/ProtectedRoute";
+import ViewExpenses from "./pages/ViewExpenses";
 
 function App() {
 
@@ -49,14 +50,14 @@ function App() {
             } />
             <Route path="/editTrip" element={
               <ProtectedRoute>
-                <ProtectedData itemName="tripId" route="viewTrip">
+                <ProtectedData itemName="tripId" route="/editTrip" go="viewTrips">
                   <EditTrip />
                 </ProtectedData>
               </ProtectedRoute>
             } />
             <Route path="/tripDetails" element={
               <ProtectedRoute>
-                <ProtectedData itemName="tripId" route="viewTrip">
+                <ProtectedData itemName="tripId" route="/tripDetails" go="viewTrips" >
                   <TripDetails />
                 </ProtectedData>
               </ProtectedRoute>
@@ -68,8 +69,8 @@ function App() {
             } />
             <Route path="/expenses" element={
               <ProtectedRoute>
-                <ProtectedData itemName="tripId" route="viewTrip">
-                  <TripDetails />
+                <ProtectedData itemName="tripId" route="/expenses" go="viewTrips">
+                  <ViewExpenses />
                 </ProtectedData>
               </ProtectedRoute>
             } />

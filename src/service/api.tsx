@@ -17,7 +17,7 @@ interface Day {
     accomodationExpenseId: string[]
 }
 
-interface AirplaneExpense {
+export interface AirplaneExpense {
     id: string | undefined,
     airline: string,
     origin: string,
@@ -26,7 +26,7 @@ interface AirplaneExpense {
     countryCurrency: string
 }
 
-interface TransportationExpense {
+export interface TransportationExpense {
     id: string | undefined,
     type: string,
     origin: string,
@@ -35,7 +35,7 @@ interface TransportationExpense {
     countryCurrency: string
 }
 
-interface FoodExpense {
+export interface FoodExpense {
     id: string | undefined,
     name: string,
     type: string,
@@ -44,7 +44,7 @@ interface FoodExpense {
     countryCurrency: string
 }
 
-interface AttractionExpense {
+export interface AttractionExpense {
     id: string | undefined,
     name: string,
     type: string,
@@ -53,7 +53,7 @@ interface AttractionExpense {
     countryCurrency: string
 }
 
-interface AccomodationExpense {
+export interface AccomodationExpense {
     id: string | undefined,
     name: string,
     time: number,

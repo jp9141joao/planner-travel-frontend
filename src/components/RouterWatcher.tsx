@@ -3,13 +3,12 @@ import { useLocation } from "react-router-dom"
 
 export const RouterWatcher = () => {
     const location = useLocation();
-    const previousPathRef = useRef<string | null>(null);
     const [currentPath, setCurrentPath] = useState<string | null>(null);
     const [previousPath, setPreviousPath] = useState<string | null>(null);
 
     useEffect(() => {
 
-        if (currentPath == '/tripDetails' || currentPath == '/editTrip' && previousPath != currentPath) {
+        if ((previousPath && (previousPath == '/tripDetails' || previousPath == '/editTrip') && previousPath != currentPath) || ((currentPath == '/tripDetails' || currentPath == '/editTrip') && previousPath != currentPath)) {
             sessionStorage.removeItem('tripId');
         }
     }, [currentPath, previousPath])

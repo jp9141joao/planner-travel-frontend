@@ -19,9 +19,9 @@ import EditTrip from "./pages/EditTrip";
 import { useEffect, useRef } from "react";
 import TripDetails from "./pages/TripDetails";
 import SelectTrip from "./pages/SelectTrip";
-import { ProtectedData, ProtectedRoute } from "./components/protectedRoute/ProtectedRoute";
 import ViewExpenses from "./pages/ViewExpenses";
 import { RouterWatcher } from "./components/RouterWatcher";
+import { ProtectedData, ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
 
 function App() {
 

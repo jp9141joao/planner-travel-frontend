@@ -21,11 +21,13 @@ import TripDetails from "./pages/TripDetails";
 import SelectTrip from "./pages/SelectTrip";
 import { ProtectedData, ProtectedRoute } from "./components/protectedRoute/ProtectedRoute";
 import ViewExpenses from "./pages/ViewExpenses";
+import { RouterWatcher } from "./components/RouterWatcher";
 
 function App() {
 
   return (
         <Router>
+          <RouterWatcher />
           <Routes>
             <Route path='*' element={<NotFound />} />
             <Route path="/" element={<Navigate to={'/test'}/>}/>
@@ -50,14 +52,14 @@ function App() {
             } />
             <Route path="/editTrip" element={
               <ProtectedRoute>
-                <ProtectedData itemName="tripId" route="/editTrip" go="viewTrips">
+                <ProtectedData itemName="tripId" route="viewTrips" >
                   <EditTrip />
                 </ProtectedData>
               </ProtectedRoute>
             } />
             <Route path="/tripDetails" element={
               <ProtectedRoute>
-                <ProtectedData itemName="tripId" route="/tripDetails" go="viewTrips" >
+                <ProtectedData itemName="tripId" route="viewTrips" >
                   <TripDetails />
                 </ProtectedData>
               </ProtectedRoute>
@@ -69,7 +71,7 @@ function App() {
             } />
             <Route path="/expenses" element={
               <ProtectedRoute>
-                <ProtectedData itemName="tripId" route="/expenses" go="viewTrips">
+                <ProtectedData itemName="tripId" route="expenses">
                   <ViewExpenses />
                 </ProtectedData>
               </ProtectedRoute>

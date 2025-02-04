@@ -5,10 +5,11 @@ import { ScrollAreaDemo } from "@/components/Scroll";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { AccomodationExpense, AirplaneExpense, AttractionExpense, FoodExpense, TransportationExpense } from "@/service/api";
-import { Bus, Hotel, Link, Plane, Ticket, Utensils } from "lucide-react";
+import { Bus, Hotel, Link, Plane, Plus, Receipt, Ticket, Utensils, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function ViewExpanses() {
@@ -106,6 +107,7 @@ export default function ViewExpanses() {
         },
 
     ]);
+    const [show, setShow] = useState<boolean | null>(null);
     const data = [
         {
             name: 'Airplane',
@@ -169,65 +171,109 @@ export default function ViewExpanses() {
                             Track your trip and stay on budget!
                         </p>
                     </div>
-                    <div className="mt-[1vw]">
-                        <Carousel opts={{align: "start" }} setApi={setApi} className="w-[87.8vw] xs:w-[61.5vw] lg:w-[24.73vw]">
-                            <CarouselContent className="w-full items-center -ml-1 lg:ml-0.4">
-                                {data.map((obj, index) => (
-                                <CarouselItem key={index} className={`pl-1.5 basis-1/2 `}>
-                                    <div className="w-full flex">
-                                        <Button 
-                                            variant={(current == 1 && obj.name == 'Airplane') || 
-                                                    (current == 2 && obj.name == 'Transport') ||
-                                                    (current == 3 && obj.name == 'Food') ||
-                                                    (current == 4 && obj.name == 'Attraction')
-                                                    ? 'default' : 'outline'} 
-                                            className="w-full gap-2">
-                                                {obj.icon}
-                                                {obj.name}
-                                        </Button>                
-                                    </div>
-                                </CarouselItem>
+                    {
+                        show == true ?
+                        <div className="w-full">
+                            <ScrollArea className="grid h-[13.1vw] w-[25.7vw] mt-[1vw]">
+                                <div className="ml-[0.65vw]">
+                                    {
+                                        expanses.map((expanse: any, index: number) => (
+                                            <div key={index} className={`${index == 0 ? 'mb-3' : index == expanses.length - 1 ? 'mt-3' : 'my-3'} mr-3`}>
+                                                <Card>
+                                                    <CardContent>
+                                                        <div className="">
+                                                            <p>
+                                                                { "airline" in expanse ? 
+                                                                    expanse.airline : null
+                                                                }
+                                                                {
+                                                                    index
+                                                                }
+                                                            </p>
+                                                        </div>
+                                                    </CardContent>
+                                                </Card>
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                            </ScrollArea>
+                        </div> : null
+                    }
+                    <div className={`${show == false ? 'hidden' : ''} w-full grid gap-y-3 mt-[0.7vw]`}>
+                        <Button size={'auto'} className="gap-2 flex justify-center " onClick={()=> {
+                            show == true ? setShow(null) : setShow(true)}
+                        }>
+                            {
+                                show == true ?
+                                <>
+                                    <X />
+                                    Close
+                                </>
+                                :
+                                <>
+                                    <Receipt />
+                                    Show expanses
+                                </>
+                            }
+                        </Button>
+                    </div>
+                    
+                    {
+                        show == false ?
+                        <>
+                            <div className="mt-[0.7vw]">
+                                <Label className="ml-1">Select the expanse type: </Label>
+                                <Carousel opts={{align: "start" }} setApi={setApi} className="w-[87.8vw] xs:w-[61.5vw] lg:w-[24.73vw]">
+                                    <CarouselContent className="w-full items-center -ml-1 lg:ml-0.4">
+                                        {data.map((obj, index) => (
+                                        <CarouselItem key={index} className={`pl-1.5 basis-1/2 `}>
+                                            <div className="w-full flex">
+                                                <Button 
+                                                    variant={'outline'} 
+                                                    className="w-full gap-2">
+                                                        {obj.icon}
+                                                        {obj.name}
+                                                </Button>                
+                                            </div>
+                                        </CarouselItem>
+                                        ))}
+                                    </CarouselContent>
+                                </Carousel>
+                            </div> 
+                            <div className="flex justify-center mt-[1vw]">
+                                {Array.from({ length: count }).map((_, index) => (
+                                    <span
+                                        key={index}
+                                        className={`mx-1 w-3 h-3 rounded-full cursor-pointer ${
+                                        index + 1 === current ? 'bg-color-orange' : 'bg-[#bfbfbf]'
+                                        }`}
+                                        onClick={() => api && api.scrollTo(index)}
+                                    />
                                 ))}
-                            </CarouselContent>
-                        </Carousel>
+                            </div> 
+                        </>      
+                        : null
+                    }
+                    <div className={`${show == true ? 'hidden' : ''} w-full grid mt-[0.7vw]`}>
+                        <Button size={'auto'} variant={`${show == false ? 'default' : 'outline'}`} className="gap-1 flex justify-center " onClick={()=> {
+                            show == false ? setShow(null) : setShow(false)}
+                        }>
+                            {
+                                show == false ?
+                                <>
+                                    <X />
+                                    Close
+                                </>
+                                :
+                                <>
+                                    <Plus />
+                                    Create expanse
+                                </>
+                            }
+                        </Button>
                     </div>
-                    <div className="flex justify-center mt-[1vw]">
-                        {Array.from({ length: count }).map((_, index) => (
-                            <span
-                                key={index}
-                                className={`mx-1 w-3 h-3 rounded-full cursor-pointer ${
-                                index + 1 === current ? 'bg-color-orange' : 'bg-[#bfbfbf]'
-                                }`}
-                                onClick={() => api && api.scrollTo(index)}
-                            />
-                        ))}
-                    </div>
-                    <div className="w-full">
-                        <ScrollArea className="grid h-[14vw] w-[25.7vw]">
-                            <div className="ml-[0.65vw]">
-                                {
-                                    expanses.map((expanse: any) => (
-                                        <div className="my-3 mr-3">
-                                            <Card>
-                                                <CardContent>
-                                                    <div className="">
-                                                        <p>
-                                                            { "airline" in expanse ? 
-                                                                expanse.airline : null
-                                                            }
-                                                            {
-                                                                expanse.id
-                                                            }
-                                                        </p>
-                                                    </div>
-                                                </CardContent>
-                                            </Card>
-                                        </div>
-                                    ))
-                                }
-                            </div>
-                        </ScrollArea>
-                    </div>
+                              
                 </div>
             </MiddlePageOneCol>
             <BottomPage>

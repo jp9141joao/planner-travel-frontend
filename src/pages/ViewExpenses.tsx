@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { AccomodationExpense, AirplaneExpense, AttractionExpense, FoodExpense, TransportationExpense } from "@/service/api";
-import { Bus, Hotel, Link, Plane, Plus, Receipt, Ticket, Utensils, X } from "lucide-react";
+import { Bus, Flag, Hotel, Link, MapPin, Pencil, Plane, Plus, Receipt, Ticket, Utensils, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function ViewExpanses() {
@@ -174,24 +174,37 @@ export default function ViewExpanses() {
                     {
                         show == true ?
                         <div className="w-full">
-                            <ScrollArea className="grid h-[13.1vw] w-[25.7vw] mt-[1vw]">
+                            <ScrollArea className="grid h-[17.9vw] w-[25.7vw] mt-[1vw]">
                                 <div className="ml-[0.65vw]">
                                     {
                                         expanses.map((expanse: any, index: number) => (
                                             <div key={index} className={`${index == 0 ? 'mb-3' : index == expanses.length - 1 ? 'mt-3' : 'my-3'} mr-3`}>
                                                 <Card>
-                                                    <CardContent>
-                                                        <div className="">
-                                                            <p>
-                                                                { "airline" in expanse ? 
-                                                                    expanse.airline : null
-                                                                }
-                                                                {
-                                                                    index
-                                                                }
-                                                            </p>
+                                                    <div className="flex justify-between items-center m-0 p-0">
+                                                        {
+                                                            "airline" in expanse ?
+                                                            <>
+                                                                <Plane />
+                                                                <div className="grid place-items-start">
+                                                                    <p className="break-all">
+                                                                        wwwwwwwwwwwwwwwwww
+                                                                    </p>
+                                                                    
+                                                                    <p>
+                                                                        $10.000
+                                                                    </p>
+                                                                </div>
+                                                            </> : null
+                                                        }
+                                                        <div className="gap-2">
+                                                            <Button variant={'outline'} className="w-8 h-8 p-0">
+                                                                <Pencil className="w-4 h-4 p-0"/>
+                                                            </Button>
+                                                            <Button  className="mx-2 w-8 h-8 p-0">
+                                                                <X className="w-4 h-4 p-0"/>
+                                                            </Button>
                                                         </div>
-                                                    </CardContent>
+                                                    </div>
                                                 </Card>
                                             </div>
                                         ))
@@ -201,7 +214,10 @@ export default function ViewExpanses() {
                         </div> : null
                     }
                     <div className={`${show == false ? 'hidden' : ''} w-full grid gap-y-3 mt-[0.7vw]`}>
-                        <Button size={'auto'} className="gap-2 flex justify-center " onClick={()=> {
+                        <Button 
+                            size={'auto'} 
+                            className={`gap-2 flex justify-center ${show == true ? 'mx-[0.66vw]' : ''}`} 
+                            onClick={()=> {
                             show == true ? setShow(null) : setShow(true)}
                         }>
                             {
@@ -225,9 +241,9 @@ export default function ViewExpanses() {
                             <div className="mt-[0.7vw]">
                                 <Label className="ml-1">Select the expanse type: </Label>
                                 <Carousel opts={{align: "start" }} setApi={setApi} className="w-[87.8vw] xs:w-[61.5vw] lg:w-[24.73vw]">
-                                    <CarouselContent className="w-full items-center -ml-1 lg:ml-0.4">
+                                    <CarouselContent className="w-full items-center -ml-1 lg:ml-0.4 ">
                                         {data.map((obj, index) => (
-                                        <CarouselItem key={index} className={`pl-1.5 basis-1/2 `}>
+                                        <CarouselItem key={index} className="pl-1.5 basis-1/2 cursor-pointer">
                                             <div className="w-full flex">
                                                 <Button 
                                                     variant={'outline'} 
@@ -256,8 +272,11 @@ export default function ViewExpanses() {
                         : null
                     }
                     <div className={`${show == true ? 'hidden' : ''} w-full grid mt-[0.7vw]`}>
-                        <Button size={'auto'} variant={`${show == false ? 'default' : 'outline'}`} className="gap-1 flex justify-center " onClick={()=> {
-                            show == false ? setShow(null) : setShow(false)}
+                        <Button
+                            size={'auto'} variant={`${show == false ? 'default' : 'outline'}`} 
+                            className="gap-1 flex justify-center " 
+                            onClick={()=> {
+                                show == false ? setShow(null) : setShow(false)}
                         }>
                             {
                                 show == false ?

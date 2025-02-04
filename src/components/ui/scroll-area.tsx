@@ -13,7 +13,7 @@ const ScrollArea = React.forwardRef<
     if (viewportRef.current) {
       event.preventDefault(); // Previne o scroll padrão
       viewportRef.current.scrollBy({
-        top: event.deltaY * 0, // Multiplica a distância do scroll
+        top: event.deltaY, 
         behavior: "smooth",
       });
     }
@@ -29,7 +29,7 @@ const ScrollArea = React.forwardRef<
       <ScrollAreaPrimitive.Viewport
         ref={viewportRef}
         className="h-full w-full rounded-[inherit]"
-        onWheel={handleWheel} // Adiciona a lógica de rolagem personalizada
+        onWheel={handleWheel}
       >
         {children}
       </ScrollAreaPrimitive.Viewport>

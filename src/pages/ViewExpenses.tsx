@@ -1,16 +1,14 @@
 import Credits from "@/components/Credits";
 import { GoBack } from "@/components/GoBack";
 import { BodyPage, BottomPage, MiddlePageOneCol, TopPage } from "@/components/LayoutPage/Layouts";
-import { ScrollAreaDemo } from "@/components/Scroll";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { getItemSessionStorage, getRoute } from "@/components/utils/utils";
+import { getRoute } from "@/components/utils/utils";
 import { AccomodationExpense, AirplaneExpense, AttractionExpense, FoodExpense, TransportationExpense } from "@/service/api";
-import { Bus, CalendarIcon, Flag, Hotel, Link, MapPin, Pencil, Plane, Plus, Receipt, Ticket, Utensils, X } from "lucide-react";
+import { Bed, BedSingle, Building, Bus, CalendarIcon, Castle, Church, CircleHelp, Clock, Coffee, CookingPot, FerrisWheel, Fish, Flag, Home, Hotel, Landmark, Link, MapPin, MoreHorizontal, Mountain, PawPrint, Pencil, Pizza, Plane, Plus, Puzzle, Receipt, Soup, Theater, Ticket, Timer, TreePine, Users, Utensils, Wallet, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function ViewExpenses() {
@@ -20,45 +18,251 @@ export default function ViewExpenses() {
     const [expenses, setExpenses] = useState<(AirplaneExpense | TransportationExpense | FoodExpense | AttractionExpense | AccomodationExpense)[]>([
         {
             id: '1',
-            expense: 'airplane',
-            airline: 'LATAM',
-            origin: 'São Paulo',
-            destination: 'Orlando',
-            price: 1500,
+            expense: 'food',
+            name: 'RESTRAUNT',
+            type: 'Snack',
+            origin: 'Home',
+            destination: 'Supermarket',
+            price: 42,
             countryCurrency: '$',
             day: 1
         },
         {
             id: '1',
+            expense: 'attraction',
+            name: 'History Museum',
+            type: 'Museum',
+            duration: '1h',
+            price: 42,
+            countryCurrency: '$',
+            day: 1
+        },
+        {
+            id: '2',
             expense: 'transportation',
             type: 'UBER',
             origin: 'Aeroport',
             destination: 'Apartament',
             price: 10,
             countryCurrency: '$',
-            day: 4
+            day: 2
         },
         {
-            id: '1',
-            expense: 'transportation',
-            type: 'TAXI',
-            origin: 'Home',
-            destination: 'Supermarket',
-            price: 42,
+            id: '2',
+            expense: 'attraction',
+            name: 'Central Park',
+            type: 'Park',
+            duration: '3h',
+            price: 0,
             countryCurrency: '$',
-            day: 7
+            day: 2
         },
         {
-            id: '1',
+            id: '3',
             expense: 'airplane',
             airline: 'EMIRATES',
             origin: 'Orlando',
             destination: 'Los Angeles',
             price: 1500,
             countryCurrency: '$',
-            day: 1
+            day: 5
         },
+        {
+            id: '3',
+            expense: 'accomodation',
+            name: 'Cozy Apartment',
+            type: 'Airbnb',
+            duration: 4,
+            price: 250,
+            countryCurrency: '$',
+            day: 5
+        },
+        {
+            id: '4',
+            expense: 'accomodation',
+            name: 'Beachside Guesthouse',
+            type: 'Guesthouse',
+            duration: 3,
+            price: 180,
+            countryCurrency: '$',
+            day: 7
+        },
+        {
+            id: '4',
+            expense: 'attraction',
+            name: 'Broadway Show',
+            type: 'Theater',
+            duration: '2h',
+            price: 85,
+            countryCurrency: '$',
+            day: 7
+        },
+        {
+            id: '6',
+            expense: 'attraction',
+            name: 'Ocean Aquarium',
+            type: 'Aquarium',
+            duration: '2.5h',
+            price: 30,
+            countryCurrency: '$',
+            day: 7
+        },
+        {
+            id: '5',
+            expense: 'attraction',
+            name: 'City Zoo',
+            type: 'Zoo',
+            duration: '4h',
+            price: 25,
+            countryCurrency: '$',
+            day: 9
+        },
+        {
+            id: '9',
+            expense: 'attraction',
+            name: 'Ancient Ruins',
+            type: 'Historical Place',
+            duration: '3h',
+            price: 15,
+            countryCurrency: '$',
+            day: 9
+        },
+        {
+            id: '1',
+            expense: 'food',
+            name: 'RESTRAUNT',
+            type: 'Lunch',
+            origin: 'Home',
+            destination: 'Supermarket',
+            price: 42,
+            countryCurrency: '$',
+            day: 9
+        },
+        {
+            id: '1',
+            expense: 'food',
+            name: 'RESTRAUNT',
+            type: 'Dinner',
+            origin: 'Home',
+            destination: 'Supermarket',
+            price: 42,
+            countryCurrency: '$',
+            day: 8
+        },
+        {
+            id: '10',
+            expense: 'attraction',
+            name: 'Grand Cathedral',
+            type: 'Religious Place',
+            duration: '1.5h',
+            price: 0,
+            countryCurrency: '$',
+            day: 11
+        },
+        {
+            id: '11',
+            expense: 'attraction',
+            name: 'Mystery Adventure',
+            type: 'Others',
+            duration: '2h',
+            price: 50,
+            countryCurrency: '$',
+            day: 12
+        },
+        {
+            id: '11',
+            expense: 'attraction',
+            name: 'Apartament House',
+            type: 'Airbnb',
+            duration: '3 days',
+            price: 300,
+            countryCurrency: '$',
+            day: 12
+        },
+        {
+            id: '7',
+            expense: 'attraction',
+            name: 'Gourmet Restaurant',
+            type: 'Restaurant',
+            duration: '1.5h',
+            price: 75,
+            countryCurrency: '$',
+            day: 12
+        },
+        {
+            id: '8',
+            expense: 'attraction',
+            name: 'National Park',
+            type: 'Nature Place',
+            duration: '6h',
+            price: 20,
+            countryCurrency: '$',
+            day: 12
+        },
+        {
+            id: '1',
+            expense: 'airplane',
+            airline: 'LATAM',
+            origin: 'São Paulo',
+            destination: 'Orlando',
+            price: 1500,
+            countryCurrency: '$',
+            day: 12
+        },
+        {
+            id: '1',
+            expense: 'food',
+            name: 'RESTRAUNT',
+            type: 'Breakfast',
+            origin: 'Home',
+            destination: 'Supermarket',
+            price: 42,
+            countryCurrency: '$',
+            day: 10
+        },
+        {
+            id: '3',
+            expense: 'accomodation',
+            name: 'Luxury Hotel',
+            type: 'Hotel',
+            duration: 5,
+            price: 500,
+            countryCurrency: '$',
+            day: 12
+        },
+        {
+            id: '2',
+            expense: 'accomodation',
+            name: 'Youth Hostel',
+            type: 'Hostel',
+            duration: 2,
+            price: 100,
+            countryCurrency: '$',
+            day: 2
+        },
+        {
+            id: '5',
+            expense: 'accomodation',
+            name: 'Mansion',
+            type: 'Other',
+            duration: 7,
+            price: 1500,
+            countryCurrency: '$',
+            day: 10
+        },
+        {
+            id: '1',
+            expense: 'food',
+            name: 'RESTRAUNT',
+            type: 'Snack',
+            origin: 'Home',
+            destination: 'Supermarket',
+            price: 42,
+            countryCurrency: '$',
+            day: 1
+        }
     ]);
+    
     const [show, setShow] = useState<boolean | null>(null);
     const data = [
         {
@@ -83,7 +287,7 @@ export default function ViewExpenses() {
             name: 'Attraction',
             href: '/toDoList',
             nmr: 3,
-            icon: <Ticket />
+            icon: <FerrisWheel />
         },
         {
             name: 'Accomodation',
@@ -133,12 +337,14 @@ export default function ViewExpenses() {
                                             <Card key={index} className={`px-2 py-1 ${index == 0 ? 'mb-3' : index == expenses.length - 1 ? 'mt-3' : 'my-3'} mr-3`}>
                                                 <div className="flex justify-between items-center m-0 p-0">
                                                     {
-                                                        obj.expense == 'airplane' ?
+                                                        obj.expense == "airplane" ?
                                                         <>
-                                                            <Plane strokeWidth={1.5} className="w-12 mr-2 h-auto"/>
+                                                            <Plane strokeWidth={1.5} className="w-12 mr-3 h-auto"/>
                                                             <div className="w-full grid place-items-start text-sm">
                                                                 <p className="break-all">
-                                                                    { obj.airline }
+                                                                    <strong>
+                                                                        { obj.airline }
+                                                                    </strong>
                                                                 </p>
                                                                 <p className="flex gap-0.5 text-sm">
                                                                     <MapPin className="w-4 h-auto"/>
@@ -149,9 +355,12 @@ export default function ViewExpenses() {
                                                                     { obj.destination }
                                                                 </p>
                                                                 <div className="w-full flex justify-between pr-2">
-                                                                    <p>
-                                                                        { obj.countryCurrency }{ obj.price }
-                                                                    </p>
+                                                                    <div className="flex gap-1.5">
+                                                                        <Wallet className="w-4 h-auto"/>
+                                                                        <p className="break-all">
+                                                                            { obj.countryCurrency }{ obj.price }
+                                                                        </p>
+                                                                    </div>
                                                                     <div className="flex gap-0.5"><CalendarIcon className="w-4 h-auto"/>
                                                                         Day { obj.day }
                                                                         </div>
@@ -160,10 +369,12 @@ export default function ViewExpenses() {
                                                         </> : 
                                                         obj.expense == "transportation" ?
                                                         <>
-                                                            <Bus strokeWidth={1.5} className="w-12 mr-2 h-auto"/>
+                                                            <Bus strokeWidth={1.5} className="w-12 mr-3 h-auto"/>
                                                             <div className="w-full grid place-items-start text-sm">
                                                                 <p className="break-all">
-                                                                    { obj.type }
+                                                                    <strong>
+                                                                        { obj.type }
+                                                                    </strong>
                                                                 </p>
                                                                 <p className="flex gap-0.5 text-sm">
                                                                     <MapPin className="w-4 h-auto"/>
@@ -174,9 +385,151 @@ export default function ViewExpenses() {
                                                                     { obj.destination }
                                                                 </p>
                                                                 <div className="w-full flex justify-between pr-2">
-                                                                    <p>
-                                                                        { obj.countryCurrency }{ obj.price }
+                                                                    <div className="flex gap-1.5">
+                                                                        <Wallet className="w-4 h-auto"/>
+                                                                        <p className="break-all">
+                                                                            { obj.countryCurrency }{ obj.price }
+                                                                        </p>
+                                                                    </div>
+                                                                    <div className="flex gap-0.5">
+                                                                        <CalendarIcon className="w-4 h-auto"/>
+                                                                        Day { obj.day }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </> :
+                                                        obj.expense == "food" ?
+                                                        <>
+                                                            <Utensils strokeWidth={1.5} className="w-12 mr-3 h-auto"/>
+                                                            <div className="w-full grid place-items-start text-sm">
+                                                                <p className="break-all">
+                                                                    <strong>
+                                                                        { obj.name }
+                                                                    </strong>
+                                                                </p>
+                                                                <div className="flex gap-0.5">
+                                                                    { obj.type == 'Breakfast' ?
+                                                                      <Coffee className="w-4 h-auto"/> :
+                                                                      obj.type == 'Snack' ?
+                                                                      <Pizza className="w-4 h-auto"/>  :
+                                                                      obj.type == 'Lunch' ?
+                                                                      <CookingPot className="w-4 h-auto"/>  :
+                                                                      obj.type == 'Dinner' ?
+                                                                      <Soup className="w-4 h-auto"/>  : null
+                                                                    } 
+                                                                    <p className="break-all">
+                                                                        { obj.type }
                                                                     </p>
+                                                                </div>
+                                                                <p className="flex gap-0.5 text-sm">
+                                                                    <MapPin className="w-4 h-auto"/>
+                                                                    { obj.origin }
+                                                                </p>
+                                                                <div className="w-full flex justify-between pr-2">
+                                                                    <div className="flex gap-1.5">
+                                                                        <Wallet className="w-4 h-auto"/>
+                                                                        <p className="break-all">
+                                                                            { obj.countryCurrency }{ obj.price }
+                                                                        </p>
+                                                                    </div>
+                                                                    <div className="flex gap-0.5">
+                                                                        <CalendarIcon className="w-4 h-auto"/>
+                                                                        Day { obj.day }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </> : 
+                                                        obj.expense == "attraction" ?
+                                                        <>
+                                                            <FerrisWheel strokeWidth={1.5} className="w-12 mr-3 h-auto"/>
+                                                            <div className="w-full grid place-items-start text-sm">
+                                                                <p className="break-all">
+                                                                    <strong>
+                                                                        { obj.name }
+                                                                    </strong>
+                                                                </p>
+                                                                <div className="flex gap-0.5">
+                                                                    { obj.type == 'Museum' ? 
+                                                                      <Landmark className="w-4 h-auto" /> :
+                                                                      obj.type == 'Park' ? 
+                                                                      <TreePine className="w-4 h-auto" /> :
+                                                                      obj.type == 'Event' ? 
+                                                                      <Ticket className="w-4 h-auto" /> :
+                                                                      obj.type == 'Theater' ? 
+                                                                      <Theater className="w-4 h-auto" /> :
+                                                                      obj.type == 'Zoo' ? 
+                                                                      <PawPrint className="w-4 h-auto" /> :
+                                                                      obj.type == 'Aquarium' ? 
+                                                                      <Fish className="w-4 h-auto" /> :
+                                                                      obj.type == 'Restaurant' ? 
+                                                                      <Utensils className="w-4 h-auto" /> :
+                                                                      obj.type == 'Nature Place' ? 
+                                                                      <Mountain className="w-4 h-auto" /> :
+                                                                      obj.type == 'Historical Place' ? 
+                                                                      <Castle className="w-4 h-auto" /> :
+                                                                      obj.type == 'Religious Place' ? 
+                                                                      <Church className="w-4 h-auto" /> :
+                                                                      obj.type == 'Others' ? 
+                                                                      <Puzzle className="w-4 h-auto" /> : null 
+                                                                    }
+                                                                    <p className="break-all">
+                                                                        { obj.type }
+                                                                    </p>
+                                                                </div>
+                                                                <p className="flex gap-0.5 text-sm">
+                                                                    <Timer className="w-4 h-auto"/>
+                                                                    { obj.duration }
+                                                                </p>
+                                                                <div className="w-full flex justify-between pr-2">
+                                                                    <div className="flex gap-1.5">
+                                                                        <Wallet className="w-4 h-auto"/>
+                                                                        <p className="break-all">
+                                                                            { obj.countryCurrency }{ obj.price }
+                                                                        </p>
+                                                                    </div>
+                                                                    <div className="flex gap-0.5">
+                                                                        <CalendarIcon className="w-4 h-auto"/>
+                                                                        Day { obj.day }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </> : 
+                                                        obj.expense == "accomodation" ?
+                                                        <>
+                                                            <Hotel strokeWidth={1.5} className="w-12 mr-3 h-auto"/>
+                                                            <div className="w-full grid place-items-start text-sm">
+                                                                <p className="break-all">
+                                                                    <strong>
+                                                                        { obj.name }
+                                                                    </strong>
+                                                                </p>
+                                                                <div className="flex gap-0.5">
+                                                                    { obj.type == 'Hotel' ?  
+                                                                      <Bed className="w-4 h-auto"/> :  
+                                                                      obj.type == 'Hostel' ?  
+                                                                      <Users className="w-4 h-auto"/>  :  
+                                                                      obj.type == 'Airbnb' ?  
+                                                                      <Home className="w-4 h-auto"/>  :  
+                                                                      obj.type == 'Guesthouse' ?  
+                                                                      <Building className="w-4 h-auto"/>  :  
+                                                                      obj.type == 'Other' ?  
+                                                                      <BedSingle className="w-4 h-auto"/>  : null  
+                                                                    }  
+                                                                    <p className="break-all">
+                                                                        { obj.type }
+                                                                    </p>
+                                                                </div>
+                                                                <p className="flex gap-0.5 text-sm">
+                                                                    <Clock className="w-4 h-auto"/>
+                                                                    { obj.duration } Days
+                                                                </p>
+                                                                <div className="w-full flex justify-between pr-2">
+                                                                    <div className="flex gap-1.5">
+                                                                        <Wallet className="w-4 h-auto"/>
+                                                                        <p className="break-all">
+                                                                            { obj.countryCurrency }{ obj.price }
+                                                                        </p>
+                                                                    </div>
                                                                     <div className="flex gap-0.5">
                                                                         <CalendarIcon className="w-4 h-auto"/>
                                                                         Day { obj.day }

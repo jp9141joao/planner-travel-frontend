@@ -11,6 +11,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
 import { resetPasswordUser } from "@/service/service";
 import { NewPasswordUser } from "@/types/types";
+import { getItemSessionStorage, getRoute } from "@/components/utils/utils";
 
 export function ResetPassword() {
     const [ email, setEmail ] = useState<string>('');
@@ -143,7 +144,7 @@ export function ResetPassword() {
     return (
         <BodyPage>
             <TopPage>
-                <GoBack to="signIn"/>
+                <GoBack  to={getRoute('signIn')} />
             </TopPage>
             <MiddlePage>
                 <form className='mt-[5vw] xxs3:mt-[10vw] xs:mt-[2vw] sm:mt-[7vw] lg:mt-0 lg:mb-[3vw]' onSubmit={handleSubmit}>

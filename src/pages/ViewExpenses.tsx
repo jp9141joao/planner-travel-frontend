@@ -8,104 +8,56 @@ import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/componen
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { getItemSessionStorage, getRoute } from "@/components/utils/utils";
 import { AccomodationExpense, AirplaneExpense, AttractionExpense, FoodExpense, TransportationExpense } from "@/service/api";
-import { Bus, Flag, Hotel, Link, MapPin, Pencil, Plane, Plus, Receipt, Ticket, Utensils, X } from "lucide-react";
+import { Bus, CalendarIcon, Flag, Hotel, Link, MapPin, Pencil, Plane, Plus, Receipt, Ticket, Utensils, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export default function ViewExpanses() {
+export default function ViewExpenses() {
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState<number>(0);
     const [count, setCount] = useState<number>(0);
-    const [expanses, setExpenses] = useState<(AirplaneExpense | TransportationExpense | FoodExpense | AttractionExpense | AccomodationExpense)[]>([
+    const [expenses, setExpenses] = useState<(AirplaneExpense | TransportationExpense | FoodExpense | AttractionExpense | AccomodationExpense)[]>([
         {
             id: '1',
-            airline: 'test',
-            origin: 'test',
-            destination: 'test',
-            price: 10,
-            countryCurrency: 'test'
+            expense: 'airplane',
+            airline: 'LATAM',
+            origin: 'São Paulo',
+            destination: 'Orlando',
+            price: 1500,
+            countryCurrency: '$',
+            day: 1
         },
         {
             id: '1',
-            airline: 'test',
-            origin: 'test',
-            destination: 'test',
+            expense: 'transportation',
+            type: 'UBER',
+            origin: 'Aeroport',
+            destination: 'Apartament',
             price: 10,
-            countryCurrency: 'test'
+            countryCurrency: '$',
+            day: 4
         },
         {
             id: '1',
-            airline: 'test',
-            origin: 'test',
-            destination: 'test',
-            price: 10,
-            countryCurrency: 'test'
+            expense: 'transportation',
+            type: 'TAXI',
+            origin: 'Home',
+            destination: 'Supermarket',
+            price: 42,
+            countryCurrency: '$',
+            day: 7
         },
         {
             id: '1',
-            airline: 'test',
-            origin: 'test',
-            destination: 'test',
-            price: 10,
-            countryCurrency: 'test'
+            expense: 'airplane',
+            airline: 'EMIRATES',
+            origin: 'Orlando',
+            destination: 'Los Angeles',
+            price: 1500,
+            countryCurrency: '$',
+            day: 1
         },
-        {
-            id: '1',
-            airline: 'test',
-            origin: 'test',
-            destination: 'test',
-            price: 10,
-            countryCurrency: 'test'
-        },
-        {
-            id: '1',
-            airline: 'test',
-            origin: 'test',
-            destination: 'test',
-            price: 10,
-            countryCurrency: 'test'
-        },
-        {
-            id: '1',
-            airline: 'test',
-            origin: 'test',
-            destination: 'test',
-            price: 10,
-            countryCurrency: 'test'
-        },
-        {
-            id: '1',
-            airline: 'test',
-            origin: 'test',
-            destination: 'test',
-            price: 10,
-            countryCurrency: 'test'
-        },
-        {
-            id: '1',
-            airline: 'test',
-            origin: 'test',
-            destination: 'test',
-            price: 10,
-            countryCurrency: 'test'
-        },
-        {
-            id: '1',
-            airline: 'test',
-            origin: 'test',
-            destination: 'test',
-            price: 10,
-            countryCurrency: 'test'
-        },
-        {
-            id: '1',
-            airline: 'test',
-            origin: 'test',
-            destination: 'test',
-            price: 10,
-            countryCurrency: 'test'
-        },
-
     ]);
     const [show, setShow] = useState<boolean | null>(null);
     const data = [
@@ -157,7 +109,7 @@ export default function ViewExpanses() {
     return (
         <BodyPage>
             <TopPage>
-                <GoBack to="selectTrip" />
+                <GoBack to={getRoute('selectTrip')} />
             </TopPage>
             <MiddlePageOneCol>
                 <div className="grid place-items-center items-center">
@@ -174,39 +126,75 @@ export default function ViewExpanses() {
                     {
                         show == true ?
                         <div className="w-full">
-                            <ScrollArea className="grid h-[17.9vw] w-[25.7vw] mt-[1vw]">
+                            <ScrollArea className={`grid ${expenses.length < 4 ? 'h-auto' : 'h-[20.9vw]' } w-[25.7vw] mt-[1vw]`}>
                                 <div className="ml-[0.65vw]">
                                     {
-                                        expanses.map((expanse: any, index: number) => (
-                                            <div key={index} className={`${index == 0 ? 'mb-3' : index == expanses.length - 1 ? 'mt-3' : 'my-3'} mr-3`}>
-                                                <Card>
-                                                    <div className="flex justify-between items-center m-0 p-0">
-                                                        {
-                                                            "airline" in expanse ?
-                                                            <>
-                                                                <Plane />
-                                                                <div className="grid place-items-start">
-                                                                    <p className="break-all">
-                                                                        wwwwwwwwwwwwwwwwww
-                                                                    </p>
-                                                                    
+                                        expenses.map((obj: any, index: number) => (
+                                            <Card key={index} className={`px-2 py-1 ${index == 0 ? 'mb-3' : index == expenses.length - 1 ? 'mt-3' : 'my-3'} mr-3`}>
+                                                <div className="flex justify-between items-center m-0 p-0">
+                                                    {
+                                                        obj.expense == 'airplane' ?
+                                                        <>
+                                                            <Plane strokeWidth={1.5} className="w-12 mr-2 h-auto"/>
+                                                            <div className="w-full grid place-items-start text-sm">
+                                                                <p className="break-all">
+                                                                    { obj.airline }
+                                                                </p>
+                                                                <p className="flex gap-0.5 text-sm">
+                                                                    <MapPin className="w-4 h-auto"/>
+                                                                    { obj.origin }
+                                                                </p>
+                                                                <p className="flex gap-0.5 text-sm">
+                                                                    <Flag className="w-4 h-auto"/>
+                                                                    { obj.destination }
+                                                                </p>
+                                                                <div className="w-full flex justify-between pr-2">
                                                                     <p>
-                                                                        $10.000
+                                                                        { obj.countryCurrency }{ obj.price }
                                                                     </p>
+                                                                    <div className="flex gap-0.5"><CalendarIcon className="w-4 h-auto"/>
+                                                                        Day { obj.day }
+                                                                        </div>
                                                                 </div>
-                                                            </> : null
-                                                        }
-                                                        <div className="gap-2">
-                                                            <Button variant={'outline'} className="w-8 h-8 p-0">
-                                                                <Pencil className="w-4 h-4 p-0"/>
-                                                            </Button>
-                                                            <Button  className="mx-2 w-8 h-8 p-0">
-                                                                <X className="w-4 h-4 p-0"/>
-                                                            </Button>
-                                                        </div>
+                                                            </div>
+                                                        </> : 
+                                                        obj.expense == "transportation" ?
+                                                        <>
+                                                            <Bus strokeWidth={1.5} className="w-12 mr-2 h-auto"/>
+                                                            <div className="w-full grid place-items-start text-sm">
+                                                                <p className="break-all">
+                                                                    { obj.type }
+                                                                </p>
+                                                                <p className="flex gap-0.5 text-sm">
+                                                                    <MapPin className="w-4 h-auto"/>
+                                                                    { obj.origin }
+                                                                </p>
+                                                                <p className="flex gap-0.5 text-sm">
+                                                                    <Flag className="w-4 h-auto"/>
+                                                                    { obj.destination }
+                                                                </p>
+                                                                <div className="w-full flex justify-between pr-2">
+                                                                    <p>
+                                                                        { obj.countryCurrency }{ obj.price }
+                                                                    </p>
+                                                                    <div className="flex gap-0.5">
+                                                                        <CalendarIcon className="w-4 h-auto"/>
+                                                                        Day { obj.day }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </> : null
+                                                    }
+                                                    <div className="flex justify-center gap-1.5">
+                                                        <Button variant={'outline'} className="w-9 h-9 p-0">
+                                                            <Pencil className="w-5 h-auto p-0"/>
+                                                        </Button>
+                                                        <Button  className="w-9 h-9 p-0">
+                                                            <X className="w-5 h-auto p-0"/>
+                                                        </Button>
                                                     </div>
-                                                </Card>
-                                            </div>
+                                                </div>
+                                            </Card>
                                         ))
                                     }
                                 </div>

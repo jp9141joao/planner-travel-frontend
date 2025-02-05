@@ -2,13 +2,14 @@ import Credits from "@/components/Credits";
 import { GoBack } from "@/components/GoBack";
 import { BodyPage, BottomPage, MiddlePageOneCol, TopPage } from "@/components/LayoutPage/Layouts";
 import Image from '../assets/undraw_page-not-found_6wni.svg';
+import { getItemSessionStorage } from "@/components/utils/utils";
 
 export function NotFound() {
 
     return (
         <BodyPage>
             <TopPage>
-                <GoBack to="home" />            
+                <GoBack to={getItemSessionStorage('previousPath') && getItemSessionStorage('currentPath') && getItemSessionStorage('previousPath') != getItemSessionStorage('currentPath')  ? String(getItemSessionStorage('previousPath')) : 'home'}/>
             </TopPage>
             <MiddlePageOneCol>
                 <div className="grid place-items-center">

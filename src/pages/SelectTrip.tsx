@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Toaster } from "@/components/ui/toaster";
-import { getItemSessionStorage, setItemSessionStorage } from "@/components/utils/utils";
+import { getItemSessionStorage, getRoute, setItemSessionStorage } from "@/components/utils/utils";
 import { toast } from "@/hooks/use-toast";
 import { getTrips } from "@/service/service";
 import { Trip } from "@/types/types";
@@ -99,7 +99,7 @@ export default function SelectTrip() {
     return (
         <BodyPage>
             <TopPage>
-                <GoBack to={'home'}/>
+                <GoBack to={getRoute('home')} />
             </TopPage>
             <MiddlePageOneCol>
                 <form onSubmit={handleSubmit} className="grid place-items-center">

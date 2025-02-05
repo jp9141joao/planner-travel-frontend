@@ -16,6 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTriggerInput, SelectValue } fr
 import { ModalPlaceSuggestion } from "@/components/PlaceSuggestions";
 import { Value } from "@radix-ui/react-select";
 import { LoadData } from "@/components/LoadData";
+import { getItemSessionStorage, getRoute } from "@/components/utils/utils";
 
 export default function AddTrips () {
 
@@ -235,7 +236,7 @@ export default function AddTrips () {
     return (
         <BodyPage>
             <TopPage>
-                <GoBack to="home"/>
+                <GoBack to={getRoute('home')} />
             </TopPage>
             <MiddlePage>
                 <div className="hidden lg:block mx-[2vw]">

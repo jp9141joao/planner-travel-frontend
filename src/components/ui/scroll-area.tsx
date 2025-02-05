@@ -11,7 +11,7 @@ const ScrollArea = React.forwardRef<
 
   const handleWheel = (event: React.WheelEvent) => {
     if (viewportRef.current) {
-      event.preventDefault(); // Previne o scroll padrão
+      event.preventDefault(); 
       viewportRef.current.scrollBy({
         top: event.deltaY, 
         behavior: "smooth",

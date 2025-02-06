@@ -1,4 +1,10 @@
-import { Item } from "@radix-ui/react-dropdown-menu";
+export const getRoute = (defaultRoute: string): string => {
+    if (getItemSessionStorage('previousPath') && getItemSessionStorage('currentPath') && getItemSessionStorage('previousPath') != getItemSessionStorage('currentPath')) {
+        return String(getItemSessionStorage('previousPath'));
+    } else {
+        return defaultRoute;
+    }
+}
 
 export function getItemSessionStorage<T> (name: string): T | null {
     const jsonValue = sessionStorage.getItem(name);

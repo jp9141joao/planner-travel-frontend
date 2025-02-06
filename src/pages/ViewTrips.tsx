@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectTr
 import { MoreHorizontal } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { setItemSessionStorage } from "@/components/utils/utils";
+import { getItemSessionStorage, getRoute, setItemSessionStorage } from "@/components/utils/utils";
 import { LoadData } from "@/components/LoadData";
 
 export function ViewTrips() {
@@ -144,9 +144,9 @@ export function ViewTrips() {
     return (
         <BodyPage>
             <TopPage>
-                <GoBack to="home"/>
+                <GoBack to={getRoute('home')} />
             </TopPage>
-            <MiddlePage>
+            <MiddlePage> 
                 <div className="hidden lg:block mx-[2vw]">
                     <img
                         src={Image}

@@ -19,47 +19,57 @@ interface Day {
 
 export interface AirplaneExpense {
     id: string | undefined,
+    expense: string,
     airline: string,
     origin: string,
     destination: string,
     price: number,
-    countryCurrency: string
+    countryCurrency: string,
+    day: number,
 }
 
 export interface TransportationExpense {
     id: string | undefined,
+    expense: string,
     type: string,
     origin: string,
     destination: string,
     price: number,
-    countryCurrency: string
+    countryCurrency: string,
+    day: number,
 }
 
 export interface FoodExpense {
     id: string | undefined,
+    expense: string,
     name: string,
     type: string,
     place: string,
     price: number,
-    countryCurrency: string
+    countryCurrency: string,
+    day: number,
 }
 
 export interface AttractionExpense {
     id: string | undefined,
+    expense: string,
     name: string,
     type: string,
-    duration: number,
+    duration: string,
     price: number,
-    countryCurrency: string
+    countryCurrency: string,
+    day: number,
 }
 
 export interface AccomodationExpense {
     id: string | undefined,
+    expense: string,
     name: string,
-    time: number,
+    duration: number,
     type: string,
     price: number,
-    countryCurrency: string
+    countryCurrency: string,
+    day: number,
 }
 
 interface Activitie {

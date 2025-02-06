@@ -16,7 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTriggerInput, SelectValue } fr
 import { ModalPlaceSuggestion } from "@/components/PlaceSuggestions";
 import { Value } from "@radix-ui/react-select";
 import { LoadData } from "@/components/LoadData";
-import { getItemSessionStorage, setItemSessionStorage } from "@/components/utils/utils";
+import { getItemSessionStorage, getRoute, setItemSessionStorage } from "@/components/utils/utils";
 import { DateRange } from "react-day-picker";
 import { parse } from 'date-fns';
 
@@ -307,7 +307,7 @@ export default function EditTrip() {
     return (
         <BodyPage>
             <TopPage>
-                <GoBack to="viewTrips"/>
+                <GoBack  to={getRoute('viewTrips')} />
             </TopPage>
             <MiddlePageOneCol>
                 <form onSubmit={handleSubmit}>

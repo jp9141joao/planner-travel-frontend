@@ -14,11 +14,6 @@ export default function Home() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    alert(getItemSessionStorage('route'))
-    LoadData();
-  })
-
   return (
     <BodyPage>
         <TopPage>

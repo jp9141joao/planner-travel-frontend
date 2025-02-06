@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Toaster } from "@/components/ui/toaster";
-import { getItemSessionStorage, getRoute, setItemSessionStorage } from "@/components/utils/utils";
+import { getItemSessionStorage, setItemSessionStorage } from "@/components/utils/utils";
 import { toast } from "@/hooks/use-toast";
 import { getTrips } from "@/service/service";
 import { Trip } from "@/types/types";
@@ -55,12 +55,9 @@ export default function SelectTrip() {
     const handleSubmit = () => {
         try {
             setItemSessionStorage('tripId', tripSelected);
-            const route = getItemSessionStorage('route');
             
             if (route) {
-                console.log(route)
-                navigate(`/${route}`);
-                sessionStorage.removeItem('route');
+                navigate(route);
             } else {
                 throw new Error('Route is missing');
             }
@@ -86,9 +83,7 @@ export default function SelectTrip() {
     }, [tripSelected]);
 
     useEffect(() => {
-
         const routeData: string | null = getItemSessionStorage('route' );
-        
 
         setRoute(routeData);
         loadTrips();
@@ -97,10 +92,10 @@ export default function SelectTrip() {
     return (
         <BodyPage>
             <TopPage>
-                <GoBack to={getRoute('home')} />
+                <GoBack to={'home'} />
             </TopPage>
             <MiddlePageOneCol>
-                <form onSubmit={handleSubmit} className="grid place-items-center">
+                <div className="grid place-items-center">
                     <div>
                         <h1 className="grid text-[13.65vw]  xxs8:text-[13.1vw] xs:text-[9.3vw] lg:text-[3.88vw] w-full text-gray-900 tracking-tight leading-[0.6] xxs3:leading-[0.9]">
                             Select Your Trip!
@@ -153,13 +148,11 @@ export default function SelectTrip() {
                             </Select>
                     </div>
                     <div className="w-full mt-[3vw] xs:mt-[2vw] lg:mt-[0.7vw]">
-                        <Button size={"card"} disabled={isDisabled}>
-                            <Link to={`/expenses`}>
-                                Continue
-                            </Link>
+                        <Button size={"card"} disabled={isDisabled} onClick={handleSubmit}>
+                            Continue
                         </Button>
                     </div>
-                </form>
+                </div>
             </MiddlePageOneCol>
             <BottomPage>
                 <Credits/>

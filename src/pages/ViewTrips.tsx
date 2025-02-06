@@ -8,12 +8,12 @@ import { Button } from "@/components/ui/button";
 import { deleteTrip, duplicateTrip, getTrips } from "@/service/service";
 import { Toaster } from "@/components/ui/toaster";
 import { toast } from "@/hooks/use-toast";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectTriggerInput, SelectValue } from "@/components/ui/select";
+import { Link, useNavigate } from "react-router-dom";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { MoreHorizontal } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { getItemSessionStorage, getRoute, setItemSessionStorage } from "@/components/utils/utils";
+import { setItemSessionStorage } from "@/components/utils/utils";
 import { LoadData } from "@/components/LoadData";
 
 export function ViewTrips() {
@@ -144,7 +144,7 @@ export function ViewTrips() {
     return (
         <BodyPage>
             <TopPage>
-                <GoBack to={getRoute('home')} />
+                <GoBack to={'home'} />
             </TopPage>
             <MiddlePage> 
                 <div className="hidden lg:block mx-[2vw]">

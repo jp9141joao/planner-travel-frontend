@@ -9,7 +9,7 @@ export function NotFound() {
     return (
         <BodyPage>
             <TopPage>
-                <GoBack to={getItemSessionStorage('previousPath') && getItemSessionStorage('currentPath') && getItemSessionStorage('previousPath') != getItemSessionStorage('currentPath')  ? String(getItemSessionStorage('previousPath')) : 'home'}/>
+                <GoBack to={'home'}/>
             </TopPage>
             <MiddlePageOneCol>
                 <div className="grid place-items-center">

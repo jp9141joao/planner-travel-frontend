@@ -13,7 +13,6 @@ import Credits from "@/components/Credits";
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
 import { Login } from "@/types/types";
-import { getItemSessionStorage, getRoute, setItemSessionStorage } from "@/components/utils/utils";
 
 export default function SignIn () {
 
@@ -110,7 +109,7 @@ export default function SignIn () {
     return (
         <BodyPage>
             <TopPage>
-                <GoBack  to={getRoute('home')} />
+                <GoBack  to={'home'} />
             </TopPage>
             <MiddlePage>
                 <div className="hidden lg:block mx-[2vw]">

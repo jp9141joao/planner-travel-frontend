@@ -12,8 +12,8 @@ import Image1 from '../assets/undraw_travel-plans_l0fo (2).svg'
 import Image2 from '../assets/undraw_travel-plans_l0fo (1).svg'
 import Image3 from '../assets/undraw_journey_friends (3).svg'
 import { type CarouselApi } from "@/components/ui/carousel"
-import { getItemSessionStorage, getRoute, setItemSessionStorage } from "@/components/utils/utils";
-import { getTrip, getTrips, updateNotes } from "@/service/service";
+import { getItemSessionStorage } from "@/components/utils/utils";
+import { getTrip, updateNotes } from "@/service/service";
 import { Trip } from "@/types/types";
 import { Toaster } from "@/components/ui/toaster";
 import { toast } from "@/hooks/use-toast";
@@ -133,7 +133,7 @@ export default function TripDetails() {
         <BodyPage>
             <TopPage>
                 <div className="flex justify-between">
-                    <GoBack to={getRoute('viewTrips')} />
+                    <GoBack to={'viewTrips'} />
                     <Link className="cursor-pointer mt-3 mr-5" to={'/editTrip'} >
                         <Pencil />
                     </Link>

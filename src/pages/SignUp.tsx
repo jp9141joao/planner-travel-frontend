@@ -11,7 +11,6 @@ import { toast } from "@/hooks/use-toast";
 import { signUpUser } from "@/service/service";
 import { useNavigate } from "react-router-dom";
 import { User } from "@/types/types";
-import { getItemSessionStorage, getRoute } from "@/components/utils/utils";
 
 export default function SignIn () {
 
@@ -156,7 +155,7 @@ export default function SignIn () {
     return (
         <BodyPage>
             <TopPage>
-                <GoBack to={getRoute('home')} />
+                <GoBack to={'home'} />
             </TopPage>
             <MiddlePage>
                 <form className='mt-[1vw] xxs3:mt-[10vw] xs:mt-[2vw] sm:mt-[7vw] lg:mt-0 lg:mb-[3vw]' onSubmit={handleSubmit}>

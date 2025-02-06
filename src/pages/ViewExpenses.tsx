@@ -6,8 +6,10 @@ import { Card } from "@/components/ui/card";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { getRoute } from "@/components/utils/utils";
-import { AccomodationExpense, AirplaneExpense, AttractionExpense, FoodExpense, TransportationExpense } from "@/service/api";
+import { Toaster } from "@/components/ui/toaster";
+import { toast } from "@/hooks/use-toast";
+import { deleteExpense } from "@/service/service";
+import { AccomodationExpense, AirplaneExpense, AttractionExpense, FoodExpense, TransportationExpense } from "@/types/types";
 import { Bed, BedSingle, Building, Bus, CalendarIcon, Castle, Church, CircleHelp, Clock, Coffee, CookingPot, FerrisWheel, Fish, Flag, Home, Hotel, Landmark, Link, MapPin, MoreHorizontal, Mountain, PawPrint, Pencil, Pizza, Plane, Plus, Puzzle, Receipt, Soup, Theater, Ticket, Timer, TreePine, Users, Utensils, Wallet, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -19,7 +21,7 @@ export default function ViewExpenses() {
         {
             id: '1',
             expense: 'food',
-            name: 'RESTRAUNT',
+            name: 'RESTARANT',
             type: 'Snack',
             origin: 'Home',
             destination: 'Supermarket',
@@ -262,7 +264,6 @@ export default function ViewExpenses() {
             day: 1
         }
     ]);
-    
     const [show, setShow] = useState<boolean | null>(null);
     const data = [
         {
@@ -297,6 +298,29 @@ export default function ViewExpenses() {
         },
     ];
 
+    const handleDelete = (expenseId: string, type: string) => {
+        try {
+            const response = deleteExpense(tripId as string, expenseId as string, type as string);
+
+            if (response.success) {
+
+            } else {
+                toast({
+                    variant: 'destructive',
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
+            }
+        } catch (error: any) {
+            toast({
+                variant: 'destructive',
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
+            console.error(error);
+        }
+    }
+
     useEffect(() => {
         if (!api) {
             return;
@@ -313,7 +337,7 @@ export default function ViewExpenses() {
     return (
         <BodyPage>
             <TopPage>
-                <GoBack to={getRoute('selectTrip')} />
+                <GoBack to={'selectTrip'} />
             </TopPage>
             <MiddlePageOneCol>
                 <div className="grid place-items-center items-center">
@@ -330,7 +354,7 @@ export default function ViewExpenses() {
                     {
                         show == true ?
                         <div className="w-full">
-                            <ScrollArea className={`grid ${expenses.length < 4 ? 'h-auto' : 'h-[20.9vw]' } w-[25.7vw] mt-[1vw]`}>
+                            <ScrollArea className={`grid ${expenses.length < 4 ? 'h-auto' : 'lg:h-[20.9vw] xl:h-[12.5vw]' } LG=w-[25.7vw] mt-[1vw]`}>
                                 <div className="ml-[0.65vw]">
                                     {
                                         expenses.map((obj: any, index: number) => (
@@ -542,7 +566,7 @@ export default function ViewExpenses() {
                                                         <Button variant={'outline'} className="w-9 h-9 p-0">
                                                             <Pencil className="w-5 h-auto p-0"/>
                                                         </Button>
-                                                        <Button  className="w-9 h-9 p-0">
+                                                        <Button className="w-9 h-9 p-0" onClick={() => handleDelete(obj.id, obj.expanse)}>
                                                             <X className="w-5 h-auto p-0"/>
                                                         </Button>
                                                     </div>
@@ -633,7 +657,7 @@ export default function ViewExpenses() {
                             }
                         </Button>
                     </div>
-                              
+                        <Toaster />  
                 </div>
             </MiddlePageOneCol>
             <BottomPage>

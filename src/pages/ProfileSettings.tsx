@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { UpdateUserData, User, UserDetails } from "@/types/types"
 import { LogOut } from "lucide-react"
 import { updateUserData } from "@/service/service"
-import { getItemSessionStorage, getRoute, setItemSessionStorage } from "@/components/utils/utils"
+import { getItemSessionStorage, setItemSessionStorage } from "@/components/utils/utils"
 import { LoadData } from "@/components/LoadData"
 
 export function ProfileSettings() {
@@ -167,7 +167,7 @@ export function ProfileSettings() {
         <BodyPage>
             <TopPage>
                 <div className="flex justify-between">
-                    <GoBack  to={getRoute('home')} />
+                    <GoBack  to={'home'} />
                     <div className="cursor-pointer mt-3 mr-5 hover:translate-x-1 transition-all" onClick={() => {
                         localStorage.clear();
                         sessionStorage.clear();

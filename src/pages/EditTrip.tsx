@@ -4,19 +4,15 @@ import { BodyPage, BottomPage, MiddlePageOneCol, TopPage } from "@/components/La
 import { Input, InputIntegraded } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Toaster } from "@/components/ui/toaster";
-import { ReactHTML, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Image from '../assets/undraw_departing_010k (2).svg'
-import { createTrip, editTrip, getTrip, resetPasswordUser } from "@/service/service";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { editTrip, getTrip } from "@/service/service";
 import { Trip } from "@/types/types";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { DatePickerWithRange } from "@/components/DatePickerWithRange";
 import { Select, SelectContent, SelectItem, SelectTriggerInput, SelectValue } from "@/components/ui/select";
-import { ModalPlaceSuggestion } from "@/components/PlaceSuggestions";
-import { Value } from "@radix-ui/react-select";
-import { LoadData } from "@/components/LoadData";
-import { getItemSessionStorage, getRoute, setItemSessionStorage } from "@/components/utils/utils";
+import { getItemSessionStorage } from "@/components/utils/utils";
 import { DateRange } from "react-day-picker";
 import { parse } from 'date-fns';
 
@@ -307,7 +303,7 @@ export default function EditTrip() {
     return (
         <BodyPage>
             <TopPage>
-                <GoBack  to={getRoute('viewTrips')} />
+                <GoBack  to={'viewTrips'} />
             </TopPage>
             <MiddlePageOneCol>
                 <form onSubmit={handleSubmit}>

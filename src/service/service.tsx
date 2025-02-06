@@ -1,10 +1,11 @@
 import { Login, NewPasswordUser, Trip, UpdateUserData, User } from '@/types/types';
 import axios from 'axios';
+import { error } from 'console';
 import { stat } from 'fs';
-const url = 'http://localhost:3000';
-//const url = '.';
+//const url = 'http://localhost:3000';
+const url = '.';
 
-//{/*
+{/*
 export const signInUser = async (login: Login) => {
 
     if (!login) {
@@ -235,9 +236,36 @@ export const duplicateTrip = async (tripId: bigint) => {
 
     return response.data;
 }
+
+export const deleteExpense = async (tripid: string, expenseId: string, type: string) => {
+    
+    if (!expenseId) {
+        throw new Error('Expense ID is missing');
+    }
+
+    if (!type) {
+        throw new Error('Expense type is missing');
+    }
+
+    const token = localStorage.getItem('authToken');
+
+    if (token) {
+        throw new Error('Token is missing');
+    }
+
+    const response = await axios.delete(`${url}'/expense'`, {
+        data: { tripId, expenseId, type },
+        validateStatus: (status) => status != 400,
+        headers: {
+            'authorization': `Bearer ${token}`,
+        },
+    });
+
+    return response.data;
+}   
 //*/}
 
-{/*
+//{/*
 export const signInUser = async (login: Login) => {
     const response = { data: { error: '', success: '', data: '' } };
     return response.data;

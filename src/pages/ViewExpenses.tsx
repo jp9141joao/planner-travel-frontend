@@ -345,23 +345,23 @@ export default function ViewExpenses() {
                 <GoBack to={'selectTrip'} />
             </TopPage>
             <MiddlePageOneCol>
-                <div className="grid place-items-center items-center">
+                <div className="grid place-items-center items-center" style={{border: '1px solid red'}}>
                     <div>
                         <h1 className="grid text-[14.6vw] xxs5:text-[14.1vw] xs:text-[12vw] lg:text-[4.6vw] w-full text-gray-900 tracking-tight leading-[0.6] xxs3:leading-[0.7]">
                             Trip Expenses
                         </h1>
                     </div>
                     <div>
-                        <p className="text-[7.1vw] xxs8:text-[6.7vw] xs:text-[5.8vw] lg:text-[1.68vw] mt-[3.7vw] xxs5:mt-[4.9vw] xxs3:mt-[5.2vw] xs:mt-[3.7vw] lg:mt-[1.1vw] leading-tight text-gray-900 tracking-tight">
+                        <p style={{border: '1px solid red'}} className="text-[7.1vw] xxs8:text-[6.7vw] xs:text-[5.8vw] lg:text-[1.68vw] mt-[3.7vw] xxs5:mt-[4.9vw] xxs3:mt-[5.2vw] xs:mt-[3.7vw] lg:mt-[1.1vw] leading-tight text-gray-900 tracking-tight">
                             Track your trip, stay on budget!
                         </p>
                     </div>
-                    <div className="w-full grid gap-y-3 mt-[5vw] xs:mt-[2.6vw] xxs5:mt-[4.3vw] lg:mt-[0.7vw]">
+                    <div className="w-full gap-y-3 mt-[5vw] xs:mt-[2.6vw] xxs5:mt-[4.3vw] lg:mt-[0.7vw]" style={{border: '1px solid red'}}>
                     {
                         show == true ?
                         <div className="w-full">
-                            <ScrollArea className={`grid ${expenses.length < 4 ? 'h-auto' : 'h-[92vw] lg:h-[20.9vw]' } w-[92vw] lg:w-[25.7vw] mt-[1vw]`}>
-                                <div className="ml-[0.65vw]">
+                            <ScrollArea className={`grid -mr-10 ${expenses.length < 4 ? 'h-auto' : 'h-[92vw] lg:h-[20.9vw]' } w-[97vw] lg:w-[25.7vw] mt-[1vw]`}>
+                                <div className="relative">
                                     {
                                         expenses.map((obj: any, index: number) => (
                                             <Card key={index} className={`px-2 py-1 ${index == 0 ? 'mb-3' : index == expenses.length - 1 ? 'mt-3' : 'my-3'} mr-3`}>
@@ -594,10 +594,10 @@ export default function ViewExpenses() {
                             </ScrollArea>
                         </div> : null
                     }
-                    <div className={`${show == false ? 'hidden' : ''} w-full grid gap-y-3`}>
+                    <div className={`${show == false ? 'hidden' : ''} w-full `}>
                         <Button 
                             size={'auto'} 
-                            className={`gap-2 flex justify-center ${show == true ? 'mx-[0.66vw]' : ''}`} 
+                            className={`gap-2 flex justify-center ${show == true ? 'lg:mx-[0.66vw]' : ''}`} 
                             onClick={()=> {
                             show == true ? setShow(null) : setShow(true)}
                         }>

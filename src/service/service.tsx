@@ -237,7 +237,7 @@ export const duplicateTrip = async (tripId: bigint) => {
     return response.data;
 }
 
-export const deleteExpense = async (tripid: string, expenseId: string, type: string) => {
+export const deleteExpense = async (tripid: string, expenseId: string, expense: string) => {
     
     if (!expenseId) {
         throw new Error('Expense ID is missing');
@@ -254,7 +254,7 @@ export const deleteExpense = async (tripid: string, expenseId: string, type: str
     }
 
     const response = await axios.delete(`${url}'/expense'`, {
-        data: { tripId, expenseId, type },
+        data: { tripId, expenseId, expense },
         validateStatus: (status) => status != 400,
         headers: {
             'authorization': `Bearer ${token}`,
@@ -262,7 +262,7 @@ export const deleteExpense = async (tripid: string, expenseId: string, type: str
     });
 
     return response.data;
-}   
+}
 //*/}
 
 //{/*
@@ -322,6 +322,11 @@ export const deleteTrip = async (tripId: string) => {
 }
 
 export const duplicateTrip = async (tripId: bigint) => {
+    const response = { data: { error: '', success: '', data: '' } };
+    return response.data;
+}
+
+export const deleteExpense = async (tripId: string, expenseId: string, expense: string) => {
     const response = { data: { error: '', success: '', data: '' } };
     return response.data;
 }

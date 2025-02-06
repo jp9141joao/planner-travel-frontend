@@ -233,7 +233,7 @@ export default function AddTrips () {
     return (
         <BodyPage>
             <TopPage>
-                <GoBack to={'/home'} />
+                <GoBack to={'home'} />
             </TopPage>
             <MiddlePage>
                 <div className="hidden lg:block mx-[2vw]">

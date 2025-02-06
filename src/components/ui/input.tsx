@@ -18,7 +18,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, type,
     />
   );
 });
-Input.displayName = "Input"; // Correção do displayName
+Input.displayName = "Input";
 
 const InputPassword = React.forwardRef<HTMLInputElement, InputProps>(({ className, ...props }, ref) => {
   const [show, setShow] = React.useState<boolean>(false);
@@ -27,12 +27,12 @@ const InputPassword = React.forwardRef<HTMLInputElement, InputProps>(({ classNam
     <div className="flex w-full">
       <InputIntegraded
         type={show ? "text" : "password"}
-        ref={ref}  // Certifique-se de que o ref é passado corretamente
+        ref={ref} 
         {...props}
       />
-      <Button className="text-[#bfbfbf] hover:text-[#707070]" type="button" variant={"integrated"} onClick={() => setShow(!show)}>
-        {show ? <EyeOff /> : <Eye />}
-      </Button>
+      <div className="grid place-items-center items-center text-[#bfbfbf] hover:text-[#707070] h-10 border rounded-r-md rounded-l-none border-t-2 border-b-2 border-r-2 border-l-1 border-[#bfbfbf] bg-transparent px-2 py-1 xxs5:px-3 xxs5:py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground hover:border-[#707070] hover:border-r-2 disabled:cursor-not-allowed disabled:opacity-50" onClick={() => setShow(!show)}>
+        {show ? <EyeOff className="w-4 h-auto xxs5:w-auto p-0"/> : <Eye className="w-4 h-auto xxs5:w-auto p-0" />}
+      </div>
     </div>
   );
 });

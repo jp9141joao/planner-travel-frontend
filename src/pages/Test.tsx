@@ -6,6 +6,7 @@ import TripDetails from "./TripDetails";
 import SelectTrip from "./SelectTrip";
 import ViewExpanses from "./ViewExpenses";
 import { ScrollAreaDemo } from "@/components/Scroll";
+import { ProfileSettings } from "./ProfileSettings";
 
 
 export function Test(){

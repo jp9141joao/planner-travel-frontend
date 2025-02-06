@@ -66,7 +66,9 @@ function App() {
             } />
             <Route path="/selectTrip" element={
               <ProtectedRoute>
+                <ProtectedData itemName="tripId" route="home">
                   <SelectTrip />
+                </ProtectedData>
               </ProtectedRoute>
             } />
             <Route path="/expenses" element={

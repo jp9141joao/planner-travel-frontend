@@ -23,9 +23,9 @@ export const ProtectedRoute = ({ children }: { children: ReactNode}) => {
 };
 
 export const ProtectedData = ({ children, itemName, route }: ProtectedDataProps) => {
-    const tripId = sessionStorage.getItem(itemName);
+    const item = sessionStorage.getItem(itemName);
 
-    if (!tripId) {
+    if (!item) {
         return <Navigate to={`/${route}`} />;
     }
 

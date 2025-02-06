@@ -22,12 +22,12 @@ export default function Home() {
         <MiddlePage>
             <div className='text-center xs:text-start lg:place-items-start mx-[8.8vw] lg:mx-0 mt-[6vw] xs:mt-[14vw] lg:mt-0 lg:mb-[4vw]'>
                 <div>
-                    <h1 className="grid text-[14vw] xxs5:text-[13.7vw] xs:text-[10.5vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[1]">
+                    <h1 className="grid text-[14.1vw] xxs5:text-[13.7vw] xs:text-[10.5vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[1]">
                         Let's planning your trip!
                     </h1>
                 </div>
                 <div>
-                    <p className='xs:text-start text-[5.2vw] xxs8:text-[4.4vw] xs:text-[3.0vw] lg:text-[1.8vw] mt-[4.5vw] xxs5:mt-[4.2vw] xs:mt-[2.8vw] lg:mt-[1.9vw] leading-tight text-gray-900 tracking-tight'>
+                    <p className='xs:text-start text-[5.8vw] xxs8:text-[4.4vw] xs:text-[3.0vw] lg:text-[1.8vw] mt-[4.5vw] xxs5:mt-[4.2vw] xs:mt-[2.8vw] lg:mt-[1.9vw] leading-tight text-gray-900 tracking-tight'>
                       Explore, organize, and embark on a unique adventure with ease.
                     </p>
                 </div>

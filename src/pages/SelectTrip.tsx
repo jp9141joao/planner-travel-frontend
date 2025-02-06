@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function SelectTrip() {
-    const [route, setRoute] = useState<string | null>(getItemSessionStorage('route'));
+    const [route, setRoute] = useState<string>('');
     const [trips, setTrips] = useState<Trip[]>([]);
     const [tripsExist, setTripsExist] = useState<boolean>(false);
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
@@ -55,13 +55,7 @@ export default function SelectTrip() {
     const handleSubmit = () => {
         try {
             setItemSessionStorage('tripId', tripSelected);
-            
-            if (route) {
-                navigate(route);
-            } else {
-                throw new Error('Route is missing');
-            }
-
+            navigate(route);
         } catch (error: any) { 
             toast({
                 variant: 'destructive',
@@ -84,6 +78,10 @@ export default function SelectTrip() {
 
     useEffect(() => {
         const routeData: string | null = getItemSessionStorage('route' );
+
+        if (!routeData) {
+            throw new Error('Route is missing');
+        }
 
         setRoute(routeData);
         loadTrips();

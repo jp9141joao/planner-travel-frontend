@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function SelectTrip() {
-    const [route, setRoute] = useState<string>('');
+    const [route, setRoute] = useState<string | null>(getItemSessionStorage('route'));
     const [trips, setTrips] = useState<Trip[]>([]);
     const [tripsExist, setTripsExist] = useState<boolean>(false);
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
@@ -86,11 +86,9 @@ export default function SelectTrip() {
     }, [tripSelected]);
 
     useEffect(() => {
-        const routeData: string | null = getItemSessionStorage('route' );
 
-        if (!routeData) {
-            throw new Error('Route destination is missing');
-        }
+        const routeData: string | null = getItemSessionStorage('route' );
+        
 
         setRoute(routeData);
         loadTrips();
@@ -156,7 +154,7 @@ export default function SelectTrip() {
                     </div>
                     <div className="w-full mt-[3vw] xs:mt-[2vw] lg:mt-[0.7vw]">
                         <Button size={"card"} disabled={isDisabled}>
-                            <Link to={`${route}`}>
+                            <Link to={`/expenses`}>
                                 Continue
                             </Link>
                         </Button>

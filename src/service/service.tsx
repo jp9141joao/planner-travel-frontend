@@ -1,10 +1,10 @@
 import { Login, NewPasswordUser, Trip, UpdateUserData, User } from '@/types/types';
 import axios from 'axios';
 import { stat } from 'fs';
-//const url = 'http://localhost:3000';
-const url = '.';
+const url = 'http://localhost:3000';
+//const url = '.';
 
-{/*
+//{/*
 export const signInUser = async (login: Login) => {
 
     if (!login) {
@@ -237,7 +237,7 @@ export const duplicateTrip = async (tripId: bigint) => {
 }
 //*/}
 
-//{/*
+{/*
 export const signInUser = async (login: Login) => {
     const response = { data: { error: '', success: '', data: '' } };
     return response.data;

@@ -18,15 +18,16 @@ export default function ViewExpenses() {
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState<number>(0);
     const [count, setCount] = useState<number>(0);
-    const [expenses, setExpenses] = useState<Expense[]>([]);
+    //const [expenses, setExpenses] = useState<Expense[]>([]);
 
-    /*
-    const [expenses, setExpenses] = useState<(AirplaneExpense | TransportationExpense | FoodExpense | AttractionExpense | AccomodationExpense)[]>([
+    ///*
+    const [expenses, setExpenses] = useState<Expense[]>([
         {
             id: '1',
-            expense: 'food',
+            tripId: '1',
+            type: 'food',
             name: 'WWWWWWWWWWWWWWW',
-            type: 'Breakfast',
+            category: 'Breakfast',
             place: 'WWWWWWWWWWWWWWW',
             price: 42,
             countryCurrency: '$',
@@ -34,9 +35,10 @@ export default function ViewExpenses() {
         },
         {
             id: '1',
-            expense: 'attraction',
+            tripId: '1',
+            type: 'attraction',
             name: 'History Museum',
-            type: 'Museum',
+            category: 'Museum',
             duration: '1h',
             price: 42,
             countryCurrency: '$',
@@ -44,8 +46,9 @@ export default function ViewExpenses() {
         },
         {
             id: '2',
-            expense: 'transportation',
-            type: 'UBER',
+            tripId: '1',
+            type: 'transportation',
+            category: 'UBER',
             origin: 'Aeroport',
             destination: 'Apartament',
             price: 10,
@@ -54,9 +57,10 @@ export default function ViewExpenses() {
         },
         {
             id: '2',
-            expense: 'attraction',
+            tripId: '1',
+            type: 'attraction',
             name: 'Central Park',
-            type: 'Park',
+            category: 'Park',
             duration: '3h',
             price: 0,
             countryCurrency: '$',
@@ -64,8 +68,9 @@ export default function ViewExpenses() {
         },
         {
             id: '3',
-            expense: 'airplane',
-            airline: 'EMIRATES',
+            tripId: '1',
+            type: 'airplane',
+            name: 'EMIRATES',
             origin: 'Orlando',
             destination: 'Los Angeles',
             price: 1500,
@@ -74,29 +79,32 @@ export default function ViewExpenses() {
         },
         {
             id: '3',
-            expense: 'accomodation',
+            tripId: '1',
+            type: 'accomodation',
             name: 'Cozy Apartment',
-            type: 'Airbnb',
-            duration: 4,
+            category: 'Airbnb',
+            duration: '2h',
             price: 250,
             countryCurrency: '$',
             day: 5
         },
         {
             id: '4',
-            expense: 'accomodation',
+            tripId: '1',
+            type: 'accomodation',
             name: 'Beachside Guesthouse',
-            type: 'Guesthouse',
-            duration: 3,
+            category: 'Guesthouse',
+            duration: '2h',
             price: 180,
             countryCurrency: '$',
             day: 7
         },
         {
             id: '4',
-            expense: 'attraction',
+            tripId: '1',
+            type: 'attraction',
             name: 'Broadway Show',
-            type: 'Theater',
+            category: 'Theater',
             duration: '2h',
             price: 85,
             countryCurrency: '$',
@@ -104,9 +112,10 @@ export default function ViewExpenses() {
         },
         {
             id: '6',
-            expense: 'attraction',
+            tripId: '1',
+            type: 'attraction',
             name: 'Ocean Aquarium',
-            type: 'Aquarium',
+            category: 'Aquarium',
             duration: '2.5h',
             price: 30,
             countryCurrency: '$',
@@ -114,9 +123,10 @@ export default function ViewExpenses() {
         },
         {
             id: '5',
-            expense: 'attraction',
+            tripId: '1',
+            type: 'attraction',
             name: 'City Zoo',
-            type: 'Zoo',
+            category: 'Zoo',
             duration: '4h',
             price: 25,
             countryCurrency: '$',
@@ -124,9 +134,10 @@ export default function ViewExpenses() {
         },
         {
             id: '9',
-            expense: 'attraction',
+            tripId: '1',
+            type: 'attraction',
             name: 'Ancient Ruins',
-            type: 'Historical Place',
+            category: 'Historical Place',
             duration: '3h',
             price: 15,
             countryCurrency: '$',
@@ -134,31 +145,32 @@ export default function ViewExpenses() {
         },
         {
             id: '1',
-            expense: 'food',
+            tripId: '1',
+            type: 'food',
             name: 'RESTRAUNT',
-            type: 'Lunch',
-            origin: 'Home',
-            destination: 'Supermarket',
+            category: 'Lunch',
+            place: 'Supermarket',
             price: 42,
             countryCurrency: '$',
             day: 9
         },
         {
             id: '1',
-            expense: 'food',
+            tripId: '1',
+            type: 'food',
             name: 'RESTRAUNT',
-            type: 'Dinner',
-            origin: 'Home',
-            destination: 'Supermarket',
+            category: 'Dinner',
+            place: 'Supermarket',
             price: 42,
             countryCurrency: '$',
             day: 8
         },
         {
             id: '10',
-            expense: 'attraction',
+            tripId: '1',
+            type: 'attraction',
             name: 'Grand Cathedral',
-            type: 'Religious Place',
+            category: 'Religious Place',
             duration: '1.5h',
             price: 0,
             countryCurrency: '$',
@@ -166,9 +178,10 @@ export default function ViewExpenses() {
         },
         {
             id: '11',
-            expense: 'attraction',
+            tripId: '1',
+            type: 'attraction',
             name: 'Mystery Adventure',
-            type: 'Others',
+            category: 'Others',
             duration: '2h',
             price: 50,
             countryCurrency: '$',
@@ -176,9 +189,10 @@ export default function ViewExpenses() {
         },
         {
             id: '11',
-            expense: 'attraction',
+            tripId: '1',
+            type: 'attraction',
             name: 'Apartament House',
-            type: 'Airbnb',
+            category: 'Airbnb',
             duration: '3 days',
             price: 300,
             countryCurrency: '$',
@@ -186,9 +200,10 @@ export default function ViewExpenses() {
         },
         {
             id: '7',
-            expense: 'attraction',
+            tripId: '1',
+            type: 'attraction',
             name: 'Gourmet Restaurant',
-            type: 'Restaurant',
+            category: 'Restaurant',
             duration: '1.5h',
             price: 75,
             countryCurrency: '$',
@@ -196,18 +211,20 @@ export default function ViewExpenses() {
         },
         {
             id: '8',
-            expense: 'attraction',
+            tripId: '1',
+            type: 'attraction',
             name: 'National Park',
-            type: 'Nature Place',
-            duration: '6h',23 hours,More than 7 days
+            category: 'Nature Place',
+            duration: '6h',
             price: 20,
             countryCurrency: '$',
             day: 12
         },
         {
             id: '1',
-            expense: 'airplane',
-            airline: 'LATAM',
+            tripId: '1',
+            type: 'airplane',
+            name: 'LATAM',
             origin: 'São Paulo',
             destination: 'Orlando',
             price: 1500,
@@ -216,59 +233,62 @@ export default function ViewExpenses() {
         },
         {
             id: '1',
-            expense: 'food',
+            tripId: '1',
+            type: 'food',
             name: 'RESTRAUNT',
-            type: 'Breakfast',
-            origin: 'Home',
-            destination: 'Supermarket',
+            category: 'Breakfast',
+            place: 'Supermarket',
             price: 42,
             countryCurrency: '$',
             day: 10
         },
         {
             id: '3',
-            expense: 'accomodation',
+            tripId: '1',
+            type: 'accomodation',
             name: 'Luxury Hotel',
-            type: 'Hotel',
-            duration: 5,
+            category: 'Hotel',
+            duration: '2h',
             price: 500,
             countryCurrency: '$',
             day: 12
         },
         {
             id: '2',
-            expense: 'accomodation',
+            tripId: '1',
+            type: 'accomodation',
             name: 'Youth Hostel',
-            type: 'Hostel',
-            duration: 2,
+            category: 'Hostel',
+            duration: '2h',
             price: 100,
             countryCurrency: '$',
             day: 2
         },
         {
             id: '5',
-            expense: 'accomodation',
+            tripId: '1',
+            type: 'accomodation',
             name: 'Mansion',
-            type: 'Other',
-            duration: 7,
+            category: 'Other',
+            duration: '2h',
             price: 1500,
             countryCurrency: '$',
             day: 10
         },
         {
             id: '1',
-            expense: 'food',
+            tripId: '1',
+            type: 'food',
             name: 'RESTRAUNT',
-            type: 'Snack',
-            origin: 'Home',
-            destination: 'Supermarket',
+            category: 'Snack',
+            place: 'Supermarket',
             price: 42,
             countryCurrency: '$',
             day: 1
         }
     ]);
-    */
-    const [show, setShow] = useState<boolean | null>(null);
+    //*/
+    const [show, setShow] = useState<boolean | null>(true);
     const data = [
         {
             name: 'Airplane',
@@ -310,7 +330,7 @@ export default function ViewExpenses() {
                 throw new Error("Trip ID is missing")
             }
 
-            const response = await getExpenses(tripId);
+            const response = await getExpenses(tripId as string);
         } catch (error: any) {
             toast({
                 variant: 'destructive',
@@ -321,7 +341,7 @@ export default function ViewExpenses() {
         }
     }
 
-    const handleDelete = async (expenseId: string, type: string) => {
+    const handleDelete = async (expenseId: string) => {
         try {
             const tripId: string | null = getItemSessionStorage('tripId');
 
@@ -364,7 +384,7 @@ export default function ViewExpenses() {
     }, [api]);
     
     useEffect(() => {
-        loadExpenses();
+        //loadExpenses();
     }, []);
 
     return (
@@ -373,232 +393,232 @@ export default function ViewExpenses() {
                 <GoBack to={'selectTrip'} />
             </TopPage>
             <MiddlePageOneCol>
-                <div className="grid place-items-center items-center" style={{border: '1px solid red'}}>
+                <div className="grid place-items-center items-center" >
                     <div>
                         <h1 className="grid text-[14.6vw] xxs5:text-[14.1vw] xs:text-[12vw] lg:text-[4.6vw] w-full text-gray-900 tracking-tight leading-[0.6] xxs3:leading-[0.7]">
                             Trip Expenses
                         </h1>
                     </div>
                     <div>
-                        <p style={{border: '1px solid red'}} className="text-[7.1vw] xxs8:text-[6.7vw] xs:text-[5.8vw] lg:text-[1.68vw] mt-[3.7vw] xxs5:mt-[4.9vw] xxs3:mt-[5.2vw] xs:mt-[3.7vw] lg:mt-[1.1vw] leading-tight text-gray-900 tracking-tight">
+                        <p  className="text-[7.1vw] xxs8:text-[6.7vw] xs:text-[5.8vw] lg:text-[1.68vw] mt-[3.7vw] xxs5:mt-[4.9vw] xxs3:mt-[5.2vw] xs:mt-[3.7vw] lg:mt-[1.1vw] leading-tight text-gray-900 tracking-tight">
                             Track your trip, stay on budget!
                         </p>
                     </div>
-                    <div className="w-full gap-y-3 mt-[5vw] xs:mt-[2.6vw] xxs5:mt-[4.3vw] lg:mt-[0.7vw]" style={{border: '1px solid red'}}>
+                    <div className="w-full grid gap-y-3 mt-[5vw] xs:mt-[2.6vw] xxs5:mt-[4.3vw] lg:mt-[0.7vw]" >
                     {
                         show == true ?
                         <div className="w-full">
-                            <ScrollArea className={`grid -mr-10 ${expenses.length < 4 ? 'h-auto' : 'h-[92vw] lg:h-[20.9vw]' } w-[97vw] xxs10:w-[96.5vw] xxs8:w-[90.7vw] lg:w-[25.7vw] mt-[1vw]`}>
+                            <ScrollArea className={`grid -mr-10 ${expenses.length < 4 ? 'h-auto' : 'h-[92vw] xxs5:h-[68vw] xs:h-[48vw] md:h-[33.5vw] lg:h-[18.6vw]' } w-[96vw] xxs10:w-[96.5vw] xxs8:w-[90.7vw] xxs5:w-[90.1vw] xxs2:w-[89.5vw] xs:w-[77vw] md:w-[76.3vw] lg:w-[26.4vw] mt-[1vw]`}>
                                 <div className="relative">
                                     {
                                         expenses.map((obj: any, index: number) => (
-                                            <Card key={index} className={`px-2 py-1 ${index == 0 ? 'mb-3' : index == expenses.length - 1 ? 'mt-3' : 'my-3'} mr-3`}>
+                                            <Card key={index} className={`px-2 py-1 ${index != 0 && index != expenses.length - 1 ? 'my-3' : null} mr-3`}>
                                                 <div className="flex justify-between items-center m-0 p-0">
                                                     {
-                                                        obj.expense == "airplane" ?
+                                                        obj.type == "airplane" ?
                                                         <>
-                                                            <Plane strokeWidth={1.5} className="w-10 lg:w-12 h-auto pr-2 lg:pr-0 lg:mr-3"/>
-                                                            <div className="w-full grid place-items-start">
-                                                                <p className="break-all text-[4vw]">
+                                                            <Plane strokeWidth={1.5} className="w-10 xxs5:w-12 xxs5:w-13 h-auto pr-2 lg:pr-0 lg:mr-3"/>
+                                                            <div className="w-full grid place-items-start xxs5:gap-0.5 lg:gap-1">
+                                                                <p className="break-all text-[4vw] xxs5:text-[3vw] xs:text-sm">
                                                                     <strong>
                                                                         { obj.name }
                                                                     </strong>
                                                                 </p>
-                                                                <p className="flex gap-0.5 text-[4vw]">
-                                                                    <MapPin className="w-3 h-auto"/>
+                                                                <p className="flex gap-0.5 xs:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
+                                                                    <MapPin className="w-3 lg:w-5 h-auto"/>
                                                                     { obj.origin }
                                                                 </p>
-                                                                <p className="flex gap-0.5 text-[4vw]">
-                                                                    <Flag className="w-3 h-auto"/>
+                                                                <p className="flex gap-0.5 xs:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
+                                                                    <Flag className="w-3 lg:w-5 h-auto"/>
                                                                     { obj.destination }
                                                                 </p>
                                                                 <div className="w-full grid xxs5:flex justify-between pr-2">
                                                                     <div className="flex gap-1.5">
-                                                                        <Wallet className="w-3 h-auto"/>
-                                                                        <p className="break-all text-[4vw]">
+                                                                        <Wallet className="w-3 lg:w-5 h-auto"/>
+                                                                        <p className="break-all text-[4vw] xxs5:text-[3vw] xs:text-sm">
                                                                             { obj.countryCurrency }{ obj.price }
                                                                         </p>
                                                                     </div>
-                                                                    <div className="flex gap-0.5"><CalendarIcon className="w-3 h-auto"/>
-                                                                        <p className="text-[4vw]">
+                                                                    <div className="flex gap-0.5 xs:gap-1"><CalendarIcon className="w-3 lg:w-5 h-auto"/>
+                                                                        <p className="text-[4vw] xxs5:text-[3vw] xs:text-sm">
                                                                             Day { obj.day }
                                                                         </p>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </> : 
-                                                        obj.expense == "transportation" ?
+                                                        obj.type == "transportation" ?
                                                         <>
-                                                            <Bus strokeWidth={1.5} className="w-10 lg:w-12 h-auto pr-2 lg:pr-0 lg:mr-3"/>
-                                                            <div className="w-full grid place-items-start text-[4vw]">
+                                                            <Bus strokeWidth={1.5} className="w-10 xxs5:w-12 xxs5:w-13 h-auto pr-2 lg:pr-0 lg:mr-3"/>
+                                                            <div className="w-full grid place-items-start xxs5:gap-0.5 lg:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
                                                                 <p className="break-all">
                                                                     <strong>
                                                                         { obj.category }
                                                                     </strong>
                                                                 </p>
-                                                                <p className="flex gap-0.5 text-[4vw]">
-                                                                    <MapPin className="w-3 h-auto"/>
+                                                                <p className="flex gap-0.5 xs:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
+                                                                    <MapPin className="w-3 lg:w-5 h-auto"/>
                                                                     { obj.origin }
                                                                 </p>
-                                                                <p className="flex gap-0.5 text-[4vw]">
-                                                                    <Flag className="w-3 h-auto"/>
+                                                                <p className="flex gap-0.5 xs:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
+                                                                    <Flag className="w-3 lg:w-5 h-auto"/>
                                                                     { obj.destination }
                                                                 </p>
                                                                 <div className="w-full grid xxs5:flex justify-between pr-2">
                                                                     <div className="flex gap-1.5">
-                                                                        <Wallet className="w-3 h-auto"/>
-                                                                        <p className="break-all text-[4vw]">
+                                                                        <Wallet className="w-3 lg:w-5 h-auto"/>
+                                                                        <p className="break-all text-[4vw] xxs5:text-[3vw] xs:text-sm">
                                                                             { obj.countryCurrency }{ obj.price }
                                                                         </p>
                                                                     </div>
-                                                                    <div className="flex gap-0.5">
-                                                                        <CalendarIcon className="w-3 h-auto"/>
-                                                                        <p className="text-[4vw]">
+                                                                    <div className="flex gap-0.5 xs:gap-1">
+                                                                        <CalendarIcon className="w-3 lg:w-5 h-auto"/>
+                                                                        <p className="text-[4vw] xxs5:text-[3vw] xs:text-sm">
                                                                             Day { obj.day }
                                                                         </p>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </> :
-                                                        obj.expense == "food" ?
+                                                        obj.type == "food" ?
                                                         <>
-                                                            <Utensils strokeWidth={1.5} className="w-8 lg:w-12 h-auto pr-2 lg:pr-0 lg:mr-3"/>
-                                                            <div className="w-full grid place-items-start text-[4vw]">
+                                                            <Utensils strokeWidth={1.5} className="w-10 xxs5:w-12 xxs5:w-13 h-auto pr-2 lg:pr-0 lg:mr-3"/>
+                                                            <div className="w-full grid place-items-start xxs5:gap-0.5 lg:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
                                                                 <p className="break-all">
                                                                     <strong>
                                                                         { obj.name }
                                                                     </strong>
                                                                 </p>
-                                                                <div className="flex gap-0.5">
+                                                                <div className="flex gap-0.5 xs:gap-1">
                                                                     { obj.category == 'Breakfast' ?
-                                                                      <Coffee className="w-3 h-auto"/> :
+                                                                      <Coffee className="w-3 lg:w-5 h-auto"/> :
                                                                       obj.category == 'Snack' ?
-                                                                      <Pizza className="w-3 h-auto"/>  :
+                                                                      <Pizza className="w-3 lg:w-5 h-auto"/>  :
                                                                       obj.category == 'Lunch' ?
-                                                                      <CookingPot className="w-3 h-auto"/>  :
+                                                                      <CookingPot className="w-3 lg:w-5 h-auto"/>  :
                                                                       obj.category == 'Dinner' ?
-                                                                      <Soup className="w-3 h-auto"/>  : null
+                                                                      <Soup className="w-3 lg:w-5 h-auto"/>  : null
                                                                     } 
                                                                     <p className="break-all">
                                                                         { obj.category }
                                                                     </p>
                                                                 </div>
-                                                                <p className="flex gap-0.5 text-[3.75vw]">
-                                                                    <MapPin className="w-3 h-auto"/>
+                                                                <p className="flex gap-0.5 xs:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
+                                                                    <MapPin className="w-3 lg:w-5 h-auto"/>
                                                                     { obj.place }
-                                                                </p>
+                                                                </p> 
                                                                 <div className="w-full grid xxs5:flex justify-between pr-2">
                                                                     <div className="flex gap-1.5">
-                                                                        <Wallet className="w-3 h-auto"/>
-                                                                        <p className="break-all text-[4vw]">
+                                                                        <Wallet className="w-3 lg:w-5 h-auto"/>
+                                                                        <p className="break-all text-[4vw] xxs5:text-[3vw] xs:text-sm">
                                                                             { obj.countryCurrency }{ obj.price }
                                                                         </p>
                                                                     </div>
-                                                                    <div className="flex gap-0.5">
-                                                                        <CalendarIcon className="w-3 h-auto"/>
-                                                                        <p className="text-[4vw]">
+                                                                    <div className="flex gap-0.5 xs:gap-1">
+                                                                        <CalendarIcon className="w-3 lg:w-5 h-auto"/>
+                                                                        <p className="text-[4vw] xxs5:text-[3vw] xs:text-sm">
                                                                             Day { obj.day }
                                                                         </p>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </> : 
-                                                        obj.expense == "attraction" ?
+                                                        obj.type == "attraction" ?
                                                         <>
-                                                            <FerrisWheel strokeWidth={1.5} className="w-10 lg:w-12 h-auto pr-2 lg:pr-0 lg:mr-3"/>
-                                                            <div className="w-full grid place-items-start text-[4vw]">
+                                                            <FerrisWheel strokeWidth={1.5} className="w-10 xxs5:w-12 xxs5:w-13 h-auto pr-2 lg:pr-0 lg:mr-3"/>
+                                                            <div className="w-full grid place-items-start xxs5:gap-0.5 lg:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
                                                                 <p className="break-all">
                                                                     <strong>
                                                                         { obj.name }
                                                                     </strong>
                                                                 </p>
-                                                                <div className="flex gap-0.5">
+                                                                <div className="flex gap-0.5 xs:gap-1">
                                                                     { obj.category == 'Museum' ? 
-                                                                      <Landmark className="w-3 h-auto" /> :
+                                                                      <Landmark className="w-3 lg:w-5 h-auto" /> :
                                                                       obj.category == 'Park' ? 
-                                                                      <TreePine className="w-3 h-auto" /> :
+                                                                      <TreePine className="w-3 lg:w-5 h-auto" /> :
                                                                       obj.category == 'Event' ? 
-                                                                      <Ticket className="w-3 h-auto" /> :
+                                                                      <Ticket className="w-3 lg:w-5 h-auto" /> :
                                                                       obj.category == 'Theater' ? 
-                                                                      <Theater className="w-3 h-auto" /> :
+                                                                      <Theater className="w-3 lg:w-5 h-auto" /> :
                                                                       obj.category == 'Zoo' ? 
-                                                                      <PawPrint className="w-3 h-auto" /> :
+                                                                      <PawPrint className="w-3 lg:w-5 h-auto" /> :
                                                                       obj.category == 'Aquarium' ? 
-                                                                      <Fish className="w-3 h-auto" /> :
+                                                                      <Fish className="w-3 lg:w-5 h-auto" /> :
                                                                       obj.category == 'Restaurant' ? 
-                                                                      <Utensils className="w-3 h-auto" /> :
+                                                                      <Utensils className="w-3 lg:w-5 h-auto" /> :
                                                                       obj.category == 'Nature Place' ? 
-                                                                      <Mountain className="w-3 h-auto" /> :
+                                                                      <Mountain className="w-3 lg:w-5 h-auto" /> :
                                                                       obj.category == 'Historical Place' ? 
-                                                                      <Castle className="w-3 h-auto" /> :
+                                                                      <Castle className="w-3 lg:w-5 h-auto" /> :
                                                                       obj.category == 'Religious Place' ? 
-                                                                      <Church className="w-3 h-auto" /> :
+                                                                      <Church className="w-3 lg:w-5 h-auto" /> :
                                                                       obj.category == 'Others' ? 
-                                                                      <Puzzle className="w-3 h-auto" /> : null 
+                                                                      <Puzzle className="w-3 lg:w-5 h-auto" /> : null 
                                                                     }
                                                                     <p className="break-all">
                                                                         { obj.category }
                                                                     </p>
                                                                 </div>
-                                                                <p className="flex gap-0.5 text-[4vw]">
-                                                                    <Timer className="w-3 h-auto"/>
+                                                                <p className="flex gap-0.5 xs:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
+                                                                    <Timer className="w-3 lg:w-5 h-auto"/>
                                                                     { obj.duration }
                                                                 </p>
                                                                 <div className="w-full grid xxs5:flex justify-between pr-2">
                                                                     <div className="flex gap-1.5">
-                                                                        <Wallet className="w-3 h-auto"/>
-                                                                        <p className="break-all text-[4vw]">
+                                                                        <Wallet className="w-3 lg:w-5 h-auto"/>
+                                                                        <p className="break-all text-[4vw] xxs5:text-[3vw] xs:text-sm">
                                                                             { obj.countryCurrency }{ obj.price }
                                                                         </p>
                                                                     </div>
-                                                                    <div className="flex gap-0.5">
-                                                                        <CalendarIcon className="w-3 h-auto"/>
-                                                                        <p className="text-[4vw]">
+                                                                    <div className="flex gap-0.5 xs:gap-1">
+                                                                        <CalendarIcon className="w-3 lg:w-5 h-auto"/>
+                                                                        <p className="text-[4vw] xxs5:text-[3vw] xs:text-sm">
                                                                             Day { obj.day }
                                                                         </p>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </> : 
-                                                        obj.expense == "accomodation" ?
+                                                        obj.type == "accomodation" ?
                                                         <>
-                                                            <Hotel strokeWidth={1.5} className="w-10 lg:w-12 h-auto pr-2 lg:pr-0 lg:mr-3"/>
-                                                            <div className="w-full grid place-items-start text-[4vw]">
+                                                            <Hotel strokeWidth={1.5} className="w-10 xxs5:w-12 xxs5:w-13 h-auto pr-2 lg:pr-0 lg:mr-3"/>
+                                                            <div className="w-full grid place-items-start xxs5:gap-0.5 lg:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
                                                                 <p className="break-all">
                                                                     <strong>
                                                                         { obj.name }
                                                                     </strong>
                                                                 </p>
-                                                                <div className="flex gap-0.5">
+                                                                <div className="flex gap-0.5 xs:gap-1">
                                                                     { obj.category == 'Hotel' ?  
-                                                                      <Bed className="w-3 h-auto"/> :  
+                                                                      <Bed className="w-3 lg:w-5 h-auto"/> :  
                                                                       obj.category == 'Hostel' ?  
-                                                                      <Users className="w-3 h-auto"/>  :  
+                                                                      <Users className="w-3 lg:w-5 h-auto"/>  :  
                                                                       obj.category == 'Airbnb' ?  
-                                                                      <Home className="w-3 h-auto"/>  :  
+                                                                      <Home className="w-3 lg:w-5 h-auto"/>  :  
                                                                       obj.category == 'Guesthouse' ?  
-                                                                      <Building className="w-3 h-auto"/>  :  
+                                                                      <Building className="w-3 lg:w-5 h-auto"/>  :  
                                                                       obj.category == 'Other' ?  
-                                                                      <BedSingle className="w-3 h-auto"/>  : null  
+                                                                      <BedSingle className="w-3 lg:w-5 h-auto"/>  : null  
                                                                     }  
                                                                     <p className="break-all">
                                                                         { obj.category }
                                                                     </p>
                                                                 </div>
-                                                                <p className="flex gap-0.5 text-[4vw]">
-                                                                    <Clock className="w-3 h-auto"/>
+                                                                <p className="flex gap-0.5 xs:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
+                                                                    <Clock className="w-3 lg:w-5 h-auto"/>
                                                                     { obj.duration } Days
                                                                 </p>
                                                                 <div className="w-full grid xxs5:flex justify-between pr-2">
                                                                     <div className="flex gap-1.5">
-                                                                        <Wallet className="w-3 h-auto"/>
-                                                                        <p className="break-all text-[4vw]">
+                                                                        <Wallet className="w-3 lg:w-5 h-auto"/>
+                                                                        <p className="break-all text-[4vw] xxs5:text-[3vw] xs:text-sm">
                                                                             { obj.countryCurrency }{ obj.price }
                                                                         </p>
                                                                     </div>
-                                                                    <div className="flex gap-0.5">
-                                                                        <CalendarIcon className="w-3 h-auto"/>
-                                                                        <p className="text-[4vw]">
+                                                                    <div className="flex gap-0.5 xs:gap-1">
+                                                                        <CalendarIcon className="w-3 lg:w-5 h-auto"/>
+                                                                        <p className="text-[4vw] xxs5:text-[3vw] xs:text-sm">
                                                                             Day { obj.day }
                                                                         </p>
                                                                     </div>
@@ -607,11 +627,11 @@ export default function ViewExpenses() {
                                                         </> : null
                                                     }
                                                     <div className="grid xxs5:flex justify-center gap-1.5">
-                                                        <Button variant={'outline'} className="w-6 h-6 lg:w-9 lg:h-9 p-0">
-                                                            <Pencil className="w-3 lg:w-5 h-auto p-0"/>
+                                                        <Button variant={'outline'} className="w-6 h-6 xxs5:w-8 xxs5:h-8 lg:w-9 lg:h-9 p-0">
+                                                            <Pencil className="w-3 xxs5:w-4 lg:w-5 h-auto p-0"/>
                                                         </Button>
-                                                        <Button className="w-6 h-6 lg:w-9 lg:h-9 p-0" onClick={() => handleDelete(obj.id, obj.expanse)}>
-                                                            <X className="w-3 lg:w-5 h-auto p-0"/>
+                                                        <Button className="w-6 h-6 xxs5:w-8 xxs5:h-8 lg:w-9 lg:h-9 p-0" onClick={() => handleDelete(obj.id)}>
+                                                            <X className="w-3 xxs5:w-4 lg:w-5 h-auto p-0"/>
                                                         </Button>
                                                     </div>
                                                 </div>
@@ -622,10 +642,9 @@ export default function ViewExpenses() {
                             </ScrollArea>
                         </div> : null
                     }
-                    <div className={`${show == false ? 'hidden' : ''} w-full `}>
+                    <div className={`${show == false ? 'hidden' : ''} w-full`}>
                         <Button 
-                            size={'auto'} 
-                            className={`gap-2 flex justify-center ${show == true ? 'lg:mx-[0.66vw]' : ''}`} 
+                            className={`w-full gap-2 flex justify-center ${show == true ? '' : ''}`} 
                             onClick={()=> {
                             show == true ? setShow(null) : setShow(true)}
                         }>
@@ -646,7 +665,7 @@ export default function ViewExpenses() {
                     {
                         show == false ?
                         <>
-                            <div className="mt-[0.7vw]">
+                            <div>
                                 <Label className="ml-1">Select the expanse type: </Label>
                                 <Carousel opts={{align: "start" }} setApi={setApi} className="w-[87.8vw] xs:w-[61.5vw] lg:w-[24.73vw]">
                                     <CarouselContent className="w-full items-center -ml-1 lg:ml-0.4 ">
@@ -665,7 +684,7 @@ export default function ViewExpenses() {
                                     </CarouselContent>
                                 </Carousel>
                             </div> 
-                            <div className="flex justify-center mt-[1vw]">
+                            <div className="flex justify-center">
                                 {Array.from({ length: count }).map((_, index) => (
                                     <span
                                         key={index}

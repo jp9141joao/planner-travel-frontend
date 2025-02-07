@@ -1,4 +1,4 @@
-import { Expense, Expenses, Login, NewPasswordUser, Trip, UpdateUserData, User } from '@/types/types';
+import { Expense, Login, NewPasswordUser, Trip, UpdateUserData, User } from '@/types/types';
 import axios from 'axios';
 import { error } from 'console';
 import { stat } from 'fs';
@@ -215,7 +215,7 @@ export const deleteTrip = async (tripId: string) => {
     return response.data;
 }
 
-export const duplicateTrip = async (tripId: bigint) => {
+export const duplicateTrip = async (tripId: string) => {
     const token = localStorage.getItem('authToken');
     
     if (!token) {
@@ -380,12 +380,22 @@ export const deleteTrip = async (tripId: string) => {
     return response.data;
 }
 
-export const duplicateTrip = async (tripId: bigint) => {
+export const getExpense = async (tripId: string) => {
     const response = { data: { error: '', success: '', data: '' } };
     return response.data;
 }
 
-export const deleteExpense = async (tripId: string, expenseId: string, expense: string) => {
+export const getExpenses = async (tripId: string) => {
+    const response = { data: { error: '', success: '', data: '' } };
+    return response.data;
+}
+
+export const duplicateTrip = async (tripId: string) => {
+    const response = { data: { error: '', success: '', data: '' } };
+    return response.data;
+}
+
+export const deleteExpense = async (tripId: string, expenseId: string) => {
     const response = { data: { error: '', success: '', data: '' } };
     return response.data;
 }

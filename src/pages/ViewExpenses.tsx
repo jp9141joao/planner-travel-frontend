@@ -9,8 +9,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Toaster } from "@/components/ui/toaster";
 import { getItemSessionStorage } from "@/components/utils/utils";
 import { toast } from "@/hooks/use-toast";
-import { deleteExpense } from "@/service/service";
-import { AccomodationExpense, AirplaneExpense, AttractionExpense, FoodExpense, TransportationExpense } from "@/types/types";
+import { deleteExpense, getExpenses } from "@/service/service";
+import { AccomodationExpense, AirplaneExpense, AttractionExpense, Expense, FoodExpense, TransportationExpense } from "@/types/types";
 import { Bed, BedSingle, Building, Bus, CalendarIcon, Castle, Church, CircleHelp, Clock, Coffee, CookingPot, FerrisWheel, Fish, Flag, Home, Hotel, Landmark, Link, MapPin, MoreHorizontal, Mountain, PawPrint, Pencil, Pizza, Plane, Plus, Puzzle, Receipt, Soup, Theater, Ticket, Timer, TreePine, Users, Utensils, Wallet, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -18,6 +18,9 @@ export default function ViewExpenses() {
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState<number>(0);
     const [count, setCount] = useState<number>(0);
+    const [expenses, setExpenses] = useState<Expense[]>([]);
+
+    /*
     const [expenses, setExpenses] = useState<(AirplaneExpense | TransportationExpense | FoodExpense | AttractionExpense | AccomodationExpense)[]>([
         {
             id: '1',
@@ -196,7 +199,7 @@ export default function ViewExpenses() {
             expense: 'attraction',
             name: 'National Park',
             type: 'Nature Place',
-            duration: '6h',
+            duration: '6h',23 hours,More than 7 days
             price: 20,
             countryCurrency: '$',
             day: 12
@@ -264,6 +267,7 @@ export default function ViewExpenses() {
             day: 1
         }
     ]);
+    */
     const [show, setShow] = useState<boolean | null>(null);
     const data = [
         {
@@ -298,17 +302,37 @@ export default function ViewExpenses() {
         },
     ];
 
-    const handleDelete = (expenseId: string, type: string) => {
+    const loadExpenses = async () => {
         try {
             const tripId: string | null = getItemSessionStorage('tripId');
 
             if (!tripId) {
                 throw new Error("Trip ID is missing")
             }
-            const response = deleteExpense(tripId as string, expenseId as string, type as string);
+
+            const response = await getExpenses(tripId);
+        } catch (error: any) {
+            toast({
+                variant: 'destructive',
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
+            console.error(error);
+        }
+    }
+
+    const handleDelete = async (expenseId: string, type: string) => {
+        try {
+            const tripId: string | null = getItemSessionStorage('tripId');
+
+            if (!tripId) {
+                throw new Error("Trip ID is missing")
+            }
+
+            const response = await deleteExpense(tripId as string, expenseId as string);
 
             if (response.success) {
-
+                
             } else {
                 toast({
                     variant: 'destructive',
@@ -338,6 +362,10 @@ export default function ViewExpenses() {
             setCurrent(api.selectedScrollSnap() + 1)
         })
     }, [api]);
+    
+    useEffect(() => {
+        loadExpenses();
+    }, []);
 
     return (
         <BodyPage>
@@ -373,7 +401,7 @@ export default function ViewExpenses() {
                                                             <div className="w-full grid place-items-start">
                                                                 <p className="break-all text-[4vw]">
                                                                     <strong>
-                                                                        { obj.airline }
+                                                                        { obj.name }
                                                                     </strong>
                                                                 </p>
                                                                 <p className="flex gap-0.5 text-[4vw]">
@@ -405,7 +433,7 @@ export default function ViewExpenses() {
                                                             <div className="w-full grid place-items-start text-[4vw]">
                                                                 <p className="break-all">
                                                                     <strong>
-                                                                        { obj.type }
+                                                                        { obj.category }
                                                                     </strong>
                                                                 </p>
                                                                 <p className="flex gap-0.5 text-[4vw]">
@@ -442,17 +470,17 @@ export default function ViewExpenses() {
                                                                     </strong>
                                                                 </p>
                                                                 <div className="flex gap-0.5">
-                                                                    { obj.type == 'Breakfast' ?
+                                                                    { obj.category == 'Breakfast' ?
                                                                       <Coffee className="w-3 h-auto"/> :
-                                                                      obj.type == 'Snack' ?
+                                                                      obj.category == 'Snack' ?
                                                                       <Pizza className="w-3 h-auto"/>  :
-                                                                      obj.type == 'Lunch' ?
+                                                                      obj.category == 'Lunch' ?
                                                                       <CookingPot className="w-3 h-auto"/>  :
-                                                                      obj.type == 'Dinner' ?
+                                                                      obj.category == 'Dinner' ?
                                                                       <Soup className="w-3 h-auto"/>  : null
                                                                     } 
                                                                     <p className="break-all">
-                                                                        { obj.type }
+                                                                        { obj.category }
                                                                     </p>
                                                                 </div>
                                                                 <p className="flex gap-0.5 text-[3.75vw]">
@@ -485,31 +513,31 @@ export default function ViewExpenses() {
                                                                     </strong>
                                                                 </p>
                                                                 <div className="flex gap-0.5">
-                                                                    { obj.type == 'Museum' ? 
+                                                                    { obj.category == 'Museum' ? 
                                                                       <Landmark className="w-3 h-auto" /> :
-                                                                      obj.type == 'Park' ? 
+                                                                      obj.category == 'Park' ? 
                                                                       <TreePine className="w-3 h-auto" /> :
-                                                                      obj.type == 'Event' ? 
+                                                                      obj.category == 'Event' ? 
                                                                       <Ticket className="w-3 h-auto" /> :
-                                                                      obj.type == 'Theater' ? 
+                                                                      obj.category == 'Theater' ? 
                                                                       <Theater className="w-3 h-auto" /> :
-                                                                      obj.type == 'Zoo' ? 
+                                                                      obj.category == 'Zoo' ? 
                                                                       <PawPrint className="w-3 h-auto" /> :
-                                                                      obj.type == 'Aquarium' ? 
+                                                                      obj.category == 'Aquarium' ? 
                                                                       <Fish className="w-3 h-auto" /> :
-                                                                      obj.type == 'Restaurant' ? 
+                                                                      obj.category == 'Restaurant' ? 
                                                                       <Utensils className="w-3 h-auto" /> :
-                                                                      obj.type == 'Nature Place' ? 
+                                                                      obj.category == 'Nature Place' ? 
                                                                       <Mountain className="w-3 h-auto" /> :
-                                                                      obj.type == 'Historical Place' ? 
+                                                                      obj.category == 'Historical Place' ? 
                                                                       <Castle className="w-3 h-auto" /> :
-                                                                      obj.type == 'Religious Place' ? 
+                                                                      obj.category == 'Religious Place' ? 
                                                                       <Church className="w-3 h-auto" /> :
-                                                                      obj.type == 'Others' ? 
+                                                                      obj.category == 'Others' ? 
                                                                       <Puzzle className="w-3 h-auto" /> : null 
                                                                     }
                                                                     <p className="break-all">
-                                                                        { obj.type }
+                                                                        { obj.category }
                                                                     </p>
                                                                 </div>
                                                                 <p className="flex gap-0.5 text-[4vw]">
@@ -542,19 +570,19 @@ export default function ViewExpenses() {
                                                                     </strong>
                                                                 </p>
                                                                 <div className="flex gap-0.5">
-                                                                    { obj.type == 'Hotel' ?  
+                                                                    { obj.category == 'Hotel' ?  
                                                                       <Bed className="w-3 h-auto"/> :  
-                                                                      obj.type == 'Hostel' ?  
+                                                                      obj.category == 'Hostel' ?  
                                                                       <Users className="w-3 h-auto"/>  :  
-                                                                      obj.type == 'Airbnb' ?  
+                                                                      obj.category == 'Airbnb' ?  
                                                                       <Home className="w-3 h-auto"/>  :  
-                                                                      obj.type == 'Guesthouse' ?  
+                                                                      obj.category == 'Guesthouse' ?  
                                                                       <Building className="w-3 h-auto"/>  :  
-                                                                      obj.type == 'Other' ?  
+                                                                      obj.category == 'Other' ?  
                                                                       <BedSingle className="w-3 h-auto"/>  : null  
                                                                     }  
                                                                     <p className="break-all">
-                                                                        { obj.type }
+                                                                        { obj.category }
                                                                     </p>
                                                                 </div>
                                                                 <p className="flex gap-0.5 text-[4vw]">

@@ -1,4 +1,4 @@
-import { Login, NewPasswordUser, Trip, UpdateUserData, User } from '@/types/types';
+import { Expense, Expenses, Login, NewPasswordUser, Trip, UpdateUserData, User } from '@/types/types';
 import axios from 'axios';
 import { error } from 'console';
 import { stat } from 'fs';
@@ -37,7 +37,7 @@ export const signUpUser = async (user: User) => {
 };
 
 export const resetPasswordUser = async (newPasswordUser: NewPasswordUser) => {
-
+    
     if (!newPasswordUser) {
         throw new Error("New password is missing at service!");
     }
@@ -69,15 +69,14 @@ export const getUser = async () => {
 };
 
 export const updateUserData = async (data: UpdateUserData) => {
-
-    if (!data) {
-        throw new Error("User data is missing at service!");
-    }
-
     const token = localStorage.getItem('authToken');
     
     if (!token) {
         throw new Error("Token is missing!");
+    }
+
+    if (!data) {
+        throw new Error("User data is missing at service!");
     }
 
     const response = await axios.put(`${url}/profileSettings`, data, {
@@ -90,15 +89,14 @@ export const updateUserData = async (data: UpdateUserData) => {
 }
 
 export const createTrip = async (trip: Trip) => {
-
-    if (!trip) {
-        throw new Error("Trip is missing at service!");
-    }
-
     const token = localStorage.getItem('authToken');
 
     if (!token) {
         throw new Error("Token is missing");
+    }
+
+    if (!trip) {
+        throw new Error("Trip is missing at service!");
     }
 
     const response = await axios.post(`${url}/addTrips`, trip, {
@@ -160,6 +158,10 @@ export const updateNotes = async (tripId: string, notes: string) => {
         throw new Error("Token is missing");
     }
 
+    if (!notes) {
+        throw new Error("Notes is missing");
+    }
+
     const response = await axios.put(`${url}/tripDetails`, { tripId, notes }, {
         validateStatus: (status) => status != 400,
         headers: {
@@ -171,15 +173,14 @@ export const updateNotes = async (tripId: string, notes: string) => {
 }
 
 export const editTrip = async (trip: Trip) => {
-
-    if (!trip) {
-        throw new Error("Trip is missing at service!");
-    }
-    
     const token = localStorage.getItem('authToken');
     
     if (!token) {
         throw new Error("Token is missing!");
+    }
+
+    if (!trip) {
+        throw new Error("Trip is missing at service!");
     }
 
     const response = await axios.put(`${url}/editTrip`, trip,{
@@ -193,15 +194,14 @@ export const editTrip = async (trip: Trip) => {
 }
 
 export const deleteTrip = async (tripId: string) => {
-
-    if (!tripId) {
-        throw new Error("Trip ID is missing at service!");
-    }
-    
     const token = localStorage.getItem('authToken');
     
     if (!token) {
         throw new Error("Token is missing!");
+    }
+
+    if (!tripId) {
+        throw new Error("Trip ID is missing at service!");
     }
 
     const response = await axios.delete(`${url}/viewTrips`, {
@@ -216,15 +216,14 @@ export const deleteTrip = async (tripId: string) => {
 }
 
 export const duplicateTrip = async (tripId: bigint) => {
-
-    if (!tripId) {
-        throw new Error("Trip ID is missing at service!");
-    }
-
     const token = localStorage.getItem('authToken');
     
     if (!token) {
         throw new Error("Token is missing!");
+    }
+
+    if (!tripId) {
+        throw new Error("Trip ID is missing at service!");
     }
 
     const response = await axios.post(`${url}/viewTrips`, { tripId: tripId.toString() }, {
@@ -237,28 +236,88 @@ export const duplicateTrip = async (tripId: bigint) => {
     return response.data;
 }
 
-export const deleteExpense = async (tripid: string, expenseId: string, expense: string) => {
-    
+export const getExpense = async (tripId: string, expenseId: string) => {
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+        throw new Error("Token is missing");
+    }
+
+    if (!expenseId) {
+        throw new Error("Expense ID is missing")
+    }
+
+    const response = await axios.get(`${url}/editExpenses`, {
+        params: { tripId },
+        validateStatus: (status) => status != 400,
+        headers: {
+            'authorization': `Bearer ${token}`,
+        }
+    });
+
+    return response.data;
+}
+
+export const getExpenses = async (tripId: string) => {
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+        throw new Error("Token is missing");
+    }
+
+    if (tripId) {
+        throw new Error("Trip ID is missing");
+    }
+
+    const response = await axios.get(`${url}/viewExpenses`, {
+        params: { tripId },
+        validateStatus: (status) => status != 400,
+        headers: {
+            'authorization': `Bearer ${token}`,
+        }
+    });
+
+    return response.data;
+}
+
+export const deleteExpense = async (tripId: string, expenseId: string) => {
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+        throw new Error('Token is missing');
+    }
+
     if (!expenseId) {
         throw new Error('Expense ID is missing');
     }
 
-    if (!type) {
-        throw new Error('Expense type is missing');
-    }
-
-    const token = localStorage.getItem('authToken');
-
-    if (token) {
-        throw new Error('Token is missing');
-    }
-
     const response = await axios.delete(`${url}'/expense'`, {
-        data: { tripId, expenseId, expense },
+        data: { tripId, expenseId },
         validateStatus: (status) => status != 400,
         headers: {
             'authorization': `Bearer ${token}`,
         },
+    });
+
+    return response.data;
+}
+
+export const createExpense = async (expense: Expense) => {
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+        throw new Error("Token is missing");
+    }
+
+    if (!expense) {
+        throw new Error("Expense is missing at service!");
+    }
+
+    const response = await axios.post(`${url}/addTrips`, expense, {
+        validateStatus: (status) => status != 400,
+        headers: {
+            'authorization': `Bearer ${token}`,
+        }
     });
 
     return response.data;

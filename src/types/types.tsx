@@ -131,3 +131,17 @@ export interface AccomodationExpense {
     countryCurrency: string,
     day: number,
 }
+
+export interface Expense {
+    tripId: bigint,
+    type: string
+    name: string | null,
+    category: string | null,
+    duration: string | null,
+    place: string | null,
+    origin: string | null,
+    destination: string | null,
+    price: number,
+    countryCurrency: string,
+    day: number,
+}

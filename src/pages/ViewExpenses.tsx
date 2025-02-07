@@ -360,7 +360,7 @@ export default function ViewExpenses() {
                     {
                         show == true ?
                         <div className="w-full">
-                            <ScrollArea className={`grid -mr-10 ${expenses.length < 4 ? 'h-auto' : 'h-[92vw] lg:h-[20.9vw]' } w-[97vw] lg:w-[25.7vw] mt-[1vw]`}>
+                            <ScrollArea className={`grid -mr-10 ${expenses.length < 4 ? 'h-auto' : 'h-[92vw] lg:h-[20.9vw]' } w-[97vw] xxs10:w-[96.5vw] xxs8:w-[90.7vw] lg:w-[25.7vw] mt-[1vw]`}>
                                 <div className="relative">
                                     {
                                         expenses.map((obj: any, index: number) => (

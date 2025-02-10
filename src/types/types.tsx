@@ -142,7 +142,7 @@ export interface Expense {
     place?: string,
     origin?: string,
     destination?: string,
-    price: number,
+    amount: number,
     countryCurrency: string,
     day: number,
 }
@@ -163,7 +163,6 @@ export interface dataForm {
 }
 
 export interface dataContent {
-    id: string,
     label: string,
     element: string, 
     typeElement?: string, 

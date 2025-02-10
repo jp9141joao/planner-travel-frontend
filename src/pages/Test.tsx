@@ -11,6 +11,6 @@ import { ProfileSettings } from "./ProfileSettings";
 
 export function Test(){
     return (
-        <ViewExpanses />
+        <AddTrips />
     )
 }

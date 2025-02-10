@@ -13,18 +13,29 @@ import { Toaster } from "@/components/ui/toaster";
 import { getItemSessionStorage } from "@/components/utils/utils";
 import { toast } from "@/hooks/use-toast";
 import { deleteExpense, getExpenses, getTrip } from "@/service/service";
-import { AccomodationExpense, AirplaneExpense, AttractionExpense, dataButton, dataForm, Expense, FoodExpense, TransportationExpense, Trip } from "@/types/types";
+import { AccomodationExpense, AirplaneExpense, AttractionExpense, dataButton, dataContent, dataForm, Expense, FoodExpense, TransportationExpense, Trip } from "@/types/types";
 import { Bed, BedSingle, Building, Bus, CalendarIcon, Castle, ChevronDown, ChevronUp, Church, CircleHelp, Clock, Coffee, CookingPot, FerrisWheel, Fish, Flag, Home, Hotel, Landmark, Link, MapPin, MoreHorizontal, Mountain, PawPrint, Pencil, Pizza, Plane, Plus, Puzzle, Receipt, Soup, Theater, Ticket, Timer, TreePine, Users, Utensils, Wallet, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function ViewExpenses() {
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState<number>(0);
     const [count, setCount] = useState<number>(0);
     const [trip, setTrip] = useState<Trip>();
+    const [expense, setExpense] = useState<Expense>(
+        {
+            id: '',
+            tripId: '',
+            type: '',
+            amount: 0,
+            countryCurrency: 'USD',
+            day: 0,
+        }
+    )
     const [expenses, setExpenses] = useState<Expense[]>([]);
     const [showContent, setShowContent] = useState<boolean | null>(null);
     const [showDetails, setShowDetails] = useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     const dataButton: dataButton[] = [
         {
             name: 'Airplane',
@@ -59,13 +70,86 @@ export default function ViewExpenses() {
     ];
     const dataForm: dataForm[] = [
         {
+            operation: 'Create',
+            type: 'Airplane',
+            title: 'Create Flight Expense',
+            subtitle: 'Track your flight costs effortlessly!',
+            content: [
+                { 
+                    label: 'Airline',  
+                    element: 'input', 
+                    typeElement: 'text', 
+                    placeHolderElement: "Type the name of the airline here!", 
+                    valueElement: '' 
+                }, 
+                { 
+                    label: 'Origin',  
+                    element: 'input', 
+                    typeElement: 'text', 
+                    placeHolderElement: "Type the name of the origin here!", 
+                    valueElement: '' 
+                },
+                { 
+                    label: 'Destination',  
+                    element: 'input', 
+                    typeElement: 'text', 
+                    placeHolderElement: "Type the name of the destination here!", 
+                    valueElement: '' 
+                },
+            ]
+        },
+        {
             operation: '',
             type: '',
             title: '',
             subtitle: '',
             content: [
-                { 
-                    id: '', 
+                {  
+                    label: '',  
+                    element: '', 
+                    typeElement: '', 
+                    placeHolderElement: '', 
+                    valueElement: '' 
+                }
+            ]
+        },
+        {
+            operation: '',
+            type: '',
+            title: '',
+            subtitle: '',
+            content: [
+                {  
+                    label: '',  
+                    element: '', 
+                    typeElement: '', 
+                    placeHolderElement: '', 
+                    valueElement: '' 
+                }
+            ]
+        },
+        {
+            operation: '',
+            type: '',
+            title: '',
+            subtitle: '',
+            content: [
+                {  
+                    label: '',  
+                    element: '', 
+                    typeElement: '', 
+                    placeHolderElement: '', 
+                    valueElement: '' 
+                }
+            ]
+        },
+        {
+            operation: '',
+            type: '',
+            title: '',
+            subtitle: '',
+            content: [
+                {  
                     label: '',  
                     element: '', 
                     typeElement: '', 
@@ -93,6 +177,7 @@ export default function ViewExpenses() {
 
             if (response.success) {
                 setTrip(response.data);
+                setExpense({...expense, countryCurrency: expense.countryCurrency});
             } else {
                 toast({
                     variant: 'destructive',
@@ -140,6 +225,52 @@ export default function ViewExpenses() {
             console.error(error);
         }
     }
+
+    const getCurrencySymbol = (value: string) => {
+        const symbols: { [key: string]: string } = {
+            USD: '$',
+            EUR: '€',
+            BRL: 'R$',
+            GBP: '£',
+            JPY: '¥',
+            AUD: 'A$',
+            CAD: 'C$',
+            CHF: 'Fr.',
+            CNY: '¥',
+            INR: '₹'
+        };
+        return symbols[value];
+    }
+
+    const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const inputValue = e.target.value;
+        const symbol = getCurrencySymbol(expense.countryCurrency);
+    
+        if (!inputValue.startsWith(symbol)) {
+            return;
+        }
+    
+        const valueWithoutSymbol = inputValue.substring(symbol.length);
+        const numericValue = parseFloat(valueWithoutSymbol.replace(',', '.'));
+    
+        if (!isNaN(numericValue)) {
+            setExpense({...expense, amount: numericValue})
+        } else {
+            setExpense({...expense, amount: 0})
+        }
+    }
+
+    const handleChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> | string) => {
+        if (typeof e != 'string') {
+            setExpense(
+                {...expense, [e.target.name]: e.target.value}
+            );
+        } else {
+            setExpense(
+                {...expense, category: e}
+            );
+        }
+    };
 
     const handleCreate = async () => {
 
@@ -221,9 +352,6 @@ export default function ViewExpenses() {
                         <p  className="text-[7.1vw] xxs8:text-[6.7vw] xs:text-[5.8vw] lg:text-[1.68vw] mt-[3.7vw] xxs5:mt-[4.9vw] xxs3:mt-[5.2vw] xs:mt-[3.7vw] lg:mt-[1.1vw] leading-tight text-gray-900 tracking-tight">
                             Track your trip, stay on budget!
                         </p>
-                    </div>
-                    <div className="">
-                        
                     </div>
                     <div className="w-full grid gap-y-3 mt-[5vw] xs:mt-[2.6vw] xxs5:mt-[4.3vw] lg:mt-[0.7vw]" >
                         {
@@ -496,7 +624,9 @@ export default function ViewExpenses() {
                             showContent == false ?
                             <>
                                 <div>
-                                    <Label className="ml-1">Select the expanse type: </Label>
+                                    <Label className="ml-1">
+                                        Select the expanse type: 
+                                    </Label>
                                     <Carousel opts={{align: "start" }} setApi={setApi} className="w-[87.8vw] xs:w-[61.5vw] lg:w-[24.73vw]">
                                         <CarouselContent className="w-full items-center -ml-1 lg:ml-0.4 ">
                                             {dataButton.map((obj, index) => (
@@ -511,64 +641,90 @@ export default function ViewExpenses() {
                                                     <Dialog>
                                                         <DialogTrigger asChild>
                                                             <Button 
-                                                            type="button"
-                                                            variant={(current == 1 && obj.name == 'Expenses') || 
-                                                                (current == 2 && obj.name == 'Itinerary') ||
-                                                                (current == 3 && obj.name == 'To Do List')
-                                                                ? 'default' : 'outline'}
+                                                                type="button"
+                                                                className="w-full gap-2"
+                                                                variant="outline"
                                                             >
                                                                 {obj.icon}
                                                                 {obj.name}
                                                             </Button>
                                                         </DialogTrigger>
-                                                        <DialogContent className="sm:max-w-[425px]">
+                                                        <DialogContent className="w-full sm:max-w-[425px]">
                                                             <DialogHeader>
                                                             <DialogTitle>{dataForm[index].title}</DialogTitle>
                                                             <DialogDescription>
                                                                 {dataForm[index].subtitle}
                                                             </DialogDescription>
                                                             </DialogHeader>
-                                                                <form className="grid gap-4 py-4" 
+                                                                <form className="grid gap-4" 
                                                                     onSubmit={() => dataForm[index].operation == 'Create' ? handleCreate() : handleUpdate()}
                                                                 >
                                                                     {
-                                                                        dataForm[index].content.map((c: any) => (
-                                                                            <>
-                                                                                <Label htmlFor={c.id}>
+                                                                        dataForm[index].content.map((c: dataContent) => (
+                                                                            <div key={c.label} className="w-full">
+                                                                                <Label htmlFor={c.label}>
                                                                                     {c.label}
                                                                                 </Label>
                                                                                 {
                                                                                     c.element == 'input' ?
                                                                                     <Input 
-                                                                                        type={c.elementType}
+                                                                                        id={c.label}
+                                                                                        name={c.label.toLowerCase()}
+                                                                                        type={c.typeElement}
                                                                                         placeholder={c.placeHolderElement}
-                                                                                    /> :
-                                                                                    <Select>
-                                                                                        <SelectTrigger className="w-[180px]">
-                                                                                            <SelectValue placeholder="Select a fruit" />
+                                                                                        value={c.valueElement}
+                                                                                        onChange={handleChange}
+                                                                                    /> : 
+                                                                                    c.element == 'select' ?
+                                                                                    <Select
+                                                                                        name={c.label.toLowerCase()}
+                                                                                        defaultValue="*"
+                                                                                        value={expense.category}
+                                                                                        onValueChange={handleChange} 
+                                                                                        open={isOpen} 
+                                                                                        onOpenChange={setIsOpen}
+                                                                                    >
+                                                                                        <SelectTrigger className="rounded-md border-r-2">
+                                                                                            <SelectValue placeholder={c.placeHolderElement}>
+                                                                                                <p className="text-[3.4vw] xxs3:text-[3.2vw] xs:text-[2.4vw] lg:text-base breaK-all">
+                                                                                                    {expense.category};
+                                                                                                </p>
+                                                                                            </SelectValue>
                                                                                         </SelectTrigger>
                                                                                         <SelectContent>
                                                                                             <SelectGroup>
                                                                                                 {
-                                                                                                    c.valueElement.map((v: any) => {
-                                                                                                        <SelectItem value={v}>{v}</SelectItem>
-                                                                                                    })
+                                                                                                    Array.isArray(c.valueElement) && c.valueElement.map((v: string, indexElement: number) => (
+                                                                                                        <SelectItem key={indexElement} value={v}>
+                                                                                                            {v}
+                                                                                                        </SelectItem>
+                                                                                                    ))
                                                                                                 }
                                                                                             </SelectGroup>
                                                                                         </SelectContent>
-                                                                                    </Select>
+                                                                                    </Select> : null    
                                                                                 }
-                                                                            </>
+                                                                            </div>
                                                                         ))
                                                                     }
+                                                                    <div>
+                                                                        <Label htmlFor="Amount">
+                                                                            Amount
+                                                                        </Label>
+                                                                        <Input 
+                                                                            id="Amount"
+                                                                            name="amount"
+                                                                            type="text"
+                                                                            placeholder="How much is the expense?"
+                                                                            value={`${getCurrencySymbol(expense.countryCurrency)}${expense.amount}`}
+                                                                            onChange={handleChangeInput}
+                                                                        />
+                                                                    </div>
                                                                 </form>
                                                             <DialogFooter>
                                                                 <Button type="submit">
-                                                                    {
-                                                                        dataForm[0].operation == 'Create' ?
-                                                                        `Create ${dataForm[index].type} Expense` :
-                                                                        `Change ${dataForm[index].type} Expense`
-                                                                    }</Button>
+                                                                    {dataForm[index].operation}
+                                                                </Button>
                                                             </DialogFooter>
                                                         </DialogContent>
                                                     </Dialog>            

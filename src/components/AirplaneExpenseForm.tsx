@@ -17,7 +17,7 @@ interface AirplaneExpense {
     airline: string,
     origin: string,
     destination: string,
-    price: number,
+    cost: number,
     countryCurrency: string
 }
 
@@ -43,7 +43,7 @@ function AirplaneExpenseForm(){
         airline: "", 
         origin: "", 
         destination: "", 
-        price: 0, 
+        amount: 0, 
         countryCurrency: ""
     });
 

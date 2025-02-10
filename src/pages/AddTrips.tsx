@@ -52,22 +52,32 @@ export default function AddTrips () {
     const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = e.target.value;
         const symbol = getCurrencySymbol(currency);
-    
-        if (!inputValue.startsWith(symbol)) {
-            setBudgetAmount(symbol);
-            return;
-        }
-    
-        const valueWithoutSymbol = inputValue.substring(symbol.length);
-        const numericValue = parseFloat(valueWithoutSymbol.replace(',', '.'));
-    
-        if (!isNaN(numericValue)) {
-            setBudgetAmount(`${symbol}${numericValue}`);
-        } else {
-            setBudgetAmount(`${symbol}`);
-        }
-    }
 
+        if (!inputValue.startsWith(symbol)) {
+          setBudgetAmount(symbol);
+          return;
+        }
+      
+        const valueWithoutSymbol = inputValue.substring(symbol.length).trim();
+      
+        const cleanedValue = valueWithoutSymbol.replace(/,/g, '');
+      
+        const numericValue = parseFloat(cleanedValue);
+      
+        if (!isNaN(numericValue)) {
+          setBudgetAmount(
+            `${symbol}${numericValue.toLocaleString('en-US', {
+              maximumFractionDigits: 2,
+              minimumFractionDigits: 0,
+            })}`
+          );
+        } else {
+          setBudgetAmount(symbol);
+        }
+    };
+      
+    
+    
     const handleChangeSelect = (value: string) => {
         const oldSymbol = getCurrencySymbol(currency);
         const newSymbol = getCurrencySymbol(value);

@@ -43,7 +43,7 @@ function AirplaneExpenseForm(){
         airline: "", 
         origin: "", 
         destination: "", 
-        amount: 0, 
+        amount: "0", 
         countryCurrency: ""
     });
 

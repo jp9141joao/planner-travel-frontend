@@ -142,7 +142,7 @@ export interface Expense {
     place?: string,
     origin?: string,
     destination?: string,
-    amount: number,
+    amount: string,
     countryCurrency: string,
     day: number,
 }

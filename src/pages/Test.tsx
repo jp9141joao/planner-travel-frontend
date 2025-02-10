@@ -7,10 +7,11 @@ import SelectTrip from "./SelectTrip";
 import ViewExpanses from "./ViewExpenses";
 import { ScrollAreaDemo } from "@/components/Scroll";
 import { ProfileSettings } from "./ProfileSettings";
+import ViewExpenses from "./ViewExpenses";
 
 
 export function Test(){
     return (
-        <AddTrips />
+        <ViewExpenses />
     )
 }

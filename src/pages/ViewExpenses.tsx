@@ -21,13 +21,15 @@ export default function ViewExpenses() {
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState<number>(0);
     const [count, setCount] = useState<number>(0);
-    const [trip, setTrip] = useState<Trip>();
+    const [trip, setTrip] = useState<Trip>({
+        daysQty: 5
+    });
     const [expense, setExpense] = useState<Expense>(
         {
             id: '',
             tripId: '',
             type: '',
-            amount: 0,
+            amount: '0',
             countryCurrency: 'USD',
             day: 0,
         }
@@ -99,65 +101,121 @@ export default function ViewExpenses() {
             ]
         },
         {
-            operation: '',
-            type: '',
-            title: '',
-            subtitle: '',
+            operation: 'Create',
+            type: 'Transport',
+            title: 'Create Transportation Expense',
+            subtitle: 'Keep your transportation expenses in check!',
             content: [
-                {  
-                    label: '',  
-                    element: '', 
-                    typeElement: '', 
-                    placeHolderElement: '', 
+                { 
+                    label: 'Airline',  
+                    element: 'input', 
+                    typeElement: 'text', 
+                    placeHolderElement: "Type the name of the airline here!", 
                     valueElement: '' 
-                }
+                }, 
+                { 
+                    label: 'Origin',  
+                    element: 'input', 
+                    typeElement: 'text', 
+                    placeHolderElement: "Type the name of the origin here!", 
+                    valueElement: '' 
+                },
+                { 
+                    label: 'Destination',  
+                    element: 'input', 
+                    typeElement: 'text', 
+                    placeHolderElement: "Type the name of the destination here!", 
+                    valueElement: '' 
+                },
             ]
         },
         {
-            operation: '',
-            type: '',
-            title: '',
-            subtitle: '',
+            operation: 'Create',
+            type: 'Airplane',
+            title: 'Create Flight Expense',
+            subtitle: 'Track your flight costs effortlessly!',
             content: [
-                {  
-                    label: '',  
-                    element: '', 
-                    typeElement: '', 
-                    placeHolderElement: '', 
+                { 
+                    label: 'Airline',  
+                    element: 'input', 
+                    typeElement: 'text', 
+                    placeHolderElement: "Type the name of the airline here!", 
                     valueElement: '' 
-                }
+                }, 
+                { 
+                    label: 'Origin',  
+                    element: 'input', 
+                    typeElement: 'text', 
+                    placeHolderElement: "Type the name of the origin here!", 
+                    valueElement: '' 
+                },
+                { 
+                    label: 'Destination',  
+                    element: 'input', 
+                    typeElement: 'text', 
+                    placeHolderElement: "Type the name of the destination here!", 
+                    valueElement: '' 
+                },
             ]
         },
         {
-            operation: '',
-            type: '',
-            title: '',
-            subtitle: '',
+            operation: 'Create',
+            type: 'Airplane',
+            title: 'Create Flight Expense',
+            subtitle: 'Track your flight costs effortlessly!',
             content: [
-                {  
-                    label: '',  
-                    element: '', 
-                    typeElement: '', 
-                    placeHolderElement: '', 
+                { 
+                    label: 'Airline',  
+                    element: 'input', 
+                    typeElement: 'text', 
+                    placeHolderElement: "Type the name of the airline here!", 
                     valueElement: '' 
-                }
+                }, 
+                { 
+                    label: 'Origin',  
+                    element: 'input', 
+                    typeElement: 'text', 
+                    placeHolderElement: "Type the name of the origin here!", 
+                    valueElement: '' 
+                },
+                { 
+                    label: 'Destination',  
+                    element: 'input', 
+                    typeElement: 'text', 
+                    placeHolderElement: "Type the name of the destination here!", 
+                    valueElement: '' 
+                },
             ]
         },
         {
-            operation: '',
-            type: '',
-            title: '',
-            subtitle: '',
+            operation: 'Create',
+            type: 'Airplane',
+            title: 'Create Flight Expense',
+            subtitle: 'Track your flight costs effortlessly!',
             content: [
-                {  
-                    label: '',  
-                    element: '', 
-                    typeElement: '', 
-                    placeHolderElement: '', 
+                { 
+                    label: 'Airline',  
+                    element: 'input', 
+                    typeElement: 'text', 
+                    placeHolderElement: "Type the name of the airline here!", 
                     valueElement: '' 
-                }
+                }, 
+                { 
+                    label: 'Origin',  
+                    element: 'input', 
+                    typeElement: 'text', 
+                    placeHolderElement: "Type the name of the origin here!", 
+                    valueElement: '' 
+                },
+                { 
+                    label: 'Destination',  
+                    element: 'input', 
+                    typeElement: 'text', 
+                    placeHolderElement: "Type the name of the destination here!", 
+                    valueElement: '' 
+                },
             ]
-        }
+        },
     ]
 
     const loadTrip = async () => {
@@ -245,20 +303,55 @@ export default function ViewExpenses() {
     const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = e.target.value;
         const symbol = getCurrencySymbol(expense.countryCurrency);
-    
-        if (!inputValue.startsWith(symbol)) {
+      
+        if (!inputValue.startsWith(symbol) || inputValue.length < symbol.length) {
             return;
         }
-    
-        const valueWithoutSymbol = inputValue.substring(symbol.length);
-        const numericValue = parseFloat(valueWithoutSymbol.replace(',', '.'));
-    
-        if (!isNaN(numericValue)) {
-            setExpense({...expense, amount: numericValue})
-        } else {
-            setExpense({...expense, amount: 0})
+
+        let rawValue = inputValue.substring(symbol.length).trim();
+      
+        let cleanedValue = rawValue.replace(/,/g, '');
+      
+        if (cleanedValue === '' || cleanedValue === '.') {
+            setExpense({ ...expense, amount: '0' });
+            return;
         }
-    }
+      
+        const nativeEvent = e.nativeEvent as InputEvent;
+
+        if (nativeEvent.inputType === 'deleteContentBackward' ) {
+            setExpense({ ...expense, amount: inputValue.replace(symbol, '') });
+            return;
+        }
+      
+      
+        if (cleanedValue.includes('.')) {
+            let [integerPart, decimalPart] = cleanedValue.split('.');
+            if (decimalPart.length > 2) {
+                decimalPart = decimalPart.substring(0, 2);
+                cleanedValue = integerPart + '.' + decimalPart;
+            }
+        }
+      
+        const numericValue = parseFloat(cleanedValue);
+      
+        if (!isNaN(numericValue)) {
+            const endsWithDot = rawValue.endsWith('.');
+            let formatted = numericValue.toLocaleString('en-US', {
+                maximumFractionDigits: 2,
+                minimumFractionDigits: (rawValue.includes('.') && !endsWithDot) ? 2 : 0,
+            });
+      
+            if (endsWithDot && !formatted.includes('.')) {
+                formatted += '.';
+            }
+
+            setExpense({ ...expense, amount: formatted });
+        } else {
+            setExpense({ ...expense, amount: '0' });
+        }
+      };
+      
 
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> | string) => {
         if (typeof e != 'string') {
@@ -656,7 +749,7 @@ export default function ViewExpenses() {
                                                                 {dataForm[index].subtitle}
                                                             </DialogDescription>
                                                             </DialogHeader>
-                                                                <form className="grid gap-4" 
+                                                                <form className="grid gap-2" 
                                                                     onSubmit={() => dataForm[index].operation == 'Create' ? handleCreate() : handleUpdate()}
                                                                 >
                                                                     {
@@ -693,13 +786,13 @@ export default function ViewExpenses() {
                                                                                         </SelectTrigger>
                                                                                         <SelectContent>
                                                                                             <SelectGroup>
-                                                                                                {
-                                                                                                    Array.isArray(c.valueElement) && c.valueElement.map((v: string, indexElement: number) => (
-                                                                                                        <SelectItem key={indexElement} value={v}>
-                                                                                                            {v}
-                                                                                                        </SelectItem>
-                                                                                                    ))
-                                                                                                }
+                                                                                            {
+                                                                                                Array.isArray(c.valueElement) && c.valueElement.map((v: string, indexElement: number) => (
+                                                                                                    <SelectItem key={indexElement} value={v}>
+                                                                                                        {v}
+                                                                                                    </SelectItem>
+                                                                                                ))
+                                                                                            }
                                                                                             </SelectGroup>
                                                                                         </SelectContent>
                                                                                     </Select> : null    
@@ -720,9 +813,31 @@ export default function ViewExpenses() {
                                                                             onChange={handleChangeInput}
                                                                         />
                                                                     </div>
+                                                                    <div>
+                                                                        <Label htmlFor="day">
+                                                                            Expense Day
+                                                                        </Label>
+                                                                        <Select
+                                                                            name='day'
+                                                                            onValueChange={handleChange} 
+                                                                        >
+                                                                            <SelectTrigger className="rounded-md border-r-2">
+                                                                                <SelectValue placeholder={"Select a day"} />
+                                                                            </SelectTrigger>
+                                                                            <SelectContent>
+                                                                                <SelectGroup>
+                                                                                    {
+                                                                                        trip && Array.from({ length: trip.daysQty }).map((_, index) => (
+                                                                                            <SelectItem value={String(index+1)}>{index+1} Day</SelectItem>
+                                                                                        ))
+                                                                                    }
+                                                                                </SelectGroup>
+                                                                            </SelectContent>
+                                                                        </Select>
+                                                                    </div>
                                                                 </form>
                                                             <DialogFooter>
-                                                                <Button type="submit">
+                                                                <Button type="submit" size={"lg"}>
                                                                     {dataForm[index].operation}
                                                                 </Button>
                                                             </DialogFooter>

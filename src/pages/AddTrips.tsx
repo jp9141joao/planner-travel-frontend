@@ -52,32 +52,52 @@ export default function AddTrips () {
     const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = e.target.value;
         const symbol = getCurrencySymbol(currency);
-
-        if (!inputValue.startsWith(symbol)) {
-          setBudgetAmount(symbol);
+      
+        if (!inputValue.startsWith(symbol) || inputValue.length < symbol.length) {
           return;
         }
       
-        const valueWithoutSymbol = inputValue.substring(symbol.length).trim();
+        if (typeof budgetAmount == 'string' && inputValue.length < budgetAmount.length) {
+          setBudgetAmount(inputValue);
+          return;
+        }
       
-        const cleanedValue = valueWithoutSymbol.replace(/,/g, '');
+        let rawValue = inputValue.substring(symbol.length).trim();
+      
+        let cleanedValue = rawValue.replace(/,/g, '');
+      
+        if (cleanedValue === '' || cleanedValue === '.') {
+          setBudgetAmount(symbol + cleanedValue);
+          return;
+        }
+      
+        if (cleanedValue.includes('.')) {
+          let [integerPart, decimalPart] = cleanedValue.split('.');
+          if (decimalPart.length > 2) {
+            decimalPart = decimalPart.substring(0, 2);
+            cleanedValue = integerPart + '.' + decimalPart;
+          }
+        }
       
         const numericValue = parseFloat(cleanedValue);
       
         if (!isNaN(numericValue)) {
-          setBudgetAmount(
-            `${symbol}${numericValue.toLocaleString('en-US', {
-              maximumFractionDigits: 2,
-              minimumFractionDigits: 0,
-            })}`
-          );
+          const endsWithDot = rawValue.endsWith('.');
+          let formatted = numericValue.toLocaleString('en-US', {
+            maximumFractionDigits: 2,
+            minimumFractionDigits: (rawValue.includes('.') && !endsWithDot) ? 2 : 0,
+          });
+      
+          if (endsWithDot && !formatted.includes('.')) {
+            formatted += '.';
+          }
+      
+          setBudgetAmount(symbol + formatted);
         } else {
           setBudgetAmount(symbol);
         }
     };
       
-    
-    
     const handleChangeSelect = (value: string) => {
         const oldSymbol = getCurrencySymbol(currency);
         const newSymbol = getCurrencySymbol(value);

@@ -54,7 +54,9 @@ export default function SelectTrip() {
 
     const handleSubmit = () => {
         try {
+            const trip = trips.filter((item: any) => item.id == tripSelected);
             setItemSessionStorage('tripId', tripSelected);
+            setItemSessionStorage('tripData', { name: trip[0].tripName, period: trip[0].period })
             navigate(route);
         } catch (error: any) { 
             toast({

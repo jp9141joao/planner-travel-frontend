@@ -9,7 +9,7 @@ export default function NavBar() {
     
     const navigation = [
         { name: 'Home', href: '/home' },
-        { name: 'Expenses', href: '/expenses' },
+        { name: 'Expenses', href: '/viewExpenses' },
         { name: 'Itinerary', href: '/itinerary' },
         { name: 'To do list', href: '/toDoList' },
         { name: 'My piggy bank', href: '/myPiggyBank' },

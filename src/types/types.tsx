@@ -146,3 +146,27 @@ export interface Expense {
     countryCurrency: string,
     day: number,
 }
+
+export interface dataButton {
+    name: string,
+    href: string,
+    nmr: number,
+    icon: React.ReactElement
+}
+
+export interface dataForm {
+    operation: string, 
+    type: string,
+    title: string,
+    subtitle: string,
+    content: dataContent[]
+}
+
+export interface dataContent {
+    id: string,
+    label: string,
+    element: string, 
+    typeElement?: string, 
+    placeHolderElement: string, 
+    valueElement: string | string[]
+}

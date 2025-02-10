@@ -2,10 +2,10 @@ import { Expense, Login, NewPasswordUser, Trip, UpdateUserData, User } from '@/t
 import axios from 'axios';
 import { error } from 'console';
 import { stat } from 'fs';
-//const url = 'http://localhost:3000';
-const url = '.';
+const url = 'http://localhost:3000';
+//const url = '.';
 
-{/*
+//{/*
 export const signInUser = async (login: Login) => {
 
     if (!login) {
@@ -291,7 +291,7 @@ export const deleteExpense = async (tripId: string, expenseId: string) => {
         throw new Error('Expense ID is missing');
     }
 
-    const response = await axios.delete(`${url}'/expense'`, {
+    const response = await axios.delete(`${url}'/viewExpenses'`, {
         data: { tripId, expenseId },
         validateStatus: (status) => status != 400,
         headers: {
@@ -324,7 +324,7 @@ export const createExpense = async (expense: Expense) => {
 }
 //*/}
 
-//{/*
+{/*
 export const signInUser = async (login: Login) => {
     const response = { data: { error: '', success: '', data: '' } };
     return response.data;

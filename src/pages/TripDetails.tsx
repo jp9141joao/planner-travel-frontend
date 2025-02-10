@@ -14,21 +14,27 @@ import Image3 from '../assets/undraw_journey_friends (3).svg'
 import { type CarouselApi } from "@/components/ui/carousel"
 import { getItemSessionStorage } from "@/components/utils/utils";
 import { getTrip, updateNotes } from "@/service/service";
-import { Trip } from "@/types/types";
+import { Expense, Trip } from "@/types/types";
 import { Toaster } from "@/components/ui/toaster";
 import { toast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Description } from "@radix-ui/react-toast";
+import { Content } from "@radix-ui/react-popover";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function TripDetails() {
 
     const [trip, setTrip] = useState<Trip | null>(null);
+    const [expense, setExpense] = useState<Expense | null>(null);
     const [notes, setNotes] = useState<string>('');
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState<number>(0);
     const [count, setCount] = useState<number>(0);
-    const data = [
+    const dataButton = [
         {
             name: 'Expenses',
-            href: '/expenses',
+            href: '/viewExpenses',
             nmr: 0,
             icon: <Receipt />
         },
@@ -51,6 +57,7 @@ export default function TripDetails() {
             icon: <PiggyBank />
         },
     ];
+    
 
     const getCurrencySymbol = (value: string) => {
         const symbols: { [key: string]: string } = {
@@ -161,10 +168,11 @@ export default function TripDetails() {
                         <div className="mt-3">
                             <Carousel opts={{align: "start" }} setApi={setApi} className="w-[87.8vw] xs:w-[61.5vw] lg:w-[26.73vw]">
                                 <CarouselContent className="w-full items-center -ml-1 lg:ml-0.4">
-                                    {data.map((obj, index) => (
-                                    <CarouselItem key={index} className={`pl-1.5 basis-1/2 `}>
-                                        <div className="flex">
+                                    {dataButton.map((obj, index) => (
+                                        <CarouselItem key={index} className={`pl-1.5 basis-1/2 `}>
+                                            <div className="flex">
                                             <Button 
+                                                type="button"
                                                 variant={(current == 1 && obj.name == 'Expenses') || 
                                                         (current == 2 && obj.name == 'Itinerary') ||
                                                         (current == 3 && obj.name == 'To Do List')
@@ -174,12 +182,11 @@ export default function TripDetails() {
                                                     {obj.icon}
                                                     {obj.name}
                                                 </Link>
-                                            </Button>                
+                                            </Button>              
                                         </div>
                                     </CarouselItem>
                                     ))}
                                 </CarouselContent>
-                                
                             </Carousel>
                             <div className="flex justify-center mt-4">
                                 {Array.from({ length: count }).map((_, index) => (

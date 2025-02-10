@@ -22,8 +22,13 @@ import SelectTrip from "./pages/SelectTrip";
 import ViewExpenses from "./pages/ViewExpenses";
 import { RouterWatcher } from "./components/RouterWatcher";
 import { ProtectedData, ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
+import { CheckTokenExpiration } from "./components/CheckTokenExpiration";
 
 function App() {
+
+  useEffect(() => {
+    CheckTokenExpiration();
+  }, [])
 
   return (
         <Router>
@@ -66,14 +71,14 @@ function App() {
             } />
             <Route path="/selectTrip" element={
               <ProtectedRoute>
-                <ProtectedData itemName="tripId" route="home">
-                  <SelectTrip />
+                <ProtectedData itemName="route" route="home">
+                    <SelectTrip />
                 </ProtectedData>
               </ProtectedRoute>
             } />
-            <Route path="/expenses" element={
+            <Route path="/viewExpenses" element={
               <ProtectedRoute>
-                <ProtectedData itemName="tripId" route="expenses">
+                <ProtectedData itemName="tripId" route="home">
                   <ViewExpenses />
                 </ProtectedData>
               </ProtectedRoute>

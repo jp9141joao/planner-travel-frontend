@@ -22,7 +22,15 @@ export default function ViewExpenses() {
     const [current, setCurrent] = useState<number>(0);
     const [count, setCount] = useState<number>(0);
     const [trip, setTrip] = useState<Trip>({
-        daysQty: 5
+        id: '',
+        tripName: '',
+        period: '',
+        daysQty: 7,
+        currency: '',
+        budgetAmount: 0,
+        spent: 0,
+        season: '',
+        notes: ''
     });
     const [expense, setExpense] = useState<Expense>(
         {
@@ -81,21 +89,21 @@ export default function ViewExpenses() {
                     label: 'Airline',  
                     element: 'input', 
                     typeElement: 'text', 
-                    placeHolderElement: "Type the name of the airline here!", 
+                    placeHolderElement: "Ex: Latam, Delta, Emirates", 
                     valueElement: '' 
                 }, 
                 { 
                     label: 'Origin',  
                     element: 'input', 
                     typeElement: 'text', 
-                    placeHolderElement: "Type the name of the origin here!", 
+                    placeHolderElement: "Ex: São Paulo, New York, Paris", 
                     valueElement: '' 
                 },
                 { 
                     label: 'Destination',  
                     element: 'input', 
                     typeElement: 'text', 
-                    placeHolderElement: "Type the name of the destination here!", 
+                    placeHolderElement: "Ex: Rio de Janeiro, Orlando", 
                     valueElement: '' 
                 },
             ]
@@ -107,24 +115,60 @@ export default function ViewExpenses() {
             subtitle: 'Keep your transportation expenses in check!',
             content: [
                 { 
-                    label: 'Airline',  
-                    element: 'input', 
-                    typeElement: 'text', 
-                    placeHolderElement: "Type the name of the airline here!", 
-                    valueElement: '' 
+                    label: 'Category',  
+                    element: 'select', 
+                    typeElement: '', 
+                    placeHolderElement: "Select a category", 
+                    valueElement: ["Taxi", "Uber", "Rental car", "Bicycle", "Other"] 
                 }, 
                 { 
                     label: 'Origin',  
                     element: 'input', 
                     typeElement: 'text', 
-                    placeHolderElement: "Type the name of the origin here!", 
+                    placeHolderElement: "Ex: São Paulo, New York, Paris", 
                     valueElement: '' 
                 },
                 { 
                     label: 'Destination',  
                     element: 'input', 
                     typeElement: 'text', 
-                    placeHolderElement: "Type the name of the destination here!", 
+                    placeHolderElement: "Ex: Rio de Janeiro, Orlando", 
+                    valueElement: '' 
+                },
+            ]
+        },
+        {
+            operation: 'Create',
+            type: 'Food',
+            title: 'Create Food Expense',
+            subtitle: 'Stay on top of your food expenses!',
+            content: [
+                { 
+                    label: 'Food Name',  
+                    element: 'input', 
+                    typeElement: 'text', 
+                    placeHolderElement: "Ex: Pizza, Burguer, Salad", 
+                    valueElement: '' 
+                },
+                { 
+                    label: 'Category',  
+                    element: 'select', 
+                    typeElement: '', 
+                    placeHolderElement: "Select a category", 
+                    valueElement: ["Breakfast", "Lunch", "Dinner", "Brunch", "Snack"]
+                },
+                { 
+                    label: 'Place',  
+                    element: 'input', 
+                    typeElement: 'text', 
+                    placeHolderElement: "Ex: Restaurant, Supermarket, Food Truck", 
+                    valueElement: '' 
+                },
+                { 
+                    label: 'Destination',  
+                    element: 'input', 
+                    typeElement: 'text', 
+                    placeHolderElement: "Ex: Rio de Janeiro, Orlando", 
                     valueElement: '' 
                 },
             ]
@@ -139,21 +183,21 @@ export default function ViewExpenses() {
                     label: 'Airline',  
                     element: 'input', 
                     typeElement: 'text', 
-                    placeHolderElement: "Type the name of the airline here!", 
+                    placeHolderElement: "Ex: Latam, Delta, Emirates", 
                     valueElement: '' 
                 }, 
                 { 
                     label: 'Origin',  
                     element: 'input', 
                     typeElement: 'text', 
-                    placeHolderElement: "Type the name of the origin here!", 
+                    placeHolderElement: "Ex: São Paulo, New York, Paris", 
                     valueElement: '' 
                 },
                 { 
                     label: 'Destination',  
                     element: 'input', 
                     typeElement: 'text', 
-                    placeHolderElement: "Type the name of the destination here!", 
+                    placeHolderElement: "Ex: Rio de Janeiro, Orlando", 
                     valueElement: '' 
                 },
             ]
@@ -168,50 +212,21 @@ export default function ViewExpenses() {
                     label: 'Airline',  
                     element: 'input', 
                     typeElement: 'text', 
-                    placeHolderElement: "Type the name of the airline here!", 
+                    placeHolderElement: "Ex: Latam, Delta, Emirates", 
                     valueElement: '' 
                 }, 
                 { 
                     label: 'Origin',  
                     element: 'input', 
                     typeElement: 'text', 
-                    placeHolderElement: "Type the name of the origin here!", 
+                    placeHolderElement: "Ex: São Paulo, New York, Paris", 
                     valueElement: '' 
                 },
                 { 
                     label: 'Destination',  
                     element: 'input', 
                     typeElement: 'text', 
-                    placeHolderElement: "Type the name of the destination here!", 
-                    valueElement: '' 
-                },
-            ]
-        },
-        {
-            operation: 'Create',
-            type: 'Airplane',
-            title: 'Create Flight Expense',
-            subtitle: 'Track your flight costs effortlessly!',
-            content: [
-                { 
-                    label: 'Airline',  
-                    element: 'input', 
-                    typeElement: 'text', 
-                    placeHolderElement: "Type the name of the airline here!", 
-                    valueElement: '' 
-                }, 
-                { 
-                    label: 'Origin',  
-                    element: 'input', 
-                    typeElement: 'text', 
-                    placeHolderElement: "Type the name of the origin here!", 
-                    valueElement: '' 
-                },
-                { 
-                    label: 'Destination',  
-                    element: 'input', 
-                    typeElement: 'text', 
-                    placeHolderElement: "Type the name of the destination here!", 
+                    placeHolderElement: "Ex: Rio de Janeiro, Orlando", 
                     valueElement: '' 
                 },
             ]
@@ -327,6 +342,7 @@ export default function ViewExpenses() {
       
         if (cleanedValue.includes('.')) {
             let [integerPart, decimalPart] = cleanedValue.split('.');
+
             if (decimalPart.length > 2) {
                 decimalPart = decimalPart.substring(0, 2);
                 cleanedValue = integerPart + '.' + decimalPart;
@@ -337,6 +353,7 @@ export default function ViewExpenses() {
       
         if (!isNaN(numericValue)) {
             const endsWithDot = rawValue.endsWith('.');
+
             let formatted = numericValue.toLocaleString('en-US', {
                 maximumFractionDigits: 2,
                 minimumFractionDigits: (rawValue.includes('.') && !endsWithDot) ? 2 : 0,
@@ -350,7 +367,7 @@ export default function ViewExpenses() {
         } else {
             setExpense({ ...expense, amount: '0' });
         }
-      };
+    };
       
 
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> | string) => {
@@ -725,21 +742,25 @@ export default function ViewExpenses() {
                                             {dataButton.map((obj, index) => (
                                             <CarouselItem key={index} className="pl-1.5 basis-1/2 cursor-pointer">
                                                 <div className="w-full flex">
-                                                    {/*<Button 
-                                                        variant={'outline'} 
-                                                        className="w-full gap-2">
-                                                            {obj.icon}
-                                                            {obj.name}
-                                                    </Button> */}
-                                                    <Dialog>
+                                                    <Dialog
+                                                        onOpenChange={(open) => {
+                                                            if (!open) {
+                                                                setExpense({ ...expense, category: '', day: ''})
+                                                            }
+
+                                                            if (!open && document.activeElement instanceof HTMLElement) {
+                                                                document.activeElement.blur();
+                                                            }
+                                                        }}
+                                                    >
                                                         <DialogTrigger asChild>
                                                             <Button 
-                                                                type="button"
-                                                                className="w-full gap-2"
-                                                                variant="outline"
+                                                            type="button"
+                                                            className="w-full gap-2"
+                                                            variant="outline"
                                                             >
-                                                                {obj.icon}
-                                                                {obj.name}
+                                                            {obj.icon}
+                                                            {obj.name}
                                                             </Button>
                                                         </DialogTrigger>
                                                         <DialogContent className="w-full sm:max-w-[425px]">
@@ -749,100 +770,101 @@ export default function ViewExpenses() {
                                                                 {dataForm[index].subtitle}
                                                             </DialogDescription>
                                                             </DialogHeader>
-                                                                <form className="grid gap-2" 
-                                                                    onSubmit={() => dataForm[index].operation == 'Create' ? handleCreate() : handleUpdate()}
+                                                                <form
+                                                                    className="grid gap-2"
+                                                                    onSubmit={(e) => {
+                                                                        e.preventDefault();
+                                                                        dataForm[index].operation === 'Create' ? handleCreate() : handleUpdate();
+                                                                    }}
                                                                 >
-                                                                    {
-                                                                        dataForm[index].content.map((c: dataContent) => (
-                                                                            <div key={c.label} className="w-full">
-                                                                                <Label htmlFor={c.label}>
-                                                                                    {c.label}
-                                                                                </Label>
-                                                                                {
-                                                                                    c.element == 'input' ?
-                                                                                    <Input 
-                                                                                        id={c.label}
-                                                                                        name={c.label.toLowerCase()}
-                                                                                        type={c.typeElement}
-                                                                                        placeholder={c.placeHolderElement}
-                                                                                        value={c.valueElement}
-                                                                                        onChange={handleChange}
-                                                                                    /> : 
-                                                                                    c.element == 'select' ?
-                                                                                    <Select
-                                                                                        name={c.label.toLowerCase()}
-                                                                                        defaultValue="*"
-                                                                                        value={expense.category}
-                                                                                        onValueChange={handleChange} 
-                                                                                        open={isOpen} 
-                                                                                        onOpenChange={setIsOpen}
-                                                                                    >
-                                                                                        <SelectTrigger className="rounded-md border-r-2">
-                                                                                            <SelectValue placeholder={c.placeHolderElement}>
-                                                                                                <p className="text-[3.4vw] xxs3:text-[3.2vw] xs:text-[2.4vw] lg:text-base breaK-all">
-                                                                                                    {expense.category};
-                                                                                                </p>
-                                                                                            </SelectValue>
-                                                                                        </SelectTrigger>
-                                                                                        <SelectContent>
-                                                                                            <SelectGroup>
-                                                                                            {
-                                                                                                Array.isArray(c.valueElement) && c.valueElement.map((v: string, indexElement: number) => (
-                                                                                                    <SelectItem key={indexElement} value={v}>
-                                                                                                        {v}
-                                                                                                    </SelectItem>
-                                                                                                ))
-                                                                                            }
-                                                                                            </SelectGroup>
-                                                                                        </SelectContent>
-                                                                                    </Select> : null    
-                                                                                }
-                                                                            </div>
-                                                                        ))
-                                                                    }
+                                                                    {dataForm[index].content.map((c: dataContent) => (
+                                                                        <div key={c.label} className="w-full">
+                                                                        <Label htmlFor={c.label}>{c.label}</Label>
+                                                                        {c.element === 'input' ? (
+                                                                            <Input
+                                                                            id={c.label}
+                                                                            name={c.label.toLowerCase()}
+                                                                            type={c.typeElement}
+                                                                            placeholder={c.placeHolderElement}
+                                                                            value={expense.[c.label.toLowerCase()]}
+                                                                            onChange={handleChange}
+                                                                            />
+                                                                        ) : c.element === 'select' ? (
+                                                                            <Select
+                                                                              name="category"
+                                                                              defaultValue={"1"}
+                                                                              value={expense.category}
+                                                                              onValueChange={(value: string) => setExpense({ ...expense, category: value })}
+                                                                              open={isOpen}
+                                                                              onOpenChange={setIsOpen}
+                                                                            >
+                                                                              <SelectTrigger className="rounded-md border-r-2 p-3">
+                                                                                <SelectValue placeholder={c.placeHolderElement}>
+                                                                                  <p className="text-[3.4vw] xxs3:text-[3.2vw] xs:text-[2.4vw] lg:text-base break-all">
+                                                                                    {expense.category}
+                                                                                  </p>
+                                                                                </SelectValue>
+                                                                              </SelectTrigger>
+                                                                              <SelectContent>
+                                                                                <SelectGroup>
+                                                                                  {Array.isArray(c.valueElement) &&
+                                                                                    c.valueElement.map((v: string, indexElement: number) => (
+                                                                                      <SelectItem key={indexElement} value={v}>
+                                                                                        {v}
+                                                                                      </SelectItem>
+                                                                                    ))
+                                                                                  }
+                                                                                </SelectGroup>
+                                                                              </SelectContent>
+                                                                            </Select>
+                                                                        ) : null }
+                                                                        </div>
+                                                                    ))}
                                                                     <div>
-                                                                        <Label htmlFor="Amount">
-                                                                            Amount
-                                                                        </Label>
-                                                                        <Input 
-                                                                            id="Amount"
-                                                                            name="amount"
-                                                                            type="text"
-                                                                            placeholder="How much is the expense?"
-                                                                            value={`${getCurrencySymbol(expense.countryCurrency)}${expense.amount}`}
-                                                                            onChange={handleChangeInput}
+                                                                        <Label htmlFor="Amount">Amount</Label>
+                                                                        <Input
+                                                                        id="Amount"
+                                                                        name="amount"
+                                                                        type="text"
+                                                                        placeholder="How much is the expense?"
+                                                                        value={`${getCurrencySymbol(expense.countryCurrency)}${expense.amount}`}
+                                                                        onChange={handleChangeInput}
                                                                         />
                                                                     </div>
                                                                     <div>
-                                                                        <Label htmlFor="day">
-                                                                            Expense Day
-                                                                        </Label>
+                                                                        <Label htmlFor="day">Expense Day</Label>
                                                                         <Select
-                                                                            name='day'
-                                                                            onValueChange={handleChange} 
+                                                                            name="day"
+                                                                            defaultValue={"1"}
+                                                                            value={String(expense.day)}
+                                                                            onValueChange={(value: string) =>
+                                                                            setExpense({ ...expense, day: Number(value) })
+                                                                            }
                                                                         >
-                                                                            <SelectTrigger className="rounded-md border-r-2">
-                                                                                <SelectValue placeholder={"Select a day"} />
+                                                                            <SelectTrigger className="rounded-md border-r-2 p-3">
+                                                                                <SelectValue placeholder="Select a day" />
                                                                             </SelectTrigger>
                                                                             <SelectContent>
-                                                                                <SelectGroup>
-                                                                                    {
-                                                                                        trip && Array.from({ length: trip.daysQty }).map((_, index) => (
-                                                                                            <SelectItem value={String(index+1)}>{index+1} Day</SelectItem>
-                                                                                        ))
-                                                                                    }
-                                                                                </SelectGroup>
+                                                                            <SelectGroup>
+                                                                                {trip &&
+                                                                                Array.from({ length: trip.daysQty }).map((_, index) => (
+                                                                                    <SelectItem key={index} value={String(index + 1)}>
+                                                                                    {index + 1}° Day
+                                                                                    </SelectItem>
+                                                                                ))
+                                                                                }
+                                                                            </SelectGroup>
                                                                             </SelectContent>
                                                                         </Select>
                                                                     </div>
                                                                 </form>
                                                             <DialogFooter>
-                                                                <Button type="submit" size={"lg"}>
-                                                                    {dataForm[index].operation}
-                                                                </Button>
+                                                            <Button type="submit" size="lg">
+                                                                {dataForm[index].operation}
+                                                            </Button>
                                                             </DialogFooter>
                                                         </DialogContent>
-                                                    </Dialog>            
+                                                    </Dialog>
                                                 </div>
                                             </CarouselItem>
                                             ))}

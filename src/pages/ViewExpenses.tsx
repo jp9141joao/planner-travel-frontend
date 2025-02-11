@@ -17,6 +17,15 @@ import { AccomodationExpense, AirplaneExpense, AttractionExpense, dataButton, da
 import { Bed, BedSingle, Building, Bus, CalendarIcon, Castle, ChevronDown, ChevronUp, Church, CircleHelp, Clock, Coffee, CookingPot, FerrisWheel, Fish, Flag, Home, Hotel, Landmark, Link, MapPin, MoreHorizontal, Mountain, PawPrint, Pencil, Pizza, Plane, Plus, Puzzle, Receipt, Soup, Theater, Ticket, Timer, TreePine, Users, Utensils, Wallet, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
+const initialExpense = {
+    id: '',
+    tripId: '',
+    type: '',
+    amount: '0',
+    countryCurrency: 'USD',
+    day: 1,
+}
+
 export default function ViewExpenses() {
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState<number>(0);
@@ -32,16 +41,7 @@ export default function ViewExpenses() {
         season: '',
         notes: ''
     });
-    const [expense, setExpense] = useState<Expense>(
-        {
-            id: '',
-            tripId: '',
-            type: '',
-            amount: '0',
-            countryCurrency: 'USD',
-            day: 0,
-        }
-    )
+    const [expense, setExpense] = useState<Expense>(initialExpense)
     const [expenses, setExpenses] = useState<Expense[]>([]);
     const [showContent, setShowContent] = useState<boolean | null>(null);
     const [showDetails, setShowDetails] = useState<boolean>(false);
@@ -86,7 +86,7 @@ export default function ViewExpenses() {
             subtitle: 'Track your flight costs effortlessly!',
             content: [
                 { 
-                    label: 'Airline',  
+                    label: 'Airline Name',  
                     element: 'input', 
                     typeElement: 'text', 
                     placeHolderElement: "Ex: Latam, Delta, Emirates", 
@@ -164,23 +164,16 @@ export default function ViewExpenses() {
                     placeHolderElement: "Ex: Restaurant, Supermarket, Food Truck", 
                     valueElement: '' 
                 },
-                { 
-                    label: 'Destination',  
-                    element: 'input', 
-                    typeElement: 'text', 
-                    placeHolderElement: "Ex: Rio de Janeiro, Orlando", 
-                    valueElement: '' 
-                },
             ]
         },
         {
             operation: 'Create',
-            type: 'Airplane',
+            type: 'Attraction',
             title: 'Create Flight Expense',
-            subtitle: 'Track your flight costs effortlessly!',
+            subtitle: 'Track your entertainment costs easily!',
             content: [
                 { 
-                    label: 'Airline',  
+                    label: 'Attraction Name',  
                     element: 'input', 
                     typeElement: 'text', 
                     placeHolderElement: "Ex: Latam, Delta, Emirates", 
@@ -745,7 +738,7 @@ export default function ViewExpenses() {
                                                     <Dialog
                                                         onOpenChange={(open) => {
                                                             if (!open) {
-                                                                setExpense({ ...expense, category: '', day: ''})
+                                                                setExpense(initialExpense)
                                                             }
 
                                                             if (!open && document.activeElement instanceof HTMLElement) {
@@ -755,9 +748,9 @@ export default function ViewExpenses() {
                                                     >
                                                         <DialogTrigger asChild>
                                                             <Button 
-                                                            type="button"
-                                                            className="w-full gap-2"
-                                                            variant="outline"
+                                                                type="button"
+                                                                className="w-full gap-2"
+                                                                variant="outline"
                                                             >
                                                             {obj.icon}
                                                             {obj.name}
@@ -782,17 +775,16 @@ export default function ViewExpenses() {
                                                                         <Label htmlFor={c.label}>{c.label}</Label>
                                                                         {c.element === 'input' ? (
                                                                             <Input
-                                                                            id={c.label}
-                                                                            name={c.label.toLowerCase()}
-                                                                            type={c.typeElement}
-                                                                            placeholder={c.placeHolderElement}
-                                                                            value={expense.[c.label.toLowerCase()]}
-                                                                            onChange={handleChange}
+                                                                                id={c.label}
+                                                                                name={c.label.toLowerCase()}
+                                                                                type={c.typeElement}
+                                                                                placeholder={c.placeHolderElement}
+                                                                                value={expense[c.label.toLocaleLowerCase() as keyof Expense] as string}
+                                                                                onChange={handleChange}
                                                                             />
                                                                         ) : c.element === 'select' ? (
                                                                             <Select
                                                                               name="category"
-                                                                              defaultValue={"1"}
                                                                               value={expense.category}
                                                                               onValueChange={(value: string) => setExpense({ ...expense, category: value })}
                                                                               open={isOpen}
@@ -807,13 +799,13 @@ export default function ViewExpenses() {
                                                                               </SelectTrigger>
                                                                               <SelectContent>
                                                                                 <SelectGroup>
-                                                                                  {Array.isArray(c.valueElement) &&
-                                                                                    c.valueElement.map((v: string, indexElement: number) => (
-                                                                                      <SelectItem key={indexElement} value={v}>
-                                                                                        {v}
-                                                                                      </SelectItem>
-                                                                                    ))
-                                                                                  }
+                                                                                    {Array.isArray(c.valueElement) &&
+                                                                                        c.valueElement.map((v: string, indexElement: number) => (
+                                                                                        <SelectItem key={indexElement} value={v}>
+                                                                                            {v}
+                                                                                        </SelectItem>
+                                                                                        ))
+                                                                                    }
                                                                                 </SelectGroup>
                                                                               </SelectContent>
                                                                             </Select>
@@ -823,22 +815,21 @@ export default function ViewExpenses() {
                                                                     <div>
                                                                         <Label htmlFor="Amount">Amount</Label>
                                                                         <Input
-                                                                        id="Amount"
-                                                                        name="amount"
-                                                                        type="text"
-                                                                        placeholder="How much is the expense?"
-                                                                        value={`${getCurrencySymbol(expense.countryCurrency)}${expense.amount}`}
-                                                                        onChange={handleChangeInput}
+                                                                            id="Amount"
+                                                                            name="amount"
+                                                                            type="text"
+                                                                            placeholder="How much is the expense?"
+                                                                            value={`${getCurrencySymbol(expense.countryCurrency)}${expense.amount}`}
+                                                                            onChange={handleChangeInput}
                                                                         />
                                                                     </div>
                                                                     <div>
                                                                         <Label htmlFor="day">Expense Day</Label>
                                                                         <Select
                                                                             name="day"
-                                                                            defaultValue={"1"}
                                                                             value={String(expense.day)}
                                                                             onValueChange={(value: string) =>
-                                                                            setExpense({ ...expense, day: Number(value) })
+                                                                                setExpense({ ...expense, day: Number(value) })
                                                                             }
                                                                         >
                                                                             <SelectTrigger className="rounded-md border-r-2 p-3">
@@ -847,11 +838,11 @@ export default function ViewExpenses() {
                                                                             <SelectContent>
                                                                             <SelectGroup>
                                                                                 {trip &&
-                                                                                Array.from({ length: trip.daysQty }).map((_, index) => (
-                                                                                    <SelectItem key={index} value={String(index + 1)}>
-                                                                                    {index + 1}° Day
-                                                                                    </SelectItem>
-                                                                                ))
+                                                                                    Array.from({ length: trip.daysQty }).map((_, index) => (
+                                                                                        <SelectItem key={index} value={String(index + 1)}>
+                                                                                            {index + 1}° Day
+                                                                                        </SelectItem>
+                                                                                    ))
                                                                                 }
                                                                             </SelectGroup>
                                                                             </SelectContent>

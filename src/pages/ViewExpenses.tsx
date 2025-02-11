@@ -45,7 +45,7 @@ export default function ViewExpenses() {
     const [expenses, setExpenses] = useState<Expense[]>([]);
     const [showContent, setShowContent] = useState<boolean | null>(null);
     const [showDetails, setShowDetails] = useState<boolean>(false);
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>({});
     const dataButton: dataButton[] = [
         {
             name: 'Airplane',
@@ -169,58 +169,60 @@ export default function ViewExpenses() {
         {
             operation: 'Create',
             type: 'Attraction',
-            title: 'Create Flight Expense',
+            title: 'Create Attraction Expense',
             subtitle: 'Track your entertainment costs easily!',
             content: [
                 { 
                     label: 'Attraction Name',  
                     element: 'input', 
                     typeElement: 'text', 
-                    placeHolderElement: "Ex: Latam, Delta, Emirates", 
+                    placeHolderElement: "Ex: Statue of Liberty, Eiffiel Tower", 
                     valueElement: '' 
                 }, 
                 { 
-                    label: 'Origin',  
-                    element: 'input', 
-                    typeElement: 'text', 
-                    placeHolderElement: "Ex: São Paulo, New York, Paris", 
-                    valueElement: '' 
+                    label: 'Category',  
+                    element: 'select', 
+                    typeElement: '', 
+                    placeHolderElement: "Select a category", 
+                    valueElement: ["Museum", "Park", "Event", "Theater", "Zoo", "Aquarium", "Restaurant", "Nature Reserve", "Historical Site", "Religious Site", "Others"] 
                 },
                 { 
-                    label: 'Destination',  
-                    element: 'input', 
-                    typeElement: 'text', 
-                    placeHolderElement: "Ex: Rio de Janeiro, Orlando", 
-                    valueElement: '' 
+                    label: 'Duration',  
+                    element: 'select', 
+                    typeElement: '', 
+                    placeHolderElement: "Select the duration", 
+                    valueElement: ["30min", "1h", "1h 30min", "2h", "2h 30min", "3h", "3h 30min", "4h", "More than 4h"]
                 },
             ]
         },
         {
             operation: 'Create',
-            type: 'Airplane',
-            title: 'Create Flight Expense',
-            subtitle: 'Track your flight costs effortlessly!',
+            type: 'Accomodation',
+            title: 'Create Accomodation Expense',
+            subtitle: 'Take charge of your accommodation spending!',
             content: [
                 { 
-                    label: 'Airline',  
+                    label: 'Accomodation Name',  
                     element: 'input', 
                     typeElement: 'text', 
-                    placeHolderElement: "Ex: Latam, Delta, Emirates", 
+                    placeHolderElement: "Ex: Burj Al Arab, The Plaza Hotel", 
                     valueElement: '' 
                 }, 
                 { 
-                    label: 'Origin',  
-                    element: 'input', 
-                    typeElement: 'text', 
-                    placeHolderElement: "Ex: São Paulo, New York, Paris", 
-                    valueElement: '' 
+                    label: 'Category',  
+                    element: 'select', 
+                    typeElement: '', 
+                    placeHolderElement: "Select a category", 
+                    valueElement: ["Hotel", "Hostel", "Airbnb", "Guesthouse", "Other"] 
                 },
                 { 
-                    label: 'Destination',  
-                    element: 'input', 
-                    typeElement: 'text', 
-                    placeHolderElement: "Ex: Rio de Janeiro, Orlando", 
-                    valueElement: '' 
+                    label: 'Duration of Stay',  
+                    element: 'select', 
+                    typeElement: '', 
+                    placeHolderElement: "Select a duration", 
+                    valueElement: Array.from({ length: trip.daysQty }).map((_, index) => {
+                        return `${index+1} Day`
+                    })
                 },
             ]
         },
@@ -772,44 +774,47 @@ export default function ViewExpenses() {
                                                                 >
                                                                     {dataForm[index].content.map((c: dataContent) => (
                                                                         <div key={c.label} className="w-full">
-                                                                        <Label htmlFor={c.label}>{c.label}</Label>
-                                                                        {c.element === 'input' ? (
+                                                                            <Label htmlFor={c.label}>{c.label}</Label>
+                                                                            {c.element === 'input' ? (
                                                                             <Input
                                                                                 id={c.label}
                                                                                 name={c.label.toLowerCase()}
                                                                                 type={c.typeElement}
+                                                                                className="p-2"
                                                                                 placeholder={c.placeHolderElement}
-                                                                                value={expense[c.label.toLocaleLowerCase() as keyof Expense] as string}
+                                                                                value={expense[c.label.toLowerCase() as keyof Expense] as string}
                                                                                 onChange={handleChange}
                                                                             />
-                                                                        ) : c.element === 'select' ? (
+                                                                            ) : c.element === 'select' ? (
                                                                             <Select
-                                                                              name="category"
-                                                                              value={expense.category}
-                                                                              onValueChange={(value: string) => setExpense({ ...expense, category: value })}
-                                                                              open={isOpen}
-                                                                              onOpenChange={setIsOpen}
+                                                                                name={c.label.toLowerCase()}
+                                                                                open={!!isOpen[c.label]}
+                                                                                onOpenChange={(open) =>
+                                                                                setIsOpen((prev) => ({ ...prev, [c.label]: open }))
+                                                                                }
+                                                                                onValueChange={(value: string) =>
+                                                                                    setExpense({ ...expense, [c.label.toLowerCase()]: value })
+                                                                                }
                                                                             >
-                                                                              <SelectTrigger className="rounded-md border-r-2 p-3">
-                                                                                <SelectValue placeholder={c.placeHolderElement}>
-                                                                                  <p className="text-[3.4vw] xxs3:text-[3.2vw] xs:text-[2.4vw] lg:text-base break-all">
-                                                                                    {expense.category}
-                                                                                  </p>
-                                                                                </SelectValue>
-                                                                              </SelectTrigger>
-                                                                              <SelectContent>
-                                                                                <SelectGroup>
-                                                                                    {Array.isArray(c.valueElement) &&
+                                                                                <SelectTrigger className="rounded-md border-r-2 p-3">
+                                                                                    <SelectValue placeholder={c.placeHolderElement}>
+                                                                                        <p className="text-sm break-all">
+                                                                                        {expense[c.label.toLowerCase() as keyof Expense]}
+                                                                                        </p>
+                                                                                    </SelectValue>
+                                                                                </SelectTrigger>
+                                                                                <SelectContent>
+                                                                                    <SelectGroup>
+                                                                                        {Array.isArray(c.valueElement) &&
                                                                                         c.valueElement.map((v: string, indexElement: number) => (
-                                                                                        <SelectItem key={indexElement} value={v}>
+                                                                                            <SelectItem key={indexElement} value={v}>
                                                                                             {v}
-                                                                                        </SelectItem>
-                                                                                        ))
-                                                                                    }
-                                                                                </SelectGroup>
-                                                                              </SelectContent>
+                                                                                            </SelectItem>
+                                                                                        ))}
+                                                                                    </SelectGroup>
+                                                                                </SelectContent>
                                                                             </Select>
-                                                                        ) : null }
+                                                                            ) : null}
                                                                         </div>
                                                                     ))}
                                                                     <div>
@@ -818,6 +823,7 @@ export default function ViewExpenses() {
                                                                             id="Amount"
                                                                             name="amount"
                                                                             type="text"
+                                                                            className="p-2"
                                                                             placeholder="How much is the expense?"
                                                                             value={`${getCurrencySymbol(expense.countryCurrency)}${expense.amount}`}
                                                                             onChange={handleChangeInput}
@@ -827,6 +833,7 @@ export default function ViewExpenses() {
                                                                         <Label htmlFor="day">Expense Day</Label>
                                                                         <Select
                                                                             name="day"
+                                                                            defaultValue="1"
                                                                             value={String(expense.day)}
                                                                             onValueChange={(value: string) =>
                                                                                 setExpense({ ...expense, day: Number(value) })

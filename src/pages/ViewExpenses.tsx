@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Toaster } from "@/components/ui/toaster";
@@ -14,7 +16,7 @@ import { getItemSessionStorage } from "@/components/utils/utils";
 import { toast } from "@/hooks/use-toast";
 import { deleteExpense, getExpenses, getTrip } from "@/service/service";
 import { AccomodationExpense, AirplaneExpense, AttractionExpense, dataButton, dataContent, dataForm, Expense, FoodExpense, TransportationExpense, Trip } from "@/types/types";
-import { Bed, BedSingle, Building, Bus, CalendarIcon, Castle, ChevronDown, ChevronUp, Church, CircleHelp, Clock, Coffee, CookingPot, FerrisWheel, Fish, Flag, Home, Hotel, Landmark, Link, MapPin, MoreHorizontal, Mountain, PawPrint, Pencil, Pizza, Plane, Plus, Puzzle, Receipt, Soup, Theater, Ticket, Timer, TreePine, Users, Utensils, Wallet, X } from "lucide-react";
+import { BadgeInfo, Bed, BedSingle, Building, Bus, CalendarDays, CalendarIcon, Castle, ChevronDown, ChevronUp, Church, CircleHelp, Clock, Coffee, CookingPot, FerrisWheel, Fish, Flag, Home, Hotel, Info, Landmark, Link, MapPin, MoreHorizontal, Mountain, PawPrint, Pencil, Pizza, Plane, Plus, Puzzle, Receipt, Soup, Theater, Ticket, Timer, TreePine, Users, Utensils, Wallet, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 const initialExpense = {
@@ -364,7 +366,6 @@ export default function ViewExpenses() {
         }
     };
       
-
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> | string) => {
         if (typeof e != 'string') {
             setExpense(
@@ -904,30 +905,76 @@ export default function ViewExpenses() {
                                 }
                             </Button>
                         </div>
-                        {
-                            showDetails && showContent == null? 
-                            <div className="transition-all">
-                                <div className="flex gap-2 text-[0.7vw]">
-                                    <strong>Trip Name:</strong> Trip to Rio de Janeiro
+                        <Dialog>
+                    <DialogTrigger asChild>
+                        <div className="flex items-center gap-1.5 w-full text-[4vw] xxs5:text-base sm:text-base lg:text-lg">
+                            <p>
+                                Forgot your trip details?
+                            </p>
+                            <strong className="cursor-pointer">
+                                Click here.
+                            </strong>
+                        </div>
+                    </DialogTrigger>
+                        <DialogContent className="rounded-md w-full">
+                            <DialogHeader>
+                                <DialogTitle>Trip Details</DialogTitle>
+                                <DialogDescription>
+                                    Forgot your trip details? No worries! Here they are, ready to refresh your memory!
+                                </DialogDescription>
+                            </DialogHeader>
+                            <div className="grid place-items-start gap-1 py-1">
+                                <div className="flex items-center gap-2">
+                                    <p className="text-base font-semibold">
+                                        Name: 
+                                    </p>
+                                    <p className="text-base">
+                                        { trip.tripName}.
+                                    </p>
                                 </div>
-                                <div className="flex gap-2 text-[0.7vw]">
-                                    <strong>Period:</strong> 23 Jan, 2023 - 31 Fev, 2024
+                                <div className="flex items-center gap-2">
+                                    <p className="text-base font-semibold">
+                                        Period: 
+                                    </p>
+                                    <p className="text-base">
+                                        { trip.period }.
+                                    </p>
                                 </div>
-                            </div> : null
-                        }
-                        {
-                            showContent == null ?
-                            <div className="w-full flex justify-center gap-1 text-lg">
-                                {
-                                    showDetails ? 
-                                    <ChevronUp /> :
-                                    <ChevronDown/>
-                                }
-                                <strong onClick={() => setShowDetails(!showDetails)}>
-                                    {showDetails ? 'Hide' : 'Show'} trip details.
-                                </strong>
-                            </div> : null
-                        }
+                                <div className="flex items-center gap-2">
+                                    <p className="text-base font-semibold">
+                                        Duration: 
+                                    </p>
+                                    <p className="text-base">
+                                        {trip.daysQty} {trip.daysQty > 1 ? 'Days' : 'Day'}.
+                                    </p>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <p className="text-base font-semibold">
+                                        Season: 
+                                    </p>
+                                    <p className="text-base">
+                                        {trip.season}.
+                                    </p>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <p className="text-base font-semibold">
+                                        Budget: 
+                                    </p>
+                                    <p className="text-base">
+                                        {getCurrencySymbol(trip.currency)}{trip.budgetAmount}.
+                                    </p>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <p className="text-base font-semibold">
+                                        Spent: 
+                                    </p>
+                                    <p className="text-base">
+                                        {getCurrencySymbol(trip.currency)}{trip.spent}.
+                                    </p>
+                                </div>
+                            </div>
+                        </DialogContent>
+                </Dialog>
                         <Toaster />
                     </div>  
                 </div>

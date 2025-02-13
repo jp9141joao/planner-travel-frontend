@@ -11,30 +11,6 @@ import ImgWorld from '../assets/undraw_world_re_768g.svg';
 
 export const LoadData = async () => {
     try {
-        const imgAdventure = new Image();
-        imgAdventure.src = ImgAdventure;
-
-        const imgAdventureMap = new Image();
-        imgAdventureMap.src = ImgAdventureMap;
-
-        const imgAircraft = new Image();
-        imgAircraft.src = ImgAircraft;
-
-        const imgDeparting = new Image();
-        imgDeparting.src = ImgDeparting;
-
-        const imgForgotPassword = new Image();
-        imgForgotPassword.src = ImgForgotPassword;
-
-        const imgPageNotFound = new Image();
-        imgPageNotFound.src = ImgPageNotFound;
-
-        const imgTravelers = new Image();
-        imgTravelers.src = ImgTravelers;
-
-        const imgWorld = new Image();
-        imgWorld.src = ImgWorld;
-        
         const token = localStorage.getItem('authToken');
 
         if (!token) {

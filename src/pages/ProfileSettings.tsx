@@ -79,7 +79,7 @@ export function ProfileSettings() {
             setEmail(userData.email);
         } else {
             setFullName(undefined);
-            setEmail(undefined)
+            setEmail(undefined);
         }    
     }, []);
 

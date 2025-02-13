@@ -36,7 +36,7 @@ export default function ViewExpenses() {
         id: '',
         tripName: '',
         period: '',
-        daysQty: 7,
+        daysQty: 0,
         currency: '',
         budgetAmount: 0,
         spent: 0,
@@ -435,11 +435,11 @@ export default function ViewExpenses() {
     }, [api]);
 
     useEffect(() => {
-        //loadExpenses();
+        loadExpenses();
     }, [trip]);
     
     useEffect(() => {
-        //loadTrip();
+        loadTrip();
     }, []);
 
     return (

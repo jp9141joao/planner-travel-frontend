@@ -54,12 +54,12 @@ export default function AddTrips () {
         const symbol = getCurrencySymbol(currency);
       
         if (!inputValue.startsWith(symbol) || inputValue.length < symbol.length) {
-          return;
+            return;
         }
       
         if (typeof budgetAmount == 'string' && inputValue.length < budgetAmount.length) {
-          setBudgetAmount(inputValue);
-          return;
+            setBudgetAmount(inputValue);
+            return;
         }
       
         let rawValue = inputValue.substring(symbol.length).trim();
@@ -67,34 +67,35 @@ export default function AddTrips () {
         let cleanedValue = rawValue.replace(/,/g, '');
       
         if (cleanedValue === '' || cleanedValue === '.') {
-          setBudgetAmount(symbol + cleanedValue);
-          return;
+            setBudgetAmount(symbol + cleanedValue);
+            return;
         }
       
         if (cleanedValue.includes('.')) {
           let [integerPart, decimalPart] = cleanedValue.split('.');
-          if (decimalPart.length > 2) {
-            decimalPart = decimalPart.substring(0, 2);
-            cleanedValue = integerPart + '.' + decimalPart;
-          }
+
+            if (decimalPart.length > 2) {
+                decimalPart = decimalPart.substring(0, 2);
+                cleanedValue = integerPart + '.' + decimalPart;
+            }
         }
       
         const numericValue = parseFloat(cleanedValue);
       
         if (!isNaN(numericValue)) {
-          const endsWithDot = rawValue.endsWith('.');
-          let formatted = numericValue.toLocaleString('en-US', {
-            maximumFractionDigits: 2,
-            minimumFractionDigits: (rawValue.includes('.') && !endsWithDot) ? 2 : 0,
-          });
+            const endsWithDot = rawValue.endsWith('.');
+            let formatted = numericValue.toLocaleString('en-US', {
+                maximumFractionDigits: 2,
+                minimumFractionDigits: (rawValue.includes('.') && !endsWithDot) ? 2 : 0,
+            });
       
-          if (endsWithDot && !formatted.includes('.')) {
-            formatted += '.';
-          }
+            if (endsWithDot && !formatted.includes('.')) {
+                formatted += '.';
+            }
       
-          setBudgetAmount(symbol + formatted);
+            setBudgetAmount(symbol + formatted);
         } else {
-          setBudgetAmount(symbol);
+            setBudgetAmount(symbol);
         }
     };
       

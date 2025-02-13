@@ -3,9 +3,11 @@ import { useLocation } from "react-router-dom"
 import { getItemSessionStorage, setItemSessionStorage } from "./utils/utils";
 import { getTrip } from "@/service/service";
 import TripDetails from "@/pages/TripDetails";
+import { useToast } from "@/hooks/use-toast";
 
 export const RouterWatcher = () => {
     const location = useLocation();
+    const { dismiss } = useToast();
 
 
     useEffect(() => {
@@ -26,6 +28,10 @@ export const RouterWatcher = () => {
         
         if (verifyA || verifyB || verifyC) {
             sessionStorage.removeItem('tripId');
+        }
+
+        if ( currentPath != previousPath) {
+            dismiss();
         }
     }, [location.pathname]);
 

@@ -13,6 +13,7 @@ import Credits from "@/components/Credits";
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
 import { Login } from "@/types/types";
+import { LoadData } from "@/components/LoadData";
 
 export default function SignIn () {
 
@@ -34,6 +35,7 @@ export default function SignIn () {
 
                 if (response.success) {
                     localStorage.setItem('authToken', response.data);
+                    LoadData();
                     navigate('/home');
                 } else {
                     if (response.error == 'Error: The value of email is invalid!') {

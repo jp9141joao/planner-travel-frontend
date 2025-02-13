@@ -32,17 +32,7 @@ export default function ViewExpenses() {
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState<number>(0);
     const [count, setCount] = useState<number>(0);
-    const [trip, setTrip] = useState<Trip>({
-        id: '',
-        tripName: '',
-        period: '',
-        daysQty: 0,
-        currency: '',
-        budgetAmount: 0,
-        spent: 0,
-        season: '',
-        notes: ''
-    });
+    const [trip, setTrip] = useState<Trip>();
     const [expense, setExpense] = useState<Expense>(initialExpense)
     const [expenses, setExpenses] = useState<Expense[]>([]);
     const [showContent, setShowContent] = useState<boolean | null>(null);
@@ -222,7 +212,7 @@ export default function ViewExpenses() {
                     element: 'select', 
                     typeElement: '', 
                     placeHolderElement: "Select a duration", 
-                    valueElement: Array.from({ length: trip.daysQty }).map((_, index) => {
+                    valueElement: Array.from({ length: Number(trip?.daysQty) }).map((_, index) => {
                         return `${index+1} Day`
                     })
                 },
@@ -232,7 +222,7 @@ export default function ViewExpenses() {
 
     const loadTrip = async () => {
         try {
-            const route: string | null = getItemSessionStorage('route');
+            const route: string | null = getItemSessionStorage('currentPath');
             const tripId: string | null = getItemSessionStorage('tripId');
 
             if (!route) {
@@ -244,7 +234,7 @@ export default function ViewExpenses() {
             }
 
             const response = await getTrip(route as string, tripId as string);
-
+            
             if (response.success) {
                 setTrip(response.data);
                 setExpense({...expense, countryCurrency: expense.countryCurrency});
@@ -268,8 +258,9 @@ export default function ViewExpenses() {
     const loadExpenses = async () => {
         try {
             if (trip) {
-                const response = await getExpenses(trip.id as string);
 
+                const response = await getExpenses(trip.id as string);
+                
                 if (response.success) {
                     setExpenses(response.data)
                 } else {
@@ -279,13 +270,7 @@ export default function ViewExpenses() {
                         description: "There was a problem with your request.",
                     });
                 }
-            } else {
-                toast({
-                    variant: 'destructive',
-                    title: "Uh oh! Something went wrong.",
-                    description: "There was a problem with your request.",
-                });
-            }
+            } 
         } catch (error: any) {
             toast({
                 variant: 'destructive',
@@ -929,7 +914,7 @@ export default function ViewExpenses() {
                                         Name: 
                                     </p>
                                     <p className="text-base">
-                                        { trip.tripName}.
+                                        {trip?.tripName}.
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-2">
@@ -937,7 +922,7 @@ export default function ViewExpenses() {
                                         Period: 
                                     </p>
                                     <p className="text-base">
-                                        { trip.period }.
+                                        {trip?.period }.
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-2">
@@ -945,7 +930,7 @@ export default function ViewExpenses() {
                                         Duration: 
                                     </p>
                                     <p className="text-base">
-                                        {trip.daysQty} {trip.daysQty > 1 ? 'Days' : 'Day'}.
+                                        {trip?.daysQty} {Number(trip?.daysQty) > 1 ? 'Days' : 'Day'}.
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-2">
@@ -953,7 +938,7 @@ export default function ViewExpenses() {
                                         Season: 
                                     </p>
                                     <p className="text-base">
-                                        {trip.season}.
+                                        {trip?.season}.
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-2">
@@ -961,7 +946,7 @@ export default function ViewExpenses() {
                                         Budget: 
                                     </p>
                                     <p className="text-base">
-                                        {getCurrencySymbol(trip.currency)}{trip.budgetAmount}.
+                                        {getCurrencySymbol(String(trip?.daysQty))}{trip?.budgetAmount}.
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-2">
@@ -969,7 +954,7 @@ export default function ViewExpenses() {
                                         Spent: 
                                     </p>
                                     <p className="text-base">
-                                        {getCurrencySymbol(trip.currency)}{trip.spent}.
+                                        {getCurrencySymbol(String(trip?.daysQty))}{trip?.spent}.
                                     </p>
                                 </div>
                             </div>

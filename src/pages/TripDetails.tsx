@@ -74,6 +74,21 @@ export default function TripDetails() {
         };
         return symbols[value];
     }
+
+    const NumberFormatted = (amount: number): string => {
+        
+            
+        if (!isNaN(amount)) {
+
+            const formatted = amount.toLocaleString('en-US', {
+                maximumFractionDigits: 2,
+            });
+      
+            return formatted;
+        } 
+
+        return '';
+    };
     
     const loadTrip = async () => {
         try {
@@ -108,6 +123,10 @@ export default function TripDetails() {
     const handleChange = async () => {
         try {
             const tripId = getItemSessionStorage('tripId');
+            if (trip?.notes == notes) {
+                return;
+            }
+
             await updateNotes(tripId as string, notes as string);
         } catch (error: any) {
             toast({
@@ -206,7 +225,7 @@ export default function TripDetails() {
                                     <strong>Duration:</strong> {trip?.daysQty} Days
                                 </p>
                                 <p>
-                                    <strong>Budget:</strong> {getCurrencySymbol(String(trip?.currency))}{trip?.budgetAmount}
+                                    <strong>Budget:</strong> {getCurrencySymbol(String(trip?.currency))}{NumberFormatted(Number(trip?.budgetAmount))}
                                 </p>
                             </div>
                             <div className="w-full grid place-items-start text-start items-start break-all mt-3">
@@ -214,7 +233,7 @@ export default function TripDetails() {
                                     <strong>Season:</strong> {trip?.season}
                                 </p>
                                 <p>
-                                    <strong>Spent:</strong> {getCurrencySymbol(String(trip?.currency))}{trip?.spent}
+                                    <strong>Spent:</strong> {getCurrencySymbol(String(trip?.currency))}{NumberFormatted(Number(trip?.spent))}
                                 </p>
                             </div>
                         </div>

@@ -45,12 +45,12 @@ export function ViewTrips() {
                 });
             }
         } catch (error: any) {
-            console.error(error);
             toast({
                 variant: 'destructive',
                 title: "Uh oh! Something went wrong.",
                 description: "There was a problem with your request.",
             });
+            console.error(error);
         }
     };
 
@@ -99,7 +99,7 @@ export function ViewTrips() {
 
     const handleDublicate = async () => {
         try {
-            const response = await duplicateTrip(BigInt(tripSelected) as bigint);
+            const response = await duplicateTrip(tripSelected as string);
 
             if (response.success) {
                 loadTrips();

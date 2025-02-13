@@ -1,5 +1,7 @@
 import { Expense, Login, NewPasswordUser, Trip, UpdateUserData, User } from '@/types/types';
 import axios from 'axios';
+import { error } from 'console';
+import path from 'path';
 const url = 'http://localhost:3000';
 //const url = '.';
 
@@ -132,12 +134,14 @@ export const getTrip = async (route: string, tripId: string) => {
     if (!token) {
         throw new Error("Token is missing");
     }
+    
+    const paths = ['tripDetails', 'editTrip', '/viewExpenses', '/itinerary', '/toDoList', '/MyPiggyBank'];
 
-    if (route != 'tripDetails' && route != 'editTrip') {
+    if (!paths.includes(route)) {
         throw new Error("Route is invalid");
     }
 
-    const response = await axios.get(`${url}/${route}`, {
+    const response = await axios.get(`${url}${route}`, {
         params: { tripId },
         validateStatus: (status) => status != 400,
         headers: {
@@ -154,10 +158,6 @@ export const updateNotes = async (tripId: string, notes: string) => {
 
     if (!token) {
         throw new Error("Token is missing");
-    }
-
-    if (!notes) {
-        throw new Error("Notes is missing");
     }
 
     const response = await axios.put(`${url}/tripDetails`, { tripId, notes }, {
@@ -263,7 +263,7 @@ export const getExpenses = async (tripId: string) => {
         throw new Error("Token is missing");
     }
 
-    if (tripId) {
+    if (!tripId) {
         throw new Error("Trip ID is missing");
     }
 

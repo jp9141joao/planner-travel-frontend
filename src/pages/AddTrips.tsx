@@ -129,7 +129,7 @@ export default function AddTrips () {
                 period, 
                 daysQty, 
                 currency,
-                budgetAmount: Number(budgetAmount.toString().substring(getCurrencySymbol(currency).length)),
+                budgetAmount: parseFloat((budgetAmount.toString().substring(getCurrencySymbol(currency).length)).replace(/,/g, "")),
                 spent: 0,
                 season,
                 notes: '',

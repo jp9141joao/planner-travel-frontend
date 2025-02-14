@@ -1,8 +1,7 @@
-import { Children, ReactNode, useEffect, useRef } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { ReactNode, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 import { ProtectedDataProps } from '@/types/types';
 import { CheckTokenExpiration } from '../CheckTokenExpiration';
-import { LoadData } from '../LoadData';
 
 export const ProtectedRoute = ({ children }: { children: ReactNode}) => {
     const token = localStorage.getItem('authToken');
@@ -16,8 +15,6 @@ export const ProtectedRoute = ({ children }: { children: ReactNode}) => {
     if (!token) {
         return <Navigate to='/signIn' />;
     }
-
-    LoadData();
 
     return children;
 };

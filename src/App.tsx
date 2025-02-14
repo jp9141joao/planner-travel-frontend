@@ -1,12 +1,5 @@
-import { Navigate, Route, BrowserRouter as Router, Routes, useLocation } from "react-router-dom";
-import TravelDetails from "./pages/TravelDetails";
-import EditTravel from "./pages/EditTravel";
+import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import AddTravelS from "./pages/AddTrips";
-//import AddTravelExpense from "./pages/AddTravelExpense";
-//import EditTravelExpense from "./pages/EditTravelExpense";
-import DayDetails from "./pages/DayDetails";
-//import AddDailyExpense from "./pages/AddDailyExpense";
-import TravelItineraryForm from "./components/TravelItineraryForm";
 import Home from "./pages/Home"
 import { ResetPassword } from "./pages/ResetPassword";
 import SignIn from "./pages/SignIn";
@@ -16,7 +9,7 @@ import { ProfileSettings } from "./pages/ProfileSettings";
 import { NotFound } from "./pages/NotFound";
 import { ViewTrips } from "./pages/ViewTrips";
 import EditTrip from "./pages/EditTrip";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import TripDetails from "./pages/TripDetails";
 import SelectTrip from "./pages/SelectTrip";
 import ViewExpenses from "./pages/ViewExpenses";

@@ -5,7 +5,6 @@ import { Input, InputIntegraded } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Toaster } from "@/components/ui/toaster";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { editTrip, getTrip } from "@/service/service";
 import { Trip } from "@/types/types";
 import { toast } from "@/hooks/use-toast";
@@ -27,7 +26,6 @@ export default function EditTrip() {
     const [ currency, setCurrency ] = useState<string>('USD');
     const [ season, setSeason] = useState<string>('');
     const [ reset, setReset ] = useState<boolean>(false);
-    const [ selectValue, setSelectValue ] = useState<DateRange | undefined>(undefined);
     const [ toastMessage, setToastMessage ] = useState({
         variant: '', title: '', description: ''
     });
@@ -35,7 +33,6 @@ export default function EditTrip() {
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ status, setStatus ] = useState<number>(0);
     const [ buttonDisabled, setButtonDisabled ] = useState<boolean>(true);
-    const navigate = useNavigate();
 
     function transformPeriodToDateRange(period: string): DateRange | undefined {
         const [fromDate, toDate] = period.split(' - ');

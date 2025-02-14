@@ -166,7 +166,7 @@ export default function SignIn () {
                                 </p>
                             </div>
                             <div>
-                                <h1 className="grid text-[22vw] xxs5:text-[20.8vw] xxs3:text-[21.2vw] xs:text-[15vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.7]">
+                                <h1 className="grid text-[22vw] xxs5:text-[20.8vw] xxs3:text-[21.2vw] xs:text-[15vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.7] xxs3:leading-[0.8]">
                                     Easy trip!
                                 </h1>
                             </div>

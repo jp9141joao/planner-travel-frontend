@@ -14,7 +14,6 @@ import { MoreHorizontal } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { setItemSessionStorage } from "@/components/utils/utils";
-import { LoadData } from "@/components/LoadData";
 
 export function ViewTrips() {
     const [trips, setTrips] = useState<Trip[]>([]);
@@ -50,6 +49,7 @@ export function ViewTrips() {
                 title: "Uh oh! Something went wrong.",
                 description: "There was a problem with your request.",
             });
+
             console.error(error);
         }
     };
@@ -64,6 +64,7 @@ export function ViewTrips() {
                 title: "Uh oh! Something went wrong.",
                 description: "There was a problem with your request.",
             });
+
             console.error(error);
         }
     };
@@ -93,6 +94,7 @@ export function ViewTrips() {
                 title: "Uh oh! Something went wrong.",
                 description: "There was a problem with your request.",
             });
+
             console.error(error);
         }
     };
@@ -121,6 +123,7 @@ export function ViewTrips() {
                 title: "Uh oh! Something went wrong.",
                 description: "There was a problem with your request.",
             });
+            
             console.error(error);
         }
     };
@@ -137,7 +140,6 @@ export function ViewTrips() {
     }, [tripSelected]);
       
     useEffect(() => {
-        LoadData();
         loadTrips();
     }, []);
     

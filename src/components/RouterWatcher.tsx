@@ -20,21 +20,27 @@ export const RouterWatcher = () => {
             setItemSessionStorage('previousPath', path);
         }
 
-        const mainPaths = ['/viewTrips' ,'/tripDetails']
-        const alterPaths = ['/viewExpenses', '/itinerary', '/toDoList', '/MyPiggyBank'];
+        const tripId: string | null = getItemSessionStorage('tripId');
         const currentPath: string | null = getItemSessionStorage('currentPath');
         const previousPath: string | null = getItemSessionStorage('previousPath');
-        const verifyA = currentPath && previousPath && ['/viewTrips', '/tripDetails', '/selectTrip'].includes(currentPath) && [...alterPaths, '/tripDetails','/editTrip'].includes(previousPath) ;
-        const verifyB = currentPath && ![...mainPaths, ...alterPaths, '/editTrip'].includes(currentPath);
-        const verifyC = previousPath && ![...mainPaths,...alterPaths, '/editTrip'].includes(previousPath);
+
+        if (tripId) {
+            const mainPaths = ['/viewTrips' ,'/tripDetails']
+            const alterPaths = ['/viewExpenses', '/itinerary', '/toDoList', '/MyPiggyBank'];
+            const verifyA = currentPath && previousPath && !['/viewTrips', '/tripDetails', '/selectTrip'].includes(currentPath) && ![...alterPaths, '/tripDetails','/editTrip'].includes(previousPath) ;
+            const verifyB = currentPath && ![...mainPaths, ...alterPaths, '/editTrip'].includes(currentPath);
+            const verifyC = previousPath && ![...mainPaths,...alterPaths, '/editTrip'].includes(previousPath);
         
-        if (verifyA || verifyB || verifyC) {
-            sessionStorage.removeItem('tripId');
+            if ((verifyA || verifyB || verifyC)) {
+                sessionStorage.removeItem('tripId');
+                sessionStorage.removeItem('trip');
+            }
         }
 
         if (currentPath != previousPath) {
             dismiss();
         }
+
     }, [location.pathname]);
 
     return null;

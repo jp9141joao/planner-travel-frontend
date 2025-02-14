@@ -12,7 +12,7 @@ import Image1 from '../assets/undraw_travel-plans_l0fo (2).svg'
 import Image2 from '../assets/undraw_travel-plans_l0fo (1).svg'
 import Image3 from '../assets/undraw_journey_friends (3).svg'
 import { type CarouselApi } from "@/components/ui/carousel"
-import { getItemSessionStorage } from "@/components/utils/utils";
+import { getItemSessionStorage, setItemSessionStorage } from "@/components/utils/utils";
 import { getTrip, updateNotes } from "@/service/service";
 import { Expense, Trip } from "@/types/types";
 import { Toaster } from "@/components/ui/toaster";
@@ -98,11 +98,12 @@ export default function TripDetails() {
                 throw new Error('Trip Id is missing');
             }
 
-            const response  = await getTrip('tripDetails' as string ,tripId as string);
+            const response = await getTrip('tripDetails' as string ,tripId as string);
 
             if (response.success) {
                 setTrip(response.data);
                 setNotes(response.data.notes);
+                setItemSessionStorage('trip', response.data);
             } else {
                 toast({
                     variant: 'destructive',

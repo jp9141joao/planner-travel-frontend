@@ -2,7 +2,7 @@ import Credits from "@/components/Credits";
 import { GoBack } from "@/components/GoBack";
 import { BodyPage, BottomPage, MiddlePageOneCol, TopPage } from "@/components/LayoutPage/Layouts";
 import { Button } from "@/components/ui/button";
-import { Select, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getItemSessionStorage, setItemSessionStorage } from "@/components/utils/utils";
 import { toast } from "@/hooks/use-toast";
 import { getTrips } from "@/service/service";
@@ -51,9 +51,9 @@ export default function SelectTrip() {
 
     const handleSubmit = () => {
         try {
-            const trip = trips.filter((item: any) => item.id == tripSelected);
+            const tripData = trips.filter((item: Trip) => item.id == tripSelected);
             setItemSessionStorage('tripId', tripSelected);
-            setItemSessionStorage('tripData', { name: trip[0].tripName, period: trip[0].period })
+            setItemSessionStorage('trip', tripData);
             navigate(route);
         } catch (error: any) { 
             toast({

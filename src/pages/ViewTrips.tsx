@@ -155,7 +155,7 @@ export function ViewTrips() {
                         className="w-auto h-auto"
                     />
                 </div>
-                <form onSubmit={handleSubmit}>
+                <div>
                     <div className="lg:hidden mx-[17vw] xxs3:mx-[8.8vw] xs:mx-[24vw] sm:mx-[20.5vw] my-[2vw] xxs5:my-[2vw] xxs3:my-[2.4vw] xs:my-[2vw] sm:my-[3vw]">
                         <img
                             src={Image}
@@ -252,7 +252,7 @@ export function ViewTrips() {
                             </DropdownMenu>
                         </div>
                         <div className="w-full mt-[3vw] xs:mt-[2vw] lg:mt-[0.7vw]">
-                            <Button size={"card"} disabled={isDisabled}>
+                            <Button type="button" size={"card"} disabled={isDisabled} onClick={handleSubmit}>
                                 Access This Trip
                             </Button>
                         </div>
@@ -268,7 +268,7 @@ export function ViewTrips() {
                         </div>
                         <Toaster />
                     </div>
-                </form>
+                </div>
             </MiddlePage>
             <BottomPage>
                 <Credits/>

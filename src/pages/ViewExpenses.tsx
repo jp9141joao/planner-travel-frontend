@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { Toaster } from "@/components/ui/toaster";
 import { getItemSessionStorage } from "@/components/utils/utils";
 import { toast } from "@/hooks/use-toast";
-import { deleteExpense, getExpenses, getTrip } from "@/service/service";
+import { createExpense, deleteExpense, getExpenses, getTrip } from "@/service/service";
 import { AccomodationExpense, AirplaneExpense, AttractionExpense, dataButton, dataContent, dataForm, Expense, FoodExpense, TransportationExpense, Trip } from "@/types/types";
 import { BadgeInfo, Bed, BedSingle, Building, Bus, CalendarDays, CalendarIcon, Castle, ChevronDown, ChevronUp, Church, CircleHelp, Clock, Coffee, CookingPot, FerrisWheel, Fish, Flag, Home, Hotel, Info, Landmark, Link, MapPin, MoreHorizontal, Mountain, PawPrint, Pencil, Pizza, Plane, Plus, Puzzle, Receipt, Soup, Theater, Ticket, Timer, TreePine, Users, Utensils, Wallet, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -48,7 +48,6 @@ export default function ViewExpenses() {
         }
     ]);
     const [showContent, setShowContent] = useState<boolean | null>(null);
-    const [showDetails, setShowDetails] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>({});
     const [expenseType, setExpenseType] = useState<number>(0);
     const dataButton: dataButton[] = [
@@ -90,28 +89,31 @@ export default function ViewExpenses() {
             title: 'Create Flight Expense',
             subtitle: 'Track your flight costs effortlessly!',
             content: [
-                { 
-                    label: 'Airline Name',  
-                    element: 'input', 
-                    typeElement: 'text', 
-                    placeHolderElement: "Ex: Latam, Delta, Emirates", 
-                    valueElement: '' 
-                }, 
-                { 
-                    label: 'Origin',  
-                    element: 'input', 
-                    typeElement: 'text', 
-                    placeHolderElement: "Ex: São Paulo, New York, Paris", 
-                    valueElement: '' 
-                },
-                { 
-                    label: 'Destination',  
-                    element: 'input', 
-                    typeElement: 'text', 
-                    placeHolderElement: "Ex: Rio de Janeiro, Orlando", 
-                    valueElement: '' 
-                },
-            ]
+            { 
+                label: 'Airline Name',
+                name: 'name',
+                element: 'input', 
+                typeElement: 'text', 
+                placeHolderElement: "Ex: Latam, Delta, Emirates", 
+                valueElement: '' 
+            }, 
+            { 
+                label: 'Origin',  
+                name: 'origin',
+                element: 'input', 
+                typeElement: 'text', 
+                placeHolderElement: "Ex: São Paulo, New York, Paris", 
+                valueElement: '' 
+            },
+            { 
+                label: 'Destination',  
+                name: 'destination',
+                element: 'input', 
+                typeElement: 'text', 
+                placeHolderElement: "Ex: Rio de Janeiro, Orlando", 
+                valueElement: '' 
+            },
+          ]
         },
         {
             operation: 'Create',
@@ -119,28 +121,31 @@ export default function ViewExpenses() {
             title: 'Create Transportation Expense',
             subtitle: 'Keep your transportation expenses in check!',
             content: [
-                { 
-                    label: 'Category',  
-                    element: 'select', 
-                    typeElement: '', 
-                    placeHolderElement: "Select a category", 
-                    valueElement: ["Taxi", "Uber", "Rental car", "Bicycle", "Other"] 
-                }, 
-                { 
-                    label: 'Origin',  
-                    element: 'input', 
-                    typeElement: 'text', 
-                    placeHolderElement: "Ex: São Paulo, New York, Paris", 
-                    valueElement: '' 
-                },
-                { 
-                    label: 'Destination',  
-                    element: 'input', 
-                    typeElement: 'text', 
-                    placeHolderElement: "Ex: Rio de Janeiro, Orlando", 
-                    valueElement: '' 
-                },
-            ]
+            { 
+                label: 'Category',  
+                name: 'category',
+                element: 'select', 
+                typeElement: '', 
+                placeHolderElement: "Select a category", 
+                valueElement: ["Taxi", "Uber", "Rental car", "Bicycle", "Other"] 
+            }, 
+            { 
+                label: 'Origin',  
+                name: 'origin',
+                element: 'input', 
+                typeElement: 'text', 
+                placeHolderElement: "Ex: São Paulo, New York, Paris", 
+              valueElement: '' 
+            },
+            { 
+                label: 'Destination',
+                name: 'destination',
+                element: 'input', 
+                typeElement: 'text', 
+                placeHolderElement: "Ex: Rio de Janeiro, Orlando", 
+                valueElement: '' 
+            },
+          ]
         },
         {
             operation: 'Create',
@@ -148,28 +153,31 @@ export default function ViewExpenses() {
             title: 'Create Food Expense',
             subtitle: 'Stay on top of your food expenses!',
             content: [
-                { 
-                    label: 'Food Name',  
-                    element: 'input', 
-                    typeElement: 'text', 
-                    placeHolderElement: "Ex: Pizza, Burguer, Salad", 
-                    valueElement: '' 
-                },
-                { 
-                    label: 'Category',  
-                    element: 'select', 
-                    typeElement: '', 
-                    placeHolderElement: "Select a category", 
-                    valueElement: ["Breakfast", "Lunch", "Dinner", "Brunch", "Snack"]
-                },
-                { 
-                    label: 'Place',  
-                    element: 'input', 
-                    typeElement: 'text', 
-                    placeHolderElement: "Ex: Restaurant, Supermarket, Food Truck", 
-                    valueElement: '' 
-                },
-            ]
+            { 
+                label: 'Food Name',
+                name: 'name',
+                element: 'input', 
+                typeElement: 'text', 
+                placeHolderElement: "Ex: Pizza, Burguer, Salad", 
+                valueElement: '' 
+            },
+            { 
+                label: 'Category',  
+                name: 'category',
+                element: 'select',
+                typeElement: '', 
+                placeHolderElement: "Select a category", 
+                valueElement: ["Breakfast", "Lunch", "Dinner", "Brunch", "Snack"]
+            },
+            { 
+                label: 'Place',  
+                name: 'place',
+                element: 'input',
+                typeElement: 'text', 
+                placeHolderElement: "Ex: Restaurant, Supermarket, Food Truck", 
+                valueElement: '' 
+            },
+          ]
         },
         {
             operation: 'Create',
@@ -177,28 +185,35 @@ export default function ViewExpenses() {
             title: 'Create Attraction Expense',
             subtitle: 'Track your entertainment costs easily!',
             content: [
-                { 
-                    label: 'Attraction Name',  
-                    element: 'input', 
-                    typeElement: 'text', 
-                    placeHolderElement: "Ex: Statue of Liberty, Eiffiel Tower", 
-                    valueElement: '' 
-                }, 
-                { 
-                    label: 'Category',  
-                    element: 'select', 
-                    typeElement: '', 
-                    placeHolderElement: "Select a category", 
-                    valueElement: ["Museum", "Park", "Event", "Theater", "Zoo", "Aquarium", "Restaurant", "Nature Reserve", "Historical Site", "Religious Site", "Others"] 
-                },
-                { 
-                    label: 'Duration',  
-                    element: 'select', 
-                    typeElement: '', 
-                    placeHolderElement: "Select the duration", 
-                    valueElement: ["30min", "1h", "1h 30min", "2h", "2h 30min", "3h", "3h 30min", "4h", "More than 4h"]
-                },
-            ]
+            { 
+                label: 'Attraction Name',  
+                name: 'name',
+                element: 'input', 
+                typeElement: 'text', 
+                placeHolderElement: "Ex: Statue of Liberty, Eiffiel Tower", 
+                valueElement: '' 
+            }, 
+            { 
+                label: 'Category',  
+                name: 'category',
+                element: 'select', 
+                typeElement: '', 
+                placeHolderElement: "Select a category", 
+                valueElement: [
+                    "Museum", "Park", "Event", "Theater", "Zoo", 
+                    "Aquarium", "Restaurant", "Nature Reserve", 
+                    "Historical Site", "Religious Site", "Others"
+                ] 
+            },
+            { 
+              label: 'Duration',  
+              name: 'duration',
+              element: 'select', 
+              typeElement: '', 
+              placeHolderElement: "Select the duration", 
+              valueElement: ["30min", "1h", "1h 30min", "2h", "2h 30min", "3h", "3h 30min", "4h", "More than 4h"]
+            },
+          ]
         },
         {
             operation: 'Create',
@@ -206,58 +221,48 @@ export default function ViewExpenses() {
             title: 'Create Accomodation Expense',
             subtitle: 'Take charge of your accommodation spending!',
             content: [
-                { 
-                    label: 'Accomodation Name',  
-                    element: 'input', 
-                    typeElement: 'text', 
-                    placeHolderElement: "Ex: Burj Al Arab, The Plaza Hotel", 
-                    valueElement: '' 
-                }, 
-                { 
-                    label: 'Category',  
-                    element: 'select', 
-                    typeElement: '', 
-                    placeHolderElement: "Select a category", 
-                    valueElement: ["Hotel", "Hostel", "Airbnb", "Guesthouse", "Other"] 
-                },
-                { 
-                    label: 'Duration of Stay',  
-                    element: 'select', 
-                    typeElement: '', 
-                    placeHolderElement: "Select a duration", 
-                    valueElement: Array.from({ length: Number(trip?.daysQty) }).map((_, index) => {
-                        return `${index+1} Day`
-                    })
-                },
-            ]
+            { 
+                label: 'Accomodation Name',  
+                name: 'name',
+                element: 'input', 
+                typeElement: 'text', 
+                placeHolderElement: "Ex: Burj Al Arab, The Plaza Hotel", 
+                valueElement: '' 
+            }, 
+            { 
+                label: 'Category',  
+                name: 'category',
+                element: 'select', 
+                typeElement: '', 
+                placeHolderElement: "Select a category", 
+                valueElement: ["Hotel", "Hostel", "Airbnb", "Guesthouse", "Other"] 
+            },
+            { 
+                label: 'Duration of Stay',  
+                name: 'duration',
+                element: 'select', 
+                typeElement: '', 
+                placeHolderElement: "Select a duration", 
+                valueElement: Array.from({ length: Number(trip?.daysQty) }).map((_, index) => `${index + 1} Day`)
+            },
+          ]
         },
-    ]
+    ];
 
     const loadTrip = async () => {
         try {
             const route: string | null = getItemSessionStorage('currentPath');
-            const tripId: string | null = getItemSessionStorage('tripId');
+            const tripData: Trip | null = getItemSessionStorage('trip');
 
             if (!route) {
                 throw new Error("Route is missing")
             }
 
-            if (!tripId) {
-                throw new Error("Trip ID is missing")
+            if (!tripData) {
+                throw new Error("Trip is missing")
             }
-
-            const response = await getTrip(route as string, tripId as string);
             
-            if (response.success) {
-                setTrip(response.data);
-                setExpense({...expense, countryCurrency: expense.countryCurrency});
-            } else {
-                toast({
-                    variant: 'destructive',
-                    title: "Uh oh! Something went wrong.",
-                    description: "There was a problem with your request.",
-                });
-            }
+            setTrip(tripData);
         } catch (error: any) {
             toast({
                 variant: 'destructive',
@@ -270,26 +275,21 @@ export default function ViewExpenses() {
 
     const loadExpenses = async () => {
         try {
-            if (trip) {
-
-                const response = await getExpenses(trip.id as string);
-                
-                if (response.success) {
-                    setExpenses(response.data)
-                } else {
-                    toast({
-                        variant: 'destructive',
-                        title: "Uh oh! Something went wrong.",
-                        description: "There was a problem with your request.",
-                    });
-                }
-            } 
+            const response = await getExpenses(trip?.id as string);
+            
+            if (response.success) {
+                setExpenses(response.data);
+            } else {
+                throw new Error("The request failed. Please check the data and try again.");
+            }
+            
         } catch (error: any) {
             toast({
                 variant: 'destructive',
                 title: "Uh oh! Something went wrong.",
                 description: "There was a problem with your request.",
             });
+
             console.error(error);
         }
     }
@@ -308,7 +308,22 @@ export default function ViewExpenses() {
             INR: '₹'
         };
         return symbols[value];
-    }
+    };
+
+    const NumberFormatted = (amount: number): string => {
+        
+            
+        if (!isNaN(amount)) {
+
+            const formatted = amount.toLocaleString('en-US', {
+                maximumFractionDigits: 2,
+            });
+      
+            return formatted;
+        } 
+
+        return '';
+    };
 
     const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = e.target.value;
@@ -377,11 +392,40 @@ export default function ViewExpenses() {
     };
 
     const handleCreate = async () => {
+        try {
+            const response = await createExpense(expense);
 
+            if (response.success) {
+                setExpense(initialExpense);
+
+                toast({
+                    variant: 'success',
+                    title: 'Information updated successfully!',
+                    description: 'Your changes have been saved. Everything is up to date!',
+                }); 
+
+                console.log(expense);
+            }  else {
+                throw new Error("The request failed. Please check the data and try again.");
+            }
+            
+        } catch (error: any) {
+            toast({
+                variant: 'destructive',
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
+
+            console.error(error);
+        }
     }
 
     const handleUpdate = async (expense: string) => {
+        try {
 
+        } catch (error: any) {
+            
+        }
     }
 
     const handleDelete = async (expenseId: string) => {
@@ -414,10 +458,10 @@ export default function ViewExpenses() {
     }
 
     useEffect(() => {
-        if (showContent == true || showContent == false) {
-            setShowDetails(false);
+        if (trip) {
+            setExpense({...expense, tripId: trip.id, type: dataForm[expenseType].type});
         }
-    }, [showContent])
+    }, [expense, expenseType])
 
     useEffect(() => {
         if (!api) {
@@ -433,7 +477,9 @@ export default function ViewExpenses() {
     }, [api]);
 
     useEffect(() => {
-        loadExpenses();
+        if (trip) {
+            loadExpenses();
+        }
     }, [trip]);
     
     useEffect(() => {
@@ -705,20 +751,22 @@ export default function ViewExpenses() {
                                                                             className="grid gap-2"
                                                                             onSubmit={(e) => {
                                                                                 e.preventDefault();
-                                                                                dataForm[expenseType].operation === 'Create' ? handleCreate() : handleUpdate(obj.id);
+                                                                                handleUpdate(obj.id);
                                                                             }}
                                                                         >
                                                                             {dataForm[expenseType].content.map((c: dataContent) => (
                                                                                 <div key={c.label} className="w-full">
-                                                                                    <Label htmlFor={c.label}>{c.label}</Label>
+                                                                                    <Label htmlFor={c.label}>
+                                                                                        {c.label}
+                                                                                    </Label>
                                                                                     {c.element === 'input' ? (
                                                                                     <Input
                                                                                         id={c.label}
-                                                                                        name={c.label.toLowerCase()}
+                                                                                        name={c.name}
                                                                                         type={c.typeElement}
                                                                                         className="p-2"
                                                                                         placeholder={c.placeHolderElement}
-                                                                                        value={expense[c.label.toLowerCase() as keyof Expense] as string}
+                                                                                        value={expense[c.name as keyof Expense] as string}
                                                                                         onChange={handleChange}
                                                                                     />
                                                                                     ) : c.element === 'select' ? (
@@ -726,7 +774,7 @@ export default function ViewExpenses() {
                                                                                         name={c.label.toLowerCase()}
                                                                                         open={!!isOpen[c.label]}
                                                                                         onOpenChange={(open) =>
-                                                                                        setIsOpen((prev) => ({ ...prev, [c.label]: open }))
+                                                                                            setIsOpen((prev) => ({ ...prev, [c.label]: open }))
                                                                                         }
                                                                                         onValueChange={(value: string) =>
                                                                                             setExpense({ ...expense, [c.label.toLowerCase()]: value })
@@ -741,12 +789,14 @@ export default function ViewExpenses() {
                                                                                         </SelectTrigger>
                                                                                         <SelectContent>
                                                                                             <SelectGroup>
-                                                                                                {Array.isArray(c.valueElement) &&
-                                                                                                c.valueElement.map((v: string, indexElement: number) => (
-                                                                                                    <SelectItem key={indexElement} value={v}>
-                                                                                                    {v}
-                                                                                                    </SelectItem>
-                                                                                                ))}
+                                                                                                {
+                                                                                                    Array.isArray(c.valueElement) &&
+                                                                                                        c.valueElement.map((v: string, indexElement: number) => (
+                                                                                                            <SelectItem key={indexElement} value={v}>
+                                                                                                                {v}
+                                                                                                            </SelectItem>
+                                                                                                        ))
+                                                                                                }
                                                                                             </SelectGroup>
                                                                                         </SelectContent>
                                                                                     </Select>
@@ -868,8 +918,8 @@ export default function ViewExpenses() {
                                                                 className="w-full gap-2"
                                                                 variant="outline"
                                                             >
-                                                            {obj.icon}
-                                                            {obj.name}
+                                                                {obj.icon}
+                                                                {obj.name}
                                                             </Button>
                                                         </DialogTrigger>
                                                         <DialogContent className="w-full sm:max-w-[425px]">
@@ -879,24 +929,20 @@ export default function ViewExpenses() {
                                                                 {dataForm[index].subtitle}
                                                             </DialogDescription>
                                                             </DialogHeader>
-                                                                <form
-                                                                    className="grid gap-2"
-                                                                    onSubmit={(e) => {
-                                                                        e.preventDefault();
-                                                                        dataForm[index].operation === 'Create' ? handleCreate() : handleUpdate();
-                                                                    }}
-                                                                >
+                                                                <div className="grid gap-2">
                                                                     {dataForm[index].content.map((c: dataContent) => (
                                                                         <div key={c.label} className="w-full">
-                                                                            <Label htmlFor={c.label}>{c.label}</Label>
+                                                                            <Label htmlFor={c.label}>
+                                                                                {c.label}
+                                                                            </Label>
                                                                             {c.element === 'input' ? (
                                                                             <Input
                                                                                 id={c.label}
-                                                                                name={c.label.toLowerCase()}
+                                                                                name={c.name}
                                                                                 type={c.typeElement}
                                                                                 className="p-2"
                                                                                 placeholder={c.placeHolderElement}
-                                                                                value={expense[c.label.toLowerCase() as keyof Expense] as string}
+                                                                                value={expense[c.name as keyof Expense] as string}
                                                                                 onChange={handleChange}
                                                                             />
                                                                             ) : c.element === 'select' ? (
@@ -913,18 +959,18 @@ export default function ViewExpenses() {
                                                                                 <SelectTrigger className="rounded-md border-r-2 p-3">
                                                                                     <SelectValue placeholder={c.placeHolderElement}>
                                                                                         <p className="text-sm break-all">
-                                                                                        {expense[c.label.toLowerCase() as keyof Expense]}
+                                                                                            {expense[c.label.toLowerCase() as keyof Expense]}
                                                                                         </p>
                                                                                     </SelectValue>
                                                                                 </SelectTrigger>
                                                                                 <SelectContent>
                                                                                     <SelectGroup>
                                                                                         {Array.isArray(c.valueElement) &&
-                                                                                        c.valueElement.map((v: string, indexElement: number) => (
-                                                                                            <SelectItem key={indexElement} value={v}>
-                                                                                            {v}
-                                                                                            </SelectItem>
-                                                                                        ))}
+                                                                                            c.valueElement.map((v: string, indexElement: number) => (
+                                                                                                <SelectItem key={indexElement} value={v}>
+                                                                                                    {v}
+                                                                                                </SelectItem>
+                                                                                            ))}
                                                                                     </SelectGroup>
                                                                                 </SelectContent>
                                                                             </Select>
@@ -969,10 +1015,15 @@ export default function ViewExpenses() {
                                                                             </SelectContent>
                                                                         </Select>
                                                                     </div>
-                                                                </form>
+                                                                </div>
                                                             <DialogFooter>
-                                                            <Button type="submit" size="lg">
-                                                                {dataForm[index].operation}
+                                                            <Button type="button" size="lg" 
+                                                                onClick={() => {
+                                                                    setExpense({...expense, type: dataForm[index].type});
+                                                                    handleCreate();
+                                                                }}
+                                                            >
+                                                                {dataForm[index].operation} Expense
                                                             </Button>
                                                             </DialogFooter>
                                                         </DialogContent>
@@ -1019,75 +1070,75 @@ export default function ViewExpenses() {
                             </Button>
                         </div>
                         <Dialog>
-                    <DialogTrigger asChild>
-                        <div className="flex items-center gap-1.5 w-full text-[4vw] xxs5:text-base sm:text-base lg:text-lg">
-                            <p>
-                                Forgot your trip details?
-                            </p>
-                            <strong className="cursor-pointer">
-                                Click here.
-                            </strong>
-                        </div>
-                    </DialogTrigger>
-                        <DialogContent className="rounded-md w-full">
-                            <DialogHeader>
-                                <DialogTitle>Trip Details</DialogTitle>
-                                <DialogDescription>
-                                    Forgot your trip details? No worries! Here they are, ready to refresh your memory!
-                                </DialogDescription>
-                            </DialogHeader>
-                            <div className="grid place-items-start gap-1 py-1">
-                                <div className="flex items-center gap-2">
-                                    <p className="text-base font-semibold">
-                                        Name: 
+                            <DialogTrigger asChild>
+                                <div className="flex items-center gap-1.5 w-full text-[4vw] xxs5:text-base sm:text-base lg:text-lg">
+                                    <p>
+                                        Forgot your trip details?
                                     </p>
-                                    <p className="text-base">
-                                        {trip?.tripName}.
-                                    </p>
+                                    <strong className="cursor-pointer">
+                                        Click here.
+                                    </strong>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <p className="text-base font-semibold">
-                                        Period: 
-                                    </p>
-                                    <p className="text-base">
-                                        {trip?.period }.
-                                    </p>
+                            </DialogTrigger>
+                            <DialogContent className="rounded-md w-full">
+                                <DialogHeader>
+                                    <DialogTitle>Trip Details</DialogTitle>
+                                    <DialogDescription>
+                                        Forgot your trip details? No worries! Here they are, ready to refresh your memory!
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <div className="grid place-items-start gap-1 py-1">
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-base font-semibold">
+                                            Name: 
+                                        </p>
+                                        <p className="text-base">
+                                            {trip?.tripName}.
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-base font-semibold">
+                                            Period: 
+                                        </p>
+                                        <p className="text-base">
+                                            {trip?.period }.
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-base font-semibold">
+                                            Duration: 
+                                        </p>
+                                        <p className="text-base">
+                                            {trip?.daysQty} {Number(trip?.daysQty) > 1 ? 'Days' : 'Day'}.
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-base font-semibold">
+                                            Season: 
+                                        </p>
+                                        <p className="text-base">
+                                            {trip?.season}.
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-base font-semibold">
+                                            Budget: 
+                                        </p>
+                                        <p className="text-base">
+                                            {getCurrencySymbol(String(trip?.currency))}{NumberFormatted(Number(trip?.budgetAmount))}.
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-base font-semibold">
+                                            Spent: 
+                                        </p>
+                                        <p className="text-base">
+                                            {getCurrencySymbol(String(trip?.currency))}{NumberFormatted(Number(trip?.spent))}.
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <p className="text-base font-semibold">
-                                        Duration: 
-                                    </p>
-                                    <p className="text-base">
-                                        {trip?.daysQty} {Number(trip?.daysQty) > 1 ? 'Days' : 'Day'}.
-                                    </p>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <p className="text-base font-semibold">
-                                        Season: 
-                                    </p>
-                                    <p className="text-base">
-                                        {trip?.season}.
-                                    </p>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <p className="text-base font-semibold">
-                                        Budget: 
-                                    </p>
-                                    <p className="text-base">
-                                        {getCurrencySymbol(String(trip?.daysQty))}{trip?.budgetAmount}.
-                                    </p>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <p className="text-base font-semibold">
-                                        Spent: 
-                                    </p>
-                                    <p className="text-base">
-                                        {getCurrencySymbol(String(trip?.daysQty))}{trip?.spent}.
-                                    </p>
-                                </div>
-                            </div>
-                        </DialogContent>
-                </Dialog>
+                            </DialogContent>
+                        </Dialog>
                         <Toaster />
                     </div>  
                 </div>

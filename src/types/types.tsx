@@ -164,6 +164,7 @@ export interface dataForm {
 
 export interface dataContent {
     label: string,
+    name: string,
     element: string, 
     typeElement?: string, 
     placeHolderElement: string, 

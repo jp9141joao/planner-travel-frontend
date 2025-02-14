@@ -2,10 +2,10 @@ import { Expense, Login, NewPasswordUser, Trip, UpdateUserData, User } from '@/t
 import axios from 'axios';
 import { error } from 'console';
 import path from 'path';
-//const url = 'http://localhost:3000';
-const url = '.';
+const url = 'http://localhost:3000';
+//const url = '.';
 
-{/*
+//{/*
 export const signInUser = async (login: Login) => {
 
     if (!login) {
@@ -134,8 +134,9 @@ export const getTrip = async (route: string, tripId: string) => {
     if (!token) {
         throw new Error("Token is missing");
     }
-    
-    const paths = ['tripDetails', 'editTrip', '/viewExpenses', '/itinerary', '/toDoList', '/MyPiggyBank'];
+
+    route = route.startsWith('/') ? route : `/${route}`; 
+    const paths = ['/tripDetails', '/editTrip', '/viewExpenses', '/itinerary', '/toDoList', '/MyPiggyBank'];
 
     if (!paths.includes(route)) {
         throw new Error("Route is invalid");
@@ -311,7 +312,10 @@ export const createExpense = async (expense: Expense) => {
         throw new Error("Expense is missing at service!");
     }
 
-    const response = await axios.post(`${url}/addTrips`, expense, {
+    console.log(JSON.stringify(expense, null, 2));
+
+
+    const response = await axios.post(`${url}/viewExpenses`, expense, {
         validateStatus: (status) => status != 400,
         headers: {
             'authorization': `Bearer ${token}`,
@@ -322,7 +326,7 @@ export const createExpense = async (expense: Expense) => {
 }
 //*/}
 
-//{/*
+{/*
 export const signInUser = async (login: Login) => {
     const response = { data: { error: '', success: '', data: '' } };
     return response.data;

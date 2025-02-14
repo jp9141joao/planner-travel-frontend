@@ -13,7 +13,6 @@ import Credits from "@/components/Credits";
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
 import { Login } from "@/types/types";
-import { LoadData } from "@/components/LoadData";
 
 export default function SignIn () {
 
@@ -35,7 +34,6 @@ export default function SignIn () {
 
                 if (response.success) {
                     localStorage.setItem('authToken', response.data);
-                    LoadData();
                     navigate('/home');
                 } else {
                     if (response.error == 'Error: The value of email is invalid!') {
@@ -135,7 +133,7 @@ export default function SignIn () {
                                 </p>
                             </div>
                             <div>
-                                <h1 className="grid text-[22vw] xxs5:text-[21.2vw] xs:text-[15vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.6] xxs3:leading-[0.7]">
+                                <h1 className="grid text-[22vw] xxs5:text-[21.2vw] xs:text-[15vw] lg:text-[7vw] w-full text-gray-900 tracking-tight leading-[0.8] xxs3:leading-[0.7]">
                                     Easy trip!
                                 </h1>
                             </div>

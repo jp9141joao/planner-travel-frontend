@@ -2,18 +2,15 @@ import Credits from "@/components/Credits"
 import { GoBack } from "@/components/GoBack"
 import { BodyPage, BottomPage, MiddlePageOneCol, TopPage } from "@/components/LayoutPage/Layouts"
 import React, { useEffect, useState } from "react"
-import Image from "../assets/undraw_pic-profile_nr49.svg"
 import { toast } from "@/hooks/use-toast"
-import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Toaster } from "@/components/ui/toaster"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { UpdateUserData, User, UserDetails } from "@/types/types"
+import { UpdateUserData, UserDetails } from "@/types/types"
 import { LogOut } from "lucide-react"
-import { updateUserData } from "@/service/service"
+import { getUser, updateUserData } from "@/service/service"
 import { getItemSessionStorage, setItemSessionStorage } from "@/components/utils/utils"
-import { LoadData } from "@/components/LoadData"
 
 export function ProfileSettings() {
     const [ fullName, setFullName ] = useState<string | undefined>('');
@@ -25,7 +22,6 @@ export function ProfileSettings() {
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ status, setStatus ] = useState<number>(0);
     const [ buttonDisabled, setButtonDisabled ] = useState<boolean>(true);
-    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         try {
@@ -71,6 +67,33 @@ export function ProfileSettings() {
         } 
     }
 
+    const loadUserData = async () => {
+        try {
+                const token = localStorage.getItem('authToken');
+        
+                if (!token) {
+                    return;
+                }
+        
+                const userData = await getUser();
+        
+                if (!userData) {
+                    throw new Error('User data could not be retrieved from the token. Please try again.');
+                }
+        
+                setItemSessionStorage('user', userData.data);
+            } catch (error: any) {
+                toast({
+                    variant: 'destructive',
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
+                
+                localStorage.removeItem('authToken');
+                console.error(error);
+            }
+    }
+
     useEffect(() => {
         const userData: UserDetails | null = getItemSessionStorage('user');
 
@@ -80,7 +103,9 @@ export function ProfileSettings() {
         } else {
             setFullName(undefined);
             setEmail(undefined);
-        }    
+        }
+
+        loadUserData();
     }, []);
 
     useEffect(() => {

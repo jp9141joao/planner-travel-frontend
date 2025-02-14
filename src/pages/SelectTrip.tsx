@@ -1,17 +1,14 @@
 import Credits from "@/components/Credits";
 import { GoBack } from "@/components/GoBack";
-import { BodyPage, BottomPage, MiddlePage, MiddlePageOneCol, TopPage } from "@/components/LayoutPage/Layouts";
+import { BodyPage, BottomPage, MiddlePageOneCol, TopPage } from "@/components/LayoutPage/Layouts";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Toaster } from "@/components/ui/toaster";
+import { Select, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getItemSessionStorage, setItemSessionStorage } from "@/components/utils/utils";
 import { toast } from "@/hooks/use-toast";
 import { getTrips } from "@/service/service";
 import { Trip } from "@/types/types";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function SelectTrip() {
     const [route, setRoute] = useState<string>('');
@@ -43,12 +40,12 @@ export default function SelectTrip() {
                 });
             }
         } catch (error: any) {
-            console.error(error);
             toast({
                 variant: 'destructive',
                 title: "Uh oh! Something went wrong.",
                 description: "There was a problem with your request.",
             });
+            console.error(error);
         }
     };
 
@@ -64,6 +61,7 @@ export default function SelectTrip() {
                 title: "Uh oh! Something went wrong.",
                 description: "There was a problem with your request.",
             });
+            
             console.error(error);
         }
     }

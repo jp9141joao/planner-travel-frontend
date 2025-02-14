@@ -2,10 +2,10 @@ import { Expense, Login, NewPasswordUser, Trip, UpdateUserData, User } from '@/t
 import axios from 'axios';
 import { error } from 'console';
 import path from 'path';
-const url = 'http://localhost:3000';
-//const url = '.';
+//const url = 'http://localhost:3000';
+const url = '.';
 
-//{/*
+{/*
 export const signInUser = async (login: Login) => {
 
     if (!login) {
@@ -322,7 +322,7 @@ export const createExpense = async (expense: Expense) => {
 }
 //*/}
 
-{/*
+//{/*
 export const signInUser = async (login: Login) => {
     const response = { data: { error: '', success: '', data: '' } };
     return response.data;
@@ -394,6 +394,16 @@ export const duplicateTrip = async (tripId: string) => {
 }
 
 export const deleteExpense = async (tripId: string, expenseId: string) => {
+    const response = { data: { error: '', success: '', data: '' } };
+    return response.data;
+}
+
+export const createExpense = async (tripId: string, expense: Expense) => {
+    const response = { data: { error: '', success: '', data: '' } };
+    return response.data;
+}
+
+export const updateExpense = async (tripId: string, expense: Expense) => {
     const response = { data: { error: '', success: '', data: '' } };
     return response.data;
 }

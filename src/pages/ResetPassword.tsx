@@ -6,7 +6,6 @@ import { Input, InputPassword } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from '../assets/undraw_forgot-password_odai_inverted.svg'
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
 import { resetPasswordUser } from "@/service/service";
@@ -22,7 +21,6 @@ export function ResetPassword() {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ status, setStatus ] = useState<number>(0);
-    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         try {

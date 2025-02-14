@@ -5,7 +5,6 @@ import { Input, InputIntegraded } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Toaster } from "@/components/ui/toaster";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Image from '../assets/undraw_departing_010k (2).svg'
 import { createTrip } from "@/service/service";
 import { Trip } from "@/types/types";
@@ -31,7 +30,6 @@ export default function AddTrips () {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ status, setStatus ] = useState<number>(0);
-    const navigate = useNavigate();
 
     const getCurrencySymbol = (value: string) => {
         const symbols: { [key: string]: string } = {

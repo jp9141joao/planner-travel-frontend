@@ -34,10 +34,23 @@ export default function ViewExpenses() {
     const [count, setCount] = useState<number>(0);
     const [trip, setTrip] = useState<Trip>();
     const [expense, setExpense] = useState<Expense>(initialExpense)
-    const [expenses, setExpenses] = useState<Expense[]>([]);
+    const [expenses, setExpenses] = useState<Expense[]>([
+        {
+            id: '2343',
+            tripId: '2',
+            type: 'Food',
+            name: 'Restaurant',
+            category: 'Breakfast',
+            place: 'whatever',
+            countryCurrency: '$',
+            amount: '1000',
+            day: 3
+        }
+    ]);
     const [showContent, setShowContent] = useState<boolean | null>(null);
     const [showDetails, setShowDetails] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>({});
+    const [expenseType, setExpenseType] = useState<number>(0);
     const dataButton: dataButton[] = [
         {
             name: 'Airplane',
@@ -367,7 +380,7 @@ export default function ViewExpenses() {
 
     }
 
-    const handleUpdate = async () => {
+    const handleUpdate = async (expense: string) => {
 
     }
 
@@ -452,11 +465,11 @@ export default function ViewExpenses() {
                                 <ScrollArea className={`grid -mr-10 ${expenses.length < 4 ? 'h-auto' : 'h-[92vw] xxs5:h-[68vw] xs:h-[48vw] md:h-[33.5vw] lg:h-[18.6vw]' } w-[96vw] xxs10:w-[96.5vw] xxs8:w-[90.7vw] xxs5:w-[90.1vw] xxs2:w-[89.5vw] xs:w-[77vw] md:w-[76.3vw] lg:w-[26.4vw] mt-[1vw]`}>
                                     <div className="relative">
                                         {
-                                            expenses.map((obj: any, index: number) => (
+                                            expenses.map((obj: Expense, index: number) => (
                                                 <Card key={index} className={`px-2 py-1 ${index != 0 && index != expenses.length - 1 ? 'my-3' : null} mr-3`}>
                                                     <div className="flex justify-between items-center m-0 p-0">
                                                         {
-                                                            obj.type == "airplane" ?
+                                                            obj.type == "Airplane" ?
                                                             <>
                                                                 <Plane strokeWidth={1.5} className="w-10 xxs5:w-12 xxs5:w-13 h-auto pr-2 lg:pr-0 lg:mr-3"/>
                                                                 <div className="w-full grid place-items-start xxs5:gap-0.5 lg:gap-1">
@@ -477,7 +490,7 @@ export default function ViewExpenses() {
                                                                         <div className="flex gap-1.5">
                                                                             <Wallet className="w-3 lg:w-5 h-auto"/>
                                                                             <p className="break-all text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                                { obj.countryCurrency }{ obj.price }
+                                                                                { obj.countryCurrency }{ obj.amount }
                                                                             </p>
                                                                         </div>
                                                                         <div className="flex gap-0.5 xs:gap-1"><CalendarIcon className="w-3 lg:w-5 h-auto"/>
@@ -488,7 +501,7 @@ export default function ViewExpenses() {
                                                                     </div>
                                                                 </div>
                                                             </> : 
-                                                            obj.type == "transportation" ?
+                                                            obj.type == "Transportation" ?
                                                             <>
                                                                 <Bus strokeWidth={1.5} className="w-10 xxs5:w-12 xxs5:w-13 h-auto pr-2 lg:pr-0 lg:mr-3"/>
                                                                 <div className="w-full grid place-items-start xxs5:gap-0.5 lg:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
@@ -509,7 +522,7 @@ export default function ViewExpenses() {
                                                                         <div className="flex gap-1.5">
                                                                             <Wallet className="w-3 lg:w-5 h-auto"/>
                                                                             <p className="break-all text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                                { obj.countryCurrency }{ obj.price }
+                                                                                { obj.countryCurrency }{ obj.amount }
                                                                             </p>
                                                                         </div>
                                                                         <div className="flex gap-0.5 xs:gap-1">
@@ -521,7 +534,7 @@ export default function ViewExpenses() {
                                                                     </div>
                                                                 </div>
                                                             </> :
-                                                            obj.type == "food" ?
+                                                            obj.type == "Food" ?
                                                             <>
                                                                 <Utensils strokeWidth={1.5} className="w-10 xxs5:w-12 xxs5:w-13 h-auto pr-2 lg:pr-0 lg:mr-3"/>
                                                                 <div className="w-full grid place-items-start xxs5:gap-0.5 lg:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
@@ -552,7 +565,7 @@ export default function ViewExpenses() {
                                                                         <div className="flex gap-1.5">
                                                                             <Wallet className="w-3 lg:w-5 h-auto"/>
                                                                             <p className="break-all text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                                { obj.countryCurrency }{ obj.price }
+                                                                                { obj.countryCurrency }{ obj.amount }
                                                                             </p>
                                                                         </div>
                                                                         <div className="flex gap-0.5 xs:gap-1">
@@ -564,7 +577,7 @@ export default function ViewExpenses() {
                                                                     </div>
                                                                 </div>
                                                             </> : 
-                                                            obj.type == "attraction" ?
+                                                            obj.type == "Attraction" ?
                                                             <>
                                                                 <FerrisWheel strokeWidth={1.5} className="w-10 xxs5:w-12 xxs5:w-13 h-auto pr-2 lg:pr-0 lg:mr-3"/>
                                                                 <div className="w-full grid place-items-start xxs5:gap-0.5 lg:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
@@ -609,7 +622,7 @@ export default function ViewExpenses() {
                                                                         <div className="flex gap-1.5">
                                                                             <Wallet className="w-3 lg:w-5 h-auto"/>
                                                                             <p className="break-all text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                                { obj.countryCurrency }{ obj.price }
+                                                                                { obj.countryCurrency }{ obj.amount }
                                                                             </p>
                                                                         </div>
                                                                         <div className="flex gap-0.5 xs:gap-1">
@@ -621,7 +634,7 @@ export default function ViewExpenses() {
                                                                     </div>
                                                                 </div>
                                                             </> : 
-                                                            obj.type == "accomodation" ?
+                                                            obj.type == "Accomodation" ?
                                                             <>
                                                                 <Hotel strokeWidth={1.5} className="w-10 xxs5:w-12 xxs5:w-13 h-auto pr-2 lg:pr-0 lg:mr-3"/>
                                                                 <div className="w-full grid place-items-start xxs5:gap-0.5 lg:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
@@ -654,7 +667,7 @@ export default function ViewExpenses() {
                                                                         <div className="flex gap-1.5">
                                                                             <Wallet className="w-3 lg:w-5 h-auto"/>
                                                                             <p className="break-all text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                                { obj.countryCurrency }{ obj.price }
+                                                                                { obj.countryCurrency }{ obj.amount }
                                                                             </p>
                                                                         </div>
                                                                         <div className="flex gap-0.5 xs:gap-1">
@@ -668,9 +681,124 @@ export default function ViewExpenses() {
                                                             </> : null
                                                         }
                                                         <div className="grid xxs5:flex justify-center gap-1.5">
-                                                            <Button variant={'outline'} className="w-6 h-6 xxs5:w-8 xxs5:h-8 lg:w-9 lg:h-9 p-0">
-                                                                <Pencil className="w-3 xxs5:w-4 lg:w-5 h-auto p-0"/>
-                                                            </Button>
+                                                            
+                                                            <Dialog>
+                                                                <DialogTrigger asChild>
+                                                                    <Button variant={'outline'} className="w-6 h-6 xxs5:w-8 xxs5:h-8 lg:w-9 lg:h-9 p-0"
+                                                                        onClick={() => {
+                                                                            setExpenseType(dataForm.findIndex((item: dataForm) => item.type == obj.type));
+                                                                        }}
+                                                                    >
+                                                                        <Pencil className="w-3 xxs5:w-4 lg:w-5 h-auto p-0"/>
+                                                                    </Button>
+                                                                </DialogTrigger>
+                                                                <DialogContent className="w-full sm:max-w-[425px]">
+                                                                    <DialogHeader>
+                                                                        <DialogTitle>
+                                                                            {dataForm[expenseType].title}
+                                                                        </DialogTitle>
+                                                                        <DialogDescription>
+                                                                            {dataForm[expenseType].subtitle}
+                                                                        </DialogDescription>
+                                                                    </DialogHeader>
+                                                                        <form
+                                                                            className="grid gap-2"
+                                                                            onSubmit={(e) => {
+                                                                                e.preventDefault();
+                                                                                dataForm[expenseType].operation === 'Create' ? handleCreate() : handleUpdate(obj.id);
+                                                                            }}
+                                                                        >
+                                                                            {dataForm[expenseType].content.map((c: dataContent) => (
+                                                                                <div key={c.label} className="w-full">
+                                                                                    <Label htmlFor={c.label}>{c.label}</Label>
+                                                                                    {c.element === 'input' ? (
+                                                                                    <Input
+                                                                                        id={c.label}
+                                                                                        name={c.label.toLowerCase()}
+                                                                                        type={c.typeElement}
+                                                                                        className="p-2"
+                                                                                        placeholder={c.placeHolderElement}
+                                                                                        value={expense[c.label.toLowerCase() as keyof Expense] as string}
+                                                                                        onChange={handleChange}
+                                                                                    />
+                                                                                    ) : c.element === 'select' ? (
+                                                                                    <Select
+                                                                                        name={c.label.toLowerCase()}
+                                                                                        open={!!isOpen[c.label]}
+                                                                                        onOpenChange={(open) =>
+                                                                                        setIsOpen((prev) => ({ ...prev, [c.label]: open }))
+                                                                                        }
+                                                                                        onValueChange={(value: string) =>
+                                                                                            setExpense({ ...expense, [c.label.toLowerCase()]: value })
+                                                                                        }
+                                                                                    >
+                                                                                        <SelectTrigger className="rounded-md border-r-2 p-3">
+                                                                                            <SelectValue placeholder={c.placeHolderElement}>
+                                                                                                <p className="text-sm break-all">
+                                                                                                {expense[c.label.toLowerCase() as keyof Expense]}
+                                                                                                </p>
+                                                                                            </SelectValue>
+                                                                                        </SelectTrigger>
+                                                                                        <SelectContent>
+                                                                                            <SelectGroup>
+                                                                                                {Array.isArray(c.valueElement) &&
+                                                                                                c.valueElement.map((v: string, indexElement: number) => (
+                                                                                                    <SelectItem key={indexElement} value={v}>
+                                                                                                    {v}
+                                                                                                    </SelectItem>
+                                                                                                ))}
+                                                                                            </SelectGroup>
+                                                                                        </SelectContent>
+                                                                                    </Select>
+                                                                                    ) : null}
+                                                                                </div>
+                                                                            ))}
+                                                                            <div>
+                                                                                <Label htmlFor="Amount">Amount</Label>
+                                                                                <Input
+                                                                                    id="Amount"
+                                                                                    name="amount"
+                                                                                    type="text"
+                                                                                    className="p-2"
+                                                                                    placeholder="How much is the expense?"
+                                                                                    value={`${getCurrencySymbol(expense.countryCurrency)}${expense.amount}`}
+                                                                                    onChange={handleChangeInput}
+                                                                                />
+                                                                            </div>
+                                                                            <div>
+                                                                                <Label htmlFor="day">Expense Day</Label>
+                                                                                <Select
+                                                                                    name="day"
+                                                                                    defaultValue="1"
+                                                                                    value={String(expense.day)}
+                                                                                    onValueChange={(value: string) =>
+                                                                                        setExpense({ ...expense, day: Number(value) })
+                                                                                    }
+                                                                                >
+                                                                                    <SelectTrigger className="rounded-md border-r-2 p-3">
+                                                                                        <SelectValue placeholder="Select a day" />
+                                                                                    </SelectTrigger>
+                                                                                    <SelectContent>
+                                                                                    <SelectGroup>
+                                                                                        {trip &&
+                                                                                            Array.from({ length: trip.daysQty }).map((_, index) => (
+                                                                                                <SelectItem key={index} value={String(index + 1)}>
+                                                                                                    {index + 1}° Day
+                                                                                                </SelectItem>
+                                                                                            ))
+                                                                                        }
+                                                                                    </SelectGroup>
+                                                                                    </SelectContent>
+                                                                                </Select>
+                                                                            </div>
+                                                                        </form>
+                                                                    <DialogFooter>
+                                                                    <Button type="submit" size="lg">
+                                                                        {dataForm[expenseType].operation}
+                                                                    </Button>
+                                                                    </DialogFooter>
+                                                                </DialogContent>
+                                                            </Dialog>
                                                             <Button className="w-6 h-6 xxs5:w-8 xxs5:h-8 lg:w-9 lg:h-9 p-0" onClick={() => handleDelete(obj.id)}>
                                                                 <X className="w-3 xxs5:w-4 lg:w-5 h-auto p-0"/>
                                                             </Button>

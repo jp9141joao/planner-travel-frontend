@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { Toaster } from "@/components/ui/toaster";
 import { getItemSessionStorage } from "@/components/utils/utils";
 import { toast } from "@/hooks/use-toast";
-import { createExpense, deleteExpense, getExpenses, getTrip } from "@/service/service";
+import { createExpense, deleteExpense, getExpenses, getTrip, updateExpense, } from "@/service/service";
 import { AccomodationExpense, AirplaneExpense, AttractionExpense, dataButton, dataContent, dataForm, Expense, FoodExpense, TransportationExpense, Trip } from "@/types/types";
 import { BadgeInfo, Bed, BedSingle, Building, Bus, CalendarDays, CalendarIcon, Castle, ChevronDown, ChevronUp, Church, CircleHelp, Clock, Coffee, CookingPot, FerrisWheel, Fish, Flag, Home, Hotel, Info, Landmark, Link, MapPin, MoreHorizontal, Mountain, PawPrint, Pencil, Pizza, Plane, Plus, Puzzle, Receipt, Soup, Theater, Ticket, Timer, TreePine, Users, Utensils, Wallet, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -397,6 +397,7 @@ export default function ViewExpenses() {
 
             if (response.success) {
                 setExpense(initialExpense);
+                loadExpenses();
 
                 toast({
                     variant: 'success',
@@ -420,32 +421,20 @@ export default function ViewExpenses() {
         }
     }
 
-    const handleUpdate = async (expense: string) => {
+    const handleUpdate = async () => {
         try {
-
-        } catch (error: any) {
-            
-        }
-    }
-
-    const handleDelete = async (expenseId: string) => {
-        try {
-            const tripId: string | null = getItemSessionStorage('tripId');
-
-            if (!tripId) {
-                throw new Error("Trip ID is missing")
-            }
-
-            const response = await deleteExpense(tripId as string, expenseId as string);
+            const response = await updateExpense(expense as Expense);
 
             if (response.success) {
-                
-            } else {
+                loadExpenses();
+
                 toast({
-                    variant: 'destructive',
-                    title: "Uh oh! Something went wrong.",
-                    description: "There was a problem with your request.",
+                    variant: 'success',
+                    title: 'Information updated successfully!',
+                    description: 'Your changes have been saved. Everything is up to date!',
                 });
+            } else {
+                throw new Error("The request failed. Please check the data and try again.");
             }
         } catch (error: any) {
             toast({
@@ -453,6 +442,33 @@ export default function ViewExpenses() {
                 title: "Uh oh! Something went wrong.",
                 description: "There was a problem with your request.",
             });
+
+            console.error(error);
+        }
+    }
+
+    const handleDelete = async (expenseId: string) => {
+        try {
+            const response = await deleteExpense(trip?.id as string, expenseId as string);
+
+            if (response.success) {
+                loadExpenses();
+
+                toast({
+                    variant: 'success',
+                    title: 'Information updated successfully!',
+                    description: 'Your changes have been saved. Everything is up to date!',
+                });
+            } else {
+                throw new Error("The request failed. Please check the data and try again.");
+            }
+        } catch (error: any) {
+            toast({
+                variant: 'destructive',
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
+
             console.error(error);
         }
     }
@@ -751,7 +767,7 @@ export default function ViewExpenses() {
                                                                             className="grid gap-2"
                                                                             onSubmit={(e) => {
                                                                                 e.preventDefault();
-                                                                                handleUpdate(obj.id);
+                                                                                handleUpdate();
                                                                             }}
                                                                         >
                                                                             {dataForm[expenseType].content.map((c: dataContent) => (

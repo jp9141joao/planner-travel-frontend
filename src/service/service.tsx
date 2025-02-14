@@ -1,3 +1,4 @@
+import { getItemSessionStorage } from '@/components/utils/utils';
 import { Expense, Login, NewPasswordUser, Trip, UpdateUserData, User } from '@/types/types';
 import axios from 'axios';
 import { error } from 'console';
@@ -312,10 +313,28 @@ export const createExpense = async (expense: Expense) => {
         throw new Error("Expense is missing at service!");
     }
 
-    console.log(JSON.stringify(expense, null, 2));
-
-
     const response = await axios.post(`${url}/viewExpenses`, expense, {
+        validateStatus: (status) => status != 400,
+        headers: {
+            'authorization': `Bearer ${token}`,
+        }
+    });
+
+    return response.data;
+}
+
+export const updateExpense = async (expense: Expense) => {
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+        throw new Error("Token is missing");
+    }
+
+    if (!expense) {
+        throw new Error("Expense is missing at service!");
+    }
+
+    const response = await axios.put(`${url}/viewExpenses`, expense, {
         validateStatus: (status) => status != 400,
         headers: {
             'authorization': `Bearer ${token}`,

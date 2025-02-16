@@ -58,7 +58,7 @@ export default function ViewExpenses() {
     const [isDialogOpen, setIsDialogOpen] = useState()
     const dataButton: DataButton[] = [
         {
-            name: 'Airplane',
+            name: 'Flight',
             href: '/expenses',
             nmr: 0,
             icon: <Plane />
@@ -91,7 +91,7 @@ export default function ViewExpenses() {
     const dataForm: DataForm[] = [
         {
             operation: 'Create',
-            type: 'Airplane',
+            type: 'Flight',
             title: 'Create Flight Expense',
             subtitle: 'Track your flight costs effortlessly!',
             content: [
@@ -416,11 +416,12 @@ export default function ViewExpenses() {
         try {
             setIsLoading(true);
             const response = await createExpense(expense);
-
+            alert(response.error)
             if (response.success) {
-                setExpense(initialExpense);
-                loadExpenses();
                 setStatus(1);
+                setExpense(initialExpense);
+                loadTrip();
+                loadExpenses();
             }  else {
                 if (response.error == "Error: the value of name is invalid or was not provided correctly") {
                     setStatus(2);
@@ -479,8 +480,9 @@ export default function ViewExpenses() {
             const response = await updateExpense(expense as Expense);
 
             if (response.success) {
-                loadExpenses();
                 setStatus(1);
+                loadTrip();
+                loadExpenses();
             } else {
                 if (response.error == "Error: the value of name is invalid or was not provided correctly") {
                     setStatus(2);
@@ -538,6 +540,7 @@ export default function ViewExpenses() {
 
             if (response.success) {
                 setStatus(1);
+                loadTrip();
                 loadExpenses();
             } else {
                 throw new Error("The request failed. Please check the data and try again.");
@@ -755,358 +758,271 @@ export default function ViewExpenses() {
                             showContent == true ?
                             expenses.length > 0 ?
                             <div className="w-full">
-                                <ScrollArea className={`grid -mr-10 ${expenses.length < 4 ? 'h-auto' : 'h-[92vw] xxs5:h-[68vw] xs:h-[48vw] md:h-[33.5vw] lg:h-[18.6vw]' } w-[96vw] xxs10:w-[96.5vw] xxs8:w-[90.7vw] xxs5:w-[90.1vw] xxs2:w-[89.5vw] xs:w-[77vw] md:w-[76.3vw] lg:w-[26.4vw] mt-[1vw]`}>
+                                <ScrollArea className={`grid  ${expenses.length < 4 ? 'h-auto' : 'h-[92vw] xxs5:h-[86vw] xs:h-[48vw] md:h-[33.5vw] lg:h-[25vw] xl:h-[15vw]' } mt-[1vw]`}>
                                     <div className="relative">
-                                        {
+                                    {
                                             expenses.map((obj: Expense, index: number) => (
-                                                <Card key={index} className={`px-2 py-1 ${index != 0 && index != expenses.length - 1 ? 'my-3' : null} mr-3`}>
+                                                <Card key={index} className={`w-full p-2 ${index != 0 && index != expenses.length - 1 ? 'my-3' : null} mr-3`}>
                                                     <div className="flex justify-between items-center m-0 p-0">
-                                                        {
-                                                            obj.type == "Airplane" ?
-                                                            <>
-                                                                <Plane strokeWidth={1.5} className="w-10 xxs5:w-12 xxs5:w-13 h-auto pr-2 lg:pr-0 lg:mr-3"/>
-                                                                <div className="w-full grid place-items-start xxs5:gap-0.5 lg:gap-1">
-                                                                    <p className="break-all text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                        <strong>
-                                                                            { obj.name }
-                                                                        </strong>
-                                                                    </p>
-                                                                    <p className="flex gap-0.5 xs:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                        <MapPin className="w-3 lg:w-5 h-auto"/>
-                                                                        { obj.origin }
-                                                                    </p>
-                                                                    <p className="flex gap-0.5 xs:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                        <Flag className="w-3 lg:w-5 h-auto"/>
-                                                                        { obj.destination }
-                                                                    </p>
-                                                                    <div className="w-full grid xxs5:flex justify-between pr-2">
-                                                                        <div className="flex gap-1.5">
-                                                                            <Wallet className="w-3 lg:w-5 h-auto"/>
-                                                                            <p className="break-all text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                                { obj.countryCurrency }{ obj.amount }
-                                                                            </p>
-                                                                        </div>
-                                                                        <div className="flex gap-0.5 xs:gap-1"><CalendarIcon className="w-3 lg:w-5 h-auto"/>
-                                                                            <p className="text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                                Day { obj.day }
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </> : 
+                                                        { 
+                                                            obj.type == "Flight" ?
+                                                            <Plane strokeWidth={1} className="w-14 xxs5:w-12 xxs5:w-16 h-auto pl-1 pr-2 lg:pr-0 lg:mr-3"/> :
                                                             obj.type == "Transportation" ?
-                                                            <>
-                                                                <Bus strokeWidth={1.5} className="w-10 xxs5:w-12 xxs5:w-13 h-auto pr-2 lg:pr-0 lg:mr-3"/>
-                                                                <div className="w-full grid place-items-start xxs5:gap-0.5 lg:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                    <p className="break-all">
-                                                                        <strong>
-                                                                            { obj.category }
-                                                                        </strong>
-                                                                    </p>
-                                                                    <p className="flex gap-0.5 xs:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
+                                                            <Bus strokeWidth={1} className="w-14 xxs5:w-12 xxs5:w-16 h-auto pl-1 pr-2 lg:pr-0 lg:mr-3"/> :
+                                                            obj.type == "Food" ?
+                                                            <Utensils strokeWidth={1} className="w-14 xxs5:w-12 xxs5:w-16 h-auto pl-1 pr-2 lg:pr-0 lg:mr-3"/> :
+                                                            obj.type == "Attraction" ?
+                                                            <FerrisWheel strokeWidth={1} className="w-14 xxs5:w-12 xxs5:w-16 h-auto pl-1 pr-2 lg:pr-0 lg:mr-3"/> :
+                                                            obj.type == "Accomodation" ?
+                                                            <Hotel strokeWidth={1} className="w-14 xxs5:w-12 xxs5:w-16 h-auto pl-1 pr-2 lg:pr-0 lg:mr-3"/> :
+                                                            null
+                                                        }
+                                                        <div className="w-full grid place-items-start xxs5:gap-0.5 lg:gap-1.5 p-0">
+                                                            <div>
+                                                                <p className="break-all text-[3.4vw] xxs5:text-[3vw] xs:text-sm">
+                                                                    <strong>
+                                                                        { obj.type != "Transportation" ? obj.name : obj.category }
+                                                                    </strong>
+                                                                </p>
+                                                            </div>
+                                                            <div>
+                                                                <p className="flex gap-0.5 xs:gap-1 text-[3.4vw] xxs5:text-[3vw] xs:text-sm">
+                                                                { 
+                                                                    obj.type == "Flight" || obj.type == "Transportation" ?
+                                                                    <>
                                                                         <MapPin className="w-3 lg:w-5 h-auto"/>
                                                                         { obj.origin }
-                                                                    </p>
-                                                                    <p className="flex gap-0.5 xs:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
+                                                                    </> :
+                                                                    <>
+                                                                        {
+                                                                            obj.type == "Food" ?
+                                                                            (   
+                                                                                obj.category == 'Breakfast' ?
+                                                                                <Coffee className="w-3 lg:w-5 h-auto"/> :
+                                                                                obj.category == 'Snack' ?
+                                                                                <Pizza className="w-3 lg:w-5 h-auto"/>  :
+                                                                                obj.category == 'Lunch' ?
+                                                                                <CookingPot className="w-3 lg:w-5 h-auto"/>  :
+                                                                                obj.category == 'Dinner' ?
+                                                                                <Soup className="w-3 lg:w-5 h-auto"/> : null 
+                                                                            ) :
+                                                                            obj.type == "Attraction" ? 
+                                                                            (    
+                                                                                obj.category == 'Museum' ? 
+                                                                                <Landmark className="w-3 lg:w-5 h-auto" /> :
+                                                                                obj.category == 'Park' ? 
+                                                                                <TreePine className="w-3 lg:w-5 h-auto" /> :
+                                                                                obj.category == 'Event' ? 
+                                                                                <Ticket className="w-3 lg:w-5 h-auto" /> :
+                                                                                obj.category == 'Theater' ? 
+                                                                                <Theater className="w-3 lg:w-5 h-auto" /> :
+                                                                                obj.category == 'Zoo' ? 
+                                                                                <PawPrint className="w-3 lg:w-5 h-auto" /> :
+                                                                                obj.category == 'Aquarium' ? 
+                                                                                <Fish className="w-3 lg:w-5 h-auto" /> :
+                                                                                obj.category == 'Restaurant' ? 
+                                                                                <Utensils className="w-3 lg:w-5 h-auto" /> :
+                                                                                obj.category == 'Nature Place' ? 
+                                                                                <Mountain className="w-3 lg:w-5 h-auto" /> :
+                                                                                obj.category == 'Historical Place' ? 
+                                                                                <Castle className="w-3 lg:w-5 h-auto" /> :
+                                                                                obj.category == 'Religious Place' ? 
+                                                                                <Church className="w-3 lg:w-5 h-auto" /> :
+                                                                                obj.category == 'Others' ? 
+                                                                                <Puzzle className="w-3 lg:w-5 h-auto" /> : null
+                                                                            ) :
+                                                                            obj.type == "Accomodation" ?
+                                                                            (
+                                                                                obj.category == 'Hotel' ?  
+                                                                                <Bed className="w-3 lg:w-5 h-auto"/> :  
+                                                                                obj.category == 'Hostel' ?  
+                                                                                <Users className="w-3 lg:w-5 h-auto"/>  :  
+                                                                                obj.category == 'Airbnb' ?  
+                                                                                <Home className="w-3 lg:w-5 h-auto"/>  :  
+                                                                                obj.category == 'Guesthouse' ?  
+                                                                                <Building className="w-3 lg:w-5 h-auto"/>  :  
+                                                                                obj.category == 'Other' ?  
+                                                                                <BedSingle className="w-3 lg:w-5 h-auto"/> : null
+                                                                            ) : null
+                                                                        }
+                                                                        { obj.category }
+                                                                    </>
+                                                                }
+                                                                </p>
+                                                            </div>
+                                                            <div>
+                                                                <p className="flex gap-0.5 xs:gap-1 text-[3.4vw] xxs5:text-[3vw] xs:text-sm">
+                                                                {
+                                                                    obj.type == "Flight" || obj.type == "Transportation" ?
+                                                                    <>
                                                                         <Flag className="w-3 lg:w-5 h-auto"/>
                                                                         { obj.destination }
-                                                                    </p>
-                                                                    <div className="w-full grid xxs5:flex justify-between pr-2">
-                                                                        <div className="flex gap-1.5">
-                                                                            <Wallet className="w-3 lg:w-5 h-auto"/>
-                                                                            <p className="break-all text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                                { obj.countryCurrency }{ obj.amount }
-                                                                            </p>
-                                                                        </div>
-                                                                        <div className="flex gap-0.5 xs:gap-1">
-                                                                            <CalendarIcon className="w-3 lg:w-5 h-auto"/>
-                                                                            <p className="text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                                Day { obj.day }
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </> :
-                                                            obj.type == "Food" ?
-                                                            <>
-                                                                <Utensils strokeWidth={1.5} className="w-10 xxs5:w-12 xxs5:w-13 h-auto pr-2 lg:pr-0 lg:mr-3"/>
-                                                                <div className="w-full grid place-items-start xxs5:gap-0.5 lg:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                    <p className="break-all">
-                                                                        <strong>
-                                                                            { obj.name }
-                                                                        </strong>
-                                                                    </p>
-                                                                    <div className="flex gap-0.5 xs:gap-1">
-                                                                        { obj.category == 'Breakfast' ?
-                                                                        <Coffee className="w-3 lg:w-5 h-auto"/> :
-                                                                        obj.category == 'Snack' ?
-                                                                        <Pizza className="w-3 lg:w-5 h-auto"/>  :
-                                                                        obj.category == 'Lunch' ?
-                                                                        <CookingPot className="w-3 lg:w-5 h-auto"/>  :
-                                                                        obj.category == 'Dinner' ?
-                                                                        <Soup className="w-3 lg:w-5 h-auto"/>  : null
-                                                                        } 
-                                                                        <p className="break-all">
-                                                                            { obj.category }
-                                                                        </p>
-                                                                    </div>
-                                                                    <p className="flex gap-0.5 xs:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
+                                                                    </> :
+                                                                    obj.type == "Food" ?
+                                                                    <>
                                                                         <MapPin className="w-3 lg:w-5 h-auto"/>
                                                                         { obj.place }
-                                                                    </p> 
-                                                                    <div className="w-full grid xxs5:flex justify-between pr-2">
-                                                                        <div className="flex gap-1.5">
-                                                                            <Wallet className="w-3 lg:w-5 h-auto"/>
-                                                                            <p className="break-all text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                                { obj.countryCurrency }{ obj.amount }
-                                                                            </p>
-                                                                        </div>
-                                                                        <div className="flex gap-0.5 xs:gap-1">
-                                                                            <CalendarIcon className="w-3 lg:w-5 h-auto"/>
-                                                                            <p className="text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                                Day { obj.day }
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </> : 
-                                                            obj.type == "Attraction" ?
-                                                            <>
-                                                                <FerrisWheel strokeWidth={1.5} className="w-10 xxs5:w-12 xxs5:w-13 h-auto pr-2 lg:pr-0 lg:mr-3"/>
-                                                                <div className="w-full grid place-items-start xxs5:gap-0.5 lg:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                    <p className="break-all">
-                                                                        <strong>
-                                                                            { obj.name }
-                                                                        </strong>
-                                                                    </p>
-                                                                    <div className="flex gap-0.5 xs:gap-1">
-                                                                        { obj.category == 'Museum' ? 
-                                                                        <Landmark className="w-3 lg:w-5 h-auto" /> :
-                                                                        obj.category == 'Park' ? 
-                                                                        <TreePine className="w-3 lg:w-5 h-auto" /> :
-                                                                        obj.category == 'Event' ? 
-                                                                        <Ticket className="w-3 lg:w-5 h-auto" /> :
-                                                                        obj.category == 'Theater' ? 
-                                                                        <Theater className="w-3 lg:w-5 h-auto" /> :
-                                                                        obj.category == 'Zoo' ? 
-                                                                        <PawPrint className="w-3 lg:w-5 h-auto" /> :
-                                                                        obj.category == 'Aquarium' ? 
-                                                                        <Fish className="w-3 lg:w-5 h-auto" /> :
-                                                                        obj.category == 'Restaurant' ? 
-                                                                        <Utensils className="w-3 lg:w-5 h-auto" /> :
-                                                                        obj.category == 'Nature Place' ? 
-                                                                        <Mountain className="w-3 lg:w-5 h-auto" /> :
-                                                                        obj.category == 'Historical Place' ? 
-                                                                        <Castle className="w-3 lg:w-5 h-auto" /> :
-                                                                        obj.category == 'Religious Place' ? 
-                                                                        <Church className="w-3 lg:w-5 h-auto" /> :
-                                                                        obj.category == 'Others' ? 
-                                                                        <Puzzle className="w-3 lg:w-5 h-auto" /> : null 
-                                                                        }
-                                                                        <p className="break-all">
-                                                                            { obj.category }
-                                                                        </p>
-                                                                    </div>
-                                                                    <p className="flex gap-0.5 xs:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
+                                                                    </> :
+                                                                    obj.type == "Attraction" || obj.type == "Accomodation" ?
+                                                                    <>
                                                                         <Timer className="w-3 lg:w-5 h-auto"/>
-                                                                        { obj.duration }
+                                                                        { obj.duration } { obj.type == "Accomodation" && Number(obj.duration) > 1 ? 'Days' : 'Day' }
+                                                                    </> : null
+                                                                }
+                                                                </p>
+                                                            </div>
+                                                            <div className="w-full grid xxs5:flex justify-between pr-2">
+                                                                <div className="flex gap-1.5">
+                                                                    <Wallet className="w-3 lg:w-5 h-auto"/>
+                                                                    <p className="break-all text-[3.4vw] xxs5:text-[3vw] xs:text-sm">
+                                                                        { getCurrencySymbol(obj.countryCurrency) }{ obj.amount }
                                                                     </p>
-                                                                    <div className="w-full grid xxs5:flex justify-between pr-2">
-                                                                        <div className="flex gap-1.5">
-                                                                            <Wallet className="w-3 lg:w-5 h-auto"/>
-                                                                            <p className="break-all text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                                { obj.countryCurrency }{ obj.amount }
-                                                                            </p>
-                                                                        </div>
-                                                                        <div className="flex gap-0.5 xs:gap-1">
-                                                                            <CalendarIcon className="w-3 lg:w-5 h-auto"/>
-                                                                            <p className="text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                                Day { obj.day }
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
                                                                 </div>
-                                                            </> : 
-                                                            obj.type == "Accomodation" ?
-                                                            <>
-                                                                <Hotel strokeWidth={1.5} className="w-10 xxs5:w-12 xxs5:w-13 h-auto pr-2 lg:pr-0 lg:mr-3"/>
-                                                                <div className="w-full grid place-items-start xxs5:gap-0.5 lg:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                    <p className="break-all">
-                                                                        <strong>
-                                                                            { obj.name }
-                                                                        </strong>
+                                                                <div className="flex gap-0.5 xs:gap-1">
+                                                                    <CalendarIcon className="w-3 lg:w-5 h-auto"/>
+                                                                    <p className="text-[3.4vw] xxs5:text-[3vw] xs:text-sm">
+                                                                        Day { obj.day }
                                                                     </p>
-                                                                    <div className="flex gap-0.5 xs:gap-1">
-                                                                        { obj.category == 'Hotel' ?  
-                                                                        <Bed className="w-3 lg:w-5 h-auto"/> :  
-                                                                        obj.category == 'Hostel' ?  
-                                                                        <Users className="w-3 lg:w-5 h-auto"/>  :  
-                                                                        obj.category == 'Airbnb' ?  
-                                                                        <Home className="w-3 lg:w-5 h-auto"/>  :  
-                                                                        obj.category == 'Guesthouse' ?  
-                                                                        <Building className="w-3 lg:w-5 h-auto"/>  :  
-                                                                        obj.category == 'Other' ?  
-                                                                        <BedSingle className="w-3 lg:w-5 h-auto"/>  : null  
-                                                                        }  
-                                                                        <p className="break-all">
-                                                                            { obj.category }
-                                                                        </p>
-                                                                    </div>
-                                                                    <p className="flex gap-0.5 xs:gap-1 text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                        <Clock className="w-3 lg:w-5 h-auto"/>
-                                                                        { obj.duration } Days
-                                                                    </p>
-                                                                    <div className="w-full grid xxs5:flex justify-between pr-2">
-                                                                        <div className="flex gap-1.5">
-                                                                            <Wallet className="w-3 lg:w-5 h-auto"/>
-                                                                            <p className="break-all text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                                { obj.countryCurrency }{ obj.amount }
-                                                                            </p>
-                                                                        </div>
-                                                                        <div className="flex gap-0.5 xs:gap-1">
-                                                                            <CalendarIcon className="w-3 lg:w-5 h-auto"/>
-                                                                            <p className="text-[4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                                Day { obj.day }
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
                                                                 </div>
-                                                            </> : null
-                                                        }
-                                                        <div className="grid xxs5:flex justify-center gap-1.5">
-                                                            
-                                                            <Dialog>
-                                                                <DialogTrigger asChild>
-                                                                    <Button variant={'outline'} className="w-6 h-6 xxs5:w-8 xxs5:h-8 lg:w-9 lg:h-9 p-0"
-                                                                        onClick={() => {
-                                                                            setExpenseType(dataForm.findIndex((item: DataForm) => item.type == obj.type));
-                                                                        }}
-                                                                    >
-                                                                        <Pencil className="w-3 xxs5:w-4 lg:w-5 h-auto p-0"/>
-                                                                    </Button>
-                                                                </DialogTrigger>
-                                                                <DialogContent className="w-full sm:max-w-[425px]">
-                                                                    <DialogHeader>
-                                                                        <DialogTitle>
-                                                                            {dataForm[expenseType].title}
-                                                                        </DialogTitle>
-                                                                        <DialogDescription>
-                                                                            {dataForm[expenseType].subtitle}
-                                                                        </DialogDescription>
-                                                                    </DialogHeader>
-                                                                        <form
-                                                                            className="grid gap-2"
-                                                                            onSubmit={(e) => {
-                                                                                e.preventDefault();
-                                                                                handleUpdate();
+                                                            </div>
+                                                        </div>
+                                                        <div className="grid place-items-center items-center gap-2">
+                                                            <div className="grid xxs5:flex justify-center gap-1.5">
+                                                                <Dialog>
+                                                                    <DialogTrigger asChild>
+                                                                        <Button variant={'outline'} className="w-8 h-8 xxs5:w-8 xxs5:h-8 lg:w-12 lg:h-12 p-0"
+                                                                            onClick={() => {
+                                                                                setExpenseType(dataForm.findIndex((item: DataForm) => item.type == obj.type));
                                                                             }}
                                                                         >
-                                                                            {dataForm[expenseType].content.map((c: DataContent) => (
-                                                                                <div key={c.label} className="w-full">
-                                                                                    <Label htmlFor={c.label}>
-                                                                                        {c.label}
+                                                                            <Pencil className="w-5 xxs5:w-4 lg:w-6 h-auto p-0"/>
+                                                                        </Button>
+                                                                    </DialogTrigger>
+                                                                    <DialogContent className="w-full sm:max-w-[425px]">
+                                                                        <DialogHeader>
+                                                                            <DialogTitle>
+                                                                                {dataForm[expenseType].title}
+                                                                            </DialogTitle>
+                                                                            <DialogDescription>
+                                                                                {dataForm[expenseType].subtitle}
+                                                                            </DialogDescription>
+                                                                        </DialogHeader>
+                                                                            <form
+                                                                                className="grid gap-2"
+                                                                                onSubmit={(e) => {
+                                                                                    e.preventDefault();
+                                                                                    handleUpdate();
+                                                                                }}
+                                                                            >
+                                                                                {dataForm[expenseType].content.map((c: DataContent) => (
+                                                                                    <div key={c.label} className="w-full">
+                                                                                        <Label htmlFor={c.label}>
+                                                                                            {c.label}
+                                                                                        </Label>
+                                                                                        {c.element === 'input' ? (
+                                                                                        <Input
+                                                                                            id={c.label}
+                                                                                            name={c.name}
+                                                                                            type={c.typeElement}
+                                                                                            className={`p-2 ${c.status}`}
+                                                                                            placeholder={c.placeHolderElement}
+                                                                                            value={expense[c.name as keyof Expense] ? expense[c.name as keyof Expense] as string : ''}
+                                                                                            onChange={handleChange}
+                                                                                        />
+                                                                                        ) : c.element === 'select' ? (
+                                                                                        <Select
+                                                                                            name={c.label.toLowerCase()}
+                                                                                            open={!!isOpen[c.label]}
+                                                                                            onOpenChange={(open) =>
+                                                                                                setIsOpen((prev) => ({ ...prev, [c.label]: open }))
+                                                                                            }
+                                                                                            onValueChange={(value: string) =>
+                                                                                                setExpense({ ...expense, [c.label.toLowerCase()]: value })
+                                                                                            }
+                                                                                        >
+                                                                                            <SelectTrigger className="rounded-md border-r-2 p-3">
+                                                                                                <SelectValue
+                                                                                                    placeholder={c.placeHolderElement}
+                                                                                                    className={c.status}
+                                                                                                >
+                                                                                                    <p className="text-sm break-all">
+                                                                                                        {expense[c.label.toLowerCase() as keyof Expense]}
+                                                                                                    </p>
+                                                                                                </SelectValue>
+                                                                                            </SelectTrigger>
+                                                                                            <SelectContent>
+                                                                                                <SelectGroup>
+                                                                                                    {
+                                                                                                        Array.isArray(c.valueElement) &&
+                                                                                                            c.valueElement.map((v: string, indexElement: number) => (
+                                                                                                                <SelectItem key={indexElement} value={v}>
+                                                                                                                    {v}
+                                                                                                                </SelectItem>
+                                                                                                            ))
+                                                                                                    }
+                                                                                                </SelectGroup>
+                                                                                            </SelectContent>
+                                                                                        </Select>
+                                                                                        ) : null}
+                                                                                    </div>
+                                                                                ))}
+                                                                                <div>
+                                                                                    <Label htmlFor="Amount">
+                                                                                        Amount
                                                                                     </Label>
-                                                                                    {c.element === 'input' ? (
                                                                                     <Input
-                                                                                        id={c.label}
-                                                                                        name={c.name}
-                                                                                        type={c.typeElement}
-                                                                                        className={`p-2 ${c.status}`}
-                                                                                        placeholder={c.placeHolderElement}
-                                                                                        value={expense[c.name as keyof Expense] ? expense[c.name as keyof Expense] as string : ''}
-                                                                                        onChange={handleChange}
+                                                                                        id="Amount"
+                                                                                        name="amount"
+                                                                                        type="text"
+                                                                                        className={`p-2 ${status >= 16 && status <= 19 ? 'border-red-500' : ''}`}
+                                                                                        placeholder="How much is the expense?"
+                                                                                        value={`${getCurrencySymbol(expense.countryCurrency)}${expense.amount}`}
+                                                                                        onChange={handleChangeInput}
                                                                                     />
-                                                                                    ) : c.element === 'select' ? (
+                                                                                </div>
+                                                                                <div>
+                                                                                    <Label htmlFor="day">Expense Day</Label>
                                                                                     <Select
-                                                                                        name={c.label.toLowerCase()}
-                                                                                        open={!!isOpen[c.label]}
-                                                                                        onOpenChange={(open) =>
-                                                                                            setIsOpen((prev) => ({ ...prev, [c.label]: open }))
-                                                                                        }
+                                                                                        name="day"
+                                                                                        defaultValue="1"
+                                                                                        value={String(expense.day)}
                                                                                         onValueChange={(value: string) =>
-                                                                                            setExpense({ ...expense, [c.label.toLowerCase()]: value })
+                                                                                            setExpense({ ...expense, day: Number(value) })
                                                                                         }
                                                                                     >
                                                                                         <SelectTrigger className="rounded-md border-r-2 p-3">
-                                                                                            <SelectValue
-                                                                                                placeholder={c.placeHolderElement}
-                                                                                                className={c.status}
-                                                                                            >
-                                                                                                <p className="text-sm break-all">
-                                                                                                    {expense[c.label.toLowerCase() as keyof Expense]}
-                                                                                                </p>
-                                                                                            </SelectValue>
+                                                                                            <SelectValue 
+                                                                                                placeholder="Select a day" 
+                                                                                                className={status == 20 ? 'border-red-500' : ''}
+                                                                                            />
                                                                                         </SelectTrigger>
                                                                                         <SelectContent>
-                                                                                            <SelectGroup>
-                                                                                                {
-                                                                                                    Array.isArray(c.valueElement) &&
-                                                                                                        c.valueElement.map((v: string, indexElement: number) => (
-                                                                                                            <SelectItem key={indexElement} value={v}>
-                                                                                                                {v}
-                                                                                                            </SelectItem>
-                                                                                                        ))
-                                                                                                }
-                                                                                            </SelectGroup>
+                                                                                        <SelectGroup>
+                                                                                            {   
+                                                                                                trip &&
+                                                                                                Array.from({ length: trip.daysQty }).map((_, index) => (
+                                                                                                    <SelectItem key={index} value={String(index + 1)}>
+                                                                                                        {index + 1}° Day
+                                                                                                    </SelectItem>
+                                                                                                ))
+                                                                                            }
+                                                                                        </SelectGroup>
                                                                                         </SelectContent>
                                                                                     </Select>
-                                                                                    ) : null}
                                                                                 </div>
-                                                                            ))}
-                                                                            <div>
-                                                                                <Label htmlFor="Amount">
-                                                                                    Amount
-                                                                                </Label>
-                                                                                <Input
-                                                                                    id="Amount"
-                                                                                    name="amount"
-                                                                                    type="text"
-                                                                                    className={`p-2 ${status >= 16 && status <= 19 ? 'border-red-500' : ''}`}
-                                                                                    placeholder="How much is the expense?"
-                                                                                    value={`${getCurrencySymbol(expense.countryCurrency)}${expense.amount}`}
-                                                                                    onChange={handleChangeInput}
-                                                                                />
-                                                                            </div>
-                                                                            <div>
-                                                                                <Label htmlFor="day">Expense Day</Label>
-                                                                                <Select
-                                                                                    name="day"
-                                                                                    defaultValue="1"
-                                                                                    value={String(expense.day)}
-                                                                                    onValueChange={(value: string) =>
-                                                                                        setExpense({ ...expense, day: Number(value) })
-                                                                                    }
-                                                                                >
-                                                                                    <SelectTrigger className="rounded-md border-r-2 p-3">
-                                                                                        <SelectValue 
-                                                                                            placeholder="Select a day" 
-                                                                                            className={status == 20 ? 'border-red-500' : ''}
-                                                                                        />
-                                                                                    </SelectTrigger>
-                                                                                    <SelectContent>
-                                                                                    <SelectGroup>
-                                                                                        {trip &&
-                                                                                            Array.from({ length: trip.daysQty }).map((_, index) => (
-                                                                                                <SelectItem key={index} value={String(index + 1)}>
-                                                                                                    {index + 1}° Day
-                                                                                                </SelectItem>
-                                                                                            ))
-                                                                                        }
-                                                                                    </SelectGroup>
-                                                                                    </SelectContent>
-                                                                                </Select>
-                                                                            </div>
-                                                                        </form>
-                                                                    <DialogFooter>
-                                                                    <Button type="submit" size="lg">
-                                                                        {dataForm[expenseType].operation}
-                                                                    </Button>
-                                                                    </DialogFooter>
-                                                                </DialogContent>
-                                                            </Dialog>
-                                                            <Button className="w-6 h-6 xxs5:w-8 xxs5:h-8 lg:w-9 lg:h-9 p-0" onClick={() => handleDelete(obj.id)}>
-                                                                <X className="w-3 xxs5:w-4 lg:w-5 h-auto p-0"/>
-                                                            </Button>
+                                                                            </form>
+                                                                        <DialogFooter>
+                                                                        <Button type="submit" size="lg">
+                                                                            {dataForm[expenseType].operation}
+                                                                        </Button>
+                                                                        </DialogFooter>
+                                                                    </DialogContent>
+                                                                </Dialog>
+                                                                <Button className="w-8 h-8 xxs5:w-8 xxs5:h-8 lg:w-12 lg:h-12 p-0" onClick={() => handleDelete(obj.id)}>
+                                                                    <X className="w-5 xxs5:w-4 lg:w-6 h-auto p-0"/>
+                                                                </Button>
+                                                            </div>
+                                                    
                                                         </div>
                                                     </div>
                                                 </Card>

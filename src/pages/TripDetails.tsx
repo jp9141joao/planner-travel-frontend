@@ -186,7 +186,7 @@ export default function TripDetails() {
                             </p>
                         </div>
                         <div className="mt-3">
-                            <Carousel opts={{align: "start" }} setApi={setApi} className="w-[87.8vw] xs:w-[61.5vw] lg:w-[26.73vw]">
+                            <Carousel opts={{align: "start" }} setApi={setApi} className="w-[87.8vw] xs:w-[62.5vw] lg:w-[26.73vw]">
                                 <CarouselContent className="w-full items-center -ml-1 lg:ml-0.4">
                                     {dataButton.map((obj, index) => (
                                         <CarouselItem key={index} className={`pl-1.5 basis-1/2 `}>

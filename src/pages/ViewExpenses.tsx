@@ -552,7 +552,7 @@ export default function ViewExpenses() {
     }
 
     useEffect(() => {
-        if (!isLoading && showContent) {
+        if (!isLoading && showToast) {
             if (status == 1) {
                 toast({
                     variant: 'success',
@@ -1151,145 +1151,143 @@ export default function ViewExpenses() {
                                     <Label className="ml-1">
                                         Select the expanse type: 
                                     </Label>
-                                    <Carousel opts={{align: "start" }} setApi={setApi} className="w-[87.8vw] xs:w-[61.5vw] lg:w-[24.73vw]">
-                                        <CarouselContent className="w-full items-center -ml-1 lg:ml-0.4 ">
+                                    <Carousel opts={{align: "start" }} setApi={setApi}>
+                                        <CarouselContent className="items-center w-[84.5vw] xxs3:w-[84.54vw] gap-[2vw] ml-[0.0vw] xs:w-[72.95vw] lg:w-[27.21vw] lg:gap-[0.56vw] xl:gap-[0.44vw] xl:w-[25.2vw]">
                                             {dataButton.map((obj, index) => (
-                                            <CarouselItem key={index} className="pl-1.5 basis-1/2 cursor-pointer">
-                                                <div className="w-full flex">
-                                                    <Dialog
-                                                        onOpenChange={(open) => {
-                                                            if (!open) {
-                                                                setExpense(initialExpense)
-                                                            }
+                                            <CarouselItem key={index} className="w-full basis-1/2 cursor-pointer p-0">
+                                                <Dialog
+                                                    onOpenChange={(open) => {
+                                                        if (!open) {
+                                                            setExpense(initialExpense)
+                                                        }
 
-                                                            if (!open && document.activeElement instanceof HTMLElement) {
-                                                                document.activeElement.blur();
-                                                            }
-                                                        }}
-                                                    >
-                                                        <DialogTrigger asChild>
-                                                            <Button 
-                                                                type="button"
-                                                                className="w-full gap-2"
-                                                                variant="outline"
-                                                            >
-                                                                {obj.icon}
-                                                                {obj.name}
-                                                            </Button>
-                                                        </DialogTrigger>
-                                                        <DialogContent className="w-full sm:max-w-[425px]">
-                                                            <DialogHeader>
-                                                            <DialogTitle>{dataForm[index].title}</DialogTitle>
-                                                            <DialogDescription>
-                                                                {dataForm[index].subtitle}
-                                                            </DialogDescription>
-                                                            </DialogHeader>
-                                                                <div className="grid gap-2">
-                                                                    {dataForm[index].content.map((c: DataContent) => (
-                                                                        <div key={c.label} className="w-full">
-                                                                            <Label htmlFor={c.label}>
-                                                                                {c.label}
-                                                                            </Label>
-                                                                            {c.element === 'input' ? (
-                                                                            <Input
-                                                                                id={c.label}
-                                                                                name={c.name}
-                                                                                type={c.typeElement}
-                                                                                className={`p-2 ${c.status}`}
-                                                                                placeholder={c.placeHolderElement}
-                                                                                value={expense[c.name as keyof Expense] ? expense[c.name as keyof Expense] as string : ''}
-                                                                                onChange={handleChange}
-                                                                            />
-                                                                            ) : c.element === 'select' ? (
-                                                                            <Select
-                                                                                name={c.label.toLowerCase()}
-                                                                                open={!!isOpen[c.label]}
-                                                                                onOpenChange={(open) =>
-                                                                                    setIsOpen((prev) => ({ ...prev, [c.label]: open }))
-                                                                                }
-                                                                                onValueChange={(value: string) =>
-                                                                                    setExpense({ ...expense, [c.label.toLowerCase()]: value })
-                                                                                }
-                                                                            >
-                                                                                <SelectTrigger className="rounded-md border-r-2 p-3">
-                                                                                    <SelectValue
-                                                                                        placeholder={c.placeHolderElement}
-                                                                                        className={c.status}
-                                                                                    >
-                                                                                        <p className="text-sm break-all">
-                                                                                            {expense[c.label.toLowerCase() as keyof Expense]}
-                                                                                        </p>
-                                                                                    </SelectValue>
-                                                                                </SelectTrigger>
-                                                                                <SelectContent>
-                                                                                    <SelectGroup>
-                                                                                        {Array.isArray(c.valueElement) &&
-                                                                                            c.valueElement.map((v: string, indexElement: number) => (
-                                                                                                <SelectItem key={indexElement} value={v}>
-                                                                                                    {v}
-                                                                                                </SelectItem>
-                                                                                            ))}
-                                                                                    </SelectGroup>
-                                                                                </SelectContent>
-                                                                            </Select>
-                                                                            ) : null}
-                                                                        </div>
-                                                                    ))}
-                                                                    <div>
-                                                                        <Label htmlFor="Amount">Amount</Label>
+                                                        if (!open && document.activeElement instanceof HTMLElement) {
+                                                            document.activeElement.blur();
+                                                        }
+                                                    }}
+                                                >
+                                                    <DialogTrigger asChild>
+                                                        <Button 
+                                                            type="button"
+                                                            className="w-full gap-2"
+                                                            variant="outline"
+                                                        >
+                                                            {obj.icon}
+                                                            {obj.name}
+                                                        </Button>
+                                                    </DialogTrigger>
+                                                    <DialogContent className="w-full sm:max-w-[425px]">
+                                                        <DialogHeader>
+                                                        <DialogTitle>{dataForm[index].title}</DialogTitle>
+                                                        <DialogDescription>
+                                                            {dataForm[index].subtitle}
+                                                        </DialogDescription>
+                                                        </DialogHeader>
+                                                            <div className="grid gap-2">
+                                                                {dataForm[index].content.map((c: DataContent) => (
+                                                                    <div key={c.label} className="w-full">
+                                                                        <Label htmlFor={c.label}>
+                                                                            {c.label}
+                                                                        </Label>
+                                                                        {c.element === 'input' ? (
                                                                         <Input
-                                                                            id="Amount"
-                                                                            name="amount"
-                                                                            type="text"
-                                                                            className={`p-2 ${status >= 16 && status <= 19 ? 'border-red-500' : ''}`}
-                                                                            placeholder="How much is the expense?"
-                                                                            value={`${getCurrencySymbol(expense.countryCurrency)}${expense.amount}`}
-                                                                            onChange={handleChangeInput}
+                                                                            id={c.label}
+                                                                            name={c.name}
+                                                                            type={c.typeElement}
+                                                                            className={`p-2 ${c.status}`}
+                                                                            placeholder={c.placeHolderElement}
+                                                                            value={expense[c.name as keyof Expense] ? expense[c.name as keyof Expense] as string : ''}
+                                                                            onChange={handleChange}
                                                                         />
-                                                                    </div>
-                                                                    <div>
-                                                                        <Label htmlFor="day">Expense Day</Label>
+                                                                        ) : c.element === 'select' ? (
                                                                         <Select
-                                                                            name="day"
-                                                                            defaultValue="1"
-                                                                            value={String(expense.day)}
+                                                                            name={c.label.toLowerCase()}
+                                                                            open={!!isOpen[c.label]}
+                                                                            onOpenChange={(open) =>
+                                                                                setIsOpen((prev) => ({ ...prev, [c.label]: open }))
+                                                                            }
                                                                             onValueChange={(value: string) =>
-                                                                                setExpense({ ...expense, day: Number(value) })
+                                                                                setExpense({ ...expense, [c.label.toLowerCase()]: value })
                                                                             }
                                                                         >
                                                                             <SelectTrigger className="rounded-md border-r-2 p-3">
-                                                                                <SelectValue 
-                                                                                    placeholder="Select a day" 
-                                                                                    className={status == 20 ? 'border-red-500' : ''}
-                                                                                />
+                                                                                <SelectValue
+                                                                                    placeholder={c.placeHolderElement}
+                                                                                    className={c.status}
+                                                                                >
+                                                                                    <p className="text-sm break-all">
+                                                                                        {expense[c.label.toLowerCase() as keyof Expense]}
+                                                                                    </p>
+                                                                                </SelectValue>
                                                                             </SelectTrigger>
                                                                             <SelectContent>
-                                                                            <SelectGroup>
-                                                                                {trip &&
-                                                                                    Array.from({ length: trip.daysQty }).map((_, index) => (
-                                                                                        <SelectItem key={index} value={String(index + 1)}>
-                                                                                            {index + 1}° Day
-                                                                                        </SelectItem>
-                                                                                    ))
-                                                                                }
-                                                                            </SelectGroup>
+                                                                                <SelectGroup>
+                                                                                    {Array.isArray(c.valueElement) &&
+                                                                                        c.valueElement.map((v: string, indexElement: number) => (
+                                                                                            <SelectItem key={indexElement} value={v}>
+                                                                                                {v}
+                                                                                            </SelectItem>
+                                                                                        ))}
+                                                                                </SelectGroup>
                                                                             </SelectContent>
                                                                         </Select>
+                                                                        ) : null}
                                                                     </div>
+                                                                ))}
+                                                                <div>
+                                                                    <Label htmlFor="Amount">Amount</Label>
+                                                                    <Input
+                                                                        id="Amount"
+                                                                        name="amount"
+                                                                        type="text"
+                                                                        className={`p-2 ${status >= 16 && status <= 19 ? 'border-red-500' : ''}`}
+                                                                        placeholder="How much is the expense?"
+                                                                        value={`${getCurrencySymbol(expense.countryCurrency)}${expense.amount}`}
+                                                                        onChange={handleChangeInput}
+                                                                    />
                                                                 </div>
-                                                            <DialogFooter>
-                                                            <Button type="button" size="lg" 
-                                                                onClick={() => {
-                                                                    setExpense({...expense, type: dataForm[index].type});
-                                                                    handleCreate();
-                                                                }}
-                                                            >
-                                                                {dataForm[index].operation} Expense
-                                                            </Button>
-                                                            </DialogFooter>
-                                                        </DialogContent>
-                                                    </Dialog>
-                                                </div>
+                                                                <div>
+                                                                    <Label htmlFor="day">Expense Day</Label>
+                                                                    <Select
+                                                                        name="day"
+                                                                        defaultValue="1"
+                                                                        value={String(expense.day)}
+                                                                        onValueChange={(value: string) =>
+                                                                            setExpense({ ...expense, day: Number(value) })
+                                                                        }
+                                                                    >
+                                                                        <SelectTrigger className="rounded-md border-r-2 p-3">
+                                                                            <SelectValue 
+                                                                                placeholder="Select a day" 
+                                                                                className={status == 20 ? 'border-red-500' : ''}
+                                                                            />
+                                                                        </SelectTrigger>
+                                                                        <SelectContent>
+                                                                        <SelectGroup>
+                                                                            {trip &&
+                                                                                Array.from({ length: trip.daysQty }).map((_, index) => (
+                                                                                    <SelectItem key={index} value={String(index + 1)}>
+                                                                                        {index + 1}° Day
+                                                                                    </SelectItem>
+                                                                                ))
+                                                                            }
+                                                                        </SelectGroup>
+                                                                        </SelectContent>
+                                                                    </Select>
+                                                                </div>
+                                                            </div>
+                                                        <DialogFooter>
+                                                        <Button type="button" size="lg" 
+                                                            onClick={() => {
+                                                                setExpense({...expense, type: dataForm[index].type});
+                                                                handleCreate();
+                                                            }}
+                                                        >
+                                                            {dataForm[index].operation} Expense
+                                                        </Button>
+                                                        </DialogFooter>
+                                                    </DialogContent>
+                                                </Dialog> 
                                             </CarouselItem>
                                             ))}
                                         </CarouselContent>

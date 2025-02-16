@@ -15,7 +15,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { getItemSessionStorage } from "@/components/utils/utils";
 import { toast } from "@/hooks/use-toast";
 import { createExpense, deleteExpense, getExpenses, getTrip, updateExpense, } from "@/service/service";
-import { AccomodationExpense, AirplaneExpense, AttractionExpense, dataButton, dataContent, dataForm, Expense, FoodExpense, TransportationExpense, Trip } from "@/types/types";
+import { AccomodationExpense, AirplaneExpense, AttractionExpense, DataButton, DataContent, DataForm, DialogOpen, Expense, FoodExpense, TransportationExpense, Trip } from "@/types/types";
+import { error } from "console";
+import { stat } from "fs";
 import { BadgeInfo, Bed, BedSingle, Building, Bus, CalendarDays, CalendarIcon, Castle, ChevronDown, ChevronUp, Church, CircleHelp, Clock, Coffee, CookingPot, FerrisWheel, Fish, Flag, Home, Hotel, Info, Landmark, Link, MapPin, MoreHorizontal, Mountain, PawPrint, Pencil, Pizza, Plane, Plus, Puzzle, Receipt, Soup, Theater, Ticket, Timer, TreePine, Users, Utensils, Wallet, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
@@ -50,7 +52,11 @@ export default function ViewExpenses() {
     const [showContent, setShowContent] = useState<boolean | null>(null);
     const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>({});
     const [expenseType, setExpenseType] = useState<number>(0);
-    const dataButton: dataButton[] = [
+    const [status, setStatus] = useState<number>(0);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [showToast, setShowToast] = useState<boolean>(false);
+    const [isDialogOpen, setIsDialogOpen] = useState()
+    const dataButton: DataButton[] = [
         {
             name: 'Airplane',
             href: '/expenses',
@@ -82,7 +88,7 @@ export default function ViewExpenses() {
             icon: <Hotel />
         },
     ];
-    const dataForm: dataForm[] = [
+    const dataForm: DataForm[] = [
         {
             operation: 'Create',
             type: 'Airplane',
@@ -91,6 +97,7 @@ export default function ViewExpenses() {
             content: [
             { 
                 label: 'Airline Name',
+                status: status >= 2 && status <= 4 ? 'border-red-500' : '',
                 name: 'name',
                 element: 'input', 
                 typeElement: 'text', 
@@ -99,6 +106,7 @@ export default function ViewExpenses() {
             }, 
             { 
                 label: 'Origin',  
+                status: status >= 10 && status <= 12 ? 'border-red-500' : '',
                 name: 'origin',
                 element: 'input', 
                 typeElement: 'text', 
@@ -107,6 +115,7 @@ export default function ViewExpenses() {
             },
             { 
                 label: 'Destination',  
+                status: status >= 13 && status <= 15 ? 'border-red-500' : '',
                 name: 'destination',
                 element: 'input', 
                 typeElement: 'text', 
@@ -123,6 +132,7 @@ export default function ViewExpenses() {
             content: [
             { 
                 label: 'Category',  
+                status: status == 5 ? 'border-red-500' : '',
                 name: 'category',
                 element: 'select', 
                 typeElement: '', 
@@ -130,7 +140,8 @@ export default function ViewExpenses() {
                 valueElement: ["Taxi", "Uber", "Rental car", "Bicycle", "Other"] 
             }, 
             { 
-                label: 'Origin',  
+                label: 'Origin', 
+                status: status >= 10 && status <= 12 ? 'border-red-500' : '', 
                 name: 'origin',
                 element: 'input', 
                 typeElement: 'text', 
@@ -139,6 +150,7 @@ export default function ViewExpenses() {
             },
             { 
                 label: 'Destination',
+                status: status >= 13 && status <= 15 ? 'border-red-500' : '',
                 name: 'destination',
                 element: 'input', 
                 typeElement: 'text', 
@@ -155,6 +167,7 @@ export default function ViewExpenses() {
             content: [
             { 
                 label: 'Food Name',
+                status: status >= 2 && status <= 4 ? 'border-red-500' : '',
                 name: 'name',
                 element: 'input', 
                 typeElement: 'text', 
@@ -162,7 +175,8 @@ export default function ViewExpenses() {
                 valueElement: '' 
             },
             { 
-                label: 'Category',  
+                label: 'Category',
+                status: status == 5 ? 'border-red-500' : '', 
                 name: 'category',
                 element: 'select',
                 typeElement: '', 
@@ -170,7 +184,8 @@ export default function ViewExpenses() {
                 valueElement: ["Breakfast", "Lunch", "Dinner", "Brunch", "Snack"]
             },
             { 
-                label: 'Place',  
+                label: 'Place',
+                status: status >= 7 && status <= 9 ? 'border-red-500' : '', 
                 name: 'place',
                 element: 'input',
                 typeElement: 'text', 
@@ -187,6 +202,7 @@ export default function ViewExpenses() {
             content: [
             { 
                 label: 'Attraction Name',  
+                status: status >= 2 && status <= 4 ? 'border-red-500' : '',
                 name: 'name',
                 element: 'input', 
                 typeElement: 'text', 
@@ -195,6 +211,7 @@ export default function ViewExpenses() {
             }, 
             { 
                 label: 'Category',  
+                status: status == 5 ? 'border-red-500' : '',
                 name: 'category',
                 element: 'select', 
                 typeElement: '', 
@@ -207,6 +224,7 @@ export default function ViewExpenses() {
             },
             { 
               label: 'Duration',  
+              status: status == 6 ? 'border-red-500' : '',
               name: 'duration',
               element: 'select', 
               typeElement: '', 
@@ -223,6 +241,7 @@ export default function ViewExpenses() {
             content: [
             { 
                 label: 'Accomodation Name',  
+                status: status >= 2 && status <= 4 ? 'border-red-500' : '',
                 name: 'name',
                 element: 'input', 
                 typeElement: 'text', 
@@ -231,6 +250,7 @@ export default function ViewExpenses() {
             }, 
             { 
                 label: 'Category',  
+                status: status >= 5 ? 'border-red-500' : '',
                 name: 'category',
                 element: 'select', 
                 typeElement: '', 
@@ -239,6 +259,7 @@ export default function ViewExpenses() {
             },
             { 
                 label: 'Duration of Stay',  
+                status: status == 6 ? 'border-red-500' : '',
                 name: 'duration',
                 element: 'select', 
                 typeElement: '', 
@@ -393,85 +414,295 @@ export default function ViewExpenses() {
 
     const handleCreate = async () => {
         try {
+            setIsLoading(true);
             const response = await createExpense(expense);
 
             if (response.success) {
                 setExpense(initialExpense);
                 loadExpenses();
-
-                toast({
-                    variant: 'success',
-                    title: 'Information updated successfully!',
-                    description: 'Your changes have been saved. Everything is up to date!',
-                }); 
-
-                console.log(expense);
+                setStatus(1);
             }  else {
-                throw new Error("The request failed. Please check the data and try again.");
+                if (response.error == "Error: the value of name is invalid or was not provided correctly") {
+                    setStatus(2);
+                } else if (response.error == "Error: the value of name is too short!") {
+                    setStatus(3);
+                } else if (response.error = "Error: the value of name is too large!") {
+                    setStatus(4)
+                } else if (response.error = "Error: the value of category is invalid or was not provided correctly") {
+                    setStatus(5);
+                } else if (response.error = "Error: the value of duration is invalid or was not provided correctly") {
+                    setStatus(6);
+                } else if (response.error = "Error: the value of place is invalid or was not provided correctly") {
+                    setStatus(7);
+                } else if (response.error = "Error: the value of place is too short!") {
+                    setStatus(8);
+                } else if (response.error = "Error: the value of place is too large!") {
+                    setStatus(9);
+                } else if (response.error = "Error: the value of origin is invalid or was not provided correctly") {
+                    setStatus(10);
+                }else if (response.error = "Error: the value of origin is too short!") {
+                    setStatus(11);
+                } else if (response.error = "Error: the value of origin is too large!") {
+                    setStatus(12);
+                } else if (response.error = "Error: the value of destination is invalid or was not provided correctly") {
+                    setStatus(13);
+                }else if (response.error = "Error: the value of destination is too short!") {
+                    setStatus(14);
+                } else if (response.error = "Error: the value of destination is too large!") {
+                    setStatus(15);
+                } else if (response.error = "Error: the value of amount is invalid or was not provided correctly") {
+                    setStatus(16);
+                } else if (response.error = "Error: the value of amount is less or equal than zero!") {
+                    setStatus(17); 
+                } else if (response.error = "Error: the value of amount is too large!") {
+                    setStatus(18);
+                } else if (response.error = "Error: the format of amount is invalid! Only up to two decimal places are allowed.") {             
+                    setStatus(19);
+                } else if (response.error = "Error: the value of day is invalid or was not provided correctly") {
+                    setStatus(20)
+                } else {
+                    throw new Error("The request failed. Please check the data and try again.");
+                }
             }
-            
         } catch (error: any) {
-            toast({
-                variant: 'destructive',
-                title: "Uh oh! Something went wrong.",
-                description: "There was a problem with your request.",
-            });
-
+            setStatus(21);
             console.error(error);
+        } finally {
+            setIsLoading(false);
+            setShowToast(true);
         }
     }
 
     const handleUpdate = async () => {
         try {
+            setIsLoading(true);
             const response = await updateExpense(expense as Expense);
 
             if (response.success) {
                 loadExpenses();
-
-                toast({
-                    variant: 'success',
-                    title: 'Information updated successfully!',
-                    description: 'Your changes have been saved. Everything is up to date!',
-                });
+                setStatus(1);
             } else {
-                throw new Error("The request failed. Please check the data and try again.");
+                if (response.error == "Error: the value of name is invalid or was not provided correctly") {
+                    setStatus(2);
+                } else if (response.error == "Error: the value of name is too short!") {
+                    setStatus(3);
+                } else if (response.error = "Error: the value of name is too large!") {
+                    setStatus(4)
+                } else if (response.error = "Error: the value of category is invalid or was not provided correctly") {
+                    setStatus(5);
+                } else if (response.error = "Error: the value of duration is invalid or was not provided correctly") {
+                    setStatus(6);
+                } else if (response.error = "Error: the value of place is invalid or was not provided correctly") {
+                    setStatus(7);
+                } else if (response.error = "Error: the value of place is too short!") {
+                    setStatus(8);
+                } else if (response.error = "Error: the value of place is too large!") {
+                    setStatus(9);
+                } else if (response.error = "Error: the value of origin is invalid or was not provided correctly") {
+                    setStatus(10);
+                }else if (response.error = "Error: the value of origin is too short!") {
+                    setStatus(11);
+                } else if (response.error = "Error: the value of origin is too large!") {
+                    setStatus(12);
+                } else if (response.error = "Error: the value of destination is invalid or was not provided correctly") {
+                    setStatus(13);
+                }else if (response.error = "Error: the value of destination is too short!") {
+                    setStatus(14);
+                } else if (response.error = "Error: the value of destination is too large!") {
+                    setStatus(15);
+                } else if (response.error = "Error: the value of amount is invalid or was not provided correctly") {
+                    setStatus(16);
+                } else if (response.error = "Error: the value of amount is less or equal than zero!") {
+                    setStatus(17); 
+                } else if (response.error = "Error: the value of amount is too large!") {
+                    setStatus(18);
+                } else if (response.error = "Error: the format of amount is invalid! Only up to two decimal places are allowed.") {             
+                    setStatus(19);
+                } else {
+                    throw new Error("The request failed. Please check the data and try again.");
+                }
             }
         } catch (error: any) {
-            toast({
-                variant: 'destructive',
-                title: "Uh oh! Something went wrong.",
-                description: "There was a problem with your request.",
-            });
-
+            setStatus(21);
             console.error(error);
+        } finally {
+            setIsLoading(false);
+            setShowToast(true);
         }
     }
 
     const handleDelete = async (expenseId: string) => {
         try {
+            setIsLoading(true);
             const response = await deleteExpense(trip?.id as string, expenseId as string);
 
             if (response.success) {
+                setStatus(1);
                 loadExpenses();
-
-                toast({
-                    variant: 'success',
-                    title: 'Information updated successfully!',
-                    description: 'Your changes have been saved. Everything is up to date!',
-                });
             } else {
                 throw new Error("The request failed. Please check the data and try again.");
             }
         } catch (error: any) {
-            toast({
-                variant: 'destructive',
-                title: "Uh oh! Something went wrong.",
-                description: "There was a problem with your request.",
-            });
-
+            setStatus(20);
             console.error(error);
+        } finally {
+            setIsLoading(false);
+            setShowToast(true);
         }
     }
+
+    useEffect(() => {
+        if (!isLoading && showContent) {
+            if (status == 1) {
+                toast({
+                    variant: 'success',
+                    title: `${dataForm[expenseType].type} created successfully!`,
+                    description: `Your ${dataForm[expenseType].type.toLowerCase()} is now set! Get ready for your next adventure.`,
+                });
+            } else if (status == 2) {
+                toast({
+                    variant: 'destructive',
+                    title: `Invalid ${dataForm[expenseType].type} Name`,
+                    description: `The ${dataForm[expenseType].type.toLowerCase()} you entered is invalid. Please check and try again.`,
+                }); 
+
+            } else if (status == 3) {
+                toast({
+                    variant: 'destructive',
+                    title: `${dataForm[expenseType].type} Name Too Short`,
+                    description: `Your ${dataForm[expenseType].type.toLowerCase()} name is too short. Please enter a shorter name.`,
+                });
+                
+            } else if (status == 4) {
+                toast({
+                    variant: 'destructive',
+                    title: `${dataForm[expenseType].type} Too Long`,
+                    description: `Your ${dataForm[expenseType].type.toLowerCase()} is too long. Please enter a shorter name.`,
+                });
+
+            } else if (status == 5) {
+                toast({
+                    variant: 'destructive',
+                    title: `Invalid Category`,
+                    description: `The category you entered is invalid. Please check and try again.`,
+                }); 
+
+            } else if (status == 6) {
+                toast({
+                    variant: 'destructive',
+                    title: `Invalid Duration`,
+                    description: `The duration you entered is invalid. Please check and try again.`,
+                });
+
+            } else if (status == 7) {
+                toast({
+                    variant: 'destructive',
+                    title: `Invalid Place`,
+                    description: `The place you entered is invalid. Please check and try again.`,
+                });
+
+            } else if (status == 8) {
+                toast({
+                    variant: 'destructive',
+                    title: `Place Too Short`,
+                    description: `Your place is too short. Please enter a shorter place.`,
+                });
+
+            } else if (status == 9) {
+                toast({
+                    variant: 'destructive',
+                    title: `Place Too Long`,
+                    description: `Your place is too long. Please enter a shorter place.`,
+                });
+
+            } else if (status == 10) {
+                toast({
+                    variant: 'destructive',
+                    title: `Invalid Origin`,
+                    description: `The origin you entered is invalid. Please check and try again.`,
+                });
+
+            }else if (status == 11) {
+                toast({
+                    variant: 'destructive',
+                    title: `Origin Too Short`,
+                    description: `Your origin is too short. Please enter a shorter origin.`,
+                });
+
+            } else if (status == 12) {
+                toast({
+                    variant: 'destructive',
+                    title: `Origin Too Long`,
+                    description: `Your origin is too long. Please enter a shorter origin.`,
+                });
+
+            } else if (status == 13) {
+                toast({
+                    variant: 'destructive',
+                    title: `Invalid Destination`,
+                    description: `The destination you entered is invalid. Please check and try again.`,
+                });
+
+            }else if (status == 14) {
+                toast({
+                    variant: 'destructive',
+                    title: `Destination Too Short`,
+                    description: `Your destination is too short. Please enter a shorter destination.`,
+                });
+
+            } else if (status == 15) {
+                toast({
+                    variant: 'destructive',
+                    title: `Destination Too Long`,
+                    description: `Your destination is too long. Please enter a shorter destination.`,
+                });
+
+            } else if (status == 16) {
+                toast({
+                    variant: 'destructive',
+                    title: `Invalid Amount`,
+                    description: `The destination you entered is invalid. Please check and try again.`,
+                });
+
+            } else if (status == 17) {
+                toast({
+                    variant: 'destructive',
+                    title: `Amount Less or Equal than Zero`,
+                    description: `The amount you entered is less or equal than zero. Please check and try again.`,
+                });
+                
+            } else if (status == 18) {
+                toast({
+                    variant: 'destructive',
+                    title: `Amount Too Large`,
+                    description: `Your amount is too large. Please enter a shorter amount.`,
+                });
+
+            } else if (status == 19) {
+                toast({
+                    variant: 'destructive',
+                    title: `Invalid Amount Format`,
+                    description: `The amount must have at most two decimal places. Please enter a valid amount like 10.00 or 5.5.`,
+                });
+
+            } else if (status == 20) {
+                toast({
+                    variant: 'destructive',
+                    title: `Invalid Day`,
+                    description: `The day you entered is invalid. Please check and try again.`,
+                });
+
+            } else {
+                toast({
+                    variant: 'destructive',
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
+            }
+        }
+
+        setShowToast(false);
+    }, [isLoading, showContent, status]);
 
     useEffect(() => {
         if (trip) {
@@ -748,7 +979,7 @@ export default function ViewExpenses() {
                                                                 <DialogTrigger asChild>
                                                                     <Button variant={'outline'} className="w-6 h-6 xxs5:w-8 xxs5:h-8 lg:w-9 lg:h-9 p-0"
                                                                         onClick={() => {
-                                                                            setExpenseType(dataForm.findIndex((item: dataForm) => item.type == obj.type));
+                                                                            setExpenseType(dataForm.findIndex((item: DataForm) => item.type == obj.type));
                                                                         }}
                                                                     >
                                                                         <Pencil className="w-3 xxs5:w-4 lg:w-5 h-auto p-0"/>
@@ -770,7 +1001,7 @@ export default function ViewExpenses() {
                                                                                 handleUpdate();
                                                                             }}
                                                                         >
-                                                                            {dataForm[expenseType].content.map((c: dataContent) => (
+                                                                            {dataForm[expenseType].content.map((c: DataContent) => (
                                                                                 <div key={c.label} className="w-full">
                                                                                     <Label htmlFor={c.label}>
                                                                                         {c.label}
@@ -780,9 +1011,9 @@ export default function ViewExpenses() {
                                                                                         id={c.label}
                                                                                         name={c.name}
                                                                                         type={c.typeElement}
-                                                                                        className="p-2"
+                                                                                        className={`p-2 ${c.status}`}
                                                                                         placeholder={c.placeHolderElement}
-                                                                                        value={expense[c.name as keyof Expense] as string}
+                                                                                        value={expense[c.name as keyof Expense] ? expense[c.name as keyof Expense] as string : ''}
                                                                                         onChange={handleChange}
                                                                                     />
                                                                                     ) : c.element === 'select' ? (
@@ -797,9 +1028,12 @@ export default function ViewExpenses() {
                                                                                         }
                                                                                     >
                                                                                         <SelectTrigger className="rounded-md border-r-2 p-3">
-                                                                                            <SelectValue placeholder={c.placeHolderElement}>
+                                                                                            <SelectValue
+                                                                                                placeholder={c.placeHolderElement}
+                                                                                                className={c.status}
+                                                                                            >
                                                                                                 <p className="text-sm break-all">
-                                                                                                {expense[c.label.toLowerCase() as keyof Expense]}
+                                                                                                    {expense[c.label.toLowerCase() as keyof Expense]}
                                                                                                 </p>
                                                                                             </SelectValue>
                                                                                         </SelectTrigger>
@@ -820,12 +1054,14 @@ export default function ViewExpenses() {
                                                                                 </div>
                                                                             ))}
                                                                             <div>
-                                                                                <Label htmlFor="Amount">Amount</Label>
+                                                                                <Label htmlFor="Amount">
+                                                                                    Amount
+                                                                                </Label>
                                                                                 <Input
                                                                                     id="Amount"
                                                                                     name="amount"
                                                                                     type="text"
-                                                                                    className="p-2"
+                                                                                    className={`p-2 ${status >= 16 && status <= 19 ? 'border-red-500' : ''}`}
                                                                                     placeholder="How much is the expense?"
                                                                                     value={`${getCurrencySymbol(expense.countryCurrency)}${expense.amount}`}
                                                                                     onChange={handleChangeInput}
@@ -842,7 +1078,10 @@ export default function ViewExpenses() {
                                                                                     }
                                                                                 >
                                                                                     <SelectTrigger className="rounded-md border-r-2 p-3">
-                                                                                        <SelectValue placeholder="Select a day" />
+                                                                                        <SelectValue 
+                                                                                            placeholder="Select a day" 
+                                                                                            className={status == 20 ? 'border-red-500' : ''}
+                                                                                        />
                                                                                     </SelectTrigger>
                                                                                     <SelectContent>
                                                                                     <SelectGroup>
@@ -946,7 +1185,7 @@ export default function ViewExpenses() {
                                                             </DialogDescription>
                                                             </DialogHeader>
                                                                 <div className="grid gap-2">
-                                                                    {dataForm[index].content.map((c: dataContent) => (
+                                                                    {dataForm[index].content.map((c: DataContent) => (
                                                                         <div key={c.label} className="w-full">
                                                                             <Label htmlFor={c.label}>
                                                                                 {c.label}
@@ -956,9 +1195,9 @@ export default function ViewExpenses() {
                                                                                 id={c.label}
                                                                                 name={c.name}
                                                                                 type={c.typeElement}
-                                                                                className="p-2"
+                                                                                className={`p-2 ${c.status}`}
                                                                                 placeholder={c.placeHolderElement}
-                                                                                value={expense[c.name as keyof Expense] as string}
+                                                                                value={expense[c.name as keyof Expense] ? expense[c.name as keyof Expense] as string : ''}
                                                                                 onChange={handleChange}
                                                                             />
                                                                             ) : c.element === 'select' ? (
@@ -966,14 +1205,17 @@ export default function ViewExpenses() {
                                                                                 name={c.label.toLowerCase()}
                                                                                 open={!!isOpen[c.label]}
                                                                                 onOpenChange={(open) =>
-                                                                                setIsOpen((prev) => ({ ...prev, [c.label]: open }))
+                                                                                    setIsOpen((prev) => ({ ...prev, [c.label]: open }))
                                                                                 }
                                                                                 onValueChange={(value: string) =>
                                                                                     setExpense({ ...expense, [c.label.toLowerCase()]: value })
                                                                                 }
                                                                             >
                                                                                 <SelectTrigger className="rounded-md border-r-2 p-3">
-                                                                                    <SelectValue placeholder={c.placeHolderElement}>
+                                                                                    <SelectValue
+                                                                                        placeholder={c.placeHolderElement}
+                                                                                        className={c.status}
+                                                                                    >
                                                                                         <p className="text-sm break-all">
                                                                                             {expense[c.label.toLowerCase() as keyof Expense]}
                                                                                         </p>
@@ -999,7 +1241,7 @@ export default function ViewExpenses() {
                                                                             id="Amount"
                                                                             name="amount"
                                                                             type="text"
-                                                                            className="p-2"
+                                                                            className={`p-2 ${status >= 16 && status <= 19 ? 'border-red-500' : ''}`}
                                                                             placeholder="How much is the expense?"
                                                                             value={`${getCurrencySymbol(expense.countryCurrency)}${expense.amount}`}
                                                                             onChange={handleChangeInput}
@@ -1016,7 +1258,10 @@ export default function ViewExpenses() {
                                                                             }
                                                                         >
                                                                             <SelectTrigger className="rounded-md border-r-2 p-3">
-                                                                                <SelectValue placeholder="Select a day" />
+                                                                                <SelectValue 
+                                                                                    placeholder="Select a day" 
+                                                                                    className={status == 20 ? 'border-red-500' : ''}
+                                                                                />
                                                                             </SelectTrigger>
                                                                             <SelectContent>
                                                                             <SelectGroup>

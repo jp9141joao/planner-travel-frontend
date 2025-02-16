@@ -167,7 +167,7 @@ export default function AddTrips () {
             setIsLoading(false);
             setShowToast(true);
             console.log(error);
-        } 
+        }
     };
     
     useEffect(() => {

@@ -412,10 +412,10 @@ export default function ViewExpenses() {
         }
     };
 
-    const handleCreate = async () => {
+    const handleCreate = async (type: string) => {
         try {
             setIsLoading(true);
-            const response = await createExpense(expense);
+            const response = await createExpense({...expense, type: type});
             alert(response.error)
             if (response.success) {
                 setStatus(1);
@@ -1195,8 +1195,7 @@ export default function ViewExpenses() {
                                                         <DialogFooter>
                                                         <Button type="button" size="lg" 
                                                             onClick={() => {
-                                                                setExpense({...expense, type: dataForm[index].type});
-                                                                handleCreate();
+                                                                handleCreate(dataForm[index].type);
                                                             }}
                                                         >
                                                             {dataForm[index].operation} Expense

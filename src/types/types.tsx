@@ -177,3 +177,8 @@ export interface DialogOpen {
     type: string[],
     state: boolean[],
 }
+
+export interface Operation {
+    id?: string,
+    type: string,
+}

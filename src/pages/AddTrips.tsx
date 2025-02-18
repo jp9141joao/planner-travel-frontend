@@ -24,9 +24,6 @@ export default function AddTrips () {
     const [ season, setSeason] = useState<string>('');
     const [ visitPlace, setVisitPlace ] = useState<string>('');
     const [ reset, setReset ] = useState<boolean>(false);
-    const [ toastMessage, setToastMessage ] = useState({
-        variant: '', title: '', description: ''
-    });
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ status, setStatus ] = useState<number>(0);
@@ -156,7 +153,7 @@ export default function AddTrips () {
                 } else if (response.error == 'Error: The value of currency is invalid!') {
                     setStatus(7);
                 } else {
-                    setStatus(8);
+                    throw new Error("The request failed. Please check the data and try again.");
                 }
             }
 
@@ -186,51 +183,51 @@ export default function AddTrips () {
     }, [period]);
     
     useEffect(() => {
-        if (!isLoading && showToast) {
+        if (!isLoading && showToast && status > 0) {
             if (status == 1) {
-                setToastMessage({
+                toast({
                     variant: 'success',
                     title: 'Trip created successfully!',
                     description: 'Your trip is now set! Get ready for your next adventure.',
                 });
             } else if (status == 2) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'Invalid Trip Name',
                     description: 'The trip name you entered is invalid. Please check and try again.',
                 });
             } else if (status == 3) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'Trip Name Too Short',
                     description: 'The trip name is too short. Please enter a shorter trip name.',
                 });
             } else if (status == 4) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'Trip Name Too Long',
                     description: 'The trip name address is too long. Please enter a shorter trip name.',
                 });
             } else if (status == 5) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'Invalid Period',
                     description: 'The period you entered is invalid. Please check and try again.',
                 });
             } else if (status == 6) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'Invalid Budget',
                     description: 'The budget you entered is invalid. Please check and try again.',
                 });
             } else if (status == 7) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'Invalid Currency',
                     description: 'The currency you entered is invalid. Please check and try again.',
                 });
             } else {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: "Uh oh! Something went wrong.",
                     description: "There was a problem with your request.",
@@ -238,20 +235,6 @@ export default function AddTrips () {
             }
         }
     }, [isLoading, showToast, status]);
-
-
-    useEffect(() => {
-        if (showToast) {
-            toast({
-                variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
-                title: toastMessage.title,
-                description: toastMessage.description,
-            })
-
-            setShowToast(false);
-        }
-
-    }, [toastMessage]);
 
     useEffect(() => {
         if (visitPlace != '') {

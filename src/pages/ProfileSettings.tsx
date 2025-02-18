@@ -15,9 +15,6 @@ import { getItemSessionStorage, setItemSessionStorage } from "@/components/utils
 export function ProfileSettings() {
     const [ fullName, setFullName ] = useState<string | undefined>('');
     const [ email, setEmail ] = useState<string | undefined>('');
-    const [ toastMessage, setToastMessage ] = useState({
-        variant: '', title: '', description: ''
-    });
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ status, setStatus ] = useState<number>(0);
@@ -53,14 +50,14 @@ export function ProfileSettings() {
                 } else if (response.error == 'Error: There is already a user using this email!') {
                     setStatus(6);
                 } else {
-                    setStatus(7);
+                    throw new Error("The request failed. Please check the data and try again.");
                 }
             }
 
             setIsLoading(false);
             setShowToast(true);
         } catch (error: any) {
-            setStatus(8);
+            setStatus(7);
             setIsLoading(false);
             setShowToast(true);
             console.log(error);
@@ -125,68 +122,52 @@ export function ProfileSettings() {
     }, [fullName, email])
 
     useEffect(() => {
-            if (!isLoading && showToast) {
-                if (status == 1) {
-                    setToastMessage({
-                        variant: 'success',
-                        title: 'Information updated successfully!',
-                        description: 'Your changes have been saved. Everything is up to date!',
-                    });                    
-                } else if (status == 2) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'Invalid Full Name',
-                        description: 'Please provide a valid full name with only letters and spaces.',
-                    });
-                } else if (status == 3) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'Full Name Too Long',
-                        description: 'Your full name is too long. Please enter a shorter name.',
-                    });
-                } else if (status == 4) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'Invalid Email',
-                        description: 'The email address you entered is invalid. Please check and try again.',
-                    });
-                } else if (status == 5) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'Email Too Long',
-                        description: 'The email address is too long. Please enter a shorter email address.',
-                    });
-                } else if (status == 6) {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: 'Email Already in Use',
-                        description: 'Error: There is already a user using this email. Please use a different email address or log in to your account.',
-                    });
-                } else {
-                    setToastMessage({
-                        variant: 'destructive',
-                        title: "Uh oh! Something went wrong.",
-                        description: "There was a problem with your request.",
-                    });
-                }
-            }
-        }, [isLoading, showToast, status]);
-
-    useEffect(() => {
-        if (showToast && status != 0) {
-            toast({
-                variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
-                title: toastMessage.title,
-                description: toastMessage.description,
-            });
-
+        if (!isLoading && showToast && status > 0) {
             if (status == 1) {
-                setButtonDisabled(true);
+                toast({
+                    variant: 'success',
+                    title: 'Information updated successfully!',
+                    description: 'Your changes have been saved. Everything is up to date!',
+                });                    
+            } else if (status == 2) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Invalid Full Name',
+                    description: 'Please provide a valid full name with only letters and spaces.',
+                });
+            } else if (status == 3) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Full Name Too Long',
+                    description: 'Your full name is too long. Please enter a shorter name.',
+                });
+            } else if (status == 4) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Invalid Email',
+                    description: 'The email address you entered is invalid. Please check and try again.',
+                });
+            } else if (status == 5) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Email Too Long',
+                    description: 'The email address is too long. Please enter a shorter email address.',
+                });
+            } else if (status == 6) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Email Already in Use',
+                    description: 'Error: There is already a user using this email. Please use a different email address or log in to your account.',
+                });
+            } else {
+                toast({
+                    variant: 'destructive',
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                });
             }
-            
-            setStatus(0);
         }
-    }, [toastMessage]);
+    }, [isLoading, showToast, status]);
 
     return (
         <BodyPage>

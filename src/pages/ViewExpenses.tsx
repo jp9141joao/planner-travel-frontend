@@ -5,20 +5,16 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Toaster } from "@/components/ui/toaster";
 import { getItemSessionStorage } from "@/components/utils/utils";
 import { toast } from "@/hooks/use-toast";
-import { createExpense, deleteExpense, getExpenses, getTrip, updateExpense, } from "@/service/service";
-import { AccomodationExpense, AirplaneExpense, AttractionExpense, DataButton, DataContent, DataForm, DialogOpen, Expense, FoodExpense, Operation, Status, TransportationExpense, Trip } from "@/types/types";
-import { error } from "console";
-import { stat } from "fs";
-import { BadgeInfo, Bed, BedSingle, Building, Bus, CalendarDays, CalendarIcon, Castle, ChevronDown, ChevronUp, Church, CircleHelp, Clock, Coffee, CookingPot, FerrisWheel, Fish, Flag, Home, Hotel, Info, Landmark, Link, MapPin, MoreHorizontal, Mountain, PawPrint, Pencil, Pizza, Plane, Plus, Puzzle, Receipt, Soup, Theater, Ticket, Timer, TreePine, Users, Utensils, Wallet, X } from "lucide-react";
+import { createExpense, deleteExpense, getExpenses, updateExpense, } from "@/service/service";
+import { DataButton, DataContent, DataForm, Expense,  Operation, Status, Trip } from "@/types/types";
+import { Bed, BedSingle, Building, Bus, CalendarIcon, Castle, Church, Coffee, CookingPot, FerrisWheel, Fish, Flag, Home, Hotel, Landmark, MapPin, Mountain, PawPrint, Pencil, Pizza, Plane, Plus, Puzzle, Receipt, Soup, Theater, Ticket, Timer, TreePine, Users, Utensils, Wallet, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 const initialExpense = {
@@ -52,40 +48,30 @@ export default function ViewExpenses() {
     const [showContent, setShowContent] = useState<boolean | null>(null);
     const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>({});
     const [expenseType, setExpenseType] = useState<number>(0);
+    const [dialogId, setDialogId] = useState<string>('');
     const [status, setStatus] = useState<Status>({ nmr: 0 });
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [operation, setOperation] = useState<Operation>({ type: '' });
     const [showToast, setShowToast] = useState<boolean>(false);
-    const [isDialogOpen, setIsDialogOpen] = useState()
     const dataButton: DataButton[] = [
         {
             name: 'Flight',
-            href: '/expenses',
-            nmr: 0,
             icon: <Plane />
         },
         {
             name: 'Transportation',
-            href: '/itinerary',
-            nmr: 1,
             icon: <Bus />
         },
         {
             name: 'Food',
-            href: '/toDoList',
-            nmr: 2,
             icon: <Utensils />
         },
         {
             name: 'Attraction',
-            href: '/toDoList',
-            nmr: 3,
             icon: <FerrisWheel />
         },
         {
             name: 'Accomodation',
-            href: '/myPiggyBank',
-            nmr: 4,
             icon: <Hotel />
         },
     ];
@@ -318,8 +304,7 @@ export default function ViewExpenses() {
     };
 
     const NumberFormatted = (amount: number): string => {
-        
-            
+  
         if (!isNaN(amount)) {
 
             const formatted = amount.toLocaleString('en-US', {
@@ -752,301 +737,307 @@ export default function ViewExpenses() {
                                 <ScrollArea className={`grid  ${expenses.length < 4 ? 'h-auto' : 'h-[92vw] xxs5:h-[86vw] xs:h-[48vw] md:h-[33.5vw] lg:h-[25vw] xl:h-[15vw]' } mt-[1vw]`}>
                                     <div className="relative">
                                     {
-                                            expenses.map((obj: Expense, index: number) => (
-                                                <Card key={index} className={`w-full p-2 ${index != 0 && index != expenses.length - 1 ? 'my-3' : null} mr-3`}>
-                                                    <div className="flex justify-between items-center m-0 p-0">
-                                                        { 
-                                                            obj.type == "Flight" ?
-                                                            <Plane strokeWidth={1} className="w-14 xxs5:w-12 xxs5:w-16 h-auto pl-1 pr-2 lg:pr-0 lg:mr-3"/> :
-                                                            obj.type == "Transportation" ?
-                                                            <Bus strokeWidth={1} className="w-14 xxs5:w-12 xxs5:w-16 h-auto pl-1 pr-2 lg:pr-0 lg:mr-3"/> :
-                                                            obj.type == "Food" ?
-                                                            <Utensils strokeWidth={1} className="w-14 xxs5:w-12 xxs5:w-16 h-auto pl-1 pr-2 lg:pr-0 lg:mr-3"/> :
-                                                            obj.type == "Attraction" ?
-                                                            <FerrisWheel strokeWidth={1} className="w-14 xxs5:w-12 xxs5:w-16 h-auto pl-1 pr-2 lg:pr-0 lg:mr-3"/> :
-                                                            obj.type == "Accomodation" ?
-                                                            <Hotel strokeWidth={1} className="w-14 xxs5:w-12 xxs5:w-16 h-auto pl-1 pr-2 lg:pr-0 lg:mr-3"/> :
-                                                            null
-                                                        }
-                                                        <div className="w-full grid place-items-start xxs5:gap-0.5 lg:gap-1.5 p-0">
-                                                            <div>
-                                                                <p className="break-all text-[3.4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                    <strong>
-                                                                        { obj.type != "Transportation" ? obj.name : obj.category }
-                                                                    </strong>
-                                                                </p>
-                                                            </div>
-                                                            <div>
-                                                                <p className="flex gap-0.5 xs:gap-1 text-[3.4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                { 
-                                                                    obj.type == "Flight" || obj.type == "Transportation" ?
-                                                                    <>
-                                                                        <MapPin className="w-3 lg:w-5 h-auto"/>
-                                                                        { obj.origin }
-                                                                    </> :
-                                                                    <>
-                                                                        {
-                                                                            obj.type == "Food" ?
-                                                                            (   
-                                                                                obj.category == 'Breakfast' ?
-                                                                                <Coffee className="w-3 lg:w-5 h-auto"/> :
-                                                                                obj.category == 'Snack' ?
-                                                                                <Pizza className="w-3 lg:w-5 h-auto"/>  :
-                                                                                obj.category == 'Lunch' ?
-                                                                                <CookingPot className="w-3 lg:w-5 h-auto"/>  :
-                                                                                obj.category == 'Dinner' ?
-                                                                                <Soup className="w-3 lg:w-5 h-auto"/> : null 
-                                                                            ) :
-                                                                            obj.type == "Attraction" ? 
-                                                                            (    
-                                                                                obj.category == 'Museum' ? 
-                                                                                <Landmark className="w-3 lg:w-5 h-auto" /> :
-                                                                                obj.category == 'Park' ? 
-                                                                                <TreePine className="w-3 lg:w-5 h-auto" /> :
-                                                                                obj.category == 'Event' ? 
-                                                                                <Ticket className="w-3 lg:w-5 h-auto" /> :
-                                                                                obj.category == 'Theater' ? 
-                                                                                <Theater className="w-3 lg:w-5 h-auto" /> :
-                                                                                obj.category == 'Zoo' ? 
-                                                                                <PawPrint className="w-3 lg:w-5 h-auto" /> :
-                                                                                obj.category == 'Aquarium' ? 
-                                                                                <Fish className="w-3 lg:w-5 h-auto" /> :
-                                                                                obj.category == 'Restaurant' ? 
-                                                                                <Utensils className="w-3 lg:w-5 h-auto" /> :
-                                                                                obj.category == 'Nature Place' ? 
-                                                                                <Mountain className="w-3 lg:w-5 h-auto" /> :
-                                                                                obj.category == 'Historical Place' ? 
-                                                                                <Castle className="w-3 lg:w-5 h-auto" /> :
-                                                                                obj.category == 'Religious Place' ? 
-                                                                                <Church className="w-3 lg:w-5 h-auto" /> :
-                                                                                obj.category == 'Others' ? 
-                                                                                <Puzzle className="w-3 lg:w-5 h-auto" /> : null
-                                                                            ) :
-                                                                            obj.type == "Accomodation" ?
-                                                                            (
-                                                                                obj.category == 'Hotel' ?  
-                                                                                <Bed className="w-3 lg:w-5 h-auto"/> :  
-                                                                                obj.category == 'Hostel' ?  
-                                                                                <Users className="w-3 lg:w-5 h-auto"/>  :  
-                                                                                obj.category == 'Airbnb' ?  
-                                                                                <Home className="w-3 lg:w-5 h-auto"/>  :  
-                                                                                obj.category == 'Guesthouse' ?  
-                                                                                <Building className="w-3 lg:w-5 h-auto"/>  :  
-                                                                                obj.category == 'Other' ?  
-                                                                                <BedSingle className="w-3 lg:w-5 h-auto"/> : null
-                                                                            ) : null
-                                                                        }
-                                                                        { obj.category }
-                                                                    </>
-                                                                }
-                                                                </p>
-                                                            </div>
-                                                            <div>
-                                                                <p className="flex gap-0.5 xs:gap-1 text-[3.4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                {
-                                                                    obj.type == "Flight" || obj.type == "Transportation" ?
-                                                                    <>
-                                                                        <Flag className="w-3 lg:w-5 h-auto"/>
-                                                                        { obj.destination }
-                                                                    </> :
-                                                                    obj.type == "Food" ?
-                                                                    <>
-                                                                        <MapPin className="w-3 lg:w-5 h-auto"/>
-                                                                        { obj.place }
-                                                                    </> :
-                                                                    obj.type == "Attraction" || obj.type == "Accomodation" ?
-                                                                    <>
-                                                                        <Timer className="w-3 lg:w-5 h-auto"/>
-                                                                        { obj.duration } { obj.type == "Accomodation" && Number(obj.duration) > 1 ? 'Days' : 'Day' }
-                                                                    </> : null
-                                                                }
-                                                                </p>
-                                                            </div>
-                                                            <div className="w-full grid xxs5:flex justify-between pr-2">
-                                                                <div className="flex gap-1.5">
-                                                                    <Wallet className="w-3 lg:w-5 h-auto"/>
-                                                                    <p className="break-all text-[3.4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                        { getCurrencySymbol(obj.countryCurrency) }{ obj.amount }
-                                                                    </p>
-                                                                </div>
-                                                                <div className="flex gap-0.5 xs:gap-1">
-                                                                    <CalendarIcon className="w-3 lg:w-5 h-auto"/>
-                                                                    <p className="text-[3.4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                        Day { obj.day }
-                                                                    </p>
-                                                                </div>
-                                                            </div>
+                                        expenses.map((obj: Expense, index: number) => (
+                                            <Card key={index} className={`w-full p-2 ${index != 0 && index != expenses.length - 1 ? 'my-3' : null} mr-3`}>
+                                                <div className="flex justify-between items-center m-0 p-0">
+                                                    { 
+                                                        obj.type == "Flight" ?
+                                                        <Plane strokeWidth={1} className="w-14 xxs5:w-12 xxs5:w-16 h-auto pl-1 pr-2 lg:pr-0 lg:mr-3"/> :
+                                                        obj.type == "Transportation" ?
+                                                        <Bus strokeWidth={1} className="w-14 xxs5:w-12 xxs5:w-16 h-auto pl-1 pr-2 lg:pr-0 lg:mr-3"/> :
+                                                        obj.type == "Food" ?
+                                                        <Utensils strokeWidth={1} className="w-14 xxs5:w-12 xxs5:w-16 h-auto pl-1 pr-2 lg:pr-0 lg:mr-3"/> :
+                                                        obj.type == "Attraction" ?
+                                                        <FerrisWheel strokeWidth={1} className="w-14 xxs5:w-12 xxs5:w-16 h-auto pl-1 pr-2 lg:pr-0 lg:mr-3"/> :
+                                                        obj.type == "Accomodation" ?
+                                                        <Hotel strokeWidth={1} className="w-14 xxs5:w-12 xxs5:w-16 h-auto pl-1 pr-2 lg:pr-0 lg:mr-3"/> :
+                                                        null
+                                                    }
+                                                    <div className="w-full grid place-items-start xxs5:gap-0.5 lg:gap-1.5 p-0">
+                                                        <div>
+                                                            <p className="break-all text-[3.4vw] xxs5:text-[3vw] xs:text-sm">
+                                                                <strong>
+                                                                    { obj.type != "Transportation" ? obj.name : obj.category }
+                                                                </strong>
+                                                            </p>
                                                         </div>
-                                                        <div className="grid place-items-center items-center gap-2">
-                                                            <div className="grid xxs5:flex justify-center gap-1.5">
-                                                                <Dialog>
-                                                                    <DialogTrigger asChild>
-                                                                        <Button variant={'outline'} className="w-8 h-8 xxs5:w-8 xxs5:h-8 lg:w-12 lg:h-12 p-0"
-                                                                            onClick={() => {
-                                                                                setExpenseType(dataForm.findIndex((item: DataForm) => item.type == obj.type));
-                                                                            }}
-                                                                        >
-                                                                            <Pencil className="w-5 xxs5:w-4 lg:w-6 h-auto p-0"/>
-                                                                        </Button>
-                                                                    </DialogTrigger>
-                                                                    <DialogContent className="w-full sm:max-w-[425px]">
-                                                                        <DialogHeader>
-                                                                            <DialogTitle>
-                                                                                {dataForm[expenseType].title}
-                                                                            </DialogTitle>
-                                                                            <DialogDescription>
-                                                                                {dataForm[expenseType].subtitle}
-                                                                            </DialogDescription>
-                                                                        </DialogHeader>
-                                                                            <form
-                                                                                className="grid gap-2"
-                                                                                onSubmit={(e) => {
-                                                                                    e.preventDefault();
-                                                                                    handleUpdate();
-                                                                                }}
-                                                                            >
-                                                                                {dataForm[expenseType].content.map((c: DataContent) => (
-                                                                                    <div key={c.label} className="w-full">
-                                                                                        <Label htmlFor={c.label}>
-                                                                                            {c.label}
-                                                                                        </Label>
-                                                                                        {c.element === 'input' ? (
-                                                                                        <Input
-                                                                                            id={c.label}
-                                                                                            name={c.name}
-                                                                                            type={c.typeElement}
-                                                                                            className={`p-2 ${status.name == c.name ? "border-red-500" : ''}`}
-                                                                                            placeholder={c.placeHolderElement}
-                                                                                            value={expense[c.name as keyof Expense] ? expense[c.name as keyof Expense] as string : ''}
-                                                                                            onChange={handleChange}
-                                                                                        />
-                                                                                        ) : c.element === 'select' ? (
-                                                                                        <Select
-                                                                                            name={c.name}
-                                                                                            value={expense[c.name as keyof Expense] ? String(expense[c.name as keyof Expense]) : ''}
-                                                                                            open={!!isOpen[c.label]}
-                                                                                            onOpenChange={(open) =>
-                                                                                                setIsOpen((prev) => ({ ...prev, [c.label]: open }))
-                                                                                            }
-                                                                                            onValueChange={(value: string) =>
-                                                                                                setExpense({ ...expense, [c.name]: value })
-                                                                                            }
-                                                                                        >
-                                                                                            <SelectTrigger className={`rounded-md border-r-2 p-3 ${status.name == c.name}`}>
-                                                                                                <SelectValue
-                                                                                                    placeholder={c.placeHolderElement}
-                                                                                                >
-                                                                                                    <p className="text-sm break-all">
-                                                                                                        {expense[c.name as keyof Expense]}
-                                                                                                    </p>
-                                                                                                </SelectValue>
-                                                                                            </SelectTrigger>
-                                                                                            <SelectContent>
-                                                                                                <SelectGroup>
-                                                                                                    {
-                                                                                                        Array.isArray(c.valueElement) &&
-                                                                                                            c.valueElement.map((v: string, indexElement: number) => (
-                                                                                                                <SelectItem key={indexElement} value={v}>
-                                                                                                                    {v}
-                                                                                                                </SelectItem>
-                                                                                                            ))
-                                                                                                    }
-                                                                                                </SelectGroup>
-                                                                                            </SelectContent>
-                                                                                        </Select>
-                                                                                        ) : null}
-                                                                                    </div>
-                                                                                ))}
-                                                                                <div>
-                                                                                    <Label htmlFor="Amount">
-                                                                                        Amount
-                                                                                    </Label>
-                                                                                    <Input
-                                                                                        id="Amount"
-                                                                                        name="amount"
-                                                                                        type="text"
-                                                                                        className={`p-2 ${status.name == "amount" ? 'border-red-500' : ''}`}
-                                                                                        placeholder="How much is the expense?"
-                                                                                        value={`${getCurrencySymbol(expense.countryCurrency)}${expense.amount}`}
-                                                                                        onChange={handleChangeInput}
-                                                                                    />
-                                                                                </div>
-                                                                                <div>
-                                                                                    <Label htmlFor="day">Expense Day</Label>
-                                                                                    <Select
-                                                                                        name="day"
-                                                                                        defaultValue="1"
-                                                                                        value={String(expense.day)}
-                                                                                        onValueChange={(value: string) =>
-                                                                                            setExpense({ ...expense, day: Number(value) })
-                                                                                        }
-                                                                                    >
-                                                                                        <SelectTrigger className="rounded-md border-r-2 p-3">
-                                                                                            <SelectValue 
-                                                                                                placeholder="Select a day" 
-                                                                                                className={status.name == "day" ? 'border-red-500' : ''}
-                                                                                            />
-                                                                                        </SelectTrigger>
-                                                                                        <SelectContent>
-                                                                                        <SelectGroup>
-                                                                                            {   
-                                                                                                trip &&
-                                                                                                Array.from({ length: trip.daysQty }).map((_, index) => (
-                                                                                                    <SelectItem key={index} value={String(index + 1)}>
-                                                                                                        {index + 1}° Day
-                                                                                                    </SelectItem>
-                                                                                                ))
-                                                                                            }
-                                                                                        </SelectGroup>
-                                                                                        </SelectContent>
-                                                                                    </Select>
-                                                                                </div>
-                                                                            </form>
-                                                                        <DialogFooter>
-                                                                        <Button type="submit" size="lg"
-                                                                            onClick={() => setOperation({ id: obj.id, type: 'update' })}
-                                                                        >dwasdasdasdsadsaddassasadsadsadasdasdsadsdasadasdasdasd
-                                                                        {
-                                                                            isLoading && operation.type == 'update' && operation.id == obj.id ? 
-                                                                            <div role="status">
-                                                                                <svg aria-hidden="true" className="w-8 h-8 text-white animate-spin fill-white py-1" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-                                                                                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5533C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.723 75.2124 7.41289C69.5422 4.10285 63.2754 1.94025 56.7222 1.05197C51.7666 0.3679 46.7398 0.446843 41.8198 1.27873C39.297 1.6983 37.8255 4.19778 38.4626 6.62326C39.0998 9.04874 41.5717 10.4717 44.0965 10.1071C47.8511 9.53005 51.7015 9.52622 55.4656 10.0962C60.878 10.9201 65.9925 13.1373 70.396 16.5714C74.7995 20.0055 78.3892 24.5698 80.8418 29.841C83.0456 34.3696 84.5159 39.246 85.1999 44.2728C85.6531 47.6269 88.1603 50.0379 91.5303 50.0379C91.9338 50.0379 92.3423 49.9962 92.7521 49.9106C95.209 49.4046 96.5425 46.9181 95.9355 44.4609C95.324 41.9793 94.5211 39.5402 93.9676 39.0409Z" fill="currentFill"/>
-                                                                                </svg>
-                                                                                <span className="sr-only">Carregando...</span>
-                                                                            </div> :
-                                                                            <p>
-                                                                                {dataForm[expenseType].operation} Expense
-                                                                            </p> 
-                                                                        }
-                                                                        </Button>
-                                                                        </DialogFooter>
-                                                                    </DialogContent>
-                                                                </Dialog>
-                                                                <Button className="w-8 h-8 xxs5:w-8 xxs5:h-8 lg:w-12 lg:h-12 p-0" 
-                                                                    onClick={() => {
-                                                                        setOperation({ id: obj.id, type: 'delete' });
-                                                                        handleDelete(obj.id);
-                                                                    }}>
-                                                                {
-                                                                    isLoading && operation.type == 'delete' && operation.id == obj.id ? 
-                                                                    <div role="status">
-                                                                        <svg aria-hidden="true" className="w-8 h-8 text-white animate-spin fill-white py-1" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-                                                                            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5533C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.723 75.2124 7.41289C69.5422 4.10285 63.2754 1.94025 56.7222 1.05197C51.7666 0.3679 46.7398 0.446843 41.8198 1.27873C39.297 1.6983 37.8255 4.19778 38.4626 6.62326C39.0998 9.04874 41.5717 10.4717 44.0965 10.1071C47.8511 9.53005 51.7015 9.52622 55.4656 10.0962C60.878 10.9201 65.9925 13.1373 70.396 16.5714C74.7995 20.0055 78.3892 24.5698 80.8418 29.841C83.0456 34.3696 84.5159 39.246 85.1999 44.2728C85.6531 47.6269 88.1603 50.0379 91.5303 50.0379C91.9338 50.0379 92.3423 49.9962 92.7521 49.9106C95.209 49.4046 96.5425 46.9181 95.9355 44.4609C95.324 41.9793 94.5211 39.5402 93.9676 39.0409Z" fill="currentFill"/>
-                                                                        </svg>
-                                                                        <span className="sr-only">Carregando...</span>
-                                                                    </div> :
-                                                                    <X className="w-5 xxs5:w-4 lg:w-6 h-auto p-0"/>
-                                                                }
-                                                                </Button>
+                                                        <div>
+                                                            <p className="flex gap-0.5 xs:gap-1 text-[3.4vw] xxs5:text-[3vw] xs:text-sm">
+                                                            { 
+                                                                obj.type == "Flight" || obj.type == "Transportation" ?
+                                                                <>
+                                                                    <MapPin className="w-3 lg:w-5 h-auto"/>
+                                                                    { obj.origin }
+                                                                </> :
+                                                                <>
+                                                                    {
+                                                                        obj.type == "Food" ?
+                                                                        (   
+                                                                            obj.category == 'Breakfast' ?
+                                                                            <Coffee className="w-3 lg:w-5 h-auto"/> :
+                                                                            obj.category == 'Snack' ?
+                                                                            <Pizza className="w-3 lg:w-5 h-auto"/>  :
+                                                                            obj.category == 'Lunch' ?
+                                                                            <CookingPot className="w-3 lg:w-5 h-auto"/>  :
+                                                                            obj.category == 'Dinner' ?
+                                                                            <Soup className="w-3 lg:w-5 h-auto"/> : null 
+                                                                        ) :
+                                                                        obj.type == "Attraction" ? 
+                                                                        (    
+                                                                            obj.category == 'Museum' ? 
+                                                                            <Landmark className="w-3 lg:w-5 h-auto" /> :
+                                                                            obj.category == 'Park' ? 
+                                                                            <TreePine className="w-3 lg:w-5 h-auto" /> :
+                                                                            obj.category == 'Event' ? 
+                                                                            <Ticket className="w-3 lg:w-5 h-auto" /> :
+                                                                            obj.category == 'Theater' ? 
+                                                                            <Theater className="w-3 lg:w-5 h-auto" /> :
+                                                                            obj.category == 'Zoo' ? 
+                                                                            <PawPrint className="w-3 lg:w-5 h-auto" /> :
+                                                                            obj.category == 'Aquarium' ? 
+                                                                            <Fish className="w-3 lg:w-5 h-auto" /> :
+                                                                            obj.category == 'Restaurant' ? 
+                                                                            <Utensils className="w-3 lg:w-5 h-auto" /> :
+                                                                            obj.category == 'Nature Place' ? 
+                                                                            <Mountain className="w-3 lg:w-5 h-auto" /> :
+                                                                            obj.category == 'Historical Place' ? 
+                                                                            <Castle className="w-3 lg:w-5 h-auto" /> :
+                                                                            obj.category == 'Religious Place' ? 
+                                                                            <Church className="w-3 lg:w-5 h-auto" /> :
+                                                                            obj.category == 'Others' ? 
+                                                                            <Puzzle className="w-3 lg:w-5 h-auto" /> : null
+                                                                        ) :
+                                                                        obj.type == "Accomodation" ?
+                                                                        (
+                                                                            obj.category == 'Hotel' ?  
+                                                                            <Bed className="w-3 lg:w-5 h-auto"/> :  
+                                                                            obj.category == 'Hostel' ?  
+                                                                            <Users className="w-3 lg:w-5 h-auto"/>  :  
+                                                                            obj.category == 'Airbnb' ?  
+                                                                            <Home className="w-3 lg:w-5 h-auto"/>  :  
+                                                                            obj.category == 'Guesthouse' ?  
+                                                                            <Building className="w-3 lg:w-5 h-auto"/>  :  
+                                                                            obj.category == 'Other' ?  
+                                                                            <BedSingle className="w-3 lg:w-5 h-auto"/> : null
+                                                                        ) : null
+                                                                    }
+                                                                    { obj.category }
+                                                                </>
+                                                            }
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <p className="flex gap-0.5 xs:gap-1 text-[3.4vw] xxs5:text-[3vw] xs:text-sm">
+                                                            {
+                                                                obj.type == "Flight" || obj.type == "Transportation" ?
+                                                                <>
+                                                                    <Flag className="w-3 lg:w-5 h-auto"/>
+                                                                    { obj.destination }
+                                                                </> :
+                                                                obj.type == "Food" ?
+                                                                <>
+                                                                    <MapPin className="w-3 lg:w-5 h-auto"/>
+                                                                    { obj.place }
+                                                                </> :
+                                                                obj.type == "Attraction" || obj.type == "Accomodation" ?
+                                                                <>
+                                                                    <Timer className="w-3 lg:w-5 h-auto"/>
+                                                                    { obj.duration } { obj.type == "Accomodation" && Number(obj.duration) > 1 ? 'Days' : 'Day' }
+                                                                </> : null
+                                                            }
+                                                            </p>
+                                                        </div>
+                                                        <div className="w-full grid xxs5:flex justify-between pr-2">
+                                                            <div className="flex gap-1.5">
+                                                                <Wallet className="w-3 lg:w-5 h-auto"/>
+                                                                <p className="break-all text-[3.4vw] xxs5:text-[3vw] xs:text-sm">
+                                                                    { getCurrencySymbol(obj.countryCurrency) }{ obj.amount }
+                                                                </p>
                                                             </div>
-                                                    
+                                                            <div className="flex gap-0.5 xs:gap-1">
+                                                                <CalendarIcon className="w-3 lg:w-5 h-auto"/>
+                                                                <p className="text-[3.4vw] xxs5:text-[3vw] xs:text-sm">
+                                                                    Day { obj.day }
+                                                                </p>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </Card>
-                                            ))
-                                        }
+                                                    <div className="grid place-items-center items-center gap-2">
+                                                        <div className="grid xxs5:flex justify-center gap-1.5">
+                                                            <Dialog
+                                                                open={dialogId == obj.id ? true : false}
+                                                                onOpenChange={() => setDialogId('')}
+                                                            >
+                                                                <DialogTrigger asChild>
+                                                                    <Button 
+                                                                        variant={'outline'} 
+                                                                        className="w-8 h-8 xxs5:w-8 xxs5:h-8 lg:w-12 lg:h-12 p-0"
+                                                                        onClick={() => {
+                                                                            setDialogId(obj.id)
+                                                                            setExpenseType(dataForm.findIndex((item: DataForm) => item.type == obj.type));
+                                                                        }}
+                                                                    >
+                                                                        <Pencil className="w-5 xxs5:w-4 lg:w-6 h-auto p-0"/>
+                                                                    </Button>
+                                                                </DialogTrigger>
+                                                                <DialogContent className="w-full sm:max-w-[425px]">
+                                                                    <DialogHeader>
+                                                                        <DialogTitle>
+                                                                            {dataForm[expenseType].title}
+                                                                        </DialogTitle>
+                                                                        <DialogDescription>
+                                                                            {dataForm[expenseType].subtitle}
+                                                                        </DialogDescription>
+                                                                    </DialogHeader>
+                                                                        <form
+                                                                            className="grid gap-2"
+                                                                            onSubmit={(e) => {
+                                                                                e.preventDefault();
+                                                                                handleUpdate();
+                                                                            }}
+                                                                        >
+                                                                            {dataForm[expenseType].content.map((c: DataContent) => (
+                                                                                <div key={c.label} className="w-full">
+                                                                                    <Label htmlFor={c.label}>
+                                                                                        {c.label}
+                                                                                    </Label>
+                                                                                    {c.element === 'input' ? (
+                                                                                    <Input
+                                                                                        id={c.label}
+                                                                                        name={c.name}
+                                                                                        type={c.typeElement}
+                                                                                        className={`p-2 ${status.name == c.name ? "border-red-500" : ''}`}
+                                                                                        placeholder={c.placeHolderElement}
+                                                                                        value={expense[c.name as keyof Expense] ? expense[c.name as keyof Expense] as string : ''}
+                                                                                        onChange={handleChange}
+                                                                                    />
+                                                                                    ) : c.element === 'select' ? (
+                                                                                    <Select
+                                                                                        name={c.name}
+                                                                                        value={expense[c.name as keyof Expense] ? String(expense[c.name as keyof Expense]) : ''}
+                                                                                        open={!!isOpen[c.label]}
+                                                                                        onOpenChange={(open) =>
+                                                                                            setIsOpen((prev) => ({ ...prev, [c.label]: open }))
+                                                                                        }
+                                                                                        onValueChange={(value: string) =>
+                                                                                            setExpense({ ...expense, [c.name]: value })
+                                                                                        }
+                                                                                    >
+                                                                                        <SelectTrigger className={`rounded-md border-r-2 p-3 ${status.name == c.name}`}>
+                                                                                            <SelectValue
+                                                                                                placeholder={c.placeHolderElement}
+                                                                                            >
+                                                                                                <p className="text-sm break-all">
+                                                                                                    {expense[c.name as keyof Expense]}
+                                                                                                </p>
+                                                                                            </SelectValue>
+                                                                                        </SelectTrigger>
+                                                                                        <SelectContent>
+                                                                                            <SelectGroup>
+                                                                                                {
+                                                                                                    Array.isArray(c.valueElement) &&
+                                                                                                        c.valueElement.map((v: string, indexElement: number) => (
+                                                                                                            <SelectItem key={indexElement} value={v}>
+                                                                                                                {v}
+                                                                                                            </SelectItem>
+                                                                                                        ))
+                                                                                                }
+                                                                                            </SelectGroup>
+                                                                                        </SelectContent>
+                                                                                    </Select>
+                                                                                    ) : null}
+                                                                                </div>
+                                                                            ))}
+                                                                            <div>
+                                                                                <Label htmlFor="Amount">
+                                                                                    Amount
+                                                                                </Label>
+                                                                                <Input
+                                                                                    id="Amount"
+                                                                                    name="amount"
+                                                                                    type="text"
+                                                                                    className={`p-2 ${status.name == "amount" ? 'border-red-500' : ''}`}
+                                                                                    placeholder="How much is the expense?"
+                                                                                    value={`${getCurrencySymbol(expense.countryCurrency)}${expense.amount}`}
+                                                                                    onChange={handleChangeInput}
+                                                                                />
+                                                                            </div>
+                                                                            <div>
+                                                                                <Label htmlFor="day">Expense Day</Label>
+                                                                                <Select
+                                                                                    name="day"
+                                                                                    defaultValue="1"
+                                                                                    value={String(expense.day)}
+                                                                                    onValueChange={(value: string) =>
+                                                                                        setExpense({ ...expense, day: Number(value) })
+                                                                                    }
+                                                                                >
+                                                                                    <SelectTrigger className="rounded-md border-r-2 p-3">
+                                                                                        <SelectValue 
+                                                                                            placeholder="Select a day" 
+                                                                                            className={status.name == "day" ? 'border-red-500' : ''}
+                                                                                        />
+                                                                                    </SelectTrigger>
+                                                                                    <SelectContent>
+                                                                                    <SelectGroup>
+                                                                                        {   
+                                                                                            trip &&
+                                                                                            Array.from({ length: trip.daysQty }).map((_, index) => (
+                                                                                                <SelectItem key={index} value={String(index + 1)}>
+                                                                                                    {index + 1}° Day
+                                                                                                </SelectItem>
+                                                                                            ))
+                                                                                        }
+                                                                                    </SelectGroup>
+                                                                                    </SelectContent>
+                                                                                </Select>
+                                                                            </div>
+                                                                        </form>
+                                                                    <DialogFooter>
+                                                                    <Button type="submit" size="lg"
+                                                                        onClick={() => setOperation({ id: obj.id, type: 'update' })}
+                                                                    >dwasdasdasdsadsaddassasadsadsadasdasdsadsdasadasdasdasd
+                                                                    {
+                                                                        isLoading && operation.type == 'update' && operation.id == obj.id ? 
+                                                                        <div role="status">
+                                                                            <svg aria-hidden="true" className="w-8 h-8 text-white animate-spin fill-white py-1" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                                                                                <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5533C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.723 75.2124 7.41289C69.5422 4.10285 63.2754 1.94025 56.7222 1.05197C51.7666 0.3679 46.7398 0.446843 41.8198 1.27873C39.297 1.6983 37.8255 4.19778 38.4626 6.62326C39.0998 9.04874 41.5717 10.4717 44.0965 10.1071C47.8511 9.53005 51.7015 9.52622 55.4656 10.0962C60.878 10.9201 65.9925 13.1373 70.396 16.5714C74.7995 20.0055 78.3892 24.5698 80.8418 29.841C83.0456 34.3696 84.5159 39.246 85.1999 44.2728C85.6531 47.6269 88.1603 50.0379 91.5303 50.0379C91.9338 50.0379 92.3423 49.9962 92.7521 49.9106C95.209 49.4046 96.5425 46.9181 95.9355 44.4609C95.324 41.9793 94.5211 39.5402 93.9676 39.0409Z" fill="currentFill"/>
+                                                                            </svg>
+                                                                            <span className="sr-only">Carregando...</span>
+                                                                        </div> :
+                                                                        <p>
+                                                                            {dataForm[expenseType].operation} Expense
+                                                                        </p> 
+                                                                    }
+                                                                    </Button>
+                                                                    </DialogFooter>
+                                                                </DialogContent>
+                                                            </Dialog>
+                                                            <Button className="w-8 h-8 xxs5:w-8 xxs5:h-8 lg:w-12 lg:h-12 p-0" 
+                                                                onClick={() => {
+                                                                    setOperation({ id: obj.id, type: 'delete' });
+                                                                    handleDelete(obj.id);
+                                                                }}>
+                                                            {
+                                                                isLoading && operation.type == 'delete' && operation.id == obj.id ? 
+                                                                <div role="status">
+                                                                    <svg aria-hidden="true" className="w-8 h-8 text-white animate-spin fill-white py-1" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                                                                        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5533C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.723 75.2124 7.41289C69.5422 4.10285 63.2754 1.94025 56.7222 1.05197C51.7666 0.3679 46.7398 0.446843 41.8198 1.27873C39.297 1.6983 37.8255 4.19778 38.4626 6.62326C39.0998 9.04874 41.5717 10.4717 44.0965 10.1071C47.8511 9.53005 51.7015 9.52622 55.4656 10.0962C60.878 10.9201 65.9925 13.1373 70.396 16.5714C74.7995 20.0055 78.3892 24.5698 80.8418 29.841C83.0456 34.3696 84.5159 39.246 85.1999 44.2728C85.6531 47.6269 88.1603 50.0379 91.5303 50.0379C91.9338 50.0379 92.3423 49.9962 92.7521 49.9106C95.209 49.4046 96.5425 46.9181 95.9355 44.4609C95.324 41.9793 94.5211 39.5402 93.9676 39.0409Z" fill="currentFill"/>
+                                                                    </svg>
+                                                                    <span className="sr-only">Carregando...</span>
+                                                                </div> :
+                                                                <X className="w-5 xxs5:w-4 lg:w-6 h-auto p-0"/>
+                                                            }
+                                                            </Button>
+                                                        </div>
+                                                
+                                                    </div>
+                                                </div>
+                                            </Card>
+                                        ))
+                                    }
                                     </div>
                                 </ScrollArea>
                             </div> : 
@@ -1089,153 +1080,156 @@ export default function ViewExpenses() {
                                     <Carousel opts={{align: "start" }} setApi={setApi}>
                                         <CarouselContent className="items-center w-[84.5vw] xxs3:w-[84.54vw] gap-[2vw] ml-[0.0vw] xs:w-[72.95vw] lg:w-[27.21vw] lg:gap-[0.56vw] xl:gap-[0.44vw] xl:w-[25.2vw]">
                                             {dataButton.map((obj, index) => (
-                                            <CarouselItem key={index} className="w-full basis-1/2 cursor-pointer p-0">
-                                                <Dialog
-                                                    onOpenChange={(open) => {
-                                                        if (!open) {
-                                                            setExpense(initialExpense)
-                                                        }
+                                                <CarouselItem key={index} className="w-full basis-1/2 cursor-pointer p-0">
+                                                    <Dialog
+                                                        open={dialogId == obj.name ? true : false}
+                                                        onOpenChange={(open) => {
+                                                            if (!open) {
+                                                                setExpense(initialExpense)
+                                                            }
 
-                                                        if (!open && document.activeElement instanceof HTMLElement) {
-                                                            document.activeElement.blur();
-                                                        }
-                                                    }}
-                                                >
-                                                    <DialogTrigger asChild>
-                                                        <Button 
-                                                            type="button"
-                                                            className="w-full gap-2"
-                                                            variant="outline"
-                                                        >
-                                                            {obj.icon}
-                                                            {obj.name}
-                                                        </Button>
-                                                    </DialogTrigger>
-                                                    <DialogContent className="w-full sm:max-w-[425px]">
-                                                        <DialogHeader>
-                                                        <DialogTitle>{dataForm[index].title}</DialogTitle>
-                                                        <DialogDescription>
-                                                            {dataForm[index].subtitle}
-                                                        </DialogDescription>
-                                                        </DialogHeader>
-                                                            <div className="grid gap-2">
-                                                                {dataForm[index].content.map((c: DataContent) => (
-                                                                    <div key={c.label} className="w-full">
-                                                                        <Label htmlFor={c.label}>
-                                                                            {c.label}
-                                                                        </Label>
-                                                                        {c.element === 'input' ? (
+                                                            if (!open && document.activeElement instanceof HTMLElement) {
+                                                                document.activeElement.blur();
+                                                            }
+
+                                                            setDialogId('')
+                                                        }}
+                                                    >
+                                                        <DialogTrigger asChild>
+                                                            <Button 
+                                                                type="button"
+                                                                className="w-full gap-2"
+                                                                variant="outline"
+                                                            >
+                                                                {obj.icon}
+                                                                {obj.name}
+                                                            </Button>
+                                                        </DialogTrigger>
+                                                        <DialogContent className="w-full sm:max-w-[425px]">
+                                                            <DialogHeader>
+                                                            <DialogTitle>{dataForm[index].title}</DialogTitle>
+                                                            <DialogDescription>
+                                                                {dataForm[index].subtitle}
+                                                            </DialogDescription>
+                                                            </DialogHeader>
+                                                                <div className="grid gap-2">
+                                                                    {dataForm[index].content.map((c: DataContent) => (
+                                                                        <div key={c.label} className="w-full">
+                                                                            <Label htmlFor={c.label}>
+                                                                                {c.label}
+                                                                            </Label>
+                                                                            {c.element === 'input' ? (
+                                                                            <Input
+                                                                                id={c.label}
+                                                                                name={c.name}
+                                                                                type={c.typeElement}
+                                                                                className={`p-2 ${status.name == c.name ? "border-red-500" : ""}`}
+                                                                                placeholder={c.placeHolderElement}
+                                                                                value={expense[c.name as keyof Expense] ? expense[c.name as keyof Expense] as string : ''}
+                                                                                onChange={handleChange}
+                                                                            />
+                                                                            ) : c.element === 'select' ? (
+                                                                            <Select
+                                                                                name={c.name}
+                                                                                value={expense[c.name as keyof Expense] ? String(expense[c.name as keyof Expense]) : ''}
+                                                                                open={!!isOpen[c.label]}
+                                                                                onOpenChange={(open) =>
+                                                                                    setIsOpen((prev) => ({ ...prev, [c.label]: open }))
+                                                                                }
+                                                                                onValueChange={(value: string) =>
+                                                                                    setExpense({ ...expense, [c.name]: value })
+                                                                                }
+                                                                            >
+                                                                                <SelectTrigger className={`rounded-md border-r-2 p-3 ${status.name == c.name ? "border-red-500" : ""}`}>
+                                                                                    <SelectValue
+                                                                                        placeholder={c.placeHolderElement}
+                                                                                    >
+                                                                                        <p className="text-sm break-all">
+                                                                                            {expense[c.name as keyof Expense]}
+                                                                                        </p>
+                                                                                    </SelectValue>
+                                                                                </SelectTrigger>
+                                                                                <SelectContent>
+                                                                                    <SelectGroup>
+                                                                                        {Array.isArray(c.valueElement) &&
+                                                                                            c.valueElement.map((v: string, indexElement: number) => (
+                                                                                                <SelectItem key={indexElement} value={v}>
+                                                                                                    {v}
+                                                                                                </SelectItem>
+                                                                                            ))}
+                                                                                    </SelectGroup>
+                                                                                </SelectContent>
+                                                                            </Select>
+                                                                            ) : null}
+                                                                        </div>
+                                                                    ))}
+                                                                    <div>
+                                                                        <Label htmlFor="Amount">Amount</Label>
                                                                         <Input
-                                                                            id={c.label}
-                                                                            name={c.name}
-                                                                            type={c.typeElement}
-                                                                            className={`p-2 ${status.name == c.name ? "border-red-500" : ""}`}
-                                                                            placeholder={c.placeHolderElement}
-                                                                            value={expense[c.name as keyof Expense] ? expense[c.name as keyof Expense] as string : ''}
-                                                                            onChange={handleChange}
+                                                                            id="Amount"
+                                                                            name="amount"
+                                                                            type="text"
+                                                                            className={`p-2 ${status.nmr >= 16 && status.nmr <= 19 ? 'border-red-500' : ''}`}
+                                                                            placeholder="How much is the expense?"
+                                                                            value={`${getCurrencySymbol(expense.countryCurrency)}${expense.amount}`}
+                                                                            onChange={handleChangeInput}
                                                                         />
-                                                                        ) : c.element === 'select' ? (
+                                                                    </div>
+                                                                    <div>
+                                                                        <Label htmlFor="day">Expense Day</Label>
                                                                         <Select
-                                                                            name={c.name}
-                                                                            value={expense[c.name as keyof Expense] ? String(expense[c.name as keyof Expense]) : ''}
-                                                                            open={!!isOpen[c.label]}
-                                                                            onOpenChange={(open) =>
-                                                                                setIsOpen((prev) => ({ ...prev, [c.label]: open }))
-                                                                            }
+                                                                            name="day"
+                                                                            defaultValue="1"
+                                                                            value={String(expense.day)}
                                                                             onValueChange={(value: string) =>
-                                                                                setExpense({ ...expense, [c.name]: value })
+                                                                                setExpense({ ...expense, day: Number(value) })
                                                                             }
                                                                         >
-                                                                            <SelectTrigger className={`rounded-md border-r-2 p-3 ${status.name == c.name ? "border-red-500" : ""}`}>
-                                                                                <SelectValue
-                                                                                    placeholder={c.placeHolderElement}
-                                                                                >
-                                                                                    <p className="text-sm break-all">
-                                                                                        {expense[c.name as keyof Expense]}
-                                                                                    </p>
-                                                                                </SelectValue>
+                                                                            <SelectTrigger className="rounded-md border-r-2 p-3">
+                                                                                <SelectValue 
+                                                                                    placeholder="Select a day" 
+                                                                                    className={status.nmr == 20 ? 'border-red-500' : ''}
+                                                                                />
                                                                             </SelectTrigger>
                                                                             <SelectContent>
-                                                                                <SelectGroup>
-                                                                                    {Array.isArray(c.valueElement) &&
-                                                                                        c.valueElement.map((v: string, indexElement: number) => (
-                                                                                            <SelectItem key={indexElement} value={v}>
-                                                                                                {v}
-                                                                                            </SelectItem>
-                                                                                        ))}
-                                                                                </SelectGroup>
+                                                                            <SelectGroup>
+                                                                                {trip &&
+                                                                                    Array.from({ length: trip.daysQty }).map((_, index) => (
+                                                                                        <SelectItem key={index} value={String(index + 1)}>
+                                                                                            {index + 1}° Day
+                                                                                        </SelectItem>
+                                                                                    ))
+                                                                                }
+                                                                            </SelectGroup>
                                                                             </SelectContent>
                                                                         </Select>
-                                                                        ) : null}
                                                                     </div>
-                                                                ))}
-                                                                <div>
-                                                                    <Label htmlFor="Amount">Amount</Label>
-                                                                    <Input
-                                                                        id="Amount"
-                                                                        name="amount"
-                                                                        type="text"
-                                                                        className={`p-2 ${status.nmr >= 16 && status.nmr <= 19 ? 'border-red-500' : ''}`}
-                                                                        placeholder="How much is the expense?"
-                                                                        value={`${getCurrencySymbol(expense.countryCurrency)}${expense.amount}`}
-                                                                        onChange={handleChangeInput}
-                                                                    />
                                                                 </div>
-                                                                <div>
-                                                                    <Label htmlFor="day">Expense Day</Label>
-                                                                    <Select
-                                                                        name="day"
-                                                                        defaultValue="1"
-                                                                        value={String(expense.day)}
-                                                                        onValueChange={(value: string) =>
-                                                                            setExpense({ ...expense, day: Number(value) })
-                                                                        }
-                                                                    >
-                                                                        <SelectTrigger className="rounded-md border-r-2 p-3">
-                                                                            <SelectValue 
-                                                                                placeholder="Select a day" 
-                                                                                className={status.nmr == 20 ? 'border-red-500' : ''}
-                                                                            />
-                                                                        </SelectTrigger>
-                                                                        <SelectContent>
-                                                                        <SelectGroup>
-                                                                            {trip &&
-                                                                                Array.from({ length: trip.daysQty }).map((_, index) => (
-                                                                                    <SelectItem key={index} value={String(index + 1)}>
-                                                                                        {index + 1}° Day
-                                                                                    </SelectItem>
-                                                                                ))
-                                                                            }
-                                                                        </SelectGroup>
-                                                                        </SelectContent>
-                                                                    </Select>
-                                                                </div>
-                                                            </div>
-                                                        <DialogFooter>
-                                                        <Button type="button" size="lg" 
-                                                            onClick={() => {
-                                                                setOperation({ type: 'create' })
-                                                                handleCreate(dataForm[index].type);
-                                                            }}
-                                                        >
-                                                        {
-                                                            isLoading && operation.type == 'create' ? 
-                                                            <div role="status">
-                                                                <svg aria-hidden="true" className="w-8 h-8 text-white animate-spin fill-white py-1" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-                                                                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5533C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.723 75.2124 7.41289C69.5422 4.10285 63.2754 1.94025 56.7222 1.05197C51.7666 0.3679 46.7398 0.446843 41.8198 1.27873C39.297 1.6983 37.8255 4.19778 38.4626 6.62326C39.0998 9.04874 41.5717 10.4717 44.0965 10.1071C47.8511 9.53005 51.7015 9.52622 55.4656 10.0962C60.878 10.9201 65.9925 13.1373 70.396 16.5714C74.7995 20.0055 78.3892 24.5698 80.8418 29.841C83.0456 34.3696 84.5159 39.246 85.1999 44.2728C85.6531 47.6269 88.1603 50.0379 91.5303 50.0379C91.9338 50.0379 92.3423 49.9962 92.7521 49.9106C95.209 49.4046 96.5425 46.9181 95.9355 44.4609C95.324 41.9793 94.5211 39.5402 93.9676 39.0409Z" fill="currentFill"/>
-                                                                </svg>
-                                                                <span className="sr-only">Carregando...</span>
-                                                            </div> :
-                                                            <p>
-                                                                {dataForm[expenseType].operation} Expense
-                                                            </p> 
-                                                        }
-                                                        </Button>
-                                                        </DialogFooter>
-                                                    </DialogContent>
-                                                </Dialog> 
-                                            </CarouselItem>
+                                                            <DialogFooter>
+                                                            <Button type="button" size="lg" 
+                                                                onClick={() => {
+                                                                    setOperation({ type: 'create' })
+                                                                    handleCreate(dataForm[index].type);
+                                                                }}
+                                                            >
+                                                            {
+                                                                isLoading && operation.type == 'create' ? 
+                                                                <div role="status">
+                                                                    <svg aria-hidden="true" className="w-8 h-8 text-white animate-spin fill-white py-1" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                                                                        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5533C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.723 75.2124 7.41289C69.5422 4.10285 63.2754 1.94025 56.7222 1.05197C51.7666 0.3679 46.7398 0.446843 41.8198 1.27873C39.297 1.6983 37.8255 4.19778 38.4626 6.62326C39.0998 9.04874 41.5717 10.4717 44.0965 10.1071C47.8511 9.53005 51.7015 9.52622 55.4656 10.0962C60.878 10.9201 65.9925 13.1373 70.396 16.5714C74.7995 20.0055 78.3892 24.5698 80.8418 29.841C83.0456 34.3696 84.5159 39.246 85.1999 44.2728C85.6531 47.6269 88.1603 50.0379 91.5303 50.0379C91.9338 50.0379 92.3423 49.9962 92.7521 49.9106C95.209 49.4046 96.5425 46.9181 95.9355 44.4609C95.324 41.9793 94.5211 39.5402 93.9676 39.0409Z" fill="currentFill"/>
+                                                                    </svg>
+                                                                    <span className="sr-only">Carregando...</span>
+                                                                </div> :
+                                                                <p>
+                                                                    {dataForm[expenseType].operation} Expense
+                                                                </p> 
+                                                            }
+                                                            </Button>
+                                                            </DialogFooter>
+                                                        </DialogContent>
+                                                    </Dialog> 
+                                                </CarouselItem>
                                             ))}
                                         </CarouselContent>
                                     </Carousel>

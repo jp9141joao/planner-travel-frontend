@@ -18,9 +18,6 @@ export default function SignIn () {
 
     const [ email, setEmail ] = useState<string>('');
     const [ password, setPassword ] = useState<string>('');
-    const [ toastMessage, setToastMessage ] = useState({
-        variant: '', title: '', description: ''
-    });
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ status, setStatus ] = useState<number>(0);
@@ -43,14 +40,14 @@ export default function SignIn () {
                     } else if (response.error == 'Error: The email or password you entered is incorrect!') {
                         setStatus(3);
                     } else {
-                        setStatus(4);
+                        throw new Error("The request failed. Please check the data and try again.");
                     }
                 }
     
                 setIsLoading(false);
                 setShowToast(true);
             } catch (error: any) {
-                setStatus(8);
+                setStatus(4);
                 setIsLoading(false);
                 setShowToast(true);
                 console.log(error);
@@ -58,27 +55,27 @@ export default function SignIn () {
     }
 
     useEffect(() => {
-        if (!isLoading && showToast) {
+        if (!isLoading && showToast && status > 0) {
             if (status == 1) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'Invalid Email',
                     description: 'The email address you entered is invalid. Please check and try again.',
                 });
             } else if (status == 2) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'Invalid Password',
                     description: 'The password you entered is invalid. Please check and try again.',
                 });
             } else if (status == 3) {
-                setToastMessage({
+                toast({
                     variant: 'destructive', 
                     title: 'Email or Password Incorrect', 
                     description: 'The email or password you entered is incorrect. Please try again.', 
                 }); 
             } else {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: "Uh oh! Something went wrong.",
                     description: "There was a problem with your request.",
@@ -86,17 +83,6 @@ export default function SignIn () {
             }
         }
     }, [isLoading, showToast, status]);
-
-    useEffect(() => {
-        if (showToast && status != 0) {
-            toast({
-                variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
-                title: toastMessage.title,
-                description: toastMessage.description,
-            })
-        }
-
-    }, [toastMessage]);
 
     useEffect(() => {
         const token = localStorage.getItem('authToken');

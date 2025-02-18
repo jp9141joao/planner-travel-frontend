@@ -149,8 +149,6 @@ export interface Expense {
 
 export interface DataButton {
     name: string,
-    href: string,
-    nmr: number,
     icon: React.ReactElement
 }
 
@@ -171,10 +169,9 @@ export interface DataContent {
     valueElement: string | string[]
 }
 
-export interface DialogOpen {
-    operation: string,
-    type: string[],
-    state: boolean[],
+export interface DialogState {
+    id: string,
+    state: boolean,
 }
 
 export interface Operation {

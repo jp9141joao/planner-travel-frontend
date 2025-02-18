@@ -52,14 +52,14 @@ export default function SignIn () {
                 } else if (response.error == 'Error: There is already a user using this email!') {
                     setStatus(9)
                 } else {
-                    setStatus(10)
+                    throw new Error("The request failed. Please check the data and try again.");
                 }
             }
 
             setIsLoading(false);
             setShowToast(true);
         } catch (error: any) {
-            setStatus(8);
+            setStatus(10);
             setIsLoading(false);
             setShowToast(true);
             console.log(error);
@@ -67,7 +67,7 @@ export default function SignIn () {
     }
 
     useEffect(() => {
-        if (!isLoading && showToast && status != 0) {
+        if (!isLoading && showToast && status > 0) {
             if (status == 1) {
                 toast({
                     variant: 'success',

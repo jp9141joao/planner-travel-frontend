@@ -15,9 +15,6 @@ export function ResetPassword() {
     const [ email, setEmail ] = useState<string>('');
     const [ password, setPassword ] = useState<string>('');
     const [ newPassword, setNewPassoword ] = useState<string>('');
-    const [ toastMessage, setToastMessage ] = useState({
-        variant: '', title: '', description: ''
-    });
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ showToast, setShowToast ] = useState<boolean>(false);
     const [ status, setStatus ] = useState<number>(0);
@@ -45,7 +42,7 @@ export function ResetPassword() {
                 } else if (response.error == 'Error: The email or password you entered is incorrect!') {
                     setStatus(8);
                 } else {
-                    setStatus(9);
+                    throw new Error("The request failed. Please check the data and try again.");
                 }
             }
             setIsLoading(false);
@@ -59,57 +56,57 @@ export function ResetPassword() {
     }
     
     useEffect(() => {
-        if (!isLoading && showToast) {
+        if (!isLoading && showToast && status > 0) {
             if (status == 1) {
-                setToastMessage({
+                toast({
                     variant: 'success',
                     title: 'Password altered successfully!',
                     description: 'Your password has been successfully updated. You can now log in with your new password and continue exploring with us.',
                 });
             } else if (status == 2) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'Invalid Email',
                     description: 'The email address you entered is invalid. Please check and try again.',
                 });
             } else if (status == 3) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'Invalid Password',
                     description: 'The password you entered is invalid. Please check and try again.',
                 });
             } else if (status == 4) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'Invalid New Password',
                     description: 'Please provide a new password that meets the minimum criteria, including at least one uppercase letter, one number, and one special character.',
                 });
             } else if (status == 5) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'New Password Too Short',
                     description: 'Your new password is too short. Please enter a password with at least 8 characters.',
                 });
             } else if (status == 6) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'New Password Too Long',
                     description: 'Your new password is too long. Please enter a shoter password.',
                 });
             } else if (status == 7) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'New Password Matches Current Password',
                     description: 'Your new password cannot be the same as your current password. Please choose a different password.',
                 });
             } else if (status == 8) {
-                setToastMessage({
+                toast({
                     variant: 'destructive', 
                     title: 'Email or Password Incorrect', 
                     description: 'The email or password you entered is incorrect. Please try again.', 
                 }); 
             } else {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: "Uh oh! Something went wrong.",
                     description: "There was a problem with your request.",
@@ -117,18 +114,6 @@ export function ResetPassword() {
             }
         }
     }, [isLoading, showToast, status]);
-
-    useEffect(() => {
-        if (showToast && status != 0) {
-            toast({
-                variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
-                title: toastMessage.title,
-                description: toastMessage.description,
-            })
-        }
-
-        setStatus(0);
-    }, [toastMessage]);
 
     useEffect(() => {
         const token = localStorage.getItem('authToken');

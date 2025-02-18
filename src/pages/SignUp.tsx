@@ -67,63 +67,63 @@ export default function SignIn () {
     }
 
     useEffect(() => {
-        if (!isLoading && showToast) {
+        if (!isLoading && showToast && status != 0) {
             if (status == 1) {
-                setToastMessage({
+                toast({
                     variant: 'success',
                     title: 'Account created successfully!',
                     description: 'Welcome! Your account has been created. You can now plan your travels with us.',
                 });
             } else if (status == 2) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'Invalid Full Name',
                     description: 'Please provide a valid full name with only letters and spaces.',
                 });
             } else if (status == 3) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'Full Name Too Long',
                     description: 'Your full name is too long. Please enter a shorter name.',
                 });
             } else if (status == 4) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'Invalid Email',
                     description: 'The email address you entered is invalid. Please check and try again.',
                 });
             } else if (status == 5) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'Email Too Long',
                     description: 'The email address is too long. Please enter a shorter email address.',
                 });
             } else if (status == 6) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'Invalid Password',
                     description: 'Please provide a password that meets the minimum criteria, including at least one uppercase letter, one number, and one special character.',
                 });
             } else if (status == 7) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'Password Too Short',
                     description: 'Your password is too short. Please enter a password with at least 8 characters.',
                 });
             } else if (status == 8) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'Password Too Long',
                     description: 'Your password is too long. Please enter a shoter password.',
                 });
             } else if (status == 9) {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: 'Email Already in Use',
                     description: 'Error: There is already a user using this email. Please use a different email address or log in to your account.',
                 });
             } else {
-                setToastMessage({
+                toast({
                     variant: 'destructive',
                     title: "Uh oh! Something went wrong.",
                     description: "There was a problem with your request.",
@@ -131,18 +131,6 @@ export default function SignIn () {
             }
         }
     }, [isLoading, showToast, status]);
-
-    useEffect(() => {
-        if (showToast && status != 0) {
-            toast({
-                variant: toastMessage.variant == 'destructive' ? 'destructive' : 'success',
-                title: toastMessage.title,
-                description: toastMessage.description,
-            })
-        }
-
-        //setStatus(0);
-    }, [toastMessage]);
 
     useEffect(() => {
         const token = localStorage.getItem('authToken');

@@ -15,7 +15,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { getItemSessionStorage } from "@/components/utils/utils";
 import { toast } from "@/hooks/use-toast";
 import { createExpense, deleteExpense, getExpenses, getTrip, updateExpense, } from "@/service/service";
-import { AccomodationExpense, AirplaneExpense, AttractionExpense, DataButton, DataContent, DataForm, DialogOpen, Expense, FoodExpense, Operation, TransportationExpense, Trip } from "@/types/types";
+import { AccomodationExpense, AirplaneExpense, AttractionExpense, DataButton, DataContent, DataForm, DialogOpen, Expense, FoodExpense, Operation, Status, TransportationExpense, Trip } from "@/types/types";
 import { error } from "console";
 import { stat } from "fs";
 import { BadgeInfo, Bed, BedSingle, Building, Bus, CalendarDays, CalendarIcon, Castle, ChevronDown, ChevronUp, Church, CircleHelp, Clock, Coffee, CookingPot, FerrisWheel, Fish, Flag, Home, Hotel, Info, Landmark, Link, MapPin, MoreHorizontal, Mountain, PawPrint, Pencil, Pizza, Plane, Plus, Puzzle, Receipt, Soup, Theater, Ticket, Timer, TreePine, Users, Utensils, Wallet, X } from "lucide-react";
@@ -52,9 +52,9 @@ export default function ViewExpenses() {
     const [showContent, setShowContent] = useState<boolean | null>(null);
     const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>({});
     const [expenseType, setExpenseType] = useState<number>(0);
-    const [status, setStatus] = useState<number>(0);
+    const [status, setStatus] = useState<Status>({ nmr: 0 });
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [operation, setOperation] = useState<Operation>({ type: '' })
+    const [operation, setOperation] = useState<Operation>({ type: '' });
     const [showToast, setShowToast] = useState<boolean>(false);
     const [isDialogOpen, setIsDialogOpen] = useState()
     const dataButton: DataButton[] = [
@@ -98,7 +98,6 @@ export default function ViewExpenses() {
             content: [
             { 
                 label: 'Airline Name',
-                status: status >= 2 && status <= 4 ? 'border-red-500' : '',
                 name: 'name',
                 element: 'input', 
                 typeElement: 'text', 
@@ -107,7 +106,6 @@ export default function ViewExpenses() {
             }, 
             { 
                 label: 'Origin',  
-                status: status >= 10 && status <= 12 ? 'border-red-500' : '',
                 name: 'origin',
                 element: 'input', 
                 typeElement: 'text', 
@@ -116,7 +114,6 @@ export default function ViewExpenses() {
             },
             { 
                 label: 'Destination',  
-                status: status >= 13 && status <= 15 ? 'border-red-500' : '',
                 name: 'destination',
                 element: 'input', 
                 typeElement: 'text', 
@@ -133,7 +130,6 @@ export default function ViewExpenses() {
             content: [
             { 
                 label: 'Category',  
-                status: status == 5 ? 'border-red-500' : '',
                 name: 'category',
                 element: 'select', 
                 typeElement: '', 
@@ -142,7 +138,6 @@ export default function ViewExpenses() {
             }, 
             { 
                 label: 'Origin', 
-                status: status >= 10 && status <= 12 ? 'border-red-500' : '', 
                 name: 'origin',
                 element: 'input', 
                 typeElement: 'text', 
@@ -151,7 +146,6 @@ export default function ViewExpenses() {
             },
             { 
                 label: 'Destination',
-                status: status >= 13 && status <= 15 ? 'border-red-500' : '',
                 name: 'destination',
                 element: 'input', 
                 typeElement: 'text', 
@@ -168,7 +162,6 @@ export default function ViewExpenses() {
             content: [
             { 
                 label: 'Food Name',
-                status: status >= 2 && status <= 4 ? 'border-red-500' : '',
                 name: 'name',
                 element: 'input', 
                 typeElement: 'text', 
@@ -177,7 +170,6 @@ export default function ViewExpenses() {
             },
             { 
                 label: 'Category',
-                status: status == 5 ? 'border-red-500' : '', 
                 name: 'category',
                 element: 'select',
                 typeElement: '', 
@@ -186,7 +178,6 @@ export default function ViewExpenses() {
             },
             { 
                 label: 'Place',
-                status: status >= 7 && status <= 9 ? 'border-red-500' : '', 
                 name: 'place',
                 element: 'input',
                 typeElement: 'text', 
@@ -203,7 +194,6 @@ export default function ViewExpenses() {
             content: [
             { 
                 label: 'Attraction Name',  
-                status: status >= 2 && status <= 4 ? 'border-red-500' : '',
                 name: 'name',
                 element: 'input', 
                 typeElement: 'text', 
@@ -212,7 +202,6 @@ export default function ViewExpenses() {
             }, 
             { 
                 label: 'Category',  
-                status: status == 5 ? 'border-red-500' : '',
                 name: 'category',
                 element: 'select', 
                 typeElement: '', 
@@ -225,7 +214,6 @@ export default function ViewExpenses() {
             },
             { 
               label: 'Duration',  
-              status: status == 6 ? 'border-red-500' : '',
               name: 'duration',
               element: 'select', 
               typeElement: '', 
@@ -242,7 +230,6 @@ export default function ViewExpenses() {
             content: [
             { 
                 label: 'Accomodation Name',  
-                status: status >= 2 && status <= 4 ? 'border-red-500' : '',
                 name: 'name',
                 element: 'input', 
                 typeElement: 'text', 
@@ -251,7 +238,6 @@ export default function ViewExpenses() {
             }, 
             { 
                 label: 'Category',  
-                status: status >= 5 ? 'border-red-500' : '',
                 name: 'category',
                 element: 'select', 
                 typeElement: '', 
@@ -260,7 +246,6 @@ export default function ViewExpenses() {
             },
             { 
                 label: 'Duration of Stay',  
-                status: status == 6 ? 'border-red-500' : '',
                 name: 'duration',
                 element: 'select', 
                 typeElement: '', 
@@ -419,55 +404,55 @@ export default function ViewExpenses() {
             const response = await createExpense({...expense, type: type});
             alert(response.error)
             if (response.success) {
-                setStatus(1);
+                setStatus({ nmr: 1 });
                 setExpense(initialExpense);
                 loadTrip();
                 loadExpenses();
             }  else {
                 if (response.error == "Error: the value of name is invalid or was not provided correctly") {
-                    setStatus(2);
+                    setStatus({ nmr: 2, name: 'name' });
                 } else if (response.error == "Error: the value of name is too short!") {
-                    setStatus(3);
+                    setStatus({ nmr: 3, name: 'name' });
                 } else if (response.error = "Error: the value of name is too large!") {
-                    setStatus(4)
+                    setStatus({ nmr: 4, name: 'name' })
                 } else if (response.error = "Error: the value of category is invalid or was not provided correctly") {
-                    setStatus(5);
+                    setStatus({ nmr: 5, name: 'category' });
                 } else if (response.error = "Error: the value of duration is invalid or was not provided correctly") {
-                    setStatus(6);
+                    setStatus({ nmr: 6, name: 'duration' });
                 } else if (response.error = "Error: the value of place is invalid or was not provided correctly") {
-                    setStatus(7);
+                    setStatus({ nmr: 7, name: 'place' });
                 } else if (response.error = "Error: the value of place is too short!") {
-                    setStatus(8);
+                    setStatus({ nmr: 8, name: 'place' });
                 } else if (response.error = "Error: the value of place is too large!") {
-                    setStatus(9);
+                    setStatus({ nmr: 9, name: 'place' });
                 } else if (response.error = "Error: the value of origin is invalid or was not provided correctly") {
-                    setStatus(10);
+                    setStatus({ nmr: 10, name: 'origin' });
                 }else if (response.error = "Error: the value of origin is too short!") {
-                    setStatus(11);
+                    setStatus({ nmr: 11, name: 'origin' });
                 } else if (response.error = "Error: the value of origin is too large!") {
-                    setStatus(12);
+                    setStatus({ nmr: 12, name: 'origin' });
                 } else if (response.error = "Error: the value of destination is invalid or was not provided correctly") {
-                    setStatus(13);
+                    setStatus({ nmr: 13, name: 'destination' });
                 }else if (response.error = "Error: the value of destination is too short!") {
-                    setStatus(14);
+                    setStatus({ nmr: 14, name: 'destination' });
                 } else if (response.error = "Error: the value of destination is too large!") {
-                    setStatus(15);
+                    setStatus({ nmr: 15, name: 'destination' });
                 } else if (response.error = "Error: the value of amount is invalid or was not provided correctly") {
-                    setStatus(16);
+                    setStatus({ nmr: 16, name: 'amount' });
                 } else if (response.error = "Error: the value of amount is less or equal than zero!") {
-                    setStatus(17); 
+                    setStatus({ nmr: 17, name: 'amount' }); 
                 } else if (response.error = "Error: the value of amount is too large!") {
-                    setStatus(18);
+                    setStatus({ nmr: 18, name: 'amount' });
                 } else if (response.error = "Error: the format of amount is invalid! Only up to two decimal places are allowed.") {             
-                    setStatus(19);
+                    setStatus({ nmr: 19, name: 'amount' });
                 } else if (response.error = "Error: the value of day is invalid or was not provided correctly") {
-                    setStatus(20)
+                    setStatus({ nmr: 20, name: 'day' })
                 } else {
                     throw new Error("The request failed. Please check the data and try again.");
                 }
             }
         } catch (error: any) {
-            setStatus(21);
+            setStatus({ nmr: 21 });
             console.error(error);
         } finally {
             setIsLoading(false);
@@ -482,52 +467,54 @@ export default function ViewExpenses() {
             const response = await updateExpense(expense as Expense);
 
             if (response.success) {
-                setStatus(1);
+                setStatus({ nmr: 1 });
                 loadTrip();
                 loadExpenses();
-            } else {
+            }  else {
                 if (response.error == "Error: the value of name is invalid or was not provided correctly") {
-                    setStatus(2);
+                    setStatus({ nmr: 2, name: 'name' });
                 } else if (response.error == "Error: the value of name is too short!") {
-                    setStatus(3);
+                    setStatus({ nmr: 3, name: 'name' });
                 } else if (response.error = "Error: the value of name is too large!") {
-                    setStatus(4)
+                    setStatus({ nmr: 4, name: 'name' })
                 } else if (response.error = "Error: the value of category is invalid or was not provided correctly") {
-                    setStatus(5);
+                    setStatus({ nmr: 5, name: 'category' });
                 } else if (response.error = "Error: the value of duration is invalid or was not provided correctly") {
-                    setStatus(6);
+                    setStatus({ nmr: 6, name: 'duration' });
                 } else if (response.error = "Error: the value of place is invalid or was not provided correctly") {
-                    setStatus(7);
+                    setStatus({ nmr: 7, name: 'place' });
                 } else if (response.error = "Error: the value of place is too short!") {
-                    setStatus(8);
+                    setStatus({ nmr: 8, name: 'place' });
                 } else if (response.error = "Error: the value of place is too large!") {
-                    setStatus(9);
+                    setStatus({ nmr: 9, name: 'place' });
                 } else if (response.error = "Error: the value of origin is invalid or was not provided correctly") {
-                    setStatus(10);
+                    setStatus({ nmr: 10, name: 'origin' });
                 }else if (response.error = "Error: the value of origin is too short!") {
-                    setStatus(11);
+                    setStatus({ nmr: 11, name: 'origin' });
                 } else if (response.error = "Error: the value of origin is too large!") {
-                    setStatus(12);
+                    setStatus({ nmr: 12, name: 'origin' });
                 } else if (response.error = "Error: the value of destination is invalid or was not provided correctly") {
-                    setStatus(13);
+                    setStatus({ nmr: 13, name: 'destination' });
                 }else if (response.error = "Error: the value of destination is too short!") {
-                    setStatus(14);
+                    setStatus({ nmr: 14, name: 'destination' });
                 } else if (response.error = "Error: the value of destination is too large!") {
-                    setStatus(15);
+                    setStatus({ nmr: 15, name: 'destination' });
                 } else if (response.error = "Error: the value of amount is invalid or was not provided correctly") {
-                    setStatus(16);
+                    setStatus({ nmr: 16, name: 'amount' });
                 } else if (response.error = "Error: the value of amount is less or equal than zero!") {
-                    setStatus(17); 
+                    setStatus({ nmr: 17, name: 'amount' }); 
                 } else if (response.error = "Error: the value of amount is too large!") {
-                    setStatus(18);
+                    setStatus({ nmr: 18, name: 'amount' });
                 } else if (response.error = "Error: the format of amount is invalid! Only up to two decimal places are allowed.") {             
-                    setStatus(19);
+                    setStatus({ nmr: 19, name: 'amount' });
+                } else if (response.error = "Error: the value of day is invalid or was not provided correctly") {
+                    setStatus({ nmr: 20, name: 'day' })
                 } else {
                     throw new Error("The request failed. Please check the data and try again.");
                 }
             }
         } catch (error: any) {
-            setStatus(21);
+            setStatus({ nmr: 21 });
             console.error(error);
         } finally {
             setIsLoading(false);
@@ -542,14 +529,14 @@ export default function ViewExpenses() {
             const response = await deleteExpense(trip?.id as string, expenseId as string);
 
             if (response.success) {
-                setStatus(1);
+                setStatus({ nmr: 1 });
                 loadTrip();
                 loadExpenses();
             } else {
                 throw new Error("The request failed. Please check the data and try again.");
             }
         } catch (error: any) {
-            setStatus(20);
+            setStatus({ nmr: 21 });
             console.error(error);
         } finally {
             setIsLoading(false);
@@ -560,139 +547,139 @@ export default function ViewExpenses() {
 
     useEffect(() => {
         if (!isLoading && showToast) {
-            if (status == 1) {
+            if (status.nmr == 1) {
                 toast({
                     variant: 'success',
                     title: `${dataForm[expenseType].type} created successfully!`,
                     description: `Your ${dataForm[expenseType].type.toLowerCase()} is now set! Get ready for your next adventure.`,
                 });
-            } else if (status == 2) {
+            } else if (status.nmr == 2) {
                 toast({
                     variant: 'destructive',
                     title: `Invalid ${dataForm[expenseType].type} Name`,
                     description: `The ${dataForm[expenseType].type.toLowerCase()} you entered is invalid. Please check and try again.`,
                 }); 
 
-            } else if (status == 3) {
+            } else if (status.nmr == 3) {
                 toast({
                     variant: 'destructive',
                     title: `${dataForm[expenseType].type} Name Too Short`,
                     description: `Your ${dataForm[expenseType].type.toLowerCase()} name is too short. Please enter a shorter name.`,
                 });
                 
-            } else if (status == 4) {
+            } else if (status.nmr == 4) {
                 toast({
                     variant: 'destructive',
                     title: `${dataForm[expenseType].type} Too Long`,
                     description: `Your ${dataForm[expenseType].type.toLowerCase()} is too long. Please enter a shorter name.`,
                 });
 
-            } else if (status == 5) {
+            } else if (status.nmr == 5) {
                 toast({
                     variant: 'destructive',
                     title: `Invalid Category`,
                     description: `The category you entered is invalid. Please check and try again.`,
                 }); 
 
-            } else if (status == 6) {
+            } else if (status.nmr == 6) {
                 toast({
                     variant: 'destructive',
                     title: `Invalid Duration`,
                     description: `The duration you entered is invalid. Please check and try again.`,
                 });
 
-            } else if (status == 7) {
+            } else if (status.nmr == 7) {
                 toast({
                     variant: 'destructive',
                     title: `Invalid Place`,
                     description: `The place you entered is invalid. Please check and try again.`,
                 });
 
-            } else if (status == 8) {
+            } else if (status.nmr == 8) {
                 toast({
                     variant: 'destructive',
                     title: `Place Too Short`,
                     description: `Your place is too short. Please enter a shorter place.`,
                 });
 
-            } else if (status == 9) {
+            } else if (status.nmr == 9) {
                 toast({
                     variant: 'destructive',
                     title: `Place Too Long`,
                     description: `Your place is too long. Please enter a shorter place.`,
                 });
 
-            } else if (status == 10) {
+            } else if (status.nmr == 10) {
                 toast({
                     variant: 'destructive',
                     title: `Invalid Origin`,
                     description: `The origin you entered is invalid. Please check and try again.`,
                 });
 
-            }else if (status == 11) {
+            }else if (status.nmr == 11) {
                 toast({
                     variant: 'destructive',
                     title: `Origin Too Short`,
                     description: `Your origin is too short. Please enter a shorter origin.`,
                 });
 
-            } else if (status == 12) {
+            } else if (status.nmr == 12) {
                 toast({
                     variant: 'destructive',
                     title: `Origin Too Long`,
                     description: `Your origin is too long. Please enter a shorter origin.`,
                 });
 
-            } else if (status == 13) {
+            } else if (status.nmr == 13) {
                 toast({
                     variant: 'destructive',
                     title: `Invalid Destination`,
                     description: `The destination you entered is invalid. Please check and try again.`,
                 });
 
-            }else if (status == 14) {
+            }else if (status.nmr == 14) {
                 toast({
                     variant: 'destructive',
                     title: `Destination Too Short`,
                     description: `Your destination is too short. Please enter a shorter destination.`,
                 });
 
-            } else if (status == 15) {
+            } else if (status.nmr == 15) {
                 toast({
                     variant: 'destructive',
                     title: `Destination Too Long`,
                     description: `Your destination is too long. Please enter a shorter destination.`,
                 });
 
-            } else if (status == 16) {
+            } else if (status.nmr == 16) {
                 toast({
                     variant: 'destructive',
                     title: `Invalid Amount`,
                     description: `The destination you entered is invalid. Please check and try again.`,
                 });
 
-            } else if (status == 17) {
+            } else if (status.nmr == 17) {
                 toast({
                     variant: 'destructive',
                     title: `Amount Less or Equal than Zero`,
                     description: `The amount you entered is less or equal than zero. Please check and try again.`,
                 });
                 
-            } else if (status == 18) {
+            } else if (status.nmr == 18) {
                 toast({
                     variant: 'destructive',
                     title: `Amount Too Large`,
                     description: `Your amount is too large. Please enter a shorter amount.`,
                 });
 
-            } else if (status == 19) {
+            } else if (status.nmr == 19) {
                 toast({
                     variant: 'destructive',
                     title: `Invalid Amount Format`,
                     description: `The amount must have at most two decimal places. Please enter a valid amount like 10.00 or 5.5.`,
                 });
 
-            } else if (status == 20) {
+            } else if (status.nmr == 20) {
                 toast({
                     variant: 'destructive',
                     title: `Invalid Day`,
@@ -928,29 +915,29 @@ export default function ViewExpenses() {
                                                                                             id={c.label}
                                                                                             name={c.name}
                                                                                             type={c.typeElement}
-                                                                                            className={`p-2 ${c.status}`}
+                                                                                            className={`p-2 ${status.name == c.name ? "border-red-500" : ''}`}
                                                                                             placeholder={c.placeHolderElement}
                                                                                             value={expense[c.name as keyof Expense] ? expense[c.name as keyof Expense] as string : ''}
                                                                                             onChange={handleChange}
                                                                                         />
                                                                                         ) : c.element === 'select' ? (
                                                                                         <Select
-                                                                                            name={c.label.toLowerCase()}
+                                                                                            name={c.name}
+                                                                                            value={expense[c.name as keyof Expense] ? String(expense[c.name as keyof Expense]) : ''}
                                                                                             open={!!isOpen[c.label]}
                                                                                             onOpenChange={(open) =>
                                                                                                 setIsOpen((prev) => ({ ...prev, [c.label]: open }))
                                                                                             }
                                                                                             onValueChange={(value: string) =>
-                                                                                                setExpense({ ...expense, [c.label.toLowerCase()]: value })
+                                                                                                setExpense({ ...expense, [c.name]: value })
                                                                                             }
                                                                                         >
-                                                                                            <SelectTrigger className="rounded-md border-r-2 p-3">
+                                                                                            <SelectTrigger className={`rounded-md border-r-2 p-3 ${status.name == c.name}`}>
                                                                                                 <SelectValue
                                                                                                     placeholder={c.placeHolderElement}
-                                                                                                    className={c.status}
                                                                                                 >
                                                                                                     <p className="text-sm break-all">
-                                                                                                        {expense[c.label.toLowerCase() as keyof Expense]}
+                                                                                                        {expense[c.name as keyof Expense]}
                                                                                                     </p>
                                                                                                 </SelectValue>
                                                                                             </SelectTrigger>
@@ -978,7 +965,7 @@ export default function ViewExpenses() {
                                                                                         id="Amount"
                                                                                         name="amount"
                                                                                         type="text"
-                                                                                        className={`p-2 ${status >= 16 && status <= 19 ? 'border-red-500' : ''}`}
+                                                                                        className={`p-2 ${status.name == "amount" ? 'border-red-500' : ''}`}
                                                                                         placeholder="How much is the expense?"
                                                                                         value={`${getCurrencySymbol(expense.countryCurrency)}${expense.amount}`}
                                                                                         onChange={handleChangeInput}
@@ -997,7 +984,7 @@ export default function ViewExpenses() {
                                                                                         <SelectTrigger className="rounded-md border-r-2 p-3">
                                                                                             <SelectValue 
                                                                                                 placeholder="Select a day" 
-                                                                                                className={status == 20 ? 'border-red-500' : ''}
+                                                                                                className={status.name == "day" ? 'border-red-500' : ''}
                                                                                             />
                                                                                         </SelectTrigger>
                                                                                         <SelectContent>
@@ -1018,7 +1005,7 @@ export default function ViewExpenses() {
                                                                         <DialogFooter>
                                                                         <Button type="submit" size="lg"
                                                                             onClick={() => setOperation({ id: obj.id, type: 'update' })}
-                                                                        >
+                                                                        >dwasdasdasdsadsaddassasadsadsadasdasdsadsdasadasdasdasd
                                                                         {
                                                                             isLoading && operation.type == 'update' && operation.id == obj.id ? 
                                                                             <div role="status">
@@ -1142,29 +1129,29 @@ export default function ViewExpenses() {
                                                                             id={c.label}
                                                                             name={c.name}
                                                                             type={c.typeElement}
-                                                                            className={`p-2 ${c.status}`}
+                                                                            className={`p-2 ${status.name == c.name ? "border-red-500" : ""}`}
                                                                             placeholder={c.placeHolderElement}
                                                                             value={expense[c.name as keyof Expense] ? expense[c.name as keyof Expense] as string : ''}
                                                                             onChange={handleChange}
                                                                         />
                                                                         ) : c.element === 'select' ? (
                                                                         <Select
-                                                                            name={c.label.toLowerCase()}
+                                                                            name={c.name}
+                                                                            value={expense[c.name as keyof Expense] ? String(expense[c.name as keyof Expense]) : ''}
                                                                             open={!!isOpen[c.label]}
                                                                             onOpenChange={(open) =>
                                                                                 setIsOpen((prev) => ({ ...prev, [c.label]: open }))
                                                                             }
                                                                             onValueChange={(value: string) =>
-                                                                                setExpense({ ...expense, [c.label.toLowerCase()]: value })
+                                                                                setExpense({ ...expense, [c.name]: value })
                                                                             }
                                                                         >
-                                                                            <SelectTrigger className="rounded-md border-r-2 p-3">
+                                                                            <SelectTrigger className={`rounded-md border-r-2 p-3 ${status.name == c.name ? "border-red-500" : ""}`}>
                                                                                 <SelectValue
                                                                                     placeholder={c.placeHolderElement}
-                                                                                    className={c.status}
                                                                                 >
                                                                                     <p className="text-sm break-all">
-                                                                                        {expense[c.label.toLowerCase() as keyof Expense]}
+                                                                                        {expense[c.name as keyof Expense]}
                                                                                     </p>
                                                                                 </SelectValue>
                                                                             </SelectTrigger>
@@ -1188,7 +1175,7 @@ export default function ViewExpenses() {
                                                                         id="Amount"
                                                                         name="amount"
                                                                         type="text"
-                                                                        className={`p-2 ${status >= 16 && status <= 19 ? 'border-red-500' : ''}`}
+                                                                        className={`p-2 ${status.nmr >= 16 && status.nmr <= 19 ? 'border-red-500' : ''}`}
                                                                         placeholder="How much is the expense?"
                                                                         value={`${getCurrencySymbol(expense.countryCurrency)}${expense.amount}`}
                                                                         onChange={handleChangeInput}
@@ -1207,7 +1194,7 @@ export default function ViewExpenses() {
                                                                         <SelectTrigger className="rounded-md border-r-2 p-3">
                                                                             <SelectValue 
                                                                                 placeholder="Select a day" 
-                                                                                className={status == 20 ? 'border-red-500' : ''}
+                                                                                className={status.nmr == 20 ? 'border-red-500' : ''}
                                                                             />
                                                                         </SelectTrigger>
                                                                         <SelectContent>

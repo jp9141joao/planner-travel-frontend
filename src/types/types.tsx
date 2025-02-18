@@ -164,7 +164,6 @@ export interface DataForm {
 
 export interface DataContent {
     label: string,
-    status: string,
     name: string,
     element: string, 
     typeElement?: string, 
@@ -181,4 +180,9 @@ export interface DialogOpen {
 export interface Operation {
     id?: string,
     type: string,
+}
+
+export interface Status {
+    nmr: number
+    name?: string,
 }

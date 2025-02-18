@@ -95,6 +95,7 @@ export function ProfileSettings() {
     }
 
     useEffect(() => {
+        loadUserData();
         const userData: UserDetails | null = getItemSessionStorage('user');
 
         if (userData) {
@@ -105,7 +106,6 @@ export function ProfileSettings() {
             setEmail(undefined);
         }
 
-        loadUserData();
     }, []);
 
     useEffect(() => {

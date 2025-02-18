@@ -996,7 +996,7 @@ export default function ViewExpenses() {
                                                                     <DialogFooter>
                                                                     <Button type="submit" size="lg"
                                                                         onClick={() => setOperation({ id: obj.id, type: 'update' })}
-                                                                    >dwasdasdasdsadsaddassasadsadsadasdasdsadsdasadasdasdasd
+                                                                    >
                                                                     {
                                                                         isLoading && operation.type == 'update' && operation.id == obj.id ? 
                                                                         <div role="status">

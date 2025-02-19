@@ -15,7 +15,7 @@ import { toast } from "@/hooks/use-toast";
 import { createExpense, deleteExpense, getExpenses, updateExpense, } from "@/service/service";
 import { DataButton, DataContent, DataForm, Expense,  Operation, Status, Trip } from "@/types/types";
 import { Bed, BedSingle, Building, Bus, CalendarIcon, Castle, Church, Coffee, CookingPot, FerrisWheel, Fish, Flag, Home, Hotel, Landmark, MapPin, Mountain, PawPrint, Pencil, Pizza, Plane, Plus, Puzzle, Receipt, Soup, Theater, Ticket, Timer, TreePine, Users, Utensils, Wallet, X } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const initialExpense = {
     id: '',
@@ -23,7 +23,7 @@ const initialExpense = {
     type: '',
     amount: '0',
     countryCurrency: 'USD',
-    day: 1,
+    day: 0,
 }
 
 export default function ViewExpenses() {
@@ -53,6 +53,7 @@ export default function ViewExpenses() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [operation, setOperation] = useState<Operation>({ type: '' });
     const [showToast, setShowToast] = useState<boolean>(false);
+    const dataRef = useRef<HTMLDivElement>(null);
     const dataButton: DataButton[] = [
         {
             name: 'Flight',
@@ -387,7 +388,7 @@ export default function ViewExpenses() {
         try {
             setIsLoading(true);
             const response = await createExpense({...expense, type: type});
-            alert(response.error)
+            
             if (response.success) {
                 setStatus({ nmr: 1 });
                 setExpense(initialExpense);
@@ -436,6 +437,7 @@ export default function ViewExpenses() {
                     throw new Error("The request failed. Please check the data and try again.");
                 }
             }
+
         } catch (error: any) {
             setStatus({ nmr: 21 });
             console.error(error);
@@ -851,7 +853,7 @@ export default function ViewExpenses() {
                                                             <div className="flex gap-1.5">
                                                                 <Wallet className="w-3 lg:w-5 h-auto"/>
                                                                 <p className="break-all text-[3.4vw] xxs5:text-[3vw] xs:text-sm">
-                                                                    { getCurrencySymbol(obj.countryCurrency) }{ obj.amount }
+                                                                    { getCurrencySymbol(obj.countryCurrency) }{ NumberFormatted(Number(obj.amount)) }
                                                                 </p>
                                                             </div>
                                                             <div className="flex gap-0.5 xs:gap-1">
@@ -866,7 +868,12 @@ export default function ViewExpenses() {
                                                         <div className="grid xxs5:flex justify-center gap-1.5">
                                                             <Dialog
                                                                 open={dialogId == obj.id ? true : false}
-                                                                onOpenChange={() => setDialogId('')}
+                                                                onOpenChange={(open) => {
+
+                                                                    if (!open) {
+                                                                        setDialogId('');
+                                                                    }
+                                                                }}
                                                             >
                                                                 <DialogTrigger asChild>
                                                                     <Button 
@@ -898,53 +905,60 @@ export default function ViewExpenses() {
                                                                         >
                                                                             {dataForm[expenseType].content.map((c: DataContent) => (
                                                                                 <div key={c.label} className="w-full">
-                                                                                    <Label htmlFor={c.label}>
-                                                                                        {c.label}
-                                                                                    </Label>
                                                                                     {c.element === 'input' ? (
-                                                                                    <Input
-                                                                                        id={c.label}
-                                                                                        name={c.name}
-                                                                                        type={c.typeElement}
-                                                                                        className={`p-2 ${status.name == c.name ? "border-red-500" : ''}`}
-                                                                                        placeholder={c.placeHolderElement}
-                                                                                        value={expense[c.name as keyof Expense] ? expense[c.name as keyof Expense] as string : ''}
-                                                                                        onChange={handleChange}
-                                                                                    />
+                                                                                    <>
+                                                                                        <Label htmlFor={c.label}>
+                                                                                            {c.label}
+                                                                                        </Label>
+                                                                                        <Input
+                                                                                            id={c.label}
+                                                                                            name={c.name}
+                                                                                            type={c.typeElement}
+                                                                                            className={`p-2 ${status.name == c.name ? "border-red-500" : ''}`}
+                                                                                            placeholder={c.placeHolderElement}
+                                                                                            value={expense[c.name as keyof Expense] ? expense[c.name as keyof Expense] as string : ''}
+                                                                                            onChange={handleChange}
+                                                                                        />
+                                                                                    </>
                                                                                     ) : c.element === 'select' ? (
-                                                                                    <Select
-                                                                                        name={c.name}
-                                                                                        value={expense[c.name as keyof Expense] ? String(expense[c.name as keyof Expense]) : ''}
-                                                                                        open={!!isOpen[c.label]}
-                                                                                        onOpenChange={(open) =>
-                                                                                            setIsOpen((prev) => ({ ...prev, [c.label]: open }))
-                                                                                        }
-                                                                                        onValueChange={(value: string) =>
-                                                                                            setExpense({ ...expense, [c.name]: value })
-                                                                                        }
-                                                                                    >
-                                                                                        <SelectTrigger className={`rounded-md border-r-2 p-3 ${status.name == c.name}`}>
-                                                                                            <SelectValue
-                                                                                                placeholder={c.placeHolderElement}
-                                                                                            >
-                                                                                                <p className="text-sm break-all">
-                                                                                                    {expense[c.name as keyof Expense]}
-                                                                                                </p>
-                                                                                            </SelectValue>
-                                                                                        </SelectTrigger>
-                                                                                        <SelectContent>
-                                                                                            <SelectGroup>
-                                                                                                {
-                                                                                                    Array.isArray(c.valueElement) &&
-                                                                                                        c.valueElement.map((v: string, indexElement: number) => (
-                                                                                                            <SelectItem key={indexElement} value={v}>
-                                                                                                                {v}
-                                                                                                            </SelectItem>
-                                                                                                        ))
-                                                                                                }
-                                                                                            </SelectGroup>
-                                                                                        </SelectContent>
-                                                                                    </Select>
+                                                                                    <>
+                                                                                        <Label>
+                                                                                            {c.label}
+                                                                                        </Label>
+                                                                                        <Select
+                                                                                            name={c.name}
+                                                                                            value={expense[c.name as keyof Expense] ? String(expense[c.name as keyof Expense]) : ''}
+                                                                                            open={!!isOpen[c.label]}
+                                                                                            onOpenChange={(open) =>
+                                                                                                setIsOpen((prev) => ({ ...prev, [c.label]: open }))
+                                                                                            }
+                                                                                            onValueChange={(value: string) =>
+                                                                                                setExpense({ ...expense, [c.name]: value })
+                                                                                            }
+                                                                                        >
+                                                                                            <SelectTrigger className={`rounded-md border-r-2 p-3 ${status.name == c.name}`}>
+                                                                                                <SelectValue
+                                                                                                    placeholder={c.placeHolderElement}
+                                                                                                >
+                                                                                                    <p className="text-sm break-all">
+                                                                                                        {expense[c.name as keyof Expense]}
+                                                                                                    </p>
+                                                                                                </SelectValue>
+                                                                                            </SelectTrigger>
+                                                                                            <SelectContent>
+                                                                                                <SelectGroup>
+                                                                                                    {
+                                                                                                        Array.isArray(c.valueElement) &&
+                                                                                                            c.valueElement.map((v: string, indexElement: number) => (
+                                                                                                                <SelectItem key={indexElement} value={v}>
+                                                                                                                    {v}
+                                                                                                                </SelectItem>
+                                                                                                            ))
+                                                                                                    }
+                                                                                                </SelectGroup>
+                                                                                            </SelectContent>
+                                                                                        </Select>
+                                                                                    </>
                                                                                     ) : null}
                                                                                 </div>
                                                                             ))}
@@ -963,11 +977,12 @@ export default function ViewExpenses() {
                                                                                 />
                                                                             </div>
                                                                             <div>
-                                                                                <Label htmlFor="day">Expense Day</Label>
+                                                                                <Label>
+                                                                                    Expense Day
+                                                                                </Label>
                                                                                 <Select
                                                                                     name="day"
-                                                                                    defaultValue="1"
-                                                                                    value={String(expense.day)}
+                                                                                    defaultValue={expense.day > 0 ? String(expense.day) : undefined}
                                                                                     onValueChange={(value: string) =>
                                                                                         setExpense({ ...expense, day: Number(value) })
                                                                                     }
@@ -1085,14 +1100,11 @@ export default function ViewExpenses() {
                                                         open={dialogId == obj.name ? true : false}
                                                         onOpenChange={(open) => {
                                                             if (!open) {
-                                                                setExpense(initialExpense)
+                                                                setDialogId('');
+                                                                setExpense(initialExpense);
+                                                                
+                                                                
                                                             }
-
-                                                            if (!open && document.activeElement instanceof HTMLElement) {
-                                                                document.activeElement.blur();
-                                                            }
-
-                                                            setDialogId('')
                                                         }}
                                                     >
                                                         <DialogTrigger asChild>
@@ -1100,12 +1112,16 @@ export default function ViewExpenses() {
                                                                 type="button"
                                                                 className="w-full gap-2"
                                                                 variant="outline"
+                                                                onClick={() => setDialogId(obj.name)}
                                                             >
                                                                 {obj.icon}
                                                                 {obj.name}
                                                             </Button>
                                                         </DialogTrigger>
-                                                        <DialogContent className="w-full sm:max-w-[425px]">
+                                                        <DialogContent 
+                                                            className="w-full sm:max-w-[425px]"
+                                                            ref={dataRef}
+                                                        >
                                                             <DialogHeader>
                                                             <DialogTitle>{dataForm[index].title}</DialogTitle>
                                                             <DialogDescription>
@@ -1115,51 +1131,59 @@ export default function ViewExpenses() {
                                                                 <div className="grid gap-2">
                                                                     {dataForm[index].content.map((c: DataContent) => (
                                                                         <div key={c.label} className="w-full">
-                                                                            <Label htmlFor={c.label}>
-                                                                                {c.label}
-                                                                            </Label>
+                                                                            
                                                                             {c.element === 'input' ? (
-                                                                            <Input
-                                                                                id={c.label}
-                                                                                name={c.name}
-                                                                                type={c.typeElement}
-                                                                                className={`p-2 ${status.name == c.name ? "border-red-500" : ""}`}
-                                                                                placeholder={c.placeHolderElement}
-                                                                                value={expense[c.name as keyof Expense] ? expense[c.name as keyof Expense] as string : ''}
-                                                                                onChange={handleChange}
-                                                                            />
+                                                                            <>
+                                                                                <Label htmlFor={c.label}>
+                                                                                    {c.label}
+                                                                                </Label>
+                                                                                <Input
+                                                                                    id={c.label}
+                                                                                    name={c.name}
+                                                                                    type={c.typeElement}
+                                                                                    className={`p-2 ${status.name == c.name ? "border-red-500" : ""}`}
+                                                                                    placeholder={c.placeHolderElement}
+                                                                                    value={expense[c.name as keyof Expense] ? expense[c.name as keyof Expense] as string : ''}
+                                                                                    onChange={handleChange}
+                                                                                />
+                                                                            </>
                                                                             ) : c.element === 'select' ? (
-                                                                            <Select
-                                                                                name={c.name}
-                                                                                value={expense[c.name as keyof Expense] ? String(expense[c.name as keyof Expense]) : ''}
-                                                                                open={!!isOpen[c.label]}
-                                                                                onOpenChange={(open) =>
-                                                                                    setIsOpen((prev) => ({ ...prev, [c.label]: open }))
-                                                                                }
-                                                                                onValueChange={(value: string) =>
-                                                                                    setExpense({ ...expense, [c.name]: value })
-                                                                                }
-                                                                            >
-                                                                                <SelectTrigger className={`rounded-md border-r-2 p-3 ${status.name == c.name ? "border-red-500" : ""}`}>
-                                                                                    <SelectValue
-                                                                                        placeholder={c.placeHolderElement}
-                                                                                    >
-                                                                                        <p className="text-sm break-all">
-                                                                                            {expense[c.name as keyof Expense]}
-                                                                                        </p>
-                                                                                    </SelectValue>
-                                                                                </SelectTrigger>
-                                                                                <SelectContent>
-                                                                                    <SelectGroup>
-                                                                                        {Array.isArray(c.valueElement) &&
-                                                                                            c.valueElement.map((v: string, indexElement: number) => (
-                                                                                                <SelectItem key={indexElement} value={v}>
-                                                                                                    {v}
-                                                                                                </SelectItem>
-                                                                                            ))}
-                                                                                    </SelectGroup>
-                                                                                </SelectContent>
-                                                                            </Select>
+                                                                            <>
+                                                                                <Label>
+                                                                                    {c.label}
+                                                                                </Label>
+                                                                                <Select
+                                                                                    name={c.name}
+                                                                                    value={expense[c.name as keyof Expense] ? String(expense[c.name as keyof Expense]) : ''}
+                                                                                    open={!!isOpen[c.label]}
+                                                                                    onOpenChange={(open) =>
+                                                                                        setIsOpen((prev) => ({ ...prev, [c.label]: open }))
+                                                                                    }
+                                                                                    onValueChange={(value: string) =>
+                                                                                        setExpense({ ...expense, [c.name]: value })
+                                                                                    }
+                                                                                >
+                                                                                    <SelectTrigger className={`rounded-md border-r-2 p-3 ${status.name == c.name ? "border-red-500" : ""}`}>
+                                                                                        <SelectValue
+                                                                                            placeholder={c.placeHolderElement}
+                                                                                        >
+                                                                                            <p className="text-sm break-all">
+                                                                                                {expense[c.name as keyof Expense]}
+                                                                                            </p>
+                                                                                        </SelectValue>
+                                                                                    </SelectTrigger>
+                                                                                    <SelectContent>
+                                                                                        <SelectGroup>
+                                                                                            {Array.isArray(c.valueElement) &&
+                                                                                                c.valueElement.map((v: string, indexElement: number) => (
+                                                                                                    <SelectItem key={indexElement} value={v}>
+                                                                                                        {v}
+                                                                                                    </SelectItem>
+                                                                                                ))}
+                                                                                        </SelectGroup>
+                                                                                    </SelectContent>
+                                                                                </Select>
+                                                                            </>
                                                                             ) : null}
                                                                         </div>
                                                                     ))}
@@ -1176,11 +1200,10 @@ export default function ViewExpenses() {
                                                                         />
                                                                     </div>
                                                                     <div>
-                                                                        <Label htmlFor="day">Expense Day</Label>
+                                                                        <Label>Expense Day</Label>
                                                                         <Select
                                                                             name="day"
-                                                                            defaultValue="1"
-                                                                            value={String(expense.day)}
+                                                                            defaultValue={expense.day > 0 ? String(expense.day) : undefined}
                                                                             onValueChange={(value: string) =>
                                                                                 setExpense({ ...expense, day: Number(value) })
                                                                             }

@@ -9,7 +9,7 @@ export function GoBack({ to }: { to: string }){
             <nav className="md:text-base lg:text-lg xl:text-xl my-3 ml-5 text-gray-900">
                 <Link to={`/${to}`}>
                     <div className="flex items-center gap-1 hover:-translate-x-1 transition-all">
-                        <MoveLeft/>
+                        <MoveLeft className="mt-0.5"/>
                         <h2 className="hidden xxs5:block">
                             Go back
                         </h2>

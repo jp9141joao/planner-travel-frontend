@@ -9,128 +9,56 @@ import React, { useEffect, useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { toast } from "@/hooks/use-toast";
 import { signUpUser } from "@/service/service";
-import { useNavigate } from "react-router-dom";
 import { User } from "@/types/types";
+import { getErrorMessages } from "@/components/utils/utils";
 
 export default function SignIn () {
 
     const [ fullName, setFullName ] = useState<string>('');
     const [ email, setEmail ] = useState<string>('');
     const [ password, setPassword ] = useState<string>('');
-    const [ toastMessage, setToastMessage ] = useState({
-        variant: '', title: '', description: ''
-    });
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
-    const [ showToast, setShowToast ] = useState<boolean>(false);
-    const [ status, setStatus ] = useState<number>(0);
-    const navigate = useNavigate();
+    const [ status, setStatus ] = useState<string>('');
 
     const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        if (fullName == "") {
+            getErrorMessages("VARIABLE NOT PROVIDED", "Full Name");
+            setStatus("Full-Name");
+        } else if (email == "") {
+            getErrorMessages("VARIABLE NOT PROVIDED", "E-mail");
+            setStatus("E-mail");
+        } else if (password == "") {
+            getErrorMessages("VARIABLE NOT PROVIDED", "Password");
+            setStatus("Password");
+        }
+
         try {
-            e.preventDefault();
-            setIsLoading(true);
             const response = await signUpUser({ fullName: fullName, email: email, password: password } as User);
-            console.log(response.error);
 
             if (response.success) {
-                setStatus(1);
-            } else {
-                if (response.error == 'Error: The value of fullName is invalid!') {
-                    setStatus(2);
-                } else if (response.error == 'Error: The value of fullName is too large!') {
-                    setStatus(3);
-                } else if (response.error == 'Error: The value of email is invalid!') {
-                    setStatus(4);
-                } else if (response.error == 'Error: The value of email is too large!') {
-                    setStatus(5);
-                } else if (response.error == 'Error: The value of password is invalid!') {
-                    setStatus(6);
-                } else if (response.error == 'Error: the value of password is too short!') {
-                    setStatus(7);
-                } else if (response.error == 'Error: The value of password is too large!') {
-                    setStatus(8);
-                } else if (response.error == 'Error: There is already a user using this email!') {
-                    setStatus(9)
-                } else {
-                    throw new Error("The request failed. Please check the data and try again.");
-                }
-            }
-
-            setIsLoading(false);
-            setShowToast(true);
-        } catch (error: any) {
-            setStatus(10);
-            setIsLoading(false);
-            setShowToast(true);
-            console.log(error);
-        } 
-    }
-
-    useEffect(() => {
-        if (!isLoading && showToast && status > 0) {
-            if (status == 1) {
+                setFullName("");
+                setEmail("");
+                setPassword("");
                 toast({
                     variant: 'success',
                     title: 'Account created successfully!',
                     description: 'Welcome! Your account has been created. You can now plan your travels with us.',
                 });
-            } else if (status == 2) {
-                toast({
-                    variant: 'destructive',
-                    title: 'Invalid Full Name',
-                    description: 'Please provide a valid full name with only letters and spaces.',
-                });
-            } else if (status == 3) {
-                toast({
-                    variant: 'destructive',
-                    title: 'Full Name Too Long',
-                    description: 'Your full name is too long. Please enter a shorter name.',
-                });
-            } else if (status == 4) {
-                toast({
-                    variant: 'destructive',
-                    title: 'Invalid Email',
-                    description: 'The email address you entered is invalid. Please check and try again.',
-                });
-            } else if (status == 5) {
-                toast({
-                    variant: 'destructive',
-                    title: 'Email Too Long',
-                    description: 'The email address is too long. Please enter a shorter email address.',
-                });
-            } else if (status == 6) {
-                toast({
-                    variant: 'destructive',
-                    title: 'Invalid Password',
-                    description: 'Please provide a password that meets the minimum criteria, including at least one uppercase letter, one number, and one special character.',
-                });
-            } else if (status == 7) {
-                toast({
-                    variant: 'destructive',
-                    title: 'Password Too Short',
-                    description: 'Your password is too short. Please enter a password with at least 8 characters.',
-                });
-            } else if (status == 8) {
-                toast({
-                    variant: 'destructive',
-                    title: 'Password Too Long',
-                    description: 'Your password is too long. Please enter a shoter password.',
-                });
-            } else if (status == 9) {
-                toast({
-                    variant: 'destructive',
-                    title: 'Email Already in Use',
-                    description: 'Error: There is already a user using this email. Please use a different email address or log in to your account.',
-                });
             } else {
-                toast({
-                    variant: 'destructive',
-                    title: "Uh oh! Something went wrong.",
-                    description: "There was a problem with your request.",
-                });
+                getErrorMessages(response.data.details, response.error.at);
+                setStatus(response.error.at);
             }
-        }
-    }, [isLoading, showToast, status]);
+        } catch (error: any) {
+            setStatus("");
+            getErrorMessages("", "");
+            console.log(error);
+        } 
+
+        setIsLoading(false);
+    }
 
     useEffect(() => {
         const token = localStorage.getItem('authToken');
@@ -175,8 +103,8 @@ export default function SignIn () {
                                 placeholder="Your full name"
                                 value={fullName}
                                 onChange={(e) => setFullName(e.target.value)}
-                                onClick={() => setStatus(0)}
-                                className={status == 2 || status == 3 ? "border-red-500 " : "" }
+                                onClick={() => setStatus("")}
+                                className={status == "Full-Name" ? "border-red-500 " : "" }
                             />
                         </div>
                         <div className="grid gap-1.5 w-full place-items-start">
@@ -189,8 +117,8 @@ export default function SignIn () {
                                 placeholder="name@example.com"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                onClick={() => setStatus(0)}
-                                className={status == 4 || status == 5 || status == 9 ? "border-red-500 " : "" }
+                                onClick={() => setStatus("")}
+                                className={status == "E-mail" ? "border-red-500 " : "" }
                             />
                         </div>
                         <div className="grid gap-1.5 w-full place-items-start">
@@ -202,8 +130,8 @@ export default function SignIn () {
                                 placeholder="Abc123" 
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                onClick={() => setStatus(0)}
-                                className={status >= 6 && status <= 8 ? "border-red-500 " : "" }
+                                onClick={() => setStatus("")}
+                                className={status == "Password" ? "border-red-500 " : "" }
                             />
                         </div>
                         <div className="grid gap-1.5 w-full mt-2">

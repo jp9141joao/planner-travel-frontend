@@ -1,5 +1,4 @@
 "use client"
-
 import { Button } from "@/components/ui/button";
 import { Input, InputPassword } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,7 +10,6 @@ import { GoBack } from "@/components/GoBack";
 import { signInUser } from "@/service/service";
 import Credits from "@/components/Credits";
 import { Toaster } from "@/components/ui/toaster"
-import { toast } from "@/hooks/use-toast"
 import { Login } from "@/types/types";
 import { getErrorMessages } from "@/components/utils/utils";
 
@@ -24,49 +22,34 @@ export default function SignIn () {
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
-            try {
-                e.preventDefault();
-                setIsLoading(true);
+        e.preventDefault();
+        setIsLoading(true);
 
-                if (email == "") {
-                    toast({
-                        variant: 'destructive',
-                        title: 'E-mail Not Provided',
-                        description: 'E-mail was not provided. Please provide an e-mail to continue.',
-                    });
-                } else if (password == "") {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Password Not Provided',
-                        description: 'Password was not provided. Please provide an password to continue.',
-                    });
-                }
+        if (email == "") {
+            getErrorMessages("VARIABLE NOT PROVIDED", "E-mail");
+            setStatus("E-mail");
+        } else if (password == "") {
+            getErrorMessages("VARIABLE NOT PROVIDED", "Password");
+            setStatus("Password");
+        }
 
-                const response = await signInUser({ email, password } as Login);
+        try {
+            const response = await signInUser({ email, password } as Login);
 
-                if (response.success) {
-                    localStorage.setItem('authToken', response.data);
-                    navigate('/home');
-                } else {
-                    const menssage = getErrorMessages(response.error.details, response.error.at);
-                    toast({
-                        variant: 'destructive',
-                        title: menssage.title,
-                        description: menssage.description
-                    });
-                    setStatus(response.error.at);
-                }                
-            } catch (error: any) {
-                setStatus("");
-                toast({
-                    variant: 'destructive',
-                    title: "Uh oh! Something went wrong.",
-                    description: "There was a problem with your request.",
-                });
-                console.log(error);
-            } finally {
-                setIsLoading(false);
-            }
+            if (response.success) {
+                localStorage.setItem('authToken', response.data);
+                navigate('/home');
+            } else {
+                getErrorMessages(response.error.details, response.error.at);
+                setStatus(response.error.at);
+            }                
+        } catch (error: any) {
+            setStatus("");
+            getErrorMessages("", "");
+            console.log(error);
+        } 
+                
+        setIsLoading(false);
     }
 
     useEffect(() => {
@@ -114,7 +97,7 @@ export default function SignIn () {
                                 </p>
                             </div>
                         </div>
-                        <div className="grid place-items-center gap-y-2 xxs11:mt-4 xs:mt-3 md:mt-4 xl:mt-6 px-0 w-full" >
+                        <div className="grid place-items-center gap-y-2 xxs11:mt-4 xs:mt-3 md:mt-4 px-0 w-full" >
                             <div className="grid gap-1.5 w-full place-items-start">
                                 <Label htmlFor="email" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                     Email
@@ -135,24 +118,14 @@ export default function SignIn () {
                                 </Label>
                                 <InputPassword
                                     id="password" 
-                                    placeholder="Abc123" 
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     onClick={() => setStatus("")}
                                     className={status == "Password" || status == "Email-Password" ? "border-red-500" : ""}
                                 />
                             </div>
-                            <div className="flex items-center gap-1.5 w-full text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
-                                <p>
-                                    Forgot your password?
-                                </p>
-                                <Link to={"/resetPassword"}>
-                                    <strong>
-                                        Click here.
-                                    </strong>
-                                </Link>
-                            </div>
-                            <div className="grid gap-1.5 w-full">
+                            
+                            <div className="grid gap-1 w-full mt-2">
                                 <Button type="submit">
                                     {
                                         isLoading ? 

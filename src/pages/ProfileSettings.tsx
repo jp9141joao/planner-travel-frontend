@@ -11,6 +11,7 @@ import { UpdateUserData, UserDetails } from "@/types/types"
 import { LogOut } from "lucide-react"
 import { getUser, updateUserData } from "@/service/service"
 import { getItemSessionStorage, setItemSessionStorage } from "@/components/utils/utils"
+import { Link } from "react-router-dom"
 
 export function ProfileSettings() {
     const [ fullName, setFullName ] = useState<string | undefined>('');
@@ -196,7 +197,7 @@ export function ProfileSettings() {
                         </p>
                     </div>
                     <div className="grid place-items-center gap-y-2 mt-3 px-0 w-full" >
-                        <div className="grid gap-1.5 w-full place-items-start">
+                        <div className="grid gap-0 w-full place-items-start">
                             <Label htmlFor="fullName" className="text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
                                 Full name
                             </Label>
@@ -224,7 +225,17 @@ export function ProfileSettings() {
                                 className={status >= 4 && status <= 6 ? "border-red-500 " : "" }
                             />
                         </div>
-                        <div className="grid gap-1.5 w-full mt-1.5">
+                        <div className="flex items-center gap-1.5 w-full text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">
+                            <p>
+                                Change Password?
+                            </p>
+                            <Link to={"/resetPassword"}>
+                                <strong>
+                                    Click here.
+                                </strong>
+                            </Link>
+                        </div>
+                        <div className="grid gap-2 w-full ">
                             <Button type="submit" disabled={buttonDisabled}>
                                 {
                                     isLoading ? 

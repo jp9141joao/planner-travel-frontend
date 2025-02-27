@@ -14,9 +14,7 @@ export const signInUser = async (login: Login) => {
     }
 
     const response = await axios.post(`${url}/signIn`, login, {
-        validateStatus: (status) => {
-            return status != 400;
-        }
+        validateStatus: (status) => true
     });
 
     return response.data;

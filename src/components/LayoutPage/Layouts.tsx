@@ -1,6 +1,6 @@
 export const BodyPage = ({ children }: { children: React.ReactNode }) => {
     return (
-        <div className="flex min-h-screen flex-col">
+        <div className="flex flex-col h-[calc(var(--vh,1vh)*100)]">
             {
                 children
             }

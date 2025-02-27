@@ -227,11 +227,7 @@ export default function AddTrips () {
                     description: 'The currency you entered is invalid. Please check and try again.',
                 });
             } else {
-                toast({
-                    variant: 'destructive',
-                    title: "Uh oh! Something went wrong.",
-                    description: "There was a problem with your request.",
-                });
+                throw new Error("The request failed. Please check the data and try again.");
             }
         }
     }, [isLoading, showToast, status]);

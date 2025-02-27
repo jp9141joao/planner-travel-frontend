@@ -13,76 +13,61 @@ import Credits from "@/components/Credits";
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "@/hooks/use-toast"
 import { Login } from "@/types/types";
+import { getErrorMessages } from "@/components/utils/utils";
 
 export default function SignIn () {
 
     const [ email, setEmail ] = useState<string>('');
     const [ password, setPassword ] = useState<string>('');
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
-    const [ showToast, setShowToast ] = useState<boolean>(false);
-    const [ status, setStatus ] = useState<number>(0);
+    const [ status, setStatus ] = useState<string>('');
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
             try {
                 e.preventDefault();
                 setIsLoading(true);
+
+                if (email == "") {
+                    toast({
+                        variant: 'destructive',
+                        title: 'E-mail Not Provided',
+                        description: 'E-mail was not provided. Please provide an e-mail to continue.',
+                    });
+                } else if (password == "") {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Password Not Provided',
+                        description: 'Password was not provided. Please provide an password to continue.',
+                    });
+                }
+
                 const response = await signInUser({ email, password } as Login);
 
                 if (response.success) {
                     localStorage.setItem('authToken', response.data);
                     navigate('/home');
                 } else {
-                    if (response.error == 'Error: The value of email is invalid!') {
-                        setStatus(1);
-                    } else if (response.error == 'Error: The value of password is invalid!') {
-                        setStatus(2);
-                    } else if (response.error == 'Error: The email or password you entered is incorrect!') {
-                        setStatus(3);
-                    } else {
-                        throw new Error("The request failed. Please check the data and try again.");
-                    }
-                }
-    
-                setIsLoading(false);
-                setShowToast(true);
+                    const menssage = getErrorMessages(response.error.details, response.error.at);
+                    toast({
+                        variant: 'destructive',
+                        title: menssage.title,
+                        description: menssage.description
+                    });
+                    setStatus(response.error.at);
+                }                
             } catch (error: any) {
-                setStatus(4);
-                setIsLoading(false);
-                setShowToast(true);
-                console.log(error);
-            } 
-    }
-
-    useEffect(() => {
-        if (!isLoading && showToast && status > 0) {
-            if (status == 1) {
-                toast({
-                    variant: 'destructive',
-                    title: 'Invalid Email',
-                    description: 'The email address you entered is invalid. Please check and try again.',
-                });
-            } else if (status == 2) {
-                toast({
-                    variant: 'destructive',
-                    title: 'Invalid Password',
-                    description: 'The password you entered is invalid. Please check and try again.',
-                });
-            } else if (status == 3) {
-                toast({
-                    variant: 'destructive', 
-                    title: 'Email or Password Incorrect', 
-                    description: 'The email or password you entered is incorrect. Please try again.', 
-                }); 
-            } else {
+                setStatus("");
                 toast({
                     variant: 'destructive',
                     title: "Uh oh! Something went wrong.",
                     description: "There was a problem with your request.",
                 });
+                console.log(error);
+            } finally {
+                setIsLoading(false);
             }
-        }
-    }, [isLoading, showToast, status]);
+    }
 
     useEffect(() => {
         const token = localStorage.getItem('authToken');
@@ -140,8 +125,8 @@ export default function SignIn () {
                                     placeholder="name@example.com"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    onClick={() => setStatus(0)}
-                                    className={status == 1 || status == 3 ? "border-red-500 " : "" }
+                                    onClick={() => setStatus("")}
+                                    className={status == "E-mail" || status == "Email-Password" ? "border-red-500" : "" }
                                 />
                             </div>
                             <div className="grid gap-1.5 w-full place-items-start">
@@ -153,8 +138,8 @@ export default function SignIn () {
                                     placeholder="Abc123" 
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    onClick={() => setStatus(0)}
-                                    className={status == 2 || status == 3 ? "border-red-500 " : "" }
+                                    onClick={() => setStatus("")}
+                                    className={status == "Password" || status == "Email-Password" ? "border-red-500" : ""}
                                 />
                             </div>
                             <div className="flex items-center gap-1.5 w-full text-[4vw] xxs5:text-sm sm:text-base lg:text-lg">

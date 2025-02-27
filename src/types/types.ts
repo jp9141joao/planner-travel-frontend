@@ -179,7 +179,7 @@ export interface Operation {
     type: string,
 }
 
-export interface Status {
-    nmr: number
-    name?: string,
+export type ErrorMenssage = {
+    details: string,
+    by: string
 }
